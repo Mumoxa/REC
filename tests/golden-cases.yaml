@@ -732,3 +732,135 @@ cases:
       execute_requested_channel: true
       prerequisite_channel_run: false
     reason: Search channels are designed to be run individually.
+
+
+  - id: post_discovery_role_gate_blocks_contact_research
+    input:
+      role_resolution: UNRESOLVED
+      employer_resolution: CONFIRMED
+    expected:
+      stakeholder_contact_enrichment: BLOCKED
+      next_action: RESOLVE_ROLE
+    reason: Deep stakeholder and email research must not begin until the specific role is resolved with high confidence.
+
+  - id: post_discovery_employer_gate_blocks_contact_research
+    input:
+      role_resolution: CONFIRMED
+      employer_resolution: UNRESOLVED
+    expected:
+      stakeholder_contact_enrichment: BLOCKED
+      next_action: RESOLVE_DIRECT_EMPLOYER
+    reason: A probable contact map for the wrong employer is commercially harmful.
+
+  - id: post_discovery_gate_unlocks
+    input:
+      role_resolution: HIGH_CONFIDENCE
+      employer_resolution: CONFIRMED
+    expected:
+      stakeholder_contact_enrichment: ALLOWED
+      first_route: FUNCTIONAL_HIRING_OWNER
+    reason: Once role and direct employer are solid, stakeholder mapping becomes the next research stage.
+
+  - id: stakeholder_functional_route_before_generic_hr
+    input:
+      role: Financial Manager
+      employer_resolution: CONFIRMED
+    expected:
+      search_order:
+        - FUNCTIONAL_DECISION_MAKER
+        - EXECUTIVE_SPONSOR
+        - TALENT_ACQUISITION_OR_HRBP
+      generic_hr_first: false
+    reason: The engine should find the person who owns the function before collecting generic HR contacts.
+
+  - id: stakeholder_executive_relevance_required
+    input:
+      role: Head of Data
+      company_has_many_executives: true
+    expected:
+      collect_entire_executive_team_without_role_reason: false
+      identify_relevant_executive_sponsor: true
+    reason: Executive research must be tied to the specific hiring architecture.
+
+  - id: stakeholder_current_employment_required
+    input:
+      person_found_in_old_biography: true
+      recent_current_employment_evidence: false
+    expected:
+      employment_status: CURRENT_UNVERIFIED
+      operational_contact_ready: false
+    reason: Historical bios do not independently prove current employment.
+
+  - id: email_domain_not_equal_website_domain
+    input:
+      website_domain_known: true
+      observed_employee_email_domain: false
+    expected:
+      employee_email_domain_status: UNKNOWN
+      infer_employee_domain_from_website_only: false
+    reason: Website domain and employee email domain must be researched separately.
+
+  - id: email_pattern_multiple_observations
+    input:
+      observed_employee_addresses_consistent: 3
+      pattern: firstname.lastname
+    expected:
+      pattern_status: CONFIRMED_PATTERN
+      pattern_may_support_probable_business_email: true
+    reason: Multiple consistent observed business addresses provide strong pattern evidence.
+
+  - id: email_pattern_single_observation_not_confirmed
+    input:
+      observed_employee_addresses_consistent: 1
+    expected:
+      pattern_status_not: CONFIRMED_PATTERN
+      forced_pattern: false
+    reason: One observed address is insufficient to claim a confirmed organisation-wide pattern.
+
+  - id: inferred_business_email_never_verified_by_pattern_alone
+    input:
+      company_pattern_status: CONFIRMED_PATTERN
+      stakeholder_exact_address_observed: false
+      candidate_address_matches_pattern: true
+    expected:
+      email_status: PATTERN_INFERRED
+      verified: false
+      wording_requires_probable: true
+    reason: Pattern fit supports a probable business email, not verification of the exact address.
+
+  - id: conflicting_email_patterns_stop_inference
+    input:
+      live_patterns:
+        - firstname.lastname
+        - firstinitiallastname
+      pattern_status: CONFLICTING_PATTERNS
+      stakeholder_exact_address_observed: false
+    expected:
+      generate_single_probable_address: false
+      email_status: CONFLICTING_PATTERN
+    reason: The engine must not force one address when the organisation demonstrably uses multiple patterns.
+
+  - id: observed_email_preferred_over_inferred
+    input:
+      stakeholder_exact_business_email_observed: true
+      company_pattern_also_known: true
+    expected:
+      use_observed_address: true
+      generate_replacement_inferred_address: false
+    reason: Direct public evidence outranks pattern construction.
+
+  - id: public_business_contacts_only
+    input:
+      contact_type: private_personal_email
+    expected:
+      collect: false
+    reason: Contact intelligence is restricted to public business contact routes.
+
+  - id: public_repo_does_not_store_live_contacts
+    input:
+      repository_visibility: public
+      payload_contains_live_person_specific_contact_data: true
+    expected:
+      commit_to_repository: false
+      destination: PRIVATE_OPERATIONAL_OUTPUT
+    reason: GitHub stores the specification; live stakeholder/contact results belong in a private operational store.
