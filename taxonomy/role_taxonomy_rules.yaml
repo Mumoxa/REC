@@ -2,6 +2,7 @@ version: 1.0.0
 authority:
   master_markdown: taxonomy/Talent_Tree_Master_Recruitment_Role_Taxonomy.md
   machine_registry: taxonomy/role_taxonomy.json
+  seniority_authority: taxonomy/seniority_terms.yaml
 
 application:
   linkedin_social_discovery:
@@ -51,6 +52,7 @@ explicit_inclusions_to_protect:
   - Data Governance and Information Management
 
 search_priority:
+  note: Detailed seniority/search priority is controlled by taxonomy/seniority_terms.yaml.
   tier_1:
     - C-suite
     - Managing Director
