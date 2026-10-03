@@ -8,8 +8,8 @@ Every run/report should present findings in a consistent structure.
 
 - Run ID:
 - Run date/time:
-- Completed source stage(s):
-- Incomplete/access-limited stage(s):
+- Search channel(s) run:
+- Incomplete/access-limited channel coverage:
 - Spec / repository version:
 - Geography coverage:
 - Sources/channels searched:
@@ -37,8 +37,8 @@ Every run/report should present findings in a consistent structure.
   - TARGET_PROSPECT
   - UNKNOWN
 - Agreement-scope status:
-- Original source-priority stage:
-- Promoted to Stage 1: Yes / No
+- Search channel:
+- Agreed-client priority applied: Yes / No
 
 ### Vacancy evidence
 
@@ -103,11 +103,11 @@ Every run/report should present findings in a consistent structure.
 
 ## Run summary
 
-- Stage 1 agreed-client opportunities:
-- Stage 2 agency opportunities:
-- Stage 3 LinkedIn opportunities:
-- Stage 4 broader-market opportunities:
-- Later-stage records promoted to Stage 1:
+- Agreed-client channel opportunities:
+- Agency-site channel opportunities:
+- LinkedIn channel opportunities:
+- Job-board channel opportunities:
+- Records from any channel receiving agreed-client priority:
 - New employers resolved:
 - New stakeholders resolved:
 - Access limitations:
