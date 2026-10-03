@@ -8,7 +8,7 @@
     "client_status",
     "started_at",
     "channels",
-    "stage_complete"
+    "channel_run_complete"
   ],
   "properties": {
     "run_id": {
@@ -117,13 +117,17 @@
       }
     },
     "stage_complete": {
-      "type": "boolean"
+      "type": "boolean",
+      "description": "Deprecated compatibility field from the prior sequential-stage model."
     },
     "completion_notes": {
       "type": [
         "string",
         "null"
       ]
+    },
+    "channel_run_complete": {
+      "type": "boolean"
     }
   }
 }
