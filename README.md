@@ -52,7 +52,8 @@ The repository has become more detailed underneath the canonical architecture, b
 - `sources/` — client/source registries and governance;
 - `tests/` — regression protection;
 - `archive/originals/` — preserved research/build sources;
-- `query_templates.yaml` — how searches are constructed;
+- `query_templates.yaml` — vacancy/employer/stakeholder search construction;
+- `candidate_query_templates.yaml` — downstream passive-candidate search construction;
 - `manifest.yaml` — exactly what each worker loads;
 - `MASTER_INDEX.md` — map from source research into the architecture.
 
@@ -65,6 +66,9 @@ The repository has become more detailed underneath the canonical architecture, b
 - Client status is permanent on vacancy records.
 - Agreed clients receive first commercial priority.
 - The engine is a hiring-intelligence system, not merely a scraper.
+- Any independently runnable channel may feed the same downstream opportunity/candidate-intelligence process.
+- Candidate market mapping targets 50+ credible evidence-backed people where the market supports it; 50 is a research-depth target, never a quota.
+- Independent adversarial QA gates challenge discovery, role fingerprints, target-company maps and candidate claims.
 - Detailed implementation must map back to one of the four channels or to shared core/support infrastructure.
 
 ## Drift rule
@@ -80,3 +84,42 @@ Before adding anything new, classify it as:
 - run output.
 
 If it does not fit one of those, do not silently add a new architectural concept.
+
+
+## Shared downstream candidate-intelligence pipeline
+
+A verified opportunity from **any one** of the four channels may proceed directly into:
+
+```text
+Verified opportunity
+→ QA Gate A: discovery / employer / client verification
+→ client + role environment fingerprint
+→ QA Gate B: fingerprint challenge
+→ evidence-backed target-company universe
+→ QA Gate C: comparator challenge
+→ generated + executed LinkedIn / Google / public-social candidate searches
+→ credible passive-talent longlist (target 50+, never padded)
+→ candidate evidence verification
+→ QA Gate D: candidate challenge
+→ strongest market set
+→ Top 10 high-conviction client-facing profiles
+```
+
+Authority:
+
+- `core/candidate-market-mapping.md`
+- `core/independent-qa.md`
+- `candidate_query_templates.yaml`
+- `runtime/candidate-mapping-worker.md`
+- `runtime/qa-review-worker.md`
+
+This is downstream infrastructure, **not a fifth sourcing channel**.
+
+## Normal run instructions
+
+Examples:
+
+- `Run AGREED_CLIENTS only and process qualifying verified opportunities through the shared downstream pipeline.`
+- `Run AGENCY_SITES only; do not run other channels; process verified opportunities downstream.`
+- `Run LINKEDIN only for the requested geography and process verified opportunities downstream.`
+- `Run all four channels using default priority; do not treat the order as a prerequisite chain.`
