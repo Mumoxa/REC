@@ -74,8 +74,8 @@ Where an ATS or board provides reliable role, geography, date or category filter
 
 Every returned vacancy must carry `client_status` and:
 
-`source_priority_stage = JOB_BOARDS`
+`search_channel = JOB_BOARDS`
 
-If any broader-market record resolves to `AGREED_CLIENT` or `AGREED_GROUP_ENTITY`, promote it immediately to the agreed-client priority workflow.
+If any broader-market record resolves to `AGREED_CLIENT` or `AGREED_GROUP_ENTITY`, give it immediate agreed-client commercial priority.
 
 In a combined run, high-volume public job-board results must not consume budget reserved for higher default-priority channels.
