@@ -174,3 +174,26 @@ Do not create:
 - separate channel-specific commercial qualification rules.
 
 If a shared rule changes, change the shared authority once and let all four channels inherit it.
+
+
+## Post-discovery work
+
+After a channel search has produced and consolidated an actionable vacancy, load `core/stakeholder-contact-intelligence.md`.
+
+The post-discovery sequence is:
+
+1. resolve the exact role with high confidence;
+2. resolve the direct employer with high confidence;
+3. map the functional hiring architecture;
+4. identify direct/functional hiring owner(s);
+5. identify relevant executive sponsor(s);
+6. identify TA / HR / internal recruitment routes;
+7. verify current employment;
+8. establish the employee email domain;
+9. research observed public business-email examples;
+10. derive the company email pattern;
+11. find observed stakeholder business emails where available;
+12. where an address is not observed, provide a clearly labelled probable pattern-derived business email only when pattern evidence is sufficiently strong;
+13. consolidate the stakeholder/contact intelligence with evidence and uncertainty.
+
+This is shared downstream work for opportunities from **all four channels**.
