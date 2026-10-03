@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.3.0 — Authoritative South Africa Location Ontology
+
+- Added `taxonomy/south_africa_locations.yaml` as the controlling geographic ontology.
+- Encoded mandatory P1 Western Cape → P2 Gauteng → P3 KwaZulu-Natal → P4 rest/national order.
+- Preserved intra-region commercial/industrial cluster ordering and aliases.
+- Wired the location authority into LinkedIn, agency, job-board and enrichment workers.
+- Added normalized region/cluster fields to output schemas.
+- Added geographic regression tests.
+- Preserved user-supplied research rationale and source links in `taxonomy/south_africa_locations_research_notes.md`.
+
+
 ## 0.2.0 — Authoritative Hidden Hiring LinkedIn Engine
 
 - Adopted `South_Africa_LinkedIn_Hidden_Hiring_Signal_Engine_MASTER.md` as the controlling LinkedIn discovery specification.
