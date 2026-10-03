@@ -92,6 +92,8 @@ The agreed-client channel run is complete when its own coverage gate is satisfie
 
 ## Output
 
+Every vacancy record must carry `search_channel = AGREED_CLIENTS` and the appropriate permanent `client_status`.
+
 Return records conforming to `schemas/discovered-job.schema.json`.
 
 Also return a client coverage ledger containing:
