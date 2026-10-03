@@ -1,0 +1,2398 @@
+{
+  "version": "1.0.0",
+  "authority": "taxonomy/Talent_Tree_Master_Recruitment_Role_Taxonomy.md",
+  "source_line_count": 1451,
+  "functional_group_count": 36,
+  "role_node_count": 271,
+  "groups": [
+    {
+      "code": "A",
+      "name": "Executive, General Management & Business Leadership",
+      "node_ids": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "code": "B",
+      "name": "Finance & Accounting",
+      "node_ids": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ]
+    },
+    {
+      "code": "C",
+      "name": "Banking, Financial Services, Investment & Insurance",
+      "node_ids": [
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22
+      ]
+    },
+    {
+      "code": "D",
+      "name": "Commercial, Marketing, CRM & Digital Commerce",
+      "node_ids": [
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35
+      ]
+    },
+    {
+      "code": "E",
+      "name": "Procurement, Supply Chain, Logistics & Retail",
+      "node_ids": [
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54
+      ]
+    },
+    {
+      "code": "F",
+      "name": "Operations & Business Operations",
+      "node_ids": [
+        55,
+        56,
+        57,
+        58,
+        59,
+        60
+      ]
+    },
+    {
+      "code": "G",
+      "name": "Strategy, Transformation & Corporate Development",
+      "node_ids": [
+        61,
+        62,
+        63,
+        64,
+        65,
+        66
+      ]
+    },
+    {
+      "code": "H",
+      "name": "Product Management",
+      "node_ids": [
+        67,
+        68,
+        69,
+        70,
+        71
+      ]
+    },
+    {
+      "code": "I",
+      "name": "Project, Programme, Change & Delivery",
+      "node_ids": [
+        72,
+        73,
+        74,
+        75,
+        76,
+        77
+      ]
+    },
+    {
+      "code": "J",
+      "name": "Human Resources / People",
+      "node_ids": [
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87
+      ]
+    },
+    {
+      "code": "K",
+      "name": "Legal, Governance, Risk & Compliance",
+      "node_ids": [
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98
+      ]
+    },
+    {
+      "code": "L",
+      "name": "Property & Real Estate",
+      "node_ids": [
+        99,
+        100,
+        101,
+        102,
+        103,
+        104
+      ]
+    },
+    {
+      "code": "M",
+      "name": "Consulting & Professional Services",
+      "node_ids": [
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111
+      ]
+    },
+    {
+      "code": "N",
+      "name": "Sustainability & ESG",
+      "node_ids": [
+        112,
+        113,
+        114,
+        115
+      ]
+    },
+    {
+      "code": "O",
+      "name": "Technology Leadership",
+      "node_ids": [
+        116,
+        117,
+        118,
+        119,
+        120
+      ]
+    },
+    {
+      "code": "P",
+      "name": "Software Engineering & Development",
+      "node_ids": [
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129
+      ]
+    },
+    {
+      "code": "Q",
+      "name": "Software & Solution Architecture",
+      "node_ids": [
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136
+      ]
+    },
+    {
+      "code": "R",
+      "name": "Functional IT / Business Systems",
+      "node_ids": [
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145
+      ]
+    },
+    {
+      "code": "S",
+      "name": "CRM Technology & Customer Platforms",
+      "node_ids": [
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        152
+      ]
+    },
+    {
+      "code": "T",
+      "name": "Integration, APIs & Middleware",
+      "node_ids": [
+        153,
+        154,
+        155,
+        156,
+        157,
+        158
+      ]
+    },
+    {
+      "code": "U",
+      "name": "Cloud, Platform, DevOps & Infrastructure",
+      "node_ids": [
+        159,
+        160,
+        161,
+        162,
+        163,
+        164,
+        165,
+        166,
+        167,
+        168,
+        169,
+        170,
+        171,
+        172
+      ]
+    },
+    {
+      "code": "V",
+      "name": "Technology Product & Delivery",
+      "node_ids": [
+        173,
+        174,
+        175,
+        176,
+        177,
+        178,
+        179,
+        180,
+        181,
+        182
+      ]
+    },
+    {
+      "code": "W",
+      "name": "QA, Testing & Quality Engineering",
+      "node_ids": [
+        183,
+        184,
+        185,
+        186,
+        187,
+        188
+      ]
+    },
+    {
+      "code": "X",
+      "name": "Digital & Technology Transformation",
+      "node_ids": [
+        189,
+        190,
+        191,
+        192,
+        193,
+        194
+      ]
+    },
+    {
+      "code": "Y",
+      "name": "FinTech & Banking Technology",
+      "node_ids": [
+        195,
+        196,
+        197,
+        198,
+        199,
+        200
+      ]
+    },
+    {
+      "code": "Z",
+      "name": "Data Leadership",
+      "node_ids": [
+        201,
+        202,
+        203,
+        204,
+        205,
+        206
+      ]
+    },
+    {
+      "code": "AA",
+      "name": "Data Engineering",
+      "node_ids": [
+        207,
+        208,
+        209,
+        210,
+        211,
+        212,
+        213
+      ]
+    },
+    {
+      "code": "AB",
+      "name": "Analytics Engineering",
+      "node_ids": [
+        214,
+        215,
+        216
+      ]
+    },
+    {
+      "code": "AC",
+      "name": "Data Science",
+      "node_ids": [
+        217,
+        218,
+        219,
+        220,
+        221,
+        222,
+        223
+      ]
+    },
+    {
+      "code": "AD",
+      "name": "Machine Learning & Artificial Intelligence",
+      "node_ids": [
+        224,
+        225,
+        226,
+        227,
+        228,
+        229,
+        230
+      ]
+    },
+    {
+      "code": "AE",
+      "name": "MLOps & AI Platforms",
+      "node_ids": [
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237
+      ]
+    },
+    {
+      "code": "AF",
+      "name": "BI, Analytics & Decision Intelligence",
+      "node_ids": [
+        238,
+        239,
+        240,
+        241,
+        242,
+        243,
+        244,
+        245,
+        246,
+        247
+      ]
+    },
+    {
+      "code": "AG",
+      "name": "Data Architecture",
+      "node_ids": [
+        248,
+        249,
+        250,
+        251,
+        252,
+        253
+      ]
+    },
+    {
+      "code": "AH",
+      "name": "Data Platforms & Databases",
+      "node_ids": [
+        254,
+        255,
+        256,
+        257,
+        258,
+        259
+      ]
+    },
+    {
+      "code": "AI",
+      "name": "Data Governance & Information Management",
+      "node_ids": [
+        260,
+        261,
+        262,
+        263,
+        264,
+        265,
+        266
+      ]
+    },
+    {
+      "code": "AJ",
+      "name": "Emerging & Advanced Technology",
+      "node_ids": [
+        267,
+        268,
+        269,
+        270,
+        271
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "id": 1,
+      "name": "Executive Leadership",
+      "body_markdown": "CEO, COO, CFO, CIO, CTO, Chief Data Officer, Chief Digital Officer, Chief People Officer, Chief Commercial Officer, Managing Director",
+      "group_code": "A",
+      "group_name": "Executive, General Management & Business Leadership"
+    },
+    {
+      "id": 2,
+      "name": "Business / Divisional Leadership",
+      "body_markdown": "General Manager, Divisional Executive, Business Unit Head, Managing Executive, Executive Manager",
+      "group_code": "A",
+      "group_name": "Executive, General Management & Business Leadership"
+    },
+    {
+      "id": 3,
+      "name": "Country & Regional Leadership",
+      "body_markdown": "Country Manager, Regional GM, Regional Executive, Africa leadership, Southern Africa leadership",
+      "group_code": "A",
+      "group_name": "Executive, General Management & Business Leadership"
+    },
+    {
+      "id": 4,
+      "name": "Operations Leadership",
+      "body_markdown": "Operations Director, Head of Operations, GM Operations, Regional Operations Manager, Shared Services Head",
+      "group_code": "A",
+      "group_name": "Executive, General Management & Business Leadership"
+    },
+    {
+      "id": 5,
+      "name": "Functional Executive Leadership",
+      "body_markdown": "Directors and Heads leading Finance, HR, Marketing, Supply Chain, Data, Technology, Legal, Risk, Product, Operations and related business functions",
+      "group_code": "A",
+      "group_name": "Executive, General Management & Business Leadership"
+    },
+    {
+      "id": 6,
+      "name": "Finance Leadership",
+      "body_markdown": "CFO, Finance Director, Head of Finance, Group Finance Executive, Group Financial Manager, Regional Finance Head, Divisional Finance Head.",
+      "group_code": "B",
+      "group_name": "Finance & Accounting"
+    },
+    {
+      "id": 7,
+      "name": "Financial Management",
+      "body_markdown": "Financial Manager, Senior Financial Manager, Finance Manager, Finance Controller, Financial Controller, Divisional Financial Manager.",
+      "group_code": "B",
+      "group_name": "Finance & Accounting"
+    },
+    {
+      "id": 8,
+      "name": "Financial Accounting & Reporting",
+      "body_markdown": "Group Accountant, Senior Accountant, Financial Accountant, Reporting Accountant, Group Reporting Manager, Consolidation Accountant, Consolidation Manager, Chief Accountant, Technical Accountant.\n\nIncludes:\n\n- IFRS reporting\n- statutory reporting\n- annual financial statements\n- group consolidation\n- multi-entity accounting\n- month-end\n- balance-sheet control\n- management reporting",
+      "group_code": "B",
+      "group_name": "Finance & Accounting"
+    },
+    {
+      "id": 9,
+      "name": "Management Accounting & Costing",
+      "body_markdown": "Management Accountant, Senior Management Accountant, Cost Accountant, Costing Manager, Factory Accountant, Plant Accountant, Manufacturing Accountant.\n\nIncludes:\n\n- standard costing\n- variance analysis\n- product costing\n- manufacturing finance\n- operational finance\n- budgeting\n- forecasting",
+      "group_code": "B",
+      "group_name": "Finance & Accounting"
+    },
+    {
+      "id": 10,
+      "name": "FP&A",
+      "body_markdown": "Financial Planning & Analysis Manager, FP&A Analyst, Senior FP&A Analyst, Head of FP&A, Planning Manager.\n\nIncludes:\n\n- forecasting\n- budgeting\n- scenario modelling\n- long-range planning\n- financial modelling\n- performance analysis",
+      "group_code": "B",
+      "group_name": "Finance & Accounting"
+    },
+    {
+      "id": 11,
+      "name": "Commercial Finance",
+      "body_markdown": "Commercial Finance Manager, Commercial Accountant, Commercial Finance Analyst, Finance Business Partner, Senior Finance Business Partner.\n\nIncludes:\n\n- pricing support\n- profitability\n- margins\n- customer/product profitability\n- business cases\n- decision support\n- commercial modelling",
+      "group_code": "B",
+      "group_name": "Finance & Accounting"
+    },
+    {
+      "id": 12,
+      "name": "Finance Operations & Shared Services",
+      "body_markdown": "Finance Operations Manager, Shared Services Finance Manager, Record-to-Report leadership, Order-to-Cash leadership, Procure-to-Pay leadership.\n\nSenior AP/AR/payroll leadership can qualify where remuneration and complexity meet the Talent Tree threshold.",
+      "group_code": "B",
+      "group_name": "Finance & Accounting"
+    },
+    {
+      "id": 13,
+      "name": "Audit, Assurance & Internal Controls",
+      "body_markdown": "Internal Audit Manager, Head of Internal Audit, Internal Auditor, Assurance Manager, Internal Controls Manager, SOX Manager, Controls Specialist, Forensic Audit, Fraud Investigation.\n\n**IT Audit may remain in scope** where the role is fundamentally audit/assurance rather than Cybersecurity.",
+      "group_code": "B",
+      "group_name": "Finance & Accounting"
+    },
+    {
+      "id": 14,
+      "name": "Tax",
+      "body_markdown": "Tax Manager, Head of Tax, Corporate Tax, International Tax, Transfer Pricing, VAT/Indirect Tax, Tax Accounting, Tax Compliance, Customs & Excise.",
+      "group_code": "B",
+      "group_name": "Finance & Accounting"
+    },
+    {
+      "id": 15,
+      "name": "Treasury",
+      "body_markdown": "Treasury Manager, Treasurer, Head of Treasury, Treasury Analyst at appropriate level, Cash Manager, Liquidity Manager.\n\nIncludes:\n\n- cash management\n- liquidity\n- funding\n- debt\n- banking\n- FX\n- hedging\n- working capital\n\n---",
+      "group_code": "B",
+      "group_name": "Finance & Accounting"
+    },
+    {
+      "id": 16,
+      "name": "Banking & Lending",
+      "body_markdown": "Commercial Banking, Corporate Banking, Lending, Credit Analysis, Credit Management, Asset Finance, Structured Lending and related specialist/leadership roles.",
+      "group_code": "C",
+      "group_name": "Banking, Financial Services, Investment & Insurance"
+    },
+    {
+      "id": 17,
+      "name": "Credit & Lending Risk",
+      "body_markdown": "Credit Analyst, Senior Credit Analyst, Credit Manager, Head of Credit, Credit Risk Manager, Lending Risk.\n\nThis means **credit risk remains in scope**.\n\nIt is distinct from excluded **Cyber Risk**.",
+      "group_code": "C",
+      "group_name": "Banking, Financial Services, Investment & Insurance"
+    },
+    {
+      "id": 18,
+      "name": "Payments & Transactional Financial Services",
+      "body_markdown": "Payments Manager, Payments Product, Merchant Services, Card Products, Transactional Banking, Payments Operations, Payments Strategy.",
+      "group_code": "C",
+      "group_name": "Banking, Financial Services, Investment & Insurance"
+    },
+    {
+      "id": 19,
+      "name": "Investment & Asset Management",
+      "body_markdown": "Investment Analyst, Senior Investment Analyst, Portfolio Analyst, Portfolio Manager, Fund Manager, Investment Manager, Head of Investments, CIO.\n\nIncludes:\n\n- asset management\n- fund management\n- investment research\n- portfolio construction\n- investment operations\n- investment compliance",
+      "group_code": "C",
+      "group_name": "Banking, Financial Services, Investment & Insurance"
+    },
+    {
+      "id": 20,
+      "name": "Corporate Finance, M&A & Transactions",
+      "body_markdown": "Corporate Finance Manager, Corporate Finance Analyst/Associate at appropriate level, M&A, Transaction Advisory, Deal Advisory, Valuations, Investment Banking.",
+      "group_code": "C",
+      "group_name": "Banking, Financial Services, Investment & Insurance"
+    },
+    {
+      "id": 21,
+      "name": "Private Equity & Venture Capital",
+      "body_markdown": "Investment Principal, Investment Associate at relevant level, Investment Manager, PE/VC investment professionals.",
+      "group_code": "C",
+      "group_name": "Banking, Financial Services, Investment & Insurance"
+    },
+    {
+      "id": 22,
+      "name": "Insurance & Actuarial",
+      "body_markdown": "Actuarial Analyst at qualifying level, Actuary, Actuarial Manager, Pricing Actuary, Reserving, Underwriting, Reinsurance, Insurance Product, Insurance Risk and insurance leadership.\n\n---",
+      "group_code": "C",
+      "group_name": "Banking, Financial Services, Investment & Insurance"
+    },
+    {
+      "id": 23,
+      "name": "Commercial Management",
+      "body_markdown": "Commercial Manager, Head of Commercial, Commercial Director, Commercial Executive, Commercial Strategy Manager.\n\n**Important:** commercial management is included.\n\nTraditional **Sales and Business Development remain excluded**.",
+      "group_code": "D",
+      "group_name": "Commercial, Marketing, CRM & Digital Commerce"
+    },
+    {
+      "id": 24,
+      "name": "Pricing & Revenue Management",
+      "body_markdown": "Pricing Analyst, Pricing Manager, Revenue Manager, Revenue Growth Manager, Commercial Pricing, Revenue Optimisation, Margin Management.",
+      "group_code": "D",
+      "group_name": "Commercial, Marketing, CRM & Digital Commerce"
+    },
+    {
+      "id": 25,
+      "name": "Revenue Growth Management",
+      "body_markdown": "RGM Manager, Net Revenue Management, Trade Spend, Promotional Effectiveness, Price-Pack Architecture, Revenue Optimisation.\n\nParticularly relevant in FMCG, retail and consumer industries.",
+      "group_code": "D",
+      "group_name": "Commercial, Marketing, CRM & Digital Commerce"
+    },
+    {
+      "id": 26,
+      "name": "Marketing Leadership & Management",
+      "body_markdown": "CMO, Marketing Director, Head of Marketing, Marketing Manager, Senior Marketing Manager.",
+      "group_code": "D",
+      "group_name": "Commercial, Marketing, CRM & Digital Commerce"
+    },
+    {
+      "id": 27,
+      "name": "Brand Management",
+      "body_markdown": "Brand Manager, Senior Brand Manager, Group Brand Manager, Head of Brand, Brand Strategy.",
+      "group_code": "D",
+      "group_name": "Commercial, Marketing, CRM & Digital Commerce"
+    },
+    {
+      "id": 28,
+      "name": "Product Marketing",
+      "body_markdown": "Product Marketing Manager, Go-to-Market Manager, Proposition Marketing, B2B Product Marketing.",
+      "group_code": "D",
+      "group_name": "Commercial, Marketing, CRM & Digital Commerce"
+    },
+    {
+      "id": 29,
+      "name": "Trade & Shopper Marketing",
+      "body_markdown": "Trade Marketing Manager, Shopper Marketing Manager, Category Marketing, Channel Marketing, Retail Marketing.",
+      "group_code": "D",
+      "group_name": "Commercial, Marketing, CRM & Digital Commerce"
+    },
+    {
+      "id": 30,
+      "name": "Digital & Performance Marketing",
+      "body_markdown": "Digital Marketing Manager, Performance Marketing Manager, Acquisition Manager, Digital Acquisition, Paid Media leadership, SEO/SEM leadership.",
+      "group_code": "D",
+      "group_name": "Commercial, Marketing, CRM & Digital Commerce"
+    },
+    {
+      "id": 31,
+      "name": "CRM — Commercial",
+      "body_markdown": "A dedicated Talent Tree focus.\n\nIncludes:\n\n- CRM Manager\n- Head of CRM\n- CRM Strategy Manager\n- Lifecycle Manager\n- Lifecycle Marketing Manager\n- Retention Manager\n- Loyalty Manager\n- Campaign Manager\n- Marketing Automation Manager\n- Customer Engagement Manager\n- Customer Journey Manager",
+      "group_code": "D",
+      "group_name": "Commercial, Marketing, CRM & Digital Commerce"
+    },
+    {
+      "id": 32,
+      "name": "Customer Insights & Marketing Analytics",
+      "body_markdown": "Customer Insights Manager, Consumer Insights, Customer Analytics, Market Research, Behavioural Analytics, Segmentation, Customer Intelligence.\n\nThis is **not Customer Service / Customer Success**.",
+      "group_code": "D",
+      "group_name": "Commercial, Marketing, CRM & Digital Commerce"
+    },
+    {
+      "id": 33,
+      "name": "Loyalty & Retention",
+      "body_markdown": "Loyalty Manager, Loyalty Programme Manager, Retention Manager, Customer Value Manager, Customer Lifecycle roles.",
+      "group_code": "D",
+      "group_name": "Commercial, Marketing, CRM & Digital Commerce"
+    },
+    {
+      "id": 34,
+      "name": "Marketing Technology / MarTech",
+      "body_markdown": "MarTech Manager, Marketing Technology Manager, Marketing Automation Specialist/Manager, Campaign Technology, Customer Journey Technology.",
+      "group_code": "D",
+      "group_name": "Commercial, Marketing, CRM & Digital Commerce"
+    },
+    {
+      "id": 35,
+      "name": "E-commerce & Digital Commerce",
+      "body_markdown": "Head of E-commerce, E-commerce Manager, Online Trading Manager, Digital Commerce Manager, Marketplace Manager.\n\nIncludes:\n\n- online merchandising\n- conversion\n- trading\n- digital revenue\n- marketplace operations\n- online performance\n\n---",
+      "group_code": "D",
+      "group_name": "Commercial, Marketing, CRM & Digital Commerce"
+    },
+    {
+      "id": 36,
+      "name": "Procurement",
+      "body_markdown": "Procurement Manager, Head of Procurement, Procurement Executive, Purchasing Manager.",
+      "group_code": "E",
+      "group_name": "Procurement, Supply Chain, Logistics & Retail"
+    },
+    {
+      "id": 37,
+      "name": "Strategic Sourcing",
+      "body_markdown": "Strategic Sourcing Manager, Category Procurement Manager, Strategic Buyer at appropriate seniority, Supplier Strategy.",
+      "group_code": "E",
+      "group_name": "Procurement, Supply Chain, Logistics & Retail"
+    },
+    {
+      "id": 38,
+      "name": "Commodity Procurement",
+      "body_markdown": "Commodity Manager, Commodity Buyer at appropriate seniority, Raw Materials Procurement, Agricultural/industrial commodity procurement.",
+      "group_code": "E",
+      "group_name": "Procurement, Supply Chain, Logistics & Retail"
+    },
+    {
+      "id": 39,
+      "name": "Supplier & Vendor Management",
+      "body_markdown": "Supplier Manager, Vendor Manager, Supplier Performance, Supplier Development, Vendor Governance.",
+      "group_code": "E",
+      "group_name": "Procurement, Supply Chain, Logistics & Retail"
+    },
+    {
+      "id": 40,
+      "name": "Supply Chain Management",
+      "body_markdown": "Supply Chain Manager, Head of Supply Chain, Supply Chain Director, Supply Chain Executive.",
+      "group_code": "E",
+      "group_name": "Procurement, Supply Chain, Logistics & Retail"
+    },
+    {
+      "id": 41,
+      "name": "Demand Planning",
+      "body_markdown": "Demand Planner at qualifying level, Senior Demand Planner, Demand Planning Manager, Head of Demand Planning.",
+      "group_code": "E",
+      "group_name": "Procurement, Supply Chain, Logistics & Retail"
+    },
+    {
+      "id": 42,
+      "name": "Supply Planning",
+      "body_markdown": "Supply Planner, Senior Supply Planner, Supply Planning Manager, Materials Planning leadership.",
+      "group_code": "E",
+      "group_name": "Procurement, Supply Chain, Logistics & Retail"
+    },
+    {
+      "id": 43,
+      "name": "S&OP / IBP",
+      "body_markdown": "S&OP Manager, IBP Manager, Integrated Business Planning, Planning Excellence.",
+      "group_code": "E",
+      "group_name": "Procurement, Supply Chain, Logistics & Retail"
+    },
+    {
+      "id": 44,
+      "name": "Inventory & Replenishment",
+      "body_markdown": "Inventory Manager, Inventory Planning, Replenishment Manager, Stock Optimisation.",
+      "group_code": "E",
+      "group_name": "Procurement, Supply Chain, Logistics & Retail"
+    },
+    {
+      "id": 45,
+      "name": "Production Planning",
+      "body_markdown": "Production Planner at appropriate level, Planning Manager, Manufacturing Planning, Capacity Planning.",
+      "group_code": "E",
+      "group_name": "Procurement, Supply Chain, Logistics & Retail"
+    },
+    {
+      "id": 46,
+      "name": "Logistics",
+      "body_markdown": "Logistics Manager, Head of Logistics, Logistics Director, Logistics Planning.",
+      "group_code": "E",
+      "group_name": "Procurement, Supply Chain, Logistics & Retail"
+    },
+    {
+      "id": 47,
+      "name": "Distribution",
+      "body_markdown": "Distribution Manager, Distribution Centre Manager, Distribution Executive, Network Distribution.",
+      "group_code": "E",
+      "group_name": "Procurement, Supply Chain, Logistics & Retail"
+    },
+    {
+      "id": 48,
+      "name": "Transport & Fleet",
+      "body_markdown": "Transport Manager, Fleet Manager, Transport Operations leadership, Transport Planning.",
+      "group_code": "E",
+      "group_name": "Procurement, Supply Chain, Logistics & Retail"
+    },
+    {
+      "id": 49,
+      "name": "Warehousing",
+      "body_markdown": "Warehouse Manager at qualifying scale, Regional Warehouse Manager, Head of Warehousing, Distribution Centre leadership.",
+      "group_code": "E",
+      "group_name": "Procurement, Supply Chain, Logistics & Retail"
+    },
+    {
+      "id": 50,
+      "name": "Import, Export & Freight",
+      "body_markdown": "Import Manager, Export Manager, Freight Manager, Shipping Manager, International Logistics leadership.",
+      "group_code": "E",
+      "group_name": "Procurement, Supply Chain, Logistics & Retail"
+    },
+    {
+      "id": 51,
+      "name": "Retail Buying",
+      "body_markdown": "Buyer at qualifying professional level, Senior Buyer, Buying Manager, Head of Buying.",
+      "group_code": "E",
+      "group_name": "Procurement, Supply Chain, Logistics & Retail"
+    },
+    {
+      "id": 52,
+      "name": "Merchandise Planning",
+      "body_markdown": "Merchandise Planner, Senior Planner, Planning Manager, Head of Planning.",
+      "group_code": "E",
+      "group_name": "Procurement, Supply Chain, Logistics & Retail"
+    },
+    {
+      "id": 53,
+      "name": "Category Management",
+      "body_markdown": "Category Manager, Senior Category Manager, Category Executive.",
+      "group_code": "E",
+      "group_name": "Procurement, Supply Chain, Logistics & Retail"
+    },
+    {
+      "id": 54,
+      "name": "Allocation & Replenishment",
+      "body_markdown": "Allocation Manager, Replenishment Manager and relevant senior specialists.\n\n---",
+      "group_code": "E",
+      "group_name": "Procurement, Supply Chain, Logistics & Retail"
+    },
+    {
+      "id": 55,
+      "name": "Business Operations",
+      "body_markdown": "Business Operations Manager, Head of Business Operations, Business Operations Director.",
+      "group_code": "F",
+      "group_name": "Operations & Business Operations"
+    },
+    {
+      "id": 56,
+      "name": "Operational Management",
+      "body_markdown": "Operations Manager, Senior Operations Manager, Regional Operations Manager, Head of Operations.",
+      "group_code": "F",
+      "group_name": "Operations & Business Operations"
+    },
+    {
+      "id": 57,
+      "name": "Operational Excellence",
+      "body_markdown": "Operational Excellence Manager, Continuous Improvement Manager, Business Improvement Manager.",
+      "group_code": "F",
+      "group_name": "Operations & Business Operations"
+    },
+    {
+      "id": 58,
+      "name": "Process Improvement",
+      "body_markdown": "Process Improvement Manager, Process Excellence, Lean/Continuous Improvement, Business Process Optimisation.",
+      "group_code": "F",
+      "group_name": "Operations & Business Operations"
+    },
+    {
+      "id": 59,
+      "name": "Shared Services",
+      "body_markdown": "Shared Services Manager, Head of Shared Services, Shared Services Director.",
+      "group_code": "F",
+      "group_name": "Operations & Business Operations"
+    },
+    {
+      "id": 60,
+      "name": "Service Delivery",
+      "body_markdown": "Senior Service Delivery Manager, Head of Service Delivery and operational delivery leadership.\n\nThis does **not** include frontline customer service.\n\n---",
+      "group_code": "F",
+      "group_name": "Operations & Business Operations"
+    },
+    {
+      "id": 61,
+      "name": "Corporate Strategy",
+      "body_markdown": "Strategy Manager, Head of Strategy, Corporate Strategy, Group Strategy.",
+      "group_code": "G",
+      "group_name": "Strategy, Transformation & Corporate Development"
+    },
+    {
+      "id": 62,
+      "name": "Strategic Planning",
+      "body_markdown": "Strategic Planning Manager, Business Planning, Long-Range Planning.",
+      "group_code": "G",
+      "group_name": "Strategy, Transformation & Corporate Development"
+    },
+    {
+      "id": 63,
+      "name": "Corporate Development",
+      "body_markdown": "Corporate Development Manager, Corporate Development Director, investment/deal-focused internal corporate development.",
+      "group_code": "G",
+      "group_name": "Strategy, Transformation & Corporate Development"
+    },
+    {
+      "id": 64,
+      "name": "Business Transformation",
+      "body_markdown": "Transformation Manager, Head of Transformation, Business Transformation Director.",
+      "group_code": "G",
+      "group_name": "Strategy, Transformation & Corporate Development"
+    },
+    {
+      "id": 65,
+      "name": "Operating Model & Organisational Transformation",
+      "body_markdown": "Operating Model, Organisational Design, Enterprise Transformation, restructuring and strategic operating-model work.",
+      "group_code": "G",
+      "group_name": "Strategy, Transformation & Corporate Development"
+    },
+    {
+      "id": 66,
+      "name": "Strategic Projects",
+      "body_markdown": "Strategic Projects Manager, CEO Office strategy roles, Executive Projects, Special Projects.\n\n---",
+      "group_code": "G",
+      "group_name": "Strategy, Transformation & Corporate Development"
+    },
+    {
+      "id": 67,
+      "name": "Product Management — Business / Digital",
+      "body_markdown": "Product Manager, Senior Product Manager, Head of Product, Product Director.",
+      "group_code": "H",
+      "group_name": "Product Management"
+    },
+    {
+      "id": 68,
+      "name": "Digital Product",
+      "body_markdown": "Digital Product Manager, Digital Product Owner, Digital Platform Product.",
+      "group_code": "H",
+      "group_name": "Product Management"
+    },
+    {
+      "id": 69,
+      "name": "Financial Product",
+      "body_markdown": "Payments Product, Lending Product, Banking Product, Insurance Product and FinTech Product.",
+      "group_code": "H",
+      "group_name": "Product Management"
+    },
+    {
+      "id": 70,
+      "name": "Product Strategy",
+      "body_markdown": "Product Strategy Manager, Portfolio Product Manager, Proposition Manager.",
+      "group_code": "H",
+      "group_name": "Product Management"
+    },
+    {
+      "id": 71,
+      "name": "Product Operations",
+      "body_markdown": "Product Operations Manager, Product Portfolio Operations and product-performance roles.\n\n---",
+      "group_code": "H",
+      "group_name": "Product Management"
+    },
+    {
+      "id": 72,
+      "name": "Project Management",
+      "body_markdown": "Project Manager, Senior Project Manager, Business Project Manager.",
+      "group_code": "I",
+      "group_name": "Project, Programme, Change & Delivery"
+    },
+    {
+      "id": 73,
+      "name": "Programme Management",
+      "body_markdown": "Programme Manager, Senior Programme Manager, Programme Director.",
+      "group_code": "I",
+      "group_name": "Project, Programme, Change & Delivery"
+    },
+    {
+      "id": 74,
+      "name": "Portfolio Management",
+      "body_markdown": "Project Portfolio Manager, Enterprise Portfolio Manager.",
+      "group_code": "I",
+      "group_name": "Project, Programme, Change & Delivery"
+    },
+    {
+      "id": 75,
+      "name": "PMO",
+      "body_markdown": "PMO Manager, Head of PMO, Portfolio Office leadership.",
+      "group_code": "I",
+      "group_name": "Project, Programme, Change & Delivery"
+    },
+    {
+      "id": 76,
+      "name": "Change Management",
+      "body_markdown": "Change Manager, Organisational Change Manager, Business Change Lead, Transformation Change.",
+      "group_code": "I",
+      "group_name": "Project, Programme, Change & Delivery"
+    },
+    {
+      "id": 77,
+      "name": "Implementation Management",
+      "body_markdown": "Implementation Manager, Programme Implementation, Business Implementation Lead.\n\n---",
+      "group_code": "I",
+      "group_name": "Project, Programme, Change & Delivery"
+    },
+    {
+      "id": 78,
+      "name": "HR Leadership",
+      "body_markdown": "CHRO, HR Director, Head of HR, People Director, Head of People.",
+      "group_code": "J",
+      "group_name": "Human Resources / People"
+    },
+    {
+      "id": 79,
+      "name": "HR Business Partnering",
+      "body_markdown": "HR Business Partner, Senior HRBP, Lead HRBP, Head of HRBP.",
+      "group_code": "J",
+      "group_name": "Human Resources / People"
+    },
+    {
+      "id": 80,
+      "name": "Talent Acquisition & Recruitment",
+      "body_markdown": "Talent Acquisition Manager, Head of Talent Acquisition, Talent Acquisition Partner, Recruitment Manager, Executive Search, Sourcing leadership.",
+      "group_code": "J",
+      "group_name": "Human Resources / People"
+    },
+    {
+      "id": 81,
+      "name": "Talent Management",
+      "body_markdown": "Talent Manager, Succession Planning, Leadership Pipeline, Career Management.",
+      "group_code": "J",
+      "group_name": "Human Resources / People"
+    },
+    {
+      "id": 82,
+      "name": "Learning & Development",
+      "body_markdown": "L&D Manager, Head of Learning, Learning Strategy, Capability Development.",
+      "group_code": "J",
+      "group_name": "Human Resources / People"
+    },
+    {
+      "id": 83,
+      "name": "Organisational Development",
+      "body_markdown": "OD Manager, Organisational Effectiveness, Organisational Design.",
+      "group_code": "J",
+      "group_name": "Human Resources / People"
+    },
+    {
+      "id": 84,
+      "name": "Reward & Compensation",
+      "body_markdown": "Reward Manager, Compensation Manager, Remuneration Manager, Executive Reward, Benefits.",
+      "group_code": "J",
+      "group_name": "Human Resources / People"
+    },
+    {
+      "id": 85,
+      "name": "Employee & Industrial Relations",
+      "body_markdown": "ER Manager, IR Manager, Labour Relations, Employee Relations.",
+      "group_code": "J",
+      "group_name": "Human Resources / People"
+    },
+    {
+      "id": 86,
+      "name": "Employment Equity, Transformation & Skills Development",
+      "body_markdown": "Employment Equity, Skills Development, B-BBEE, Transformation and related specialist/leadership positions.",
+      "group_code": "J",
+      "group_name": "Human Resources / People"
+    },
+    {
+      "id": 87,
+      "name": "Workforce Planning & People Analytics",
+      "body_markdown": "Workforce Planning Manager, People Analytics, HR Analytics, Strategic Workforce Planning.\n\n---",
+      "group_code": "J",
+      "group_name": "Human Resources / People"
+    },
+    {
+      "id": 88,
+      "name": "Corporate & Commercial Legal",
+      "body_markdown": "Legal Counsel, Senior Legal Counsel, Legal Manager, Head of Legal, General Counsel, Legal Director.",
+      "group_code": "K",
+      "group_name": "Legal, Governance, Risk & Compliance"
+    },
+    {
+      "id": 89,
+      "name": "Contracts",
+      "body_markdown": "Contracts Manager, Commercial Contracts, Contract Governance.",
+      "group_code": "K",
+      "group_name": "Legal, Governance, Risk & Compliance"
+    },
+    {
+      "id": 90,
+      "name": "Employment Law",
+      "body_markdown": "Employment Legal Counsel, Labour Law specialists at appropriate level.",
+      "group_code": "K",
+      "group_name": "Legal, Governance, Risk & Compliance"
+    },
+    {
+      "id": 91,
+      "name": "Company Secretarial",
+      "body_markdown": "Company Secretary, Assistant Company Secretary at qualifying level, Head of Company Secretariat.",
+      "group_code": "K",
+      "group_name": "Legal, Governance, Risk & Compliance"
+    },
+    {
+      "id": 92,
+      "name": "Corporate Governance",
+      "body_markdown": "Governance Manager, Board Governance, Governance Executive.",
+      "group_code": "K",
+      "group_name": "Legal, Governance, Risk & Compliance"
+    },
+    {
+      "id": 93,
+      "name": "Enterprise Risk",
+      "body_markdown": "Risk Manager, Head of Risk, Enterprise Risk Manager, Operational Risk.",
+      "group_code": "K",
+      "group_name": "Legal, Governance, Risk & Compliance"
+    },
+    {
+      "id": 94,
+      "name": "Financial Risk",
+      "body_markdown": "Financial Risk Manager, Market Risk, Liquidity Risk and relevant financial-risk roles.",
+      "group_code": "K",
+      "group_name": "Legal, Governance, Risk & Compliance"
+    },
+    {
+      "id": 95,
+      "name": "Compliance",
+      "body_markdown": "Compliance Manager, Head of Compliance, Compliance Officer at appropriate seniority.",
+      "group_code": "K",
+      "group_name": "Legal, Governance, Risk & Compliance"
+    },
+    {
+      "id": 96,
+      "name": "Regulatory Compliance",
+      "body_markdown": "Regulatory Manager, Regulatory Compliance, Conduct Risk.",
+      "group_code": "K",
+      "group_name": "Legal, Governance, Risk & Compliance"
+    },
+    {
+      "id": 97,
+      "name": "AML / KYC / Financial Crime",
+      "body_markdown": "AML Manager, Financial Crime Manager, KYC leadership, transaction-monitoring leadership.\n\n**Cyber Risk and security GRC are excluded.**",
+      "group_code": "K",
+      "group_name": "Legal, Governance, Risk & Compliance"
+    },
+    {
+      "id": 98,
+      "name": "Ethics, Governance & Business Continuity",
+      "body_markdown": "Ethics Officer at qualifying level, Business Continuity Manager, Corporate Ethics and governance-related functions.\n\n---",
+      "group_code": "K",
+      "group_name": "Legal, Governance, Risk & Compliance"
+    },
+    {
+      "id": 99,
+      "name": "Property Management",
+      "body_markdown": "Property Manager, Regional Property Manager, Head of Property.",
+      "group_code": "L",
+      "group_name": "Property & Real Estate"
+    },
+    {
+      "id": 100,
+      "name": "Property Asset Management",
+      "body_markdown": "Property Asset Manager, Portfolio Manager, Property Portfolio Manager.",
+      "group_code": "L",
+      "group_name": "Property & Real Estate"
+    },
+    {
+      "id": 101,
+      "name": "Property Development",
+      "body_markdown": "Development Manager, Property Development Manager, Development Executive.",
+      "group_code": "L",
+      "group_name": "Property & Real Estate"
+    },
+    {
+      "id": 102,
+      "name": "Leasing",
+      "body_markdown": "Leasing Manager, Leasing Executive, Commercial Leasing.",
+      "group_code": "L",
+      "group_name": "Property & Real Estate"
+    },
+    {
+      "id": 103,
+      "name": "Property Finance & Analysis",
+      "body_markdown": "Property Finance Manager, Property Analyst, Property Investment roles.",
+      "group_code": "L",
+      "group_name": "Property & Real Estate"
+    },
+    {
+      "id": 104,
+      "name": "Facilities Leadership",
+      "body_markdown": "Facilities Manager at qualifying organisational scale, Head of Facilities, Facilities Portfolio Manager.\n\n---",
+      "group_code": "L",
+      "group_name": "Property & Real Estate"
+    },
+    {
+      "id": 105,
+      "name": "Management Consulting",
+      "body_markdown": "Management Consultant at relevant level, Engagement Manager, Principal, Director.",
+      "group_code": "M",
+      "group_name": "Consulting & Professional Services"
+    },
+    {
+      "id": 106,
+      "name": "Strategy Consulting",
+      "body_markdown": "Strategy Consultant, Strategy Manager, Principal, Director.",
+      "group_code": "M",
+      "group_name": "Consulting & Professional Services"
+    },
+    {
+      "id": 107,
+      "name": "Finance Consulting",
+      "body_markdown": "Finance Transformation, CFO Advisory, Financial Management Consulting.",
+      "group_code": "M",
+      "group_name": "Consulting & Professional Services"
+    },
+    {
+      "id": 108,
+      "name": "Operations & Supply Chain Consulting",
+      "body_markdown": "Operations Consulting, Supply Chain Advisory, Procurement Consulting.",
+      "group_code": "M",
+      "group_name": "Consulting & Professional Services"
+    },
+    {
+      "id": 109,
+      "name": "Risk & Governance Consulting",
+      "body_markdown": "Enterprise Risk, Governance, Regulatory and compliance advisory — **excluding Cybersecurity consulting**.",
+      "group_code": "M",
+      "group_name": "Consulting & Professional Services"
+    },
+    {
+      "id": 110,
+      "name": "Transaction Advisory",
+      "body_markdown": "Deals, Transactions, Valuations, Due Diligence and related professional services.",
+      "group_code": "M",
+      "group_name": "Consulting & Professional Services"
+    },
+    {
+      "id": 111,
+      "name": "Restructuring & Business Advisory",
+      "body_markdown": "Restructuring, Turnaround, Performance Improvement, Business Advisory.\n\n---",
+      "group_code": "M",
+      "group_name": "Consulting & Professional Services"
+    },
+    {
+      "id": 112,
+      "name": "ESG",
+      "body_markdown": "ESG Manager, Head of ESG, ESG Reporting.",
+      "group_code": "N",
+      "group_name": "Sustainability & ESG"
+    },
+    {
+      "id": 113,
+      "name": "Sustainability",
+      "body_markdown": "Sustainability Manager, Head of Sustainability, Corporate Sustainability.",
+      "group_code": "N",
+      "group_name": "Sustainability & ESG"
+    },
+    {
+      "id": 114,
+      "name": "Sustainable Finance & Responsible Investment",
+      "body_markdown": "Sustainable Finance, ESG Investment, Responsible Investment.",
+      "group_code": "N",
+      "group_name": "Sustainability & ESG"
+    },
+    {
+      "id": 115,
+      "name": "Climate & Sustainability Risk",
+      "body_markdown": "Climate Risk and sustainability-related enterprise risk.\n\nThis excludes technology/security risk.\n\n---",
+      "group_code": "N",
+      "group_name": "Sustainability & ESG"
+    },
+    {
+      "id": 116,
+      "name": "CIO / CTO Leadership",
+      "body_markdown": "CIO, CTO, Technology Executive, Technology Director.",
+      "group_code": "O",
+      "group_name": "Technology Leadership"
+    },
+    {
+      "id": 117,
+      "name": "Technology Management",
+      "body_markdown": "Head of Technology, Head of IT, IT Director, Technology Manager, Technology GM.",
+      "group_code": "O",
+      "group_name": "Technology Leadership"
+    },
+    {
+      "id": 118,
+      "name": "Engineering Leadership",
+      "body_markdown": "VP Engineering, Head of Engineering, Engineering Director, Engineering Manager, Development Manager.",
+      "group_code": "O",
+      "group_name": "Technology Leadership"
+    },
+    {
+      "id": 119,
+      "name": "Applications & Business Systems Leadership",
+      "body_markdown": "Head of Applications, Business Systems Manager, Applications Manager **where the remit is non-ERP**.",
+      "group_code": "O",
+      "group_name": "Technology Leadership"
+    },
+    {
+      "id": 120,
+      "name": "Digital Leadership",
+      "body_markdown": "Chief Digital Officer, Digital Director, Head of Digital Technology.\n\n---",
+      "group_code": "O",
+      "group_name": "Technology Leadership"
+    },
+    {
+      "id": 121,
+      "name": "Backend Engineering",
+      "body_markdown": "Backend Developer, Backend Engineer, Senior Backend Engineer, Lead Backend Engineer.",
+      "group_code": "P",
+      "group_name": "Software Engineering & Development"
+    },
+    {
+      "id": 122,
+      "name": "Frontend Engineering",
+      "body_markdown": "Frontend Developer, Frontend Engineer, Senior Frontend Engineer.",
+      "group_code": "P",
+      "group_name": "Software Engineering & Development"
+    },
+    {
+      "id": 123,
+      "name": "Full Stack Engineering",
+      "body_markdown": "Full Stack Developer, Full Stack Engineer, Senior/Lead Full Stack.",
+      "group_code": "P",
+      "group_name": "Software Engineering & Development"
+    },
+    {
+      "id": 124,
+      "name": "Mobile Engineering",
+      "body_markdown": "iOS, Android, Cross-platform Mobile Engineering.",
+      "group_code": "P",
+      "group_name": "Software Engineering & Development"
+    },
+    {
+      "id": 125,
+      "name": "Web Engineering",
+      "body_markdown": "Web Developer, Web Engineer, Web Application Engineering.",
+      "group_code": "P",
+      "group_name": "Software Engineering & Development"
+    },
+    {
+      "id": 126,
+      "name": "Application Development",
+      "body_markdown": "Application Developer, Software Developer, Software Engineer.",
+      "group_code": "P",
+      "group_name": "Software Engineering & Development"
+    },
+    {
+      "id": 127,
+      "name": "API Development",
+      "body_markdown": "API Developer, API Engineer.",
+      "group_code": "P",
+      "group_name": "Software Engineering & Development"
+    },
+    {
+      "id": 128,
+      "name": "Technical Leadership",
+      "body_markdown": "Technical Lead, Development Lead, Lead Engineer, Principal Engineer.",
+      "group_code": "P",
+      "group_name": "Software Engineering & Development"
+    },
+    {
+      "id": 129,
+      "name": "Embedded Software",
+      "body_markdown": "Embedded Developer, Embedded Software Engineer, Firmware-related software development where commercially relevant.\n\n---",
+      "group_code": "P",
+      "group_name": "Software Engineering & Development"
+    },
+    {
+      "id": 130,
+      "name": "Enterprise Architecture",
+      "body_markdown": "Enterprise Architect.",
+      "group_code": "Q",
+      "group_name": "Software & Solution Architecture"
+    },
+    {
+      "id": 131,
+      "name": "Solution Architecture",
+      "body_markdown": "Solution Architect, Senior Solution Architect.",
+      "group_code": "Q",
+      "group_name": "Software & Solution Architecture"
+    },
+    {
+      "id": 132,
+      "name": "Application Architecture",
+      "body_markdown": "Application Architect.",
+      "group_code": "Q",
+      "group_name": "Software & Solution Architecture"
+    },
+    {
+      "id": 133,
+      "name": "Software Architecture",
+      "body_markdown": "Software Architect.",
+      "group_code": "Q",
+      "group_name": "Software & Solution Architecture"
+    },
+    {
+      "id": 134,
+      "name": "Technical Architecture",
+      "body_markdown": "Technical Architect.",
+      "group_code": "Q",
+      "group_name": "Software & Solution Architecture"
+    },
+    {
+      "id": 135,
+      "name": "Domain Architecture",
+      "body_markdown": "Domain Architect.",
+      "group_code": "Q",
+      "group_name": "Software & Solution Architecture"
+    },
+    {
+      "id": 136,
+      "name": "Platform Architecture",
+      "body_markdown": "Platform Architect.\n\n**ERP Solution Architecture is excluded.**\n\n---",
+      "group_code": "Q",
+      "group_name": "Software & Solution Architecture"
+    },
+    {
+      "id": 137,
+      "name": "Business Analysis — Technology",
+      "body_markdown": "- Business Analyst\n- Senior Business Analyst\n- Lead Business Analyst\n- IT Business Analyst\n- Digital Business Analyst",
+      "group_code": "R",
+      "group_name": "Functional IT / Business Systems"
+    },
+    {
+      "id": 138,
+      "name": "Systems Analysis",
+      "body_markdown": "- Systems Analyst\n- Senior Systems Analyst\n- Systems Business Analyst",
+      "group_code": "R",
+      "group_name": "Functional IT / Business Systems"
+    },
+    {
+      "id": 139,
+      "name": "Functional Analysis",
+      "body_markdown": "- Functional Analyst\n- Functional Business Analyst\n- Functional Consultant **excluding ERP**",
+      "group_code": "R",
+      "group_name": "Functional IT / Business Systems"
+    },
+    {
+      "id": 140,
+      "name": "Application Analysis",
+      "body_markdown": "- Application Analyst\n- Business Applications Analyst\n- Application Consultant **excluding ERP platforms**",
+      "group_code": "R",
+      "group_name": "Functional IT / Business Systems"
+    },
+    {
+      "id": 141,
+      "name": "Business Systems",
+      "body_markdown": "- Business Systems Analyst\n- Business Systems Specialist\n- Business Systems Lead\n- Business Applications Specialist",
+      "group_code": "R",
+      "group_name": "Functional IT / Business Systems"
+    },
+    {
+      "id": 142,
+      "name": "Technology Process Analysis",
+      "body_markdown": "- Process Analyst\n- Systems Process Analyst\n- Process & Systems Specialist",
+      "group_code": "R",
+      "group_name": "Functional IT / Business Systems"
+    },
+    {
+      "id": 143,
+      "name": "Implementation Consulting",
+      "body_markdown": "- Implementation Consultant\n- Implementation Specialist\n- Implementation Lead\n\n**ERP implementation is excluded.**",
+      "group_code": "R",
+      "group_name": "Functional IT / Business Systems"
+    },
+    {
+      "id": 144,
+      "name": "Functional Product Ownership",
+      "body_markdown": "- Product Owner\n- Systems Product Owner\n- Application Product Owner\n- Platform Product Owner",
+      "group_code": "R",
+      "group_name": "Functional IT / Business Systems"
+    },
+    {
+      "id": 145,
+      "name": "Techno-Functional Roles",
+      "body_markdown": "Hybrid positions combining:\n\n**business process + system understanding + solution design + implementation**\n\nbut excluding ERP-specialist positions.\n\n---",
+      "group_code": "R",
+      "group_name": "Functional IT / Business Systems"
+    },
+    {
+      "id": 146,
+      "name": "CRM Systems",
+      "body_markdown": "CRM Systems Manager, CRM Systems Analyst, CRM Business Analyst.",
+      "group_code": "S",
+      "group_name": "CRM Technology & Customer Platforms"
+    },
+    {
+      "id": 147,
+      "name": "CRM Platforms",
+      "body_markdown": "CRM Platform Manager, Customer Platform Manager, Customer Technology Manager.",
+      "group_code": "S",
+      "group_name": "CRM Technology & Customer Platforms"
+    },
+    {
+      "id": 148,
+      "name": "Salesforce",
+      "body_markdown": "Included:\n\n- Salesforce Administrator at qualifying level\n- Salesforce Developer\n- Salesforce Consultant\n- Salesforce Functional Consultant\n- Salesforce Technical Consultant\n- Salesforce Solution Architect\n- Salesforce Product Owner\n- Salesforce Manager",
+      "group_code": "S",
+      "group_name": "CRM Technology & Customer Platforms"
+    },
+    {
+      "id": 149,
+      "name": "Customer Data Platforms",
+      "body_markdown": "CDP Manager, CDP Specialist, Customer Data Platform Product/Technology roles.",
+      "group_code": "S",
+      "group_name": "CRM Technology & Customer Platforms"
+    },
+    {
+      "id": 150,
+      "name": "Marketing Automation Platforms",
+      "body_markdown": "Marketing Automation Technology, Campaign Platforms, Journey Orchestration.",
+      "group_code": "S",
+      "group_name": "CRM Technology & Customer Platforms"
+    },
+    {
+      "id": 151,
+      "name": "Loyalty Technology",
+      "body_markdown": "Loyalty Platform Manager, Loyalty Systems, Loyalty Product Technology.",
+      "group_code": "S",
+      "group_name": "CRM Technology & Customer Platforms"
+    },
+    {
+      "id": 152,
+      "name": "MarTech Platforms",
+      "body_markdown": "MarTech Systems Specialist, MarTech Manager, Customer Engagement Technology.\n\n### Specifically removed\n\n**Microsoft Dynamics CRM/Dynamics CE is no longer part of the target taxonomy**, because Microsoft Dynamics has been removed with the ERP/platform exclusion.\n\n---",
+      "group_code": "S",
+      "group_name": "CRM Technology & Customer Platforms"
+    },
+    {
+      "id": 153,
+      "name": "Integration Engineering",
+      "body_markdown": "Integration Engineer, Integration Developer.",
+      "group_code": "T",
+      "group_name": "Integration, APIs & Middleware"
+    },
+    {
+      "id": 154,
+      "name": "Integration Architecture",
+      "body_markdown": "Integration Architect.",
+      "group_code": "T",
+      "group_name": "Integration, APIs & Middleware"
+    },
+    {
+      "id": 155,
+      "name": "API Engineering",
+      "body_markdown": "API Engineer, API Developer, API Platform roles.",
+      "group_code": "T",
+      "group_name": "Integration, APIs & Middleware"
+    },
+    {
+      "id": 156,
+      "name": "Middleware",
+      "body_markdown": "Middleware Specialist, Middleware Engineer.",
+      "group_code": "T",
+      "group_name": "Integration, APIs & Middleware"
+    },
+    {
+      "id": 157,
+      "name": "Event & Messaging Platforms",
+      "body_markdown": "Kafka, messaging, event-driven integration and streaming-integration roles.",
+      "group_code": "T",
+      "group_name": "Integration, APIs & Middleware"
+    },
+    {
+      "id": 158,
+      "name": "iPaaS / Integration Platforms",
+      "body_markdown": "MuleSoft, Boomi and comparable integration technologies where the role is primarily integration rather than ERP.\n\n---",
+      "group_code": "T",
+      "group_name": "Integration, APIs & Middleware"
+    },
+    {
+      "id": 159,
+      "name": "Cloud Engineering",
+      "body_markdown": "Cloud Engineer, Senior Cloud Engineer.",
+      "group_code": "U",
+      "group_name": "Cloud, Platform, DevOps & Infrastructure"
+    },
+    {
+      "id": 160,
+      "name": "Cloud Architecture",
+      "body_markdown": "Cloud Architect, Cloud Solutions Architect.",
+      "group_code": "U",
+      "group_name": "Cloud, Platform, DevOps & Infrastructure"
+    },
+    {
+      "id": 161,
+      "name": "Cloud Platforms",
+      "body_markdown": "AWS, Azure and Google Cloud infrastructure/platform professionals.",
+      "group_code": "U",
+      "group_name": "Cloud, Platform, DevOps & Infrastructure"
+    },
+    {
+      "id": 162,
+      "name": "Cloud Infrastructure",
+      "body_markdown": "Cloud Infrastructure Engineer, Cloud Operations, Cloud Migration.\n\n**Cloud Security specialists are excluded.**",
+      "group_code": "U",
+      "group_name": "Cloud, Platform, DevOps & Infrastructure"
+    },
+    {
+      "id": 163,
+      "name": "DevOps",
+      "body_markdown": "DevOps Engineer, Senior DevOps Engineer, DevOps Lead.",
+      "group_code": "U",
+      "group_name": "Cloud, Platform, DevOps & Infrastructure"
+    },
+    {
+      "id": 164,
+      "name": "Platform Engineering",
+      "body_markdown": "Platform Engineer, Platform Lead, Platform Engineering Manager.",
+      "group_code": "U",
+      "group_name": "Cloud, Platform, DevOps & Infrastructure"
+    },
+    {
+      "id": 165,
+      "name": "Site Reliability Engineering",
+      "body_markdown": "SRE, Senior SRE, SRE Lead.",
+      "group_code": "U",
+      "group_name": "Cloud, Platform, DevOps & Infrastructure"
+    },
+    {
+      "id": 166,
+      "name": "Kubernetes / Container Platforms",
+      "body_markdown": "Kubernetes Engineer, Container Platform Engineer.",
+      "group_code": "U",
+      "group_name": "Cloud, Platform, DevOps & Infrastructure"
+    },
+    {
+      "id": 167,
+      "name": "CI/CD & Automation",
+      "body_markdown": "CI/CD Engineering, Infrastructure Automation.\n\n**DevSecOps is excluded where the role is primarily security.**",
+      "group_code": "U",
+      "group_name": "Cloud, Platform, DevOps & Infrastructure"
+    },
+    {
+      "id": 168,
+      "name": "Infrastructure Engineering",
+      "body_markdown": "Infrastructure Engineer, Senior Infrastructure Engineer.",
+      "group_code": "U",
+      "group_name": "Cloud, Platform, DevOps & Infrastructure"
+    },
+    {
+      "id": 169,
+      "name": "Systems Engineering",
+      "body_markdown": "Systems Engineer, Senior Systems Engineer.",
+      "group_code": "U",
+      "group_name": "Cloud, Platform, DevOps & Infrastructure"
+    },
+    {
+      "id": 170,
+      "name": "Networks",
+      "body_markdown": "Network Engineer, Senior Network Engineer, Network Architect, Network Manager.",
+      "group_code": "U",
+      "group_name": "Cloud, Platform, DevOps & Infrastructure"
+    },
+    {
+      "id": 171,
+      "name": "IT Operations",
+      "body_markdown": "IT Operations Manager, Head of IT Operations, Infrastructure Manager.",
+      "group_code": "U",
+      "group_name": "Cloud, Platform, DevOps & Infrastructure"
+    },
+    {
+      "id": 172,
+      "name": "Workplace / End-User Technology Leadership",
+      "body_markdown": "End User Computing Manager, Workplace Technology Manager.\n\nLow-level desktop support/helpdesk roles will normally fall below the Talent Tree salary floor.\n\n---",
+      "group_code": "U",
+      "group_name": "Cloud, Platform, DevOps & Infrastructure"
+    },
+    {
+      "id": 173,
+      "name": "Technical Product Management",
+      "body_markdown": "Technical Product Manager, Technology Product Manager.",
+      "group_code": "V",
+      "group_name": "Technology Product & Delivery"
+    },
+    {
+      "id": 174,
+      "name": "Platform Product Management",
+      "body_markdown": "Platform Product Manager.",
+      "group_code": "V",
+      "group_name": "Technology Product & Delivery"
+    },
+    {
+      "id": 175,
+      "name": "Data Product Management",
+      "body_markdown": "Data Product Manager.",
+      "group_code": "V",
+      "group_name": "Technology Product & Delivery"
+    },
+    {
+      "id": 176,
+      "name": "AI Product Management",
+      "body_markdown": "AI Product Manager.",
+      "group_code": "V",
+      "group_name": "Technology Product & Delivery"
+    },
+    {
+      "id": 177,
+      "name": "Technology Product Ownership",
+      "body_markdown": "Technical Product Owner, Digital Product Owner.",
+      "group_code": "V",
+      "group_name": "Technology Product & Delivery"
+    },
+    {
+      "id": 178,
+      "name": "Technology Programme Management",
+      "body_markdown": "Technology Programme Manager, Technical Programme Manager.",
+      "group_code": "V",
+      "group_name": "Technology Product & Delivery"
+    },
+    {
+      "id": 179,
+      "name": "IT Project Management",
+      "body_markdown": "IT Project Manager, Technology Project Manager.",
+      "group_code": "V",
+      "group_name": "Technology Product & Delivery"
+    },
+    {
+      "id": 180,
+      "name": "Delivery Management",
+      "body_markdown": "Delivery Manager, Technology Delivery Manager, Agile Delivery Lead.",
+      "group_code": "V",
+      "group_name": "Technology Product & Delivery"
+    },
+    {
+      "id": 181,
+      "name": "Agile Delivery",
+      "body_markdown": "Scrum Master at qualifying level, Agile Programme Lead, Agile Delivery Manager.",
+      "group_code": "V",
+      "group_name": "Technology Product & Delivery"
+    },
+    {
+      "id": 182,
+      "name": "Technology PMO",
+      "body_markdown": "Technology PMO Manager, Technology Portfolio Manager.\n\n---",
+      "group_code": "V",
+      "group_name": "Technology Product & Delivery"
+    },
+    {
+      "id": 183,
+      "name": "Quality Assurance",
+      "body_markdown": "QA Engineer, QA Analyst, QA Lead.",
+      "group_code": "W",
+      "group_name": "QA, Testing & Quality Engineering"
+    },
+    {
+      "id": 184,
+      "name": "Test Analysis",
+      "body_markdown": "Test Analyst, Senior Test Analyst.",
+      "group_code": "W",
+      "group_name": "QA, Testing & Quality Engineering"
+    },
+    {
+      "id": 185,
+      "name": "Test Automation",
+      "body_markdown": "Automation Tester, Test Automation Engineer.",
+      "group_code": "W",
+      "group_name": "QA, Testing & Quality Engineering"
+    },
+    {
+      "id": 186,
+      "name": "Performance Testing",
+      "body_markdown": "Performance Test Engineer, Performance Testing Specialist.",
+      "group_code": "W",
+      "group_name": "QA, Testing & Quality Engineering"
+    },
+    {
+      "id": 187,
+      "name": "Quality Engineering",
+      "body_markdown": "Quality Engineer, Software Quality Engineer.",
+      "group_code": "W",
+      "group_name": "QA, Testing & Quality Engineering"
+    },
+    {
+      "id": 188,
+      "name": "Test Leadership",
+      "body_markdown": "Test Manager, QA Manager, Head of QA.\n\n---",
+      "group_code": "W",
+      "group_name": "QA, Testing & Quality Engineering"
+    },
+    {
+      "id": 189,
+      "name": "Digital Transformation",
+      "body_markdown": "Digital Transformation Manager, Head of Digital Transformation.",
+      "group_code": "X",
+      "group_name": "Digital & Technology Transformation"
+    },
+    {
+      "id": 190,
+      "name": "Technology Transformation",
+      "body_markdown": "Technology Transformation Manager/Director.",
+      "group_code": "X",
+      "group_name": "Digital & Technology Transformation"
+    },
+    {
+      "id": 191,
+      "name": "Cloud Transformation",
+      "body_markdown": "Cloud Transformation leadership.",
+      "group_code": "X",
+      "group_name": "Digital & Technology Transformation"
+    },
+    {
+      "id": 192,
+      "name": "Technology Strategy",
+      "body_markdown": "Technology Strategy Manager, Technology Strategy Director.",
+      "group_code": "X",
+      "group_name": "Digital & Technology Transformation"
+    },
+    {
+      "id": 193,
+      "name": "Modernisation",
+      "body_markdown": "Application Modernisation, Legacy Modernisation and Technology Modernisation.",
+      "group_code": "X",
+      "group_name": "Digital & Technology Transformation"
+    },
+    {
+      "id": 194,
+      "name": "Technology Operating Model",
+      "body_markdown": "Technology Operating Model, Technology Organisation Transformation.\n\n### Explicit exclusion\n\n**ERP transformation programmes are excluded.**\n\n---",
+      "group_code": "X",
+      "group_name": "Digital & Technology Transformation"
+    },
+    {
+      "id": 195,
+      "name": "Payments Technology",
+      "body_markdown": "Payments Platforms, Payments Engineering/Product/Delivery.",
+      "group_code": "Y",
+      "group_name": "FinTech & Banking Technology"
+    },
+    {
+      "id": 196,
+      "name": "Digital Banking Technology",
+      "body_markdown": "Digital Banking Platforms, Digital Banking Product Technology.",
+      "group_code": "Y",
+      "group_name": "FinTech & Banking Technology"
+    },
+    {
+      "id": 197,
+      "name": "Lending Technology",
+      "body_markdown": "Lending Platforms, Lending Technology Product.",
+      "group_code": "Y",
+      "group_name": "FinTech & Banking Technology"
+    },
+    {
+      "id": 198,
+      "name": "Core Banking",
+      "body_markdown": "Core Banking technology specialists **provided the position is not primarily an excluded ERP role**.",
+      "group_code": "Y",
+      "group_name": "FinTech & Banking Technology"
+    },
+    {
+      "id": 199,
+      "name": "Cards & Transaction Platforms",
+      "body_markdown": "Cards Systems, Transaction Platforms, Merchant Technology.",
+      "group_code": "Y",
+      "group_name": "FinTech & Banking Technology"
+    },
+    {
+      "id": 200,
+      "name": "Financial Systems Technology",
+      "body_markdown": "Specialist financial-services technology that is not ERP implementation/support.\n\n---",
+      "group_code": "Y",
+      "group_name": "FinTech & Banking Technology"
+    },
+    {
+      "id": 201,
+      "name": "Chief Data Leadership",
+      "body_markdown": "Chief Data Officer, Chief Analytics Officer where applicable.",
+      "group_code": "Z",
+      "group_name": "Data Leadership"
+    },
+    {
+      "id": 202,
+      "name": "Head of Data",
+      "body_markdown": "Head of Data, Data Director.",
+      "group_code": "Z",
+      "group_name": "Data Leadership"
+    },
+    {
+      "id": 203,
+      "name": "Head of Analytics",
+      "body_markdown": "Head of Analytics, Analytics Director.",
+      "group_code": "Z",
+      "group_name": "Data Leadership"
+    },
+    {
+      "id": 204,
+      "name": "Data Engineering Leadership",
+      "body_markdown": "Head of Data Engineering, Data Engineering Manager.",
+      "group_code": "Z",
+      "group_name": "Data Leadership"
+    },
+    {
+      "id": 205,
+      "name": "Data Science Leadership",
+      "body_markdown": "Head of Data Science, Data Science Manager.",
+      "group_code": "Z",
+      "group_name": "Data Leadership"
+    },
+    {
+      "id": 206,
+      "name": "AI / ML Leadership",
+      "body_markdown": "Head of AI, Head of Machine Learning, AI Director.\n\n---",
+      "group_code": "Z",
+      "group_name": "Data Leadership"
+    },
+    {
+      "id": 207,
+      "name": "Data Engineering",
+      "body_markdown": "Data Engineer, Senior Data Engineer, Lead Data Engineer.",
+      "group_code": "AA",
+      "group_name": "Data Engineering"
+    },
+    {
+      "id": 208,
+      "name": "ETL / ELT Engineering",
+      "body_markdown": "ETL Engineer, ELT Engineer, Data Integration Engineer.",
+      "group_code": "AA",
+      "group_name": "Data Engineering"
+    },
+    {
+      "id": 209,
+      "name": "Data Pipeline Engineering",
+      "body_markdown": "Pipeline Engineer, Data Pipeline Developer.",
+      "group_code": "AA",
+      "group_name": "Data Engineering"
+    },
+    {
+      "id": 210,
+      "name": "Big Data Engineering",
+      "body_markdown": "Big Data Engineer.",
+      "group_code": "AA",
+      "group_name": "Data Engineering"
+    },
+    {
+      "id": 211,
+      "name": "Streaming Data",
+      "body_markdown": "Streaming Engineer, Real-Time Data Engineering.",
+      "group_code": "AA",
+      "group_name": "Data Engineering"
+    },
+    {
+      "id": 212,
+      "name": "Data Platform Engineering",
+      "body_markdown": "Data Platform Engineer.",
+      "group_code": "AA",
+      "group_name": "Data Engineering"
+    },
+    {
+      "id": 213,
+      "name": "Lakehouse Engineering",
+      "body_markdown": "Lakehouse / modern data-platform engineering.\n\n---",
+      "group_code": "AA",
+      "group_name": "Data Engineering"
+    },
+    {
+      "id": 214,
+      "name": "Analytics Engineer",
+      "body_markdown": "Analytics Engineer, Senior Analytics Engineer.",
+      "group_code": "AB",
+      "group_name": "Analytics Engineering"
+    },
+    {
+      "id": 215,
+      "name": "Semantic / Analytical Data Modelling",
+      "body_markdown": "Analytical Data Modelling, semantic-layer development.",
+      "group_code": "AB",
+      "group_name": "Analytics Engineering"
+    },
+    {
+      "id": 216,
+      "name": "Transformation Layer Engineering",
+      "body_markdown": "dbt-style analytical transformation and modelling.\n\nThis is differentiated from both BI development and core Data Engineering.\n\n---",
+      "group_code": "AB",
+      "group_name": "Analytics Engineering"
+    },
+    {
+      "id": 217,
+      "name": "Data Scientist",
+      "body_markdown": "Data Scientist, Senior Data Scientist.",
+      "group_code": "AC",
+      "group_name": "Data Science"
+    },
+    {
+      "id": 218,
+      "name": "Lead / Principal Data Science",
+      "body_markdown": "Lead Data Scientist, Principal Data Scientist.",
+      "group_code": "AC",
+      "group_name": "Data Science"
+    },
+    {
+      "id": 219,
+      "name": "Applied Science",
+      "body_markdown": "Applied Scientist.",
+      "group_code": "AC",
+      "group_name": "Data Science"
+    },
+    {
+      "id": 220,
+      "name": "Decision Science",
+      "body_markdown": "Decision Scientist.",
+      "group_code": "AC",
+      "group_name": "Data Science"
+    },
+    {
+      "id": 221,
+      "name": "Quantitative Data Science",
+      "body_markdown": "Quantitative Scientist and data-science-oriented quantitative modelling.",
+      "group_code": "AC",
+      "group_name": "Data Science"
+    },
+    {
+      "id": 222,
+      "name": "Predictive Analytics",
+      "body_markdown": "Predictive modelling, statistical modelling, optimisation.",
+      "group_code": "AC",
+      "group_name": "Data Science"
+    },
+    {
+      "id": 223,
+      "name": "Experimentation",
+      "body_markdown": "Experimentation, causal analysis, testing and modelling roles.\n\n---",
+      "group_code": "AC",
+      "group_name": "Data Science"
+    },
+    {
+      "id": 224,
+      "name": "Machine Learning Engineering",
+      "body_markdown": "ML Engineer, Senior ML Engineer.",
+      "group_code": "AD",
+      "group_name": "Machine Learning & Artificial Intelligence"
+    },
+    {
+      "id": 225,
+      "name": "AI Engineering",
+      "body_markdown": "AI Engineer, Applied AI Engineer.",
+      "group_code": "AD",
+      "group_name": "Machine Learning & Artificial Intelligence"
+    },
+    {
+      "id": 226,
+      "name": "Generative AI",
+      "body_markdown": "GenAI Engineer, Generative AI Specialist.",
+      "group_code": "AD",
+      "group_name": "Machine Learning & Artificial Intelligence"
+    },
+    {
+      "id": 227,
+      "name": "NLP",
+      "body_markdown": "Natural Language Processing specialists.",
+      "group_code": "AD",
+      "group_name": "Machine Learning & Artificial Intelligence"
+    },
+    {
+      "id": 228,
+      "name": "Computer Vision",
+      "body_markdown": "Computer Vision Engineer/Scientist.",
+      "group_code": "AD",
+      "group_name": "Machine Learning & Artificial Intelligence"
+    },
+    {
+      "id": 229,
+      "name": "ML Science",
+      "body_markdown": "Machine Learning Scientist, AI Scientist.",
+      "group_code": "AD",
+      "group_name": "Machine Learning & Artificial Intelligence"
+    },
+    {
+      "id": 230,
+      "name": "Applied AI",
+      "body_markdown": "Applied AI, AI Applications, intelligent automation where technically substantive.\n\n---",
+      "group_code": "AD",
+      "group_name": "Machine Learning & Artificial Intelligence"
+    },
+    {
+      "id": 231,
+      "name": "MLOps Engineering",
+      "body_markdown": "MLOps Engineer.",
+      "group_code": "AE",
+      "group_name": "MLOps & AI Platforms"
+    },
+    {
+      "id": 232,
+      "name": "ML Platform Engineering",
+      "body_markdown": "ML Platform Engineer.",
+      "group_code": "AE",
+      "group_name": "MLOps & AI Platforms"
+    },
+    {
+      "id": 233,
+      "name": "AI Platform Engineering",
+      "body_markdown": "AI Platform Engineer.",
+      "group_code": "AE",
+      "group_name": "MLOps & AI Platforms"
+    },
+    {
+      "id": 234,
+      "name": "Model Deployment",
+      "body_markdown": "Model Deployment / Model Serving.",
+      "group_code": "AE",
+      "group_name": "MLOps & AI Platforms"
+    },
+    {
+      "id": 235,
+      "name": "ML Infrastructure",
+      "body_markdown": "Machine Learning Infrastructure.",
+      "group_code": "AE",
+      "group_name": "MLOps & AI Platforms"
+    },
+    {
+      "id": 236,
+      "name": "Feature Platforms",
+      "body_markdown": "Feature Store / feature-platform engineering.",
+      "group_code": "AE",
+      "group_name": "MLOps & AI Platforms"
+    },
+    {
+      "id": 237,
+      "name": "Model Operations",
+      "body_markdown": "AI/ML model lifecycle, monitoring and production operations.\n\n---",
+      "group_code": "AE",
+      "group_name": "MLOps & AI Platforms"
+    },
+    {
+      "id": 238,
+      "name": "Business Intelligence",
+      "body_markdown": "BI Analyst, Senior BI Analyst, BI Manager.",
+      "group_code": "AF",
+      "group_name": "BI, Analytics & Decision Intelligence"
+    },
+    {
+      "id": 239,
+      "name": "BI Development",
+      "body_markdown": "BI Developer, Senior BI Developer.",
+      "group_code": "AF",
+      "group_name": "BI, Analytics & Decision Intelligence"
+    },
+    {
+      "id": 240,
+      "name": "Data Analytics",
+      "body_markdown": "Data Analyst at qualifying level, Senior Data Analyst, Analytics Manager.",
+      "group_code": "AF",
+      "group_name": "BI, Analytics & Decision Intelligence"
+    },
+    {
+      "id": 241,
+      "name": "Reporting & MI",
+      "body_markdown": "Reporting Analyst, Reporting Manager, Management Information, MI Manager.",
+      "group_code": "AF",
+      "group_name": "BI, Analytics & Decision Intelligence"
+    },
+    {
+      "id": 242,
+      "name": "Commercial Analytics",
+      "body_markdown": "Commercial Analyst, Commercial Analytics Manager.",
+      "group_code": "AF",
+      "group_name": "BI, Analytics & Decision Intelligence"
+    },
+    {
+      "id": 243,
+      "name": "Customer Analytics",
+      "body_markdown": "Customer Analytics, CRM Analytics, Retention Analytics.",
+      "group_code": "AF",
+      "group_name": "BI, Analytics & Decision Intelligence"
+    },
+    {
+      "id": 244,
+      "name": "Marketing Analytics",
+      "body_markdown": "Marketing Analyst, Marketing Analytics Manager.",
+      "group_code": "AF",
+      "group_name": "BI, Analytics & Decision Intelligence"
+    },
+    {
+      "id": 245,
+      "name": "Product Analytics",
+      "body_markdown": "Product Analyst, Product Analytics Manager.",
+      "group_code": "AF",
+      "group_name": "BI, Analytics & Decision Intelligence"
+    },
+    {
+      "id": 246,
+      "name": "Operations Analytics",
+      "body_markdown": "Operations Analyst, Operations Analytics.",
+      "group_code": "AF",
+      "group_name": "BI, Analytics & Decision Intelligence"
+    },
+    {
+      "id": 247,
+      "name": "Decision Support",
+      "body_markdown": "Decision Support Analyst/Manager, Decision Intelligence.\n\n---",
+      "group_code": "AF",
+      "group_name": "BI, Analytics & Decision Intelligence"
+    },
+    {
+      "id": 248,
+      "name": "Data Architecture",
+      "body_markdown": "Data Architect.",
+      "group_code": "AG",
+      "group_name": "Data Architecture"
+    },
+    {
+      "id": 249,
+      "name": "Enterprise Data Architecture",
+      "body_markdown": "Enterprise Data Architect.",
+      "group_code": "AG",
+      "group_name": "Data Architecture"
+    },
+    {
+      "id": 250,
+      "name": "Analytics Architecture",
+      "body_markdown": "Analytics Architect.",
+      "group_code": "AG",
+      "group_name": "Data Architecture"
+    },
+    {
+      "id": 251,
+      "name": "Information Architecture",
+      "body_markdown": "Information Architect.",
+      "group_code": "AG",
+      "group_name": "Data Architecture"
+    },
+    {
+      "id": 252,
+      "name": "Data Platform Architecture",
+      "body_markdown": "Data Platform Architect.",
+      "group_code": "AG",
+      "group_name": "Data Architecture"
+    },
+    {
+      "id": 253,
+      "name": "Lakehouse Architecture",
+      "body_markdown": "Lakehouse Architect.\n\n---",
+      "group_code": "AG",
+      "group_name": "Data Architecture"
+    },
+    {
+      "id": 254,
+      "name": "Database Engineering",
+      "body_markdown": "Database Engineer.",
+      "group_code": "AH",
+      "group_name": "Data Platforms & Databases"
+    },
+    {
+      "id": 255,
+      "name": "Database Administration",
+      "body_markdown": "DBA at qualifying specialist/senior level.",
+      "group_code": "AH",
+      "group_name": "Data Platforms & Databases"
+    },
+    {
+      "id": 256,
+      "name": "Database Development",
+      "body_markdown": "Database Developer.",
+      "group_code": "AH",
+      "group_name": "Data Platforms & Databases"
+    },
+    {
+      "id": 257,
+      "name": "Data Warehousing",
+      "body_markdown": "Data Warehouse Developer/Engineer/Architect.",
+      "group_code": "AH",
+      "group_name": "Data Platforms & Databases"
+    },
+    {
+      "id": 258,
+      "name": "Modern Data Platforms",
+      "body_markdown": "Includes skills around platforms such as:\n\n- Snowflake\n- Databricks\n- Azure data technologies\n- Redshift\n- BigQuery\n- SQL data platforms\n- lakehouses",
+      "group_code": "AH",
+      "group_name": "Data Platforms & Databases"
+    },
+    {
+      "id": 259,
+      "name": "SQL Engineering",
+      "body_markdown": "SQL Specialist, SQL Developer at the appropriate specialist level.\n\n---",
+      "group_code": "AH",
+      "group_name": "Data Platforms & Databases"
+    },
+    {
+      "id": 260,
+      "name": "Data Governance",
+      "body_markdown": "Data Governance Manager, Head of Data Governance.",
+      "group_code": "AI",
+      "group_name": "Data Governance & Information Management"
+    },
+    {
+      "id": 261,
+      "name": "Data Quality",
+      "body_markdown": "Data Quality Manager, Data Quality Specialist.",
+      "group_code": "AI",
+      "group_name": "Data Governance & Information Management"
+    },
+    {
+      "id": 262,
+      "name": "Master Data Management",
+      "body_markdown": "MDM Manager, Master Data Specialist at appropriate level.",
+      "group_code": "AI",
+      "group_name": "Data Governance & Information Management"
+    },
+    {
+      "id": 263,
+      "name": "Metadata Management",
+      "body_markdown": "Metadata Manager, Metadata Specialist.",
+      "group_code": "AI",
+      "group_name": "Data Governance & Information Management"
+    },
+    {
+      "id": 264,
+      "name": "Data Stewardship",
+      "body_markdown": "Data Steward, Lead Data Steward at appropriate professional level.",
+      "group_code": "AI",
+      "group_name": "Data Governance & Information Management"
+    },
+    {
+      "id": 265,
+      "name": "Information Management",
+      "body_markdown": "Information Management Manager, Enterprise Information Management.",
+      "group_code": "AI",
+      "group_name": "Data Governance & Information Management"
+    },
+    {
+      "id": 266,
+      "name": "Data Lineage & Controls",
+      "body_markdown": "Data lineage, data controls, governance frameworks.\n\nThis category is about **data governance**, not security engineering or Cybersecurity.\n\n---",
+      "group_code": "AI",
+      "group_name": "Data Governance & Information Management"
+    },
+    {
+      "id": 267,
+      "name": "Applied Technology Research",
+      "body_markdown": "Applied Research, Advanced Technology, Technology Innovation.",
+      "group_code": "AJ",
+      "group_name": "Emerging & Advanced Technology"
+    },
+    {
+      "id": 268,
+      "name": "AI Research",
+      "body_markdown": "AI Researcher, Research Scientist where commercially relevant.",
+      "group_code": "AJ",
+      "group_name": "Emerging & Advanced Technology"
+    },
+    {
+      "id": 269,
+      "name": "IoT",
+      "body_markdown": "IoT Engineer, IoT Architect, IoT Product/Platform roles.",
+      "group_code": "AJ",
+      "group_name": "Emerging & Advanced Technology"
+    },
+    {
+      "id": 270,
+      "name": "Intelligent / Autonomous Technology",
+      "body_markdown": "Advanced analytics, automation and autonomous technology roles where aligned with commercial hiring.",
+      "group_code": "AJ",
+      "group_name": "Emerging & Advanced Technology"
+    },
+    {
+      "id": 271,
+      "name": "Innovation Labs",
+      "body_markdown": "Technology Innovation Manager, Innovation Lead, R&D Technology leadership.\n\n---\n\n# Explicitly OUT of scope\n\nThese exclusions should be hard-coded into vacancy discovery, taxonomy classification and candidate research.\n\n| Excluded area                                    | Examples                                                                                                                                                                                     |\n| ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| **ERP**                                          | SAP, Oracle ERP, Microsoft Dynamics, NetSuite and ERP implementation, support, functional consulting, development, architecture and programme work                                           |\n| **Cybersecurity**                                | Security Analyst, Security Engineer, Security Architect, SOC, IAM, PAM, AppSec, Cloud Security, Security Operations, Cyber Risk, Security GRC, Penetration Testing, Cybersecurity Leadership |\n| **Sales & Business Development**                 | Sales Executive, Account Executive, Business Development Manager, Hunter roles, Sales Manager, Sales Director where fundamentally direct sales                                               |\n| **Customer / Client Service & Customer Success** | Customer Success, Client Service, Contact Centre, Customer Support, Service Consultants                                                                                                      |\n| **Financial Advice / Planning**                  | Financial Adviser, Financial Planner, Wealth Adviser, Insurance Adviser                                                                                                                      |\n| **Administration / Office Support**              | Administrator, Receptionist, Secretary, PA, EA, Office Manager where administrative, Data Capturer, Clerical Support                                                                         |\n| **Below Talent Tree economic threshold**         | Roles at or below **R420,000 p.a.** unless an existing-client instruction specifically overrides the normal pipeline                                                                         |\n\n# Classification rules\n\nA few rules are critical because titles alone will create bad data.\n\n**Functional IT vs general Business Analysis:** classify a Business Analyst under **Functional IT** when the work centres on applications, systems, technology implementation, requirements, integrations or digital platforms. Classify it as business/process work when it is fundamentally operating-model or process analysis.\n\n**CRM Commercial vs CRM Technology:** a Lifecycle/Retention/CRM Strategy Manager belongs under Commercial CRM. A CRM Systems Manager, Salesforce Consultant or CRM Product Owner belongs under CRM Technology.\n\n**Commercial vs Sales:** Commercial Finance, Pricing, Revenue Management, Category Management and Commercial Strategy are included. Direct revenue hunting, account acquisition and traditional sales/BD are excluded.\n\n**Data vs BI:** data pipelines/platforms belong under Data Engineering. Analytical transformation belongs under Analytics Engineering. Dashboards/reporting belong under BI. Predictive/statistical modelling belongs under Data Science. Production models belong under ML/AI.\n\n**Cloud vs Cybersecurity:** Cloud Engineers and Cloud Architects are included. Cloud Security is excluded.\n\n**Risk vs Cyber Risk:** Enterprise, Operational, Financial, Credit, Compliance and Regulatory Risk remain included. Cyber Risk is excluded.\n\n**Applications vs ERP:** generic business systems, CRM, applications analysis and implementation remain included. If the role exists primarily to implement/support SAP, Oracle ERP, Dynamics or NetSuite, it is excluded.\n\n# Talent Tree search priority\n\nThe taxonomy should then be weighted approximately:\n\n**Tier 1 — highest commercial priority**\n\nC-suite, Managing Director, Director, Head, Executive, General Manager.\n\n**Tier 2**\n\nSenior Manager, Manager, Principal, Lead, Architect, highly scarce specialist.\n\n**Tier 3**\n\nExperienced professional/specialist roles comfortably above the R420k threshold.\n\nThe search engine should **not automatically downgrade scarce technology, data, actuarial, investment or functional-IT specialists simply because they do not manage people**. Scarcity, remuneration, technical depth and commercial value can place a Principal Data Engineer or Solution Architect above a conventional manager.\n\nThis gives us a **271-node detailed search taxonomy across 35 functional groupings**, with the unwanted ERP and Cybersecurity branches removed rather than merely marked low priority. This is the structure I would now use as Talent Tree's source-of-truth taxonomy for job discovery, market mapping, search strings, vacancy classification and candidate sourcing.",
+      "group_code": "AJ",
+      "group_name": "Emerging & Advanced Technology"
+    }
+  ],
+  "explicit_out_of_scope_markdown": "These exclusions should be hard-coded into vacancy discovery, taxonomy classification and candidate research.\n\n| Excluded area                                    | Examples                                                                                                                                                                                     |\n| ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| **ERP**                                          | SAP, Oracle ERP, Microsoft Dynamics, NetSuite and ERP implementation, support, functional consulting, development, architecture and programme work                                           |\n| **Cybersecurity**                                | Security Analyst, Security Engineer, Security Architect, SOC, IAM, PAM, AppSec, Cloud Security, Security Operations, Cyber Risk, Security GRC, Penetration Testing, Cybersecurity Leadership |\n| **Sales & Business Development**                 | Sales Executive, Account Executive, Business Development Manager, Hunter roles, Sales Manager, Sales Director where fundamentally direct sales                                               |\n| **Customer / Client Service & Customer Success** | Customer Success, Client Service, Contact Centre, Customer Support, Service Consultants                                                                                                      |\n| **Financial Advice / Planning**                  | Financial Adviser, Financial Planner, Wealth Adviser, Insurance Adviser                                                                                                                      |\n| **Administration / Office Support**              | Administrator, Receptionist, Secretary, PA, EA, Office Manager where administrative, Data Capturer, Clerical Support                                                                         |\n| **Below Talent Tree economic threshold**         | Roles at or below **R420,000 p.a.** unless an existing-client instruction specifically overrides the normal pipeline                                                                         |",
+  "classification_rules_markdown": "A few rules are critical because titles alone will create bad data.\n\n**Functional IT vs general Business Analysis:** classify a Business Analyst under **Functional IT** when the work centres on applications, systems, technology implementation, requirements, integrations or digital platforms. Classify it as business/process work when it is fundamentally operating-model or process analysis.\n\n**CRM Commercial vs CRM Technology:** a Lifecycle/Retention/CRM Strategy Manager belongs under Commercial CRM. A CRM Systems Manager, Salesforce Consultant or CRM Product Owner belongs under CRM Technology.\n\n**Commercial vs Sales:** Commercial Finance, Pricing, Revenue Management, Category Management and Commercial Strategy are included. Direct revenue hunting, account acquisition and traditional sales/BD are excluded.\n\n**Data vs BI:** data pipelines/platforms belong under Data Engineering. Analytical transformation belongs under Analytics Engineering. Dashboards/reporting belong under BI. Predictive/statistical modelling belongs under Data Science. Production models belong under ML/AI.\n\n**Cloud vs Cybersecurity:** Cloud Engineers and Cloud Architects are included. Cloud Security is excluded.\n\n**Risk vs Cyber Risk:** Enterprise, Operational, Financial, Credit, Compliance and Regulatory Risk remain included. Cyber Risk is excluded.\n\n**Applications vs ERP:** generic business systems, CRM, applications analysis and implementation remain included. If the role exists primarily to implement/support SAP, Oracle ERP, Dynamics or NetSuite, it is excluded.",
+  "search_priority_markdown": "The taxonomy should then be weighted approximately:\n\n**Tier 1 — highest commercial priority**\n\nC-suite, Managing Director, Director, Head, Executive, General Manager.\n\n**Tier 2**\n\nSenior Manager, Manager, Principal, Lead, Architect, highly scarce specialist.\n\n**Tier 3**\n\nExperienced professional/specialist roles comfortably above the R420k threshold.\n\nThe search engine should **not automatically downgrade scarce technology, data, actuarial, investment or functional-IT specialists simply because they do not manage people**. Scarcity, remuneration, technical depth and commercial value can place a Principal Data Engineer or Solution Architect above a conventional manager.\n\nThis gives us a **271-node detailed search taxonomy across 35 functional groupings**, with the unwanted ERP and Cybersecurity branches removed rather than merely marked low priority. This is the structure I would now use as Talent Tree's source-of-truth taxonomy for job discovery, market mapping, search strings, vacancy classification and candidate sourcing."
+}
