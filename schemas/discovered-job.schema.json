@@ -1,0 +1,229 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Talent Tree Discovered Job",
+  "type": "object",
+  "required": [
+    "record_id",
+    "discovered_at",
+    "source",
+    "classification",
+    "role",
+    "evidence"
+  ],
+  "properties": {
+    "record_id": {
+      "type": "string"
+    },
+    "parent_signal_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "discovered_at": {
+      "type": "string"
+    },
+    "posted_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "classification": {
+      "enum": [
+        "CONFIRMED_VACANCY",
+        "PROBABLE_VACANCY",
+        "MULTI_ROLE_HIRING",
+        "EARLY_HIRING_SIGNAL",
+        "EXECUTIVE_DEPARTURE",
+        "BUSINESS_EXPANSION",
+        "HIRING_AUTHOR",
+        "REPOST",
+        "AGENCY_ADVERT",
+        "IRRELEVANT"
+      ]
+    },
+    "role": {
+      "type": "object",
+      "properties": {
+        "raw_title": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "normalized_title": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "function": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "seniority": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "location": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "channel",
+        "source_name",
+        "url"
+      ],
+      "properties": {
+        "channel": {
+          "enum": [
+            "linkedin",
+            "agency",
+            "jobboard",
+            "ats",
+            "direct_careers",
+            "web_xray",
+            "other"
+          ]
+        },
+        "source_name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "author": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "advertiser": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "advertiser_type": {
+          "enum": [
+            "DIRECT",
+            "THIRD_PARTY",
+            "UNKNOWN"
+          ]
+        }
+      }
+    },
+    "employer": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "status": {
+          "enum": [
+            "CONFIRMED",
+            "PROBABLE",
+            "HYPOTHESIS",
+            "UNKNOWN"
+          ]
+        },
+        "existing_client": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      }
+    },
+    "qualification": {
+      "type": "object",
+      "properties": {
+        "functional_scope": {
+          "enum": [
+            "INCLUDE",
+            "EXCLUDE",
+            "VERIFY",
+            "NOT_YET_ASSESSED"
+          ]
+        },
+        "salary_gate": {
+          "enum": [
+            "INCLUDE",
+            "EXCLUDE",
+            "VERIFY",
+            "NOT_YET_ASSESSED"
+          ]
+        },
+        "freshness": {
+          "enum": [
+            "ACTIVE",
+            "PROBABLY_ACTIVE",
+            "QUESTIONABLE",
+            "STALE",
+            "INVALID_SPAM",
+            "UNKNOWN"
+          ]
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "claim",
+          "status",
+          "basis"
+        ],
+        "properties": {
+          "claim": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "CONFIRMED",
+              "PROBABLE",
+              "HYPOTHESIS",
+              "UNKNOWN"
+            ]
+          },
+          "basis": {
+            "type": "string"
+          },
+          "url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "possible_duplicate_of": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "next_action": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}
