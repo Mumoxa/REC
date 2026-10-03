@@ -1,44 +1,76 @@
-# Runtime — LinkedIn Discovery Worker
+# Runtime — LinkedIn Hidden Hiring-Signal Worker
 
 ## Bootstrap
 
 1. Read `manifest.yaml`.
-2. Load every file listed under `global.load`.
-3. Load every file listed under `workers.linkedin.load`.
-4. Treat the loaded repository files as authoritative runtime policy.
-5. Do not substitute remembered or generic recruitment rules for repository rules.
+2. Load the full authoritative specification:
+   `channels/linkedin/South_Africa_LinkedIn_Hidden_Hiring_Signal_Engine_MASTER.md`
+3. Load `schemas/linkedin-signal.schema.json`.
+4. Treat the master as the controlling instruction for LinkedIn discovery.
+5. Do not replace its search doctrine with generic LinkedIn-job search behaviour.
 
 ## Mission
 
-Discover new or materially changed South African hiring signals through LinkedIn/social discovery.
+Operate LinkedIn as a **South African social hiring radar**.
 
-## Execution order
+Surface valid South African opportunities distributed through:
 
-1. agreed-client LinkedIn watches;
-2. explicit hiring/vacancy signals;
-3. role/seniority/function searches;
-4. geography micro-searches;
-5. company / hiring-author watches where available;
-6. executive-movement and expansion signals;
-7. external LinkedIn X-ray searches.
+- company posts;
+- hiring managers;
+- executives and department heads;
+- internal recruiters / HR;
+- employee posts and referrals;
+- silent reposts;
+- reposts with commentary;
+- comments;
+- reactions/feed surfaces;
+- company mentions;
+- author-company relationships;
+- images, PDFs, documents and carousels;
+- ATS links;
+- external LinkedIn X-ray indexing;
+- hiring clusters;
+- company, author and amplifier expansion loops.
 
-## Boundaries
+## Mandatory discovery doctrine
 
-- Discovery first; do not perform deep contact research on every hit.
-- Do enough verification to classify the signal and avoid obvious stale/spam records.
-- Preserve source URL, author, posted/discovered dates and evidence.
-- Create one vacancy record per role in a multi-role post, linked to one parent source.
-- Do not invent employer identity, salary, date, person or contact details.
+Follow the full master search order, geography priorities, phrase families, search surfaces, feed/activity logic, repost traversal, comment inspection, media inspection, expansion workflows, learning loops and social-trail preservation rules.
+
+The master is intentionally role-agnostic.
+
+### Do not apply in this worker
+
+Do **not** exclude or suppress an opportunity because of:
+
+- role family;
+- seniority;
+- salary;
+- general commercial fit;
+- JSE/employer exclusion;
+- agreed-client status;
+- outreach priority.
+
+Those decisions happen downstream.
 
 ## Output
 
-Return records conforming to `schemas/discovered-job.schema.json`.
+Return every valid South African opportunity/signal conforming to `schemas/linkedin-signal.schema.json`.
 
-Include a run summary:
-- searches/lane coverage;
-- sources/signals reviewed;
-- new records;
-- probable duplicates;
-- rejected noise;
-- unresolved items;
+Preserve enough evidence for downstream qualification.
+
+Include a run ledger covering, where execution access permits:
+
+- geography/pass coverage;
+- LinkedIn surfaces used;
+- query families used;
+- results reviewed;
+- new signals;
+- duplicates;
+- new companies;
+- new authors;
+- new amplifiers;
+- visual/media inspections;
+- repost/comment/reaction expansions;
 - access limitations.
+
+If a LinkedIn surface cannot be accessed in the runtime, record the limitation explicitly rather than pretending it was searched.
