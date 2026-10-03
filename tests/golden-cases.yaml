@@ -1,0 +1,93 @@
+version: 0.1.0
+
+cases:
+  - id: high_salary_sales_director
+    input:
+      title: Sales Director
+      salary_pa: 1800000
+      existing_client: false
+    expected:
+      functional_scope: EXCLUDE
+      deep_employer_research: false
+    reason: General-market Sales & Business Development exclusion overrides salary.
+
+  - id: anonymous_head_of_finance
+    input:
+      title: Head of Finance
+      advertiser_type: THIRD_PARTY
+      employer_named: false
+      location: Cape Town
+    expected:
+      discard_for_hidden_employer: false
+      employer_attribution_required: true
+      contradiction_test_required: true
+    reason: Senior hidden-employer role warrants deep attribution.
+
+  - id: agency_is_not_employer
+    input:
+      advertiser: Network Recruitment
+      client_named: false
+    expected:
+      advertiser_type: THIRD_PARTY
+      employer_name: null
+      employer_status: UNKNOWN
+    reason: Recruiter must not be silently treated as the hiring company.
+
+  - id: hypothesis_must_stay_hypothesis
+    input:
+      employer_candidate: Example Co
+      evidence: contextual_only
+    expected:
+      employer_status_not: CONFIRMED
+    reason: Weak/contextual evidence cannot be upgraded to confirmed.
+
+  - id: agreed_client_outside_general_taxonomy
+    input:
+      existing_client: true
+      general_taxonomy_result: EXCLUDE
+      meaningful_recruitment_opportunity: true
+    expected:
+      suppress_signal: false
+      route: AGREED_CLIENT_EXCEPTION_REVIEW
+    reason: Source map requires meaningful agreed-client intelligence to be retained separately.
+
+  - id: multi_role_linkedin_post
+    input:
+      source_post_roles:
+        - Financial Manager
+        - Procurement Manager
+        - Data Engineer
+    expected:
+      source_record_count: 1
+      vacancy_record_count: 3
+      shared_parent_signal: true
+    reason: One source can create multiple vacancy records.
+
+  - id: duplicate_sources_one_job
+    input:
+      same_role_sources:
+        - employer_careers
+        - linkedin_post
+        - agency_advert
+    expected:
+      canonical_jobs: 1
+      preserve_all_sources: true
+    reason: Duplicate adverts must enrich one canonical vacancy, not inflate volume.
+
+  - id: rieses_identity_guard
+    input:
+      client_name: Rieses Food Imports
+      similarly_named_company_match: true
+      identity_verified: false
+    expected:
+      automatic_match: false
+    reason: Client source registry marks identity as requiring verification.
+
+  - id: old_mutual_entity_scope
+    input:
+      client_name: Old Mutual
+      employing_business_unit_known: false
+    expected:
+      agreement_scope_confirmed: false
+      outreach_ready: false
+    reason: Specific agreement entity/business unit remains unresolved.
