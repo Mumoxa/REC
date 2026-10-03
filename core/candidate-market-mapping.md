@@ -220,6 +220,7 @@ Every generated query must record:
 - source/surface;
 - search family;
 - why it was generated;
+- execution status: `EXECUTED`, `ACCESS_LIMITED`, `NOT_APPLICABLE` or `NOT_EXECUTED`;
 - which evidence gap or coverage target it addresses;
 - target company/role where applicable;
 - date executed;
