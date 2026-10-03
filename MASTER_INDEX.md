@@ -88,3 +88,29 @@ The controlling role taxonomy is:
 - Market mapping and candidate sourcing use the full taxonomy.
 
 Abbreviated role lists must not replace the 271-node registry.
+
+
+## Seniority authority
+
+`taxonomy/seniority_terms.yaml` is the controlling seniority/search-level ontology.
+
+It explicitly includes:
+
+- board and enterprise-governance roles;
+- Executive Director and exact board-director searches;
+- C-suite and executive leadership;
+- fractional, interim, portfolio, part-time and virtual executive roles;
+- Director / Head / senior-management titles;
+- Principal / Lead / Architect individual-contributor ladders;
+- specialist and expert roles;
+- consultant / consulting / advisory ladders;
+- experienced senior professionals.
+
+### Critical rules
+
+- Seniority is not equivalent to people-management.
+- Executive Director must not be collapsed into generic Director.
+- Board and non-executive appointments are first-class search targets.
+- Fractional roles must not be downgraded because they are part-time or portfolio-based.
+- Consultant and specialist titles remain subject to the role taxonomy, but are not excluded merely because of title form.
+- LinkedIn uses seniority as positive search expansion only; it remains role-agnostic during signal discovery.
