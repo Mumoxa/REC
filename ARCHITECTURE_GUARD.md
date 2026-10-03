@@ -32,18 +32,18 @@ Only these are sourcing channels:
 
 No fifth sourcing channel may be introduced without explicit user-authorised architecture change.
 
-## Stage mapping
+## Channel execution
 
-The current execution order maps directly onto the four channels:
+Each of the four channels is **independently runnable**.
 
-| Stage | Canonical channel | Runtime implementation |
+| Default priority | Canonical channel | Runtime implementation |
 |---|---|---|
-| Stage 1 | AGREED_CLIENTS | runtime/agreed-client-worker.md |
-| Stage 2 | AGENCY_SITES | runtime/agency-worker.md |
-| Stage 3 | LINKEDIN | runtime/linkedin-worker.md |
-| Stage 4 | JOB_BOARDS | runtime/jobboard-worker.md |
+| 1 | AGREED_CLIENTS | runtime/agreed-client-worker.md |
+| 2 | AGENCY_SITES | runtime/agency-worker.md |
+| 3 | LINKEDIN | runtime/linkedin-worker.md |
+| 4 | JOB_BOARDS | runtime/jobboard-worker.md |
 
-The stage sequence is strict, but stage and channel are not separate taxonomies. The four stages are the four sourcing channels in execution order.
+The priority order is used when a combined/full run is requested. It is not a prerequisite chain: running LinkedIn does not require the agreed-client or agency channels to have run first.
 
 ## What is NOT a channel
 
@@ -70,7 +70,7 @@ Detailed implementation may live in subdirectories or machine-readable files, pr
 1. it maps back to one canonical core concern or one of the four channels;
 2. it does not create a new sourcing-channel concept;
 3. it does not duplicate an authoritative vocabulary;
-4. it does not override source priority or the four-channel sequence;
+4. it does not override the shared search stack or four-channel priority model;
 5. the facade remains sufficient to explain the whole system at a glance.
 
 ## Drift prevention rule
@@ -92,3 +92,28 @@ If it cannot be classified cleanly, stop and require an explicit architecture de
 The project has become more detailed, but not more conceptually complex.
 
 **Four channels. Shared core. Optional runs. Supporting implementation underneath.**
+
+
+## Shared intelligence stack
+
+All four channels must use the same:
+
+- search structure: `core/search-structure.md`;
+- query configuration: `query_templates.yaml`;
+- 271-node role taxonomy;
+- role classification/boundary rules;
+- seniority ontology;
+- South Africa geography ontology;
+- ideal-client profile;
+- disqualifiers;
+- scoring rubric;
+- evidence standard;
+- qualification rules;
+- deduplication rules;
+- employer-attribution rules;
+- output structure;
+- client-status vocabulary.
+
+Channel-specific differences are limited to source surfaces, native filters/syntax, evidence traversal and provenance.
+
+A channel may not fork its own role taxonomy, seniority hierarchy, geography order, commercial definition or query philosophy.
