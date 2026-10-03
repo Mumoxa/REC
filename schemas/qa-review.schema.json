@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "qa-review.schema.json",
+  "title": "Talent Tree Independent QA Review",
+  "type": "object",
+  "required": ["gate", "reviewer_conclusion", "claims_reviewed", "unknowns"],
+  "properties": {
+    "gate": {"enum": ["A_DISCOVERY", "B_FINGERPRINT", "C_TARGET_COMPANY", "D_CANDIDATE", "ARCHITECTURE_DRIFT"]},
+    "record_id": {"type": ["string", "null"]},
+    "reviewed_at": {"type": ["string", "null"]},
+    "sources_checked": {"type": "array", "items": {"type": "string"}},
+    "claims_reviewed": {"type": "array", "items": {"type": "object"}},
+    "claims_upheld": {"type": "array", "items": {"type": "string"}},
+    "claims_downgraded": {"type": "array", "items": {"type": "string"}},
+    "claims_removed": {"type": "array", "items": {"type": "string"}},
+    "contradictions": {"type": "array", "items": {"type": "string"}},
+    "unknowns": {"type": "array", "items": {"type": "string"}},
+    "next_research_actions": {"type": "array", "items": {"type": "string"}},
+    "reviewer_conclusion": {"enum": ["PASS", "PASS_WITH_UNKNOWNS", "FAIL_RESEARCH_REQUIRED"]}
+  },
+  "additionalProperties": true
+}
