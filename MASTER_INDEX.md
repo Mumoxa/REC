@@ -184,19 +184,21 @@ Query construction references, rather than duplicates:
 
 The controlling sourcing order is defined in:
 
-- `sources/search-priority.yaml` — strict stage order and completion gates;
+- `sources/search-priority.yaml` — default cross-channel priority and independent-run rules;
 - `sources/agreed-clients.yaml` — current agreed-client universe and past-client distinctions;
 - `runtime/orchestrator.md` — runtime stage orchestration;
-- `schemas/client-sweep.schema.json` — Stage 1 client-channel coverage ledger.
+- `schemas/client-sweep.schema.json` — agreed-client channel coverage ledger.
 
-### Mandatory order
+### Four independently runnable channels
 
-1. **Stage 1 — Current agreed clients**
-2. **Stage 2 — PRN Recruitment / Communicate Recruitment / Network Recruitment**
-3. **Stage 3 — South Africa LinkedIn distributed hiring intelligence**
-4. **Stage 4 — Broader secondary sources**
+1. **AGREED_CLIENTS** — default combined-run priority 1
+2. **AGENCY_SITES** — default combined-run priority 2
+3. **LINKEDIN** — default combined-run priority 3
+4. **JOB_BOARDS** — default combined-run priority 4
 
-These are sequential stages, not equal-weight channels.
+Each channel can run on its own. The order above is used when a combined/full run needs a default scheduling priority; it is not a prerequisite chain.
+
+All four channels inherit `core/search-structure.md`, the same role taxonomy, seniority ontology, geography ontology, query engine, qualification rules, evidence standard, scoring rubric and output logic.
 
 ### Permanent relationship field
 
@@ -208,8 +210,30 @@ Every vacancy/opportunity record must preserve one of:
 - `TARGET_PROSPECT`
 - `UNKNOWN`
 
-A later-stage discovery that resolves to an agreed client is immediately promoted to the Stage 1 commercial workflow while its original source provenance and discovery stage remain intact.
+A discovery from any channel that resolves to an agreed client receives immediate agreed-client commercial priority while its original channel provenance remains intact.
 
 ### Current-vs-past distinction
 
-Capita, NTT Data and WNS are retained as `PAST_CLIENT` until a current agreement is verified. They do not enter the current Stage 1 universe automatically.
+Capita, NTT Data and WNS are retained as `PAST_CLIENT` until a current agreement is verified. They do not receive current agreed-client treatment automatically.
+
+
+## Shared channel search structure
+
+`core/search-structure.md` is the cross-channel operating authority.
+
+Every sourcing channel uses the same:
+
+- query construction;
+- 271-node role taxonomy;
+- role-boundary rules;
+- seniority ontology;
+- South Africa geography ontology;
+- qualification/disqualifier rules;
+- evidence standard;
+- scoring logic;
+- deduplication;
+- employer-attribution framework;
+- client-status vocabulary;
+- output structure.
+
+Channel-specific strategy controls source surfaces and tactics only.
