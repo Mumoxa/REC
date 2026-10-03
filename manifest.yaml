@@ -283,6 +283,10 @@ application:
   auth: supabase_magic_link_ssr
   auth_proxy: proxy.ts
   ingestion_endpoint: /api/ingest/run
+  supabase_edge_ingestion: supabase/functions/ingest-run/index.ts
+  supabase_edge_ingestion_function: ingest-run
+  ingestion_auth: hashed_bearer_token
+  vercel_database_admin_secret_required: false
   ingestion_contract: docs/RUN_PUBLISHING.md
   app_operations: docs/APP_OPERATIONS.md
   research_write_boundary: service_or_agent_only

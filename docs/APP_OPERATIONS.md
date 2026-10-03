@@ -16,7 +16,6 @@ Required environment variables:
 
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
-- `SUPABASE_SECRET_KEY`
 - `INGEST_API_KEY`
 - `WORKSPACE_SLUG=talent-tree`
 - `NEXT_PUBLIC_DEMO_MODE=false`
@@ -48,17 +47,11 @@ Browser:
 
 Agent/service:
 
-- runs
-- canonical vacancies
-- sources
-- requirements
-- stakeholders
-- target companies
-- research queries
-- candidates
-- candidate assignments
-- candidate claims
-- QA reviews
+- publishes through the Supabase `ingest-run` Edge Function;
+- the Edge Function performs privileged writes using Supabase's native service role;
+- Vercel never receives a database admin/service-role secret.
+
+Research tables written by the ingestion function include runs, canonical vacancies, sources, requirements, stakeholders, target companies, research queries, candidates, candidate assignments, candidate claims and QA reviews.
 
 ## CI
 
