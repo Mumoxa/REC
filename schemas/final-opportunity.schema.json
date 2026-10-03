@@ -129,7 +129,7 @@
             ]
           },
           "contact": {
-            "description": "Deprecated generic contact field. Prefer observed_business_email and suggested_probable_business_email.",
+            "description": "Private-run business contact output. Do not commit live person-specific contact data to the public repository.",
             "type": [
               "string",
               "null"
@@ -587,34 +587,9 @@
             "UNKNOWN"
           ]
         },
-        "observed_business_emails": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "email": {
-                "type": "string"
-              },
-              "person_or_context": {
-                "type": [
-                  "string",
-                  "null"
-                ]
-              },
-              "source_url": {
-                "type": [
-                  "string",
-                  "null"
-                ]
-              },
-              "evidence_status": {
-                "enum": [
-                  "OBSERVED",
-                  "VERIFIED"
-                ]
-              }
-            }
-          }
+        "observed_pattern_examples_count": {
+          "type": "integer",
+          "minimum": 0
         },
         "detected_pattern": {
           "type": [
