@@ -1,10 +1,10 @@
 # Runtime — Job Board / ATS Worker
 
-## Source-priority stage
+## Channel
 
-**STAGE 4 — BROADER SECONDARY SOURCES**
+**JOB_BOARDS — default priority 4**
 
-This worker handles broader-market job-board/ATS/source-map discovery only after Stages 1–3 are complete. Stage 1 direct client careers/ATS work belongs to `runtime/agreed-client-worker.md`.
+This channel is independently runnable. It handles the governed job-board/ATS/broader secondary source universe without requiring the other three channels to run first.
 
 ## Bootstrap
 
@@ -74,8 +74,8 @@ Where an ATS or board provides reliable role, geography, date or category filter
 
 Every returned vacancy must carry `client_status` and:
 
-`source_priority_stage = STAGE_4_BROADER_SECONDARY_SOURCES`
+`source_priority_stage = JOB_BOARDS`
 
-If any broader-market record resolves to `AGREED_CLIENT` or `AGREED_GROUP_ENTITY`, promote it immediately to the Stage 1 pipeline.
+If any broader-market record resolves to `AGREED_CLIENT` or `AGREED_GROUP_ENTITY`, promote it immediately to the agreed-client priority workflow.
 
-High-volume public job-board results must never displace or delay Stages 1–3.
+In a combined run, high-volume public job-board results must not consume budget reserved for higher default-priority channels.
