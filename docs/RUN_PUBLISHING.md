@@ -23,15 +23,18 @@ When the Supabase connector is available, the agent may write validated records 
 
 ### HTTP ingestion
 
-Automated agents/services may POST to:
+Automated agents/services may POST to either:
 
-`POST /api/ingest/run`
+- the application proxy: `POST /api/ingest/run`; or
+- the Supabase Edge Function directly: `POST /functions/v1/ingest-run`.
 
 Header:
 
 `Authorization: Bearer <INGEST_API_KEY>`
 
-The key is server-side only and must never be committed or exposed to the browser.
+The plaintext key is held only in trusted automation/server environments. Supabase stores only its SHA-256 hash in `ingest_tokens`.
+
+The Edge Function owns privileged database writes using Supabase's native service-role runtime credential. The Vercel application does **not** receive or store a Supabase service-role/admin key.
 
 ## Idempotency
 
