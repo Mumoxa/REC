@@ -295,7 +295,7 @@
         "required": [
           "opportunity_id",
           "client_status",
-          "source_priority_stage"
+          "search_channel"
         ],
         "properties": {
           "opportunity_id": {
@@ -390,6 +390,11 @@
               "STAGE_2_STRATEGIC_AGENCIES",
               "STAGE_3_LINKEDIN_INTELLIGENCE",
               "STAGE_4_BROADER_SECONDARY_SOURCES"
+            ],
+            "description": "Deprecated compatibility field. Use search_channel.",
+            "type": [
+              "string",
+              "null"
             ]
           },
           "client_relationship": {
@@ -431,6 +436,9 @@
                 ]
               }
             }
+          },
+          "search_channel": {
+            "const": "LINKEDIN"
           }
         }
       }
