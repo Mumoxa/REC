@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "role-environment-fingerprint.schema.json",
+  "title": "Talent Tree Role and Client Environment Fingerprint",
+  "type": "object",
+  "required": ["opportunity_id", "role", "employer", "claims", "qa_gate_b"],
+  "properties": {
+    "opportunity_id": {"type": "string"},
+    "role": {"type": "string"},
+    "employer": {"type": "string"},
+    "source_channel": {"enum": ["AGREED_CLIENTS", "AGENCY_SITES", "LINKEDIN", "JOB_BOARDS"]},
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["field", "value", "evidence_status"],
+        "properties": {
+          "field": {"type": "string"},
+          "value": {},
+          "evidence_status": {"enum": ["CONFIRMED", "PROBABLE", "HYPOTHESIS", "UNKNOWN"]},
+          "source_url": {"type": ["string", "null"]},
+          "source_type": {"type": ["string", "null"]},
+          "source_date": {"type": ["string", "null"]},
+          "retrieved_at": {"type": ["string", "null"]},
+          "evidence_excerpt_or_clue": {"type": ["string", "null"]},
+          "contradictions": {"type": "array", "items": {"type": "string"}},
+          "notes": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "qa_gate_b": {"$ref": "qa-review.schema.json"}
+  },
+  "additionalProperties": true
+}
