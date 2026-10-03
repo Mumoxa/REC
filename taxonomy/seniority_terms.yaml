@@ -1,0 +1,395 @@
+version: 1.0.0
+authority: user_supplied
+scope: Talent Tree South Africa recruitment intelligence
+purpose:
+  - search_expansion
+  - vacancy_classification
+  - commercial_priority
+  - market_mapping
+  - candidate_sourcing
+
+core_rule: >
+  Seniority is not defined only by people-management. Scarcity, remuneration, technical depth,
+  advisory scope, board accountability, enterprise impact and decision authority can place an
+  individual contributor, consultant, specialist, fractional executive or board role above a
+  conventional manager.
+
+linkedin_application:
+  search_expansion_only: true
+  exclusion_use: false
+  note: >
+    The LinkedIn hidden-hiring engine remains role-agnostic during discovery. These seniority
+    terms are positive discovery/search-expansion terms only and must never be used to suppress
+    otherwise valid South African hiring signals.
+
+priority_bands:
+
+  TIER_0_BOARD_AND_ENTERPRISE:
+    label: Board / enterprise governance / executive-director level
+    search_priority: highest
+    terms:
+      - Board Chair
+      - Board Chairperson
+      - Chairperson
+      - Chairman
+      - Chairwoman
+      - Board Director
+      - Board Member
+      - Executive Director
+      - Non-Executive Director
+      - Non Executive Director
+      - NED
+      - Independent Non-Executive Director
+      - Independent Non Executive Director
+      - INED
+      - Advisory Board Member
+      - Board Advisor
+      - Board Adviser
+      - Trustee
+      - Board Trustee
+      - Committee Chair
+      - Audit Committee Chair
+      - Risk Committee Chair
+      - Remuneration Committee Chair
+      - Social and Ethics Committee Chair
+    mandatory_exact_searches:
+      - Executive Director
+      - Non-Executive Director
+      - Independent Non-Executive Director
+      - Board Director
+      - Board Member
+      - Board Chair
+    notes:
+      - Executive Director must be searched as an exact senior title and not treated as a generic Director synonym.
+      - Board roles may be permanent, portfolio, advisory, statutory or non-executive.
+
+  TIER_1_EXECUTIVE_LEADERSHIP:
+    label: C-suite / executive / enterprise leadership
+    search_priority: highest
+    terms:
+      - Chief Executive Officer
+      - CEO
+      - Chief Operating Officer
+      - COO
+      - Chief Financial Officer
+      - CFO
+      - Chief Information Officer
+      - CIO
+      - Chief Technology Officer
+      - CTO
+      - Chief Data Officer
+      - CDO
+      - Chief Digital Officer
+      - Chief People Officer
+      - CPO
+      - Chief Human Resources Officer
+      - CHRO
+      - Chief Commercial Officer
+      - Chief Marketing Officer
+      - CMO
+      - Chief Product Officer
+      - Chief Strategy Officer
+      - Chief Risk Officer
+      - Chief Investment Officer
+      - General Counsel
+      - Company Secretary
+      - Managing Director
+      - MD
+      - Managing Executive
+      - Divisional Executive
+      - Executive Manager
+      - Executive Head
+      - Executive
+      - President
+      - Vice President
+      - VP
+      - Senior Vice President
+      - SVP
+      - Executive Vice President
+      - EVP
+      - General Manager
+      - GM
+
+  TIER_1B_FRACTIONAL_INTERIM_PORTFOLIO:
+    label: Fractional / interim / portfolio leadership
+    search_priority: highest
+    terms:
+      - Fractional Executive
+      - Fractional Director
+      - Fractional CEO
+      - Fractional COO
+      - Fractional CFO
+      - Fractional CIO
+      - Fractional CTO
+      - Fractional CDO
+      - Fractional CMO
+      - Fractional CHRO
+      - Fractional CPO
+      - Fractional Chief of Staff
+      - Fractional General Counsel
+      - Fractional Finance Director
+      - Fractional HR Director
+      - Fractional Marketing Director
+      - Fractional Technology Director
+      - Fractional Head
+      - Fractional Head of
+      - Interim Executive
+      - Interim Director
+      - Interim CEO
+      - Interim COO
+      - Interim CFO
+      - Interim CIO
+      - Interim CTO
+      - Interim CMO
+      - Interim CHRO
+      - Interim Head of
+      - Interim General Manager
+      - Portfolio Executive
+      - Portfolio CFO
+      - Portfolio CTO
+      - Portfolio CMO
+      - Portfolio CHRO
+      - Part-time Executive
+      - Part Time Executive
+      - Part-time Director
+      - Part Time Director
+      - Virtual CFO
+      - Virtual CTO
+      - Virtual CIO
+      - Virtual CMO
+    search_patterns:
+      - '"fractional" AND role-family term'
+      - '"interim" AND executive/director/head/chief term'
+      - '"portfolio" AND executive/chief term'
+      - '"part-time" AND executive/director/chief term'
+      - '"virtual" AND CFO/CTO/CIO/CMO term'
+    notes:
+      - Fractional roles are first-class opportunities, not temporary noise.
+      - Do not reject fractional roles solely because they are part-time or portfolio-based.
+
+  TIER_2_DIRECTOR_HEAD:
+    label: Director / Head / senior functional leadership
+    search_priority: very_high
+    terms:
+      - Director
+      - Senior Director
+      - Regional Director
+      - Group Director
+      - Divisional Director
+      - Functional Director
+      - Head
+      - Head of
+      - Group Head
+      - Regional Head
+      - Divisional Head
+      - Country Head
+      - Business Unit Head
+      - Department Head
+
+  TIER_3_SENIOR_MANAGEMENT:
+    label: Senior management
+    search_priority: high
+    terms:
+      - Senior Manager
+      - Regional Manager
+      - Group Manager
+      - Divisional Manager
+      - Country Manager
+      - Business Unit Manager
+      - Functional Manager
+      - Manager
+      - Senior Programme Manager
+      - Senior Project Manager
+      - Senior Product Manager
+
+  TIER_4_PRINCIPAL_LEAD_ARCHITECT:
+    label: Principal / lead / architect / expert IC
+    search_priority: high
+    terms:
+      - Principal
+      - Principal Consultant
+      - Principal Specialist
+      - Principal Engineer
+      - Principal Architect
+      - Principal Data Scientist
+      - Principal Data Engineer
+      - Lead
+      - Lead Consultant
+      - Lead Specialist
+      - Lead Engineer
+      - Lead Architect
+      - Lead Analyst
+      - Lead Data Scientist
+      - Lead Data Engineer
+      - Architect
+      - Enterprise Architect
+      - Solution Architect
+      - Technical Architect
+      - Data Architect
+      - Cloud Architect
+      - Domain Architect
+      - Distinguished Engineer
+      - Staff Engineer
+      - Senior Staff Engineer
+      - Fellow
+      - Technical Fellow
+
+  TIER_5_SPECIALIST:
+    label: Senior / scarce specialist and expert individual contributor
+    search_priority: high_when_scarce_or_above_threshold
+    terms:
+      - Specialist
+      - Senior Specialist
+      - Lead Specialist
+      - Principal Specialist
+      - Subject Matter Expert
+      - SME
+      - Expert
+      - Senior Expert
+      - Technical Specialist
+      - Functional Specialist
+      - Investment Specialist
+      - Actuarial Specialist
+      - Risk Specialist
+      - Tax Specialist
+      - Treasury Specialist
+      - Data Specialist
+      - Analytics Specialist
+      - AI Specialist
+      - Machine Learning Specialist
+      - Cloud Specialist
+      - Integration Specialist
+      - Product Specialist
+      - Procurement Specialist
+      - Supply Chain Specialist
+      - Governance Specialist
+      - Compliance Specialist
+    rule: >
+      Specialist titles must not be downgraded solely because they lack direct reports.
+      Evaluate scarcity, remuneration, technical depth, enterprise impact and decision authority.
+
+  TIER_6_CONSULTING:
+    label: Consulting / advisory professional ladder
+    search_priority: high_when_relevant
+    terms:
+      - Consultant
+      - Senior Consultant
+      - Lead Consultant
+      - Principal Consultant
+      - Managing Consultant
+      - Management Consultant
+      - Strategy Consultant
+      - Finance Consultant
+      - Transformation Consultant
+      - Operations Consultant
+      - Supply Chain Consultant
+      - Procurement Consultant
+      - Risk Consultant
+      - Governance Consultant
+      - Regulatory Consultant
+      - Transaction Advisory
+      - Deal Advisory
+      - Advisory Manager
+      - Senior Advisory Manager
+      - Engagement Manager
+      - Associate Director
+      - Consulting Director
+      - Advisory Director
+      - Partner
+      - Managing Partner
+      - Practice Lead
+      - Practice Head
+      - Practice Director
+      - Advisory Lead
+      - Advisor
+      - Adviser
+      - Senior Advisor
+      - Senior Adviser
+    notes:
+      - Consultant and consulting titles are explicitly searchable and classifiable.
+      - Consulting seniority must be interpreted using firm-specific ladders rather than only corporate manager titles.
+      - ERP consulting and Cybersecurity consulting remain excluded under the role taxonomy where applicable.
+
+  TIER_7_EXPERIENCED_PROFESSIONAL:
+    label: Experienced professional above Talent Tree threshold
+    search_priority: qualifying
+    terms:
+      - Senior
+      - Senior Analyst
+      - Senior Accountant
+      - Senior Engineer
+      - Senior Developer
+      - Senior Scientist
+      - Senior Planner
+      - Senior Buyer
+      - Senior Actuarial Analyst
+      - Senior Investment Analyst
+      - Senior Business Analyst
+      - Senior Systems Analyst
+      - Senior Data Analyst
+      - Senior Data Scientist
+      - Senior Data Engineer
+
+title_modifiers:
+  high_value:
+    - Group
+    - Regional
+    - Country
+    - Africa
+    - Southern Africa
+    - Enterprise
+    - Global
+    - Divisional
+    - Business Unit
+    - Corporate
+    - Executive
+    - Strategic
+    - Principal
+    - Lead
+    - Senior
+    - Chief
+    - Head
+    - Director
+    - Board
+    - Fractional
+    - Interim
+    - Portfolio
+
+search_doctrine:
+  always_include_exact_title_searches:
+    - Executive Director
+    - Non-Executive Director
+    - Independent Non-Executive Director
+    - Board Director
+    - Board Member
+    - Board Chair
+    - Fractional CFO
+    - Fractional CTO
+    - Fractional CIO
+    - Fractional COO
+    - Fractional CMO
+    - Fractional CHRO
+    - Fractional Director
+    - Fractional Executive
+    - Principal Consultant
+    - Senior Consultant
+    - Managing Consultant
+    - Specialist
+    - Senior Specialist
+    - Principal Specialist
+  combine_with_role_taxonomy: true
+  combine_with_location_taxonomy: true
+  title_only_is_not_enough: true
+  assess_context:
+    - reporting_scope
+    - decision_authority
+    - budget_scope
+    - enterprise_scope
+    - scarcity
+    - technical_depth
+    - remuneration
+    - client_or_board_accountability
+    - advisory_scope
+    - people_management
+  do_not_require_people_management: true
+  do_not_treat_part_time_as_low_seniority: true
