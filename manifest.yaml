@@ -22,6 +22,7 @@ principles:
   client_sweep_schema: schemas/client-sweep.schema.json
 
 orchestration:
+  orchestration_runtime: runtime/orchestrator.md
   source_sequence_is_strict: true
   stages:
     - id: STAGE_1_AGREED_CLIENTS
