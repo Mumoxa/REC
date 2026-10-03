@@ -8,7 +8,7 @@ This channel is independently runnable. No agreed-client channel run is required
 
 ## Bootstrap
 
-Load `manifest.yaml` and all files under `workers.agencies.load`, including `taxonomy/south_africa_locations.yaml`.
+Read `manifest.yaml`, load every file in `shared_channel_stack`, then load `workers.agencies.channel_specific_load`. Channel-specific files control agency source tactics only; the shared stack controls role taxonomy, seniority, geography, query construction, qualification, evidence, scoring and output.
 
 ## Mission
 
