@@ -1,32 +1,65 @@
 # Source Governance
 
-## Controlling authority
+## Four-channel model
 
-The mandatory source sequence is defined in:
+The source registry is not a flat list.
 
-`sources/search-priority.yaml`
+There are exactly four independently runnable sourcing channels:
 
-The source registry is **not a flat list** and the discovery channels are **not equal-weight**.
+1. `AGREED_CLIENTS`
+2. `AGENCY_SITES`
+3. `LINKEDIN`
+4. `JOB_BOARDS`
 
-## Mandatory execution order
+Authority:
 
-### Stage 1 — Current agreed clients
+- `ARCHITECTURE_GUARD.md`
+- `core/search-structure.md`
+- `sources/search-priority.yaml`
 
-Search the complete current agreed-client universe before external-market discovery begins.
+## Independent execution
+
+Any one channel may be run on its own.
+
+A channel does not require another channel to have completed first.
+
+When multiple channels are run together, the default priority is:
+
+**AGREED_CLIENTS → AGENCY_SITES → LINKEDIN → JOB_BOARDS**
+
+This is a scheduling and budget preference, not a gate.
+
+## Shared rules
+
+All channels use the same:
+
+- query construction;
+- role taxonomy;
+- seniority ontology;
+- geography ontology;
+- qualification/disqualifier rules;
+- evidence standard;
+- client-status vocabulary;
+- scoring logic;
+- output structure.
+
+Source-specific behaviour may differ. Commercial definitions may not.
+
+## Channel 1 — Agreed clients
+
+Search the complete current agreed-client universe across all applicable direct and indirect hiring surfaces.
 
 Authority:
 
 `sources/agreed-clients.yaml`
 
-For every current agreed client, cover all applicable direct and indirect hiring channels, including careers/ATS, parent/subsidiary portals, LinkedIn Jobs, company posts, HR/TA and hiring-manager posts, executive/functional-leader posts, employee reposts/referrals, attributable boards and attributable agency adverts.
+A current agreed client or agreed group entity receives immediate commercial priority.
 
-An agreed-client vacancy receives immediate commercial priority.
+Past clients do not receive current agreed-client treatment unless the current agreement is verified.
 
-Past clients do **not** receive Stage 1 status unless the current agreement is verified.
+## Channel 2 — Agency sites
 
-### Stage 2 — Strategic recruitment agencies
-
-Only after Stage 1 completion, exhaustively review the relevant current vacancy inventory of:
+Exhaustively review the relevant current vacancy inventory of:
 
 1. PRN Recruitment;
 2. Communicate Recruitment;
@@ -34,31 +67,27 @@ Only after Stage 1 completion, exhaustively review the relevant current vacancy 
 
 Do not sample these sources.
 
-The objective is not merely to collect agency adverts. Extract evidence and attempt to establish the actual hiring company.
+For anonymous clients, extract evidence and attempt end-employer attribution proportionately to seniority, scarcity and commercial value.
 
-Scale employer-attribution effort by seniority, scarcity and commercial importance.
+An agreed-client match receives immediate agreed-client commercial priority while preserving agency provenance.
 
-If the employer resolves to an agreed client or confirmed agreed group entity, promote the vacancy immediately to the Stage 1 workflow.
+## Channel 3 — LinkedIn
 
-### Stage 3 — LinkedIn distributed hiring intelligence
+Execute the authoritative South African LinkedIn Hidden Hiring-Signal Engine.
 
-Only after Stages 1 and 2 are complete, execute the authoritative South African LinkedIn Hidden Hiring-Signal Engine.
-
-LinkedIn remains role-agnostic during discovery.
-
-Geographic order remains:
+Geographic preference:
 
 **Western Cape → Gauteng → KwaZulu-Natal → broader South Africa**
 
-If a LinkedIn signal resolves to an agreed client, promote it immediately to the Stage 1 workflow.
+Use the shared role taxonomy and seniority ontology for search expansion and classification.
 
-### Stage 4 — Broader secondary sources
+LinkedIn may also retain incomplete role-agnostic social signals when no exact vacancy title can yet be recovered. That is a recall rule, not a separate taxonomy.
 
-Only after Stage 3 completion, search the governed broader South African source universe.
+## Channel 4 — Job boards / ATS / broader secondary sources
 
-The archived source-map specification records **350 reusable sources/channels**.
+Search the governed broader South African source universe.
 
-Internal order:
+Internal source order:
 
 1. Critical;
 2. High;
@@ -66,9 +95,7 @@ Internal order:
 4. Low;
 5. long-tail.
 
-High-volume public job boards must not crowd out Stages 1–3.
-
-Within a level, prefer stronger/original employer or recruiter evidence over aggregators where equivalent coverage exists.
+The archived source-map specification records **350 reusable sources/channels** pending compilation into a machine-readable registry.
 
 ## Client status is permanent
 
@@ -80,13 +107,13 @@ Every vacancy/opportunity record must carry one of:
 - `TARGET_PROSPECT`
 - `UNKNOWN`
 
-Client status must survive deduplication, enrichment and canonicalisation.
+Client status survives deduplication and enrichment.
 
-Do not infer agreed-group status from company ownership or name similarity alone.
+Do not infer agreed-group status from ownership or name similarity alone.
 
 ## Search completeness
 
-A source/channel counts as searched only when at least one is true:
+A source or source surface counts as searched only when at least one is true:
 
 - its live vacancy inventory was reviewed;
 - relevant category/location filters were reviewed;
@@ -96,18 +123,10 @@ A source/channel counts as searched only when at least one is true:
 
 Opening a homepage does not count.
 
-## Stage completion
-
-A later stage may start only when the prior stage's completion gate in `sources/search-priority.yaml` is satisfied.
-
-Access limitations may satisfy a coverage item only when explicitly recorded. Silent skipping is not permitted.
-
-## Current source-universe summary
+## Current broader-source summary
 
 - Total reusable secondary channels recorded in the archived source map: 350
 - Critical: 36
 - High: 173
 - Medium: 110
 - Low: 31
-
-The archived source map remains the detailed broader-market registry until its 350-source table is compiled into a machine-readable registry.
