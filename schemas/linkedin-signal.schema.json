@@ -156,6 +156,35 @@
             "HYPOTHESIS",
             "UNKNOWN"
           ]
+        },
+        "region_priority": {
+          "enum": [
+            "P1",
+            "P2",
+            "P3",
+            "P4"
+          ]
+        },
+        "cluster_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cluster_label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "search_term_matched": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "normalized_from_authority": {
+          "type": "boolean"
         }
       }
     },
