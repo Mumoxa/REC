@@ -450,13 +450,17 @@
           ]
         },
         "promotion_to_stage_1": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "Deprecated compatibility field. Use promote_to_agreed_client_priority."
         },
         "basis": {
           "type": [
             "string",
             "null"
           ]
+        },
+        "promote_to_agreed_client_priority": {
+          "type": "boolean"
         }
       }
     },
