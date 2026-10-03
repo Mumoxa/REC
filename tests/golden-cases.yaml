@@ -143,3 +143,94 @@ cases:
       inspect_media: true
       allow_multiple_opportunities_from_one_signal: true
     reason: Useful job data may exist only in an image, PDF, carousel or document.
+
+
+  - id: geography_region_priority_order
+    input:
+      available_regions:
+        - Gauteng
+        - Western Cape
+        - KwaZulu-Natal
+        - Eastern Cape
+    expected:
+      search_order:
+        - Western Cape
+        - Gauteng
+        - KwaZulu-Natal
+        - Eastern Cape
+    reason: Authoritative South Africa search order is P1 Western Cape, P2 Gauteng, P3 KwaZulu-Natal, then P4 rest of South Africa.
+
+  - id: western_cape_cluster_order
+    input:
+      region: Western Cape
+    expected:
+      cluster_order:
+        - Cape Town Metro
+        - Northern Suburbs / N1
+        - Cape Town CBD
+        - Stellenbosch / Cape Winelands
+        - Century City
+        - Industrial Cape Town
+        - Southern Suburbs
+        - Somerset West / Helderberg
+        - George / Garden Route
+        - Remaining Western Cape
+    reason: Preserve the user-specified Western Cape engine order.
+
+  - id: gauteng_cluster_order
+    input:
+      region: Gauteng
+    expected:
+      cluster_order:
+        - Sandton / Johannesburg North
+        - Midrand / Waterfall
+        - Centurion
+        - Pretoria
+        - Ekurhuleni / East Rand
+        - Randburg / Fourways
+        - West Rand
+        - Remaining Gauteng
+    reason: Preserve the user-specified Gauteng engine order.
+
+  - id: kzn_cluster_order
+    input:
+      region: KwaZulu-Natal
+    expected:
+      cluster_order:
+        - Umhlanga / Durban North
+        - Durban
+        - Pinetown / Westmead / New Germany
+        - Ballito / Dube TradePort
+        - Hammarsdale / Cato Ridge
+        - South Durban Industrial
+        - Pietermaritzburg
+        - Richards Bay
+        - Remaining KZN
+    reason: Preserve the user-specified KZN engine order.
+
+  - id: granular_node_not_flattened
+    input:
+      raw_location: Epping Industria
+    expected:
+      region_priority: P1
+      cluster_label: Industrial / FMCG / logistics
+      node_retained: Epping Industria
+      normalize_only_to: Cape Town
+    expected_not:
+      node_retained: null
+    reason: Commercial and industrial nodes must survive normalization rather than being flattened into a metro label.
+
+  - id: national_search_not_complete_geographic_coverage
+    input:
+      query_location: South Africa
+    expected:
+      complete_geographic_coverage: false
+    reason: Country-level search does not replace granular city, suburb, business-node and industrial-area searches.
+
+  - id: remote_terms_are_p4_catchall
+    input:
+      raw_location: Remote South Africa
+    expected:
+      region_priority: P4
+      cluster_label: Remote / National / Hybrid
+    reason: National and location-independent terms belong to the P4 catch-all after priority regional sweeps.
