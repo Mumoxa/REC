@@ -1,0 +1,177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Talent Tree Generated Search Query",
+  "type": "object",
+  "required": [
+    "query_id",
+    "template_id",
+    "research_task_id",
+    "objective",
+    "source",
+    "query",
+    "confidence_tier",
+    "priority",
+    "variables_used",
+    "reason",
+    "evidence_target",
+    "generated_at"
+  ],
+  "properties": {
+    "query_id": {
+      "type": "string"
+    },
+    "template_id": {
+      "type": "string"
+    },
+    "research_task_id": {
+      "type": "string"
+    },
+    "job_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "objective": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "source_lane": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "query": {
+      "type": "string",
+      "minLength": 1
+    },
+    "confidence_tier": {
+      "enum": [
+        "HIGH_PRECISION",
+        "BALANCED",
+        "HIGH_RECALL",
+        "EXPLORATORY"
+      ]
+    },
+    "priority": {
+      "enum": [
+        "CRITICAL",
+        "HIGH",
+        "MEDIUM",
+        "LOW",
+        "EXPLORATORY"
+      ]
+    },
+    "variables_used": {
+      "type": "object"
+    },
+    "reason": {
+      "type": "string"
+    },
+    "evidence_target": {
+      "type": "object",
+      "required": [
+        "claim_type"
+      ],
+      "properties": {
+        "claim_type": {
+          "type": "string"
+        }
+      }
+    },
+    "recency": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "query_hash": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "retry_reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "generated_at": {
+      "type": "string"
+    },
+    "execution": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "executed_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "status": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "result_count": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "new_result_count": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "relevant_result_count": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "evidence_found": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "information_gain": {
+          "type": [
+            "number",
+            "string",
+            "null"
+          ]
+        },
+        "failure_type": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            null,
+            "ZERO_RESULTS",
+            "NO_NEW_RESULTS",
+            "TOO_BROAD",
+            "BLOCKED",
+            "INVALID_SYNTAX",
+            "SOURCE_FAILURE",
+            "LOW_RELEVANCE"
+          ]
+        }
+      }
+    }
+  }
+}
