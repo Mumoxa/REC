@@ -54,6 +54,7 @@ workers:
 
   jobboards:
     load:
+      - query_templates.yaml
       - taxonomy/role_taxonomy.json
       - taxonomy/role_taxonomy_rules.yaml
       - taxonomy/seniority_terms.yaml
@@ -68,6 +69,7 @@ workers:
 
   enrichment:
     load:
+      - query_templates.yaml
       - taxonomy/role_taxonomy.json
       - taxonomy/role_taxonomy_rules.yaml
       - taxonomy/seniority_terms.yaml
