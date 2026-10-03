@@ -2,6 +2,8 @@
 
 ## 0.13.0 — Operational Recruitment Intelligence Application V1
 
+- Moved privileged run ingestion from the Vercel app into a Supabase Edge Function; Vercel no longer needs a Supabase admin/service-role secret.
+
 - Built a production Next.js App Router application on top of the REC engine.
 - Implemented the ATS-style Vacancy Intelligence Inbox with three-pane vacancy/job/candidate workflow.
 - Added persistent vacancy and candidate search/filter interactions, display density controls and Candidate Focus.
