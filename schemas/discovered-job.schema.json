@@ -285,6 +285,65 @@
           ]
         }
       }
+    },
+    "taxonomy": {
+      "type": "object",
+      "properties": {
+        "node_id": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1,
+          "maximum": 271
+        },
+        "node_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "group_code": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "group_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "classification_confidence": {
+          "enum": [
+            "CONFIRMED",
+            "PROBABLE",
+            "HYPOTHESIS",
+            "UNKNOWN"
+          ]
+        },
+        "boundary_rule_applied": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "exclusion_status": {
+          "enum": [
+            "IN_SCOPE",
+            "OUT_OF_SCOPE",
+            "VERIFY",
+            "NOT_YET_ASSESSED"
+          ]
+        },
+        "exclusion_reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
     }
   }
 }
