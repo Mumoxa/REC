@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import type {
   CandidateAssignment,
@@ -206,6 +207,12 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
         </div>
 
         <div className="topbar-meta">
+          <nav className="workspace-nav">
+            <Link href="/">Vacancies</Link>
+            <Link href="/companies">Companies</Link>
+            <Link href="/runs">Runs</Link>
+            <Link href="/qa">QA</Link>
+          </nav>
           {initialSnapshot.demoMode ? (
             <span className="mode-badge demo">Demo mode</span>
           ) : (
