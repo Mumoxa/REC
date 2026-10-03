@@ -1,10 +1,10 @@
 # Runtime — Agreed-Client Priority Worker
 
-## Stage
+## Channel
 
-**STAGE 1 — CURRENT AGREED CLIENTS**
+**AGREED_CLIENTS — default priority 1**
 
-This worker runs before strategic-agency, broader LinkedIn-intelligence and broader-market discovery.
+This channel is independently runnable. It does not require any other sourcing channel to run before or after it.
 
 ## Bootstrap
 
@@ -24,7 +24,7 @@ Load:
 
 Search the **entire current agreed-client universe first**.
 
-An agreed-client vacancy is not required to compete with a general-market vacancy for commercial priority. Once a vacancy is credibly attributable to a current agreed client or confirmed agreed group entity, route it immediately into the Stage 1 recruitment pipeline.
+An agreed-client vacancy is not required to compete with a general-market vacancy for commercial priority. Once a vacancy is credibly attributable to a current agreed client or confirmed agreed group entity, route it immediately into the the agreed-client channel recruitment pipeline.
 
 ## Required channels per current agreed client
 
@@ -55,7 +55,7 @@ Every vacancy record must carry one of:
 - `TARGET_PROSPECT`
 - `UNKNOWN`
 
-Do not promote a past client to Stage 1 without current-agreement evidence.
+Do not promote a past client to the agreed-client channel without current-agreement evidence.
 
 Do not infer group-agreement coverage merely from ownership or name similarity.
 
@@ -71,13 +71,13 @@ Do not spend research time asking whether an agreed client is commercially acces
 
 ## Role handling
 
-The Stage 1 sweep must be comprehensive across the client universe.
+The the agreed-client channel sweep must be comprehensive across the client universe.
 
 Use the role taxonomy and seniority ontology for classification, prioritisation and search expansion, but retain meaningful agreed-client hiring intelligence even where a general-market role would normally require exclusion/review.
 
 ## Completion gate
 
-Stage 1 is complete only when **every current agreed client** has a coverage-ledger entry for every applicable channel.
+the agreed-client channel is complete only when **every current agreed client** has a coverage-ledger entry for every applicable channel.
 
 Allowed channel outcomes:
 
@@ -88,7 +88,7 @@ Allowed channel outcomes:
 
 A channel may not be silently skipped.
 
-Do not release Stage 2 until the Stage 1 completion gate is satisfied or an explicit access limitation is recorded.
+The agreed-client channel run is complete when its own coverage gate is satisfied or explicit access limitations are recorded. This does not gate execution of the other channels.
 
 ## Output
 
