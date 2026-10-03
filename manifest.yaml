@@ -1,6 +1,6 @@
 engine:
   name: talent-tree-recruitment-intelligence
-  version: 0.7.0
+  version: 0.8.0
   market: South Africa
   status: infrastructure_v1
 
@@ -20,6 +20,39 @@ principles:
   source_priority_authority: sources/search-priority.yaml
   client_universe_authority: sources/agreed-clients.yaml
   client_sweep_schema: schemas/client-sweep.schema.json
+
+architecture:
+  guard: ARCHITECTURE_GUARD.md
+  canonical_model: core_plus_four_channels_plus_optional_runs
+  channel_count_invariant: 4
+  allowed_sourcing_channels:
+    - AGREED_CLIENTS
+    - AGENCY_SITES
+    - LINKEDIN
+    - JOB_BOARDS
+  canonical_core_facade:
+    - core/ideal-client-profile.md
+    - core/disqualifiers.md
+    - core/scoring-rubric.md
+    - core/output-template.md
+  canonical_channel_facade:
+    AGREED_CLIENTS: channels/agreed-clients.md
+    AGENCY_SITES: channels/agency-sites.md
+    LINKEDIN: channels/linkedin.md
+    JOB_BOARDS: channels/job-boards.md
+  optional_runs_directory: runs/
+  support_layers_not_channels:
+    - runtime
+    - schemas
+    - taxonomy
+    - sources
+    - tests
+    - archive
+    - query_templates
+    - enrichment
+    - employer_attribution
+    - stakeholder_intelligence
+  new_channel_requires_explicit_architecture_change: true
 
 orchestration:
   orchestration_runtime: runtime/orchestrator.md
