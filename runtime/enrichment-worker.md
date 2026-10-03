@@ -67,3 +67,22 @@ Use scarcity, remuneration, technical depth, enterprise impact, advisory scope a
 Use `query_templates.yaml` for unresolved evidence gaps such as employer attribution, contradiction testing, stakeholder resolution, current-employment checks, domain/email-pattern work, salary evidence and freshness verification.
 
 Query generation must be state-aware: do not spend searches reconfirming facts that are already sufficiently resolved. Expensive downstream searches stop when commercial gates fail unless an agreed-client exception applies.
+
+
+## Client relationship persistence
+
+`client_status` is a permanent field and must survive normalisation, deduplication, canonicalisation and enrichment.
+
+Allowed values:
+
+- `AGREED_CLIENT`
+- `AGREED_GROUP_ENTITY`
+- `PAST_CLIENT`
+- `TARGET_PROSPECT`
+- `UNKNOWN`
+
+Never downgrade or erase a confirmed agreed-client status because a duplicate source came from a later stage.
+
+If any source resolves an opportunity to an agreed client or agreed group entity, mark `promotion_to_stage_1 = true` and treat the opportunity as immediate commercial priority.
+
+A `PAST_CLIENT` remains outside Stage 1 until current-agreement evidence is established.
