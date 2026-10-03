@@ -1,0 +1,1867 @@
+version: "1.0.0"
+status: AUTHORITATIVE
+market: ZA
+language: en
+
+authority:
+  build_instruction: archive/originals/BUILD_INSTRUCTION_query_templates.md
+  purpose: >
+    Convert an unresolved recruitment-intelligence objective into the smallest,
+    highest-value set of executable searches capable of resolving the evidence gap.
+  generates_search_actions_only: true
+  does_not_decide:
+    - commercial_qualification
+    - employer_confirmation
+    - hiring_manager_confirmation
+    - email_verification
+    - vacancy_liveness
+    - outreach_decision
+
+authoritative_vocabularies:
+  role_taxonomy:
+    source: taxonomy/role_taxonomy.json
+    rule: reference_not_duplicate
+  role_rules:
+    source: taxonomy/role_taxonomy_rules.yaml
+    rule: reference_not_duplicate
+  seniority_terms:
+    source: taxonomy/seniority_terms.yaml
+    rule: reference_not_duplicate
+  geography_terms:
+    source: taxonomy/south_africa_locations.yaml
+    rule: reference_not_duplicate
+  hiring_signal_terms:
+    source: channels/linkedin/South_Africa_LinkedIn_Hidden_Hiring_Signal_Engine_MASTER.md
+    rule: reference_current_master_until_dedicated_signal_dictionary_is_compiled
+  company_aliases:
+    source: sources/agreed-clients.yaml
+    rule: use_verified_aliases_only
+  source_governance:
+    source: sources/source-governance.md
+  source_registry:
+    status: PARTIALLY_COMPILED
+    current_source: archive/originals/Talent_Tree_Agreed_Clients_and_Vacancy_Source_Map.md
+    note: >
+      Replace with the future machine-readable full source registry when compiled.
+      Do not invent source metadata in the meantime.
+
+defaults:
+  market: ZA
+  language: en
+  exact_first: true
+  deduplicate_queries: true
+  preserve_failed_query_history: true
+  preserve_query_history: true
+  prefer_many_small_queries: true
+  max_query_length_default: 256
+  max_expansions_default: 30
+  max_role_aliases_default: 6
+  max_signal_variants_default: 8
+  max_location_variants_default: 6
+  max_company_aliases_default: 5
+  retry_identical_query_without_reason: false
+  current_evidence_default_recency: 7d
+  discovery_sequence:
+    - EXACT
+    - CLOSE_VARIANTS
+    - STRUCTURED_COMBINATIONS
+    - BROADER_SYNONYMS
+    - EXPLORATORY
+
+query_families:
+  VACANCY_DISCOVERY:
+    purpose: Find current or potentially current vacancies.
+  SOCIAL_HIRING_DISCOVERY:
+    purpose: Find socially distributed and hidden hiring signals.
+  COMPANY_HIRING_DISCOVERY:
+    purpose: Find vacancies or hiring activity for a known employer.
+  AGENCY_DISCOVERY:
+    purpose: Find vacancies advertised by recruitment agencies.
+  ATS_DISCOVERY:
+    purpose: Discover or query an employer ATS/careers surface.
+  EMPLOYER_ATTRIBUTION:
+    purpose: Identify the probable employer behind an anonymous vacancy.
+  EMPLOYER_CONTRADICTION:
+    purpose: Search for evidence that could disprove an employer hypothesis.
+  JOB_DUPLICATE_DISCOVERY:
+    purpose: Find alternate copies of a known vacancy.
+  STAKEHOLDER_DISCOVERY:
+    purpose: Identify likely functional decision-makers and HR/TA routes.
+  REPORTING_LINE_DISCOVERY:
+    purpose: Resolve organisational reporting relationships.
+  CURRENT_EMPLOYMENT_VERIFICATION:
+    purpose: Verify that a person currently holds a relevant role.
+  INCUMBENT_DISCOVERY:
+    purpose: Identify current or recent role incumbents.
+  CONTACT_DISCOVERY:
+    purpose: Find legitimate public business contact routes for relevant people.
+  DOMAIN_DISCOVERY:
+    purpose: Establish the employee/business email domain.
+  EMAIL_PATTERN_DISCOVERY:
+    purpose: Establish an organisation email pattern from observed addresses.
+  RECRUITER_CLIENT_HISTORY:
+    purpose: Find historical agency/consultant relationships with employers.
+  SALARY_DISCOVERY:
+    purpose: Find vacancy-specific or comparable salary evidence.
+  VACANCY_FRESHNESS:
+    purpose: Verify whether a vacancy appears current, closed, filled or expired.
+  EXECUTIVE_MOVEMENT:
+    purpose: Find leadership departures, appointments or movement signals.
+  BUSINESS_EXPANSION:
+    purpose: Find expansion, acquisition and investment signals.
+  SOURCE_DISCOVERY:
+    purpose: Identify potentially useful new recruitment sources.
+  SOURCE_REVALIDATION:
+    purpose: Revalidate a known source and its current searchability.
+
+objectives:
+  - FIND_NEW_VACANCY
+  - FIND_HIRING_SIGNAL
+  - FIND_DIRECT_EMPLOYER_COPY
+  - FIND_AGENCY_VACANCY
+  - FIND_ATS
+  - IDENTIFY_EMPLOYER
+  - DISPROVE_EMPLOYER
+  - FIND_DUPLICATE
+  - IDENTIFY_HIRING_MANAGER
+  - IDENTIFY_HR_TA_ROUTE
+  - IDENTIFY_REPORTING_LINE
+  - VERIFY_PERSON_CURRENT
+  - FIND_INCUMBENT
+  - ESTABLISH_DOMAIN
+  - ESTABLISH_EMAIL_PATTERN
+  - FIND_CONTACT_ROUTE
+  - VERIFY_SALARY
+  - VERIFY_VACANCY_ACTIVE
+  - FIND_EXECUTIVE_MOVEMENT
+  - FIND_EXPANSION_SIGNAL
+  - DISCOVER_SOURCE
+  - REVALIDATE_SOURCE
+
+variables:
+  job_title_raw:
+    type: string
+  job_title_normalised:
+    type: string
+  exact_title:
+    type: string
+  role_term:
+    type: string
+    vocabulary: role_taxonomy
+  role_alias:
+    type: string
+    vocabulary: role_taxonomy
+  role_family:
+    type: string
+    vocabulary: role_taxonomy
+  function:
+    type: string
+    vocabulary: role_taxonomy
+  seniority:
+    type: string
+    vocabulary: seniority_terms
+  seniority_term:
+    type: string
+    vocabulary: seniority_terms
+  qualification:
+    type: string
+  designation:
+    type: string
+  skill:
+    type: string
+  system:
+    type: string
+  erp:
+    type: string
+    note: Search variable only; ERP remains subject to role-taxonomy exclusions.
+  industry:
+    type: string
+  subsector:
+    type: string
+  product:
+    type: string
+  employer:
+    type: string
+  candidate_employer:
+    type: string
+  employer_alias:
+    type: string
+    vocabulary: company_aliases
+  parent_company:
+    type: string
+  company:
+    type: string
+  domain:
+    type: string
+  company_domain:
+    type: string
+  employer_ats_domain:
+    type: string
+  candidate_domain:
+    type: string
+  application_domain:
+    type: string
+  recruiter:
+    type: string
+  consultant:
+    type: string
+  agency:
+    type: string
+  agency_domain:
+    type: string
+  person:
+    type: string
+  person_first_name:
+    type: string
+  person_last_name:
+    type: string
+  current_title:
+    type: string
+  incumbent_title:
+    type: string
+  stakeholder_title:
+    type: string
+  business_unit:
+    type: string
+  division:
+    type: string
+  brand:
+    type: string
+  location:
+    type: string
+    vocabulary: geography_terms
+  location_term:
+    type: string
+    vocabulary: geography_terms
+  city:
+    type: string
+    vocabulary: geography_terms
+  suburb:
+    type: string
+    vocabulary: geography_terms
+  metro:
+    type: string
+    vocabulary: geography_terms
+  province:
+    type: string
+    vocabulary: geography_terms
+  commercial_node:
+    type: string
+    vocabulary: geography_terms
+  country:
+    type: string
+    default: South Africa
+  salary:
+    type: string
+  reference_number:
+    type: string
+  application_email:
+    type: string
+  rare_phrase:
+    type: string
+  responsibility_phrase:
+    type: string
+  signal_phrase:
+    type: string
+    vocabulary: hiring_signal_terms
+  movement_phrase:
+    type: string
+  expansion_phrase:
+    type: string
+  reporting_phrase:
+    type: string
+  recency_term:
+    type: string
+  wrong_or_conflicting_system:
+    type: string
+
+recency_windows:
+  breaking: 1d
+  recent: 3d
+  weekly: 7d
+  monthly: 30d
+  historical: null
+
+evidence_modes:
+  CURRENT:
+    default_recency: 7d
+  HISTORICAL:
+    default_recency: null
+
+query_priority:
+  - CRITICAL
+  - HIGH
+  - MEDIUM
+  - LOW
+  - EXPLORATORY
+
+confidence_tiers:
+  HIGH_PRECISION:
+    description: Exact or highly discriminative query.
+  BALANCED:
+    description: Controlled combination balancing precision and recall.
+  HIGH_RECALL:
+    description: Broader query intended to improve coverage.
+  EXPLORATORY:
+    description: Discovery query with intentionally broad uncertainty.
+
+query_budgets:
+  low:
+    max_queries: 6
+  standard:
+    max_queries: 18
+  high:
+    max_queries: 40
+  extensive:
+    max_queries: 80
+  maximum:
+    max_queries: 150
+
+source_profiles:
+  google:
+    max_query_length: 256
+    supports:
+      - quotes
+      - site
+      - minus
+      - OR
+    preferred_for:
+      - exact_phrase
+      - xray
+      - domain_discovery
+      - duplicate_discovery
+      - historical_research
+
+  bing:
+    max_query_length: 256
+    supports:
+      - quotes
+      - site
+      - minus
+    preferred_for:
+      - alternate_web_index
+      - exact_phrase
+      - xray
+      - source_switching
+
+  linkedin:
+    supports:
+      - keywords
+      - people
+      - companies
+      - jobs
+      - posts
+      - member_activity
+      - comments
+      - reposts
+    lanes:
+      - posts
+      - people
+      - companies
+      - jobs
+      - recruiter_posts
+      - employee_posts
+      - member_activity
+      - external_xray
+    external_xray_is_supplementary: true
+    preferred_for:
+      - social_hiring
+      - author_activity
+      - amplifier_graph
+      - stakeholder_discovery
+      - current_employment
+
+  employer_ats:
+    prefer_structured_filters: true
+    supports:
+      - text_query
+      - structured_filter
+    preferred_for:
+      - vacancy_verification
+      - vacancy_freshness
+      - direct_employer_copy
+
+  recruitment_agency:
+    prefer_native_search_when_available: true
+    supports:
+      - text_query
+      - structured_filter
+    preferred_for:
+      - agency_vacancy
+      - recruiter_history
+      - reference_number
+
+  job_board:
+    prefer_structured_filters: true
+    supports:
+      - text_query
+      - structured_filter
+    preferred_for:
+      - vacancy_discovery
+      - salary_evidence
+      - duplicate_discovery
+
+  social:
+    supports:
+      - keyword
+      - author
+      - recency
+    preferred_for:
+      - hiring_signal
+      - executive_movement
+      - expansion_signal
+
+  general_web:
+    supports:
+      - keyword
+      - quotes
+    preferred_for:
+      - company_disambiguation
+      - person_disambiguation
+      - corporate_documents
+
+linkedin_lanes:
+  posts:
+    objective_bias:
+      - FIND_HIRING_SIGNAL
+      - FIND_NEW_VACANCY
+  people:
+    objective_bias:
+      - IDENTIFY_HIRING_MANAGER
+      - VERIFY_PERSON_CURRENT
+  companies:
+    objective_bias:
+      - FIND_HIRING_SIGNAL
+      - FIND_DIRECT_EMPLOYER_COPY
+  jobs:
+    objective_bias:
+      - FIND_NEW_VACANCY
+      - VERIFY_VACANCY_ACTIVE
+  recruiter_posts:
+    objective_bias:
+      - FIND_AGENCY_VACANCY
+      - FIND_HIRING_SIGNAL
+  employee_posts:
+    objective_bias:
+      - FIND_HIRING_SIGNAL
+  member_activity:
+    objective_bias:
+      - FIND_HIRING_SIGNAL
+      - FIND_EXECUTIVE_MOVEMENT
+  external_xray:
+    objective_bias:
+      - FIND_HIRING_SIGNAL
+      - IDENTIFY_HIRING_MANAGER
+
+expansion_rules:
+  ordering:
+    - EXACT_KNOWN_TERM
+    - HIGH_CONFIDENCE_SYNONYM
+    - COMMON_SOUTH_AFRICAN_VARIANT
+    - SENIORITY_VARIANT
+    - GEOGRAPHIC_ALIAS
+    - INDUSTRY_TERMINOLOGY
+    - BROAD_FALLBACK
+
+  role_term:
+    source: role_taxonomy
+    order:
+      - exact
+      - close_aliases
+      - adjacent_titles
+      - abbreviations
+    max_aliases: 6
+    adjacent_only_in_broader_phases: true
+
+  seniority_term:
+    source: seniority_terms
+    max_variants: 6
+    use_when:
+      - broader_recall_required
+      - exact_role_unknown
+      - title_family_search
+    suppress_when:
+      - exact_role_intelligence_is_sufficient
+    ambiguous_terms_require_context:
+      - executive
+      - director
+      - partner
+      - consultant
+      - specialist
+      - lead
+      - associate
+
+  location_term:
+    source: geography_terms
+    priority_order:
+      - P1
+      - P2
+      - P3
+      - P4
+    max_variants: 6
+    retain_granular_nodes: true
+    country_only_is_not_complete_coverage: true
+
+  signal_phrase:
+    source: hiring_signal_terms
+    max_variants: 8
+
+  employer_alias:
+    source: company_aliases
+    max_aliases: 5
+    verified_only: true
+
+  combinatorial_control:
+    cartesian_product_allowed: false
+    rank_by_expected_yield: true
+    max_generated_queries_default: 30
+
+negative_terms:
+  generic_noise:
+    - course
+    - training
+    - salary survey
+    - template
+    - sample job description
+  irrelevant_job_families:
+    source: taxonomy/role_taxonomy_rules.yaml
+  policy:
+    use_carefully: true
+    prefer_post_retrieval_classification_when_recall_risk_is_material: true
+
+movement_phrases:
+  - last day
+  - moving on
+  - leaving
+  - stepping down
+  - farewell
+  - new chapter
+  - next challenge
+  - handing over
+  - joins
+  - appointed
+  - promoted
+
+expansion_phrases:
+  - new office
+  - new factory
+  - new warehouse
+  - new site
+  - new division
+  - new business unit
+  - investment
+  - funding
+  - acquisition
+  - merger
+  - contract award
+  - geographic expansion
+
+freshness_negative_signals:
+  - closed
+  - applications closed
+  - position filled
+  - appointed
+  - no longer available
+  - expired
+
+templates:
+
+  - id: vacancy_exact_title_location
+    version: "1.0"
+    family: VACANCY_DISCOVERY
+    purpose: Find a known exact vacancy title in a known location.
+    enabled: true
+    priority: HIGH
+    objective: FIND_NEW_VACANCY
+    sources: [google, bing, job_board, employer_ats]
+    template:
+      - '"{exact_title}" "{location}"'
+    required_variables: [exact_title]
+    optional_variables: [location]
+    confidence_tier: HIGH_PRECISION
+    max_generated_queries: 8
+    evidence_target:
+      claim_type: VACANCY_EXISTENCE
+    fallback_to:
+      - vacancy_role_location
+      - vacancy_exact_title_no_location
+
+  - id: vacancy_exact_title_no_location
+    version: "1.0"
+    family: VACANCY_DISCOVERY
+    purpose: Find a known exact vacancy title without constraining geography.
+    enabled: true
+    priority: MEDIUM
+    objective: FIND_NEW_VACANCY
+    sources: [google, bing, job_board, employer_ats]
+    template:
+      - '"{exact_title}"'
+    required_variables: [exact_title]
+    confidence_tier: BALANCED
+    max_generated_queries: 5
+    evidence_target:
+      claim_type: VACANCY_EXISTENCE
+
+  - id: vacancy_role_location
+    version: "1.0"
+    family: VACANCY_DISCOVERY
+    purpose: Discover vacancies by role taxonomy and geography.
+    enabled: true
+    priority: HIGH
+    objective: FIND_NEW_VACANCY
+    sources: [google, bing, job_board, employer_ats]
+    template:
+      - '"{role_term}" "{location_term}"'
+      - '"{role_term}" jobs "{location_term}"'
+      - '"{role_term}" vacancies "{location_term}"'
+    required_variables: [role_term]
+    optional_variables: [location_term]
+    expansions:
+      role_term:
+        source: role_taxonomy
+        tier: exact_then_close_aliases
+        limit: 6
+      location_term:
+        source: geography_terms
+        limit: 6
+    confidence_tier: BALANCED
+    max_generated_queries: 24
+    evidence_target:
+      claim_type: VACANCY_EXISTENCE
+
+  - id: vacancy_seniority_function_location
+    version: "1.0"
+    family: VACANCY_DISCOVERY
+    purpose: Discover roles where function is known but exact title is not.
+    enabled: true
+    priority: HIGH
+    objective: FIND_NEW_VACANCY
+    sources: [google, bing, job_board]
+    template:
+      - '"{seniority_term}" "{function}" "{location_term}"'
+    required_variables: [seniority_term, function]
+    optional_variables: [location_term]
+    expansions:
+      seniority_term:
+        source: seniority_terms
+        limit: 6
+      location_term:
+        source: geography_terms
+        limit: 6
+    confidence_tier: BALANCED
+    max_generated_queries: 24
+    evidence_target:
+      claim_type: VACANCY_EXISTENCE
+
+  - id: social_explicit_hiring_role_location
+    version: "1.0"
+    family: SOCIAL_HIRING_DISCOVERY
+    purpose: Find explicit social hiring posts for a role and geography.
+    enabled: true
+    priority: HIGH
+    objective: FIND_HIRING_SIGNAL
+    sources: [linkedin, google, bing]
+    template:
+      - '"{signal_phrase}" "{role_term}" "{location_term}"'
+    required_variables: [signal_phrase, role_term]
+    optional_variables: [location_term]
+    expansions:
+      signal_phrase:
+        source: hiring_signal_terms
+        limit: 8
+      role_term:
+        source: role_taxonomy
+        tier: exact_then_close_aliases
+        limit: 6
+      location_term:
+        source: geography_terms
+        limit: 6
+    confidence_tier: HIGH_PRECISION
+    max_generated_queries: 30
+    evidence_target:
+      claim_type: HIRING_SIGNAL
+    fallback_to:
+      - social_explicit_hiring_role_no_location
+      - social_role_location_without_signal
+
+  - id: social_explicit_hiring_role_no_location
+    version: "1.0"
+    family: SOCIAL_HIRING_DISCOVERY
+    purpose: Find explicit social hiring posts when location is absent or over-restrictive.
+    enabled: true
+    priority: MEDIUM
+    objective: FIND_HIRING_SIGNAL
+    sources: [linkedin, google, bing]
+    template:
+      - '"{signal_phrase}" "{role_term}"'
+    required_variables: [signal_phrase, role_term]
+    confidence_tier: BALANCED
+    max_generated_queries: 18
+    evidence_target:
+      claim_type: HIRING_SIGNAL
+
+  - id: social_role_location_without_signal
+    version: "1.0"
+    family: SOCIAL_HIRING_DISCOVERY
+    purpose: Broaden social discovery after explicit signal phrases fail.
+    enabled: true
+    priority: MEDIUM
+    objective: FIND_HIRING_SIGNAL
+    sources: [linkedin, google, bing]
+    template:
+      - '"{role_term}" "{location_term}"'
+    required_variables: [role_term]
+    optional_variables: [location_term]
+    confidence_tier: HIGH_RECALL
+    max_generated_queries: 18
+    evidence_target:
+      claim_type: HIRING_SIGNAL
+
+  - id: social_function_signal_location
+    version: "1.0"
+    family: SOCIAL_HIRING_DISCOVERY
+    purpose: Find hiring signals where the exact job title is unknown.
+    enabled: true
+    priority: HIGH
+    objective: FIND_HIRING_SIGNAL
+    sources: [linkedin, google, bing]
+    template:
+      - '"{signal_phrase}" "{function}" "{location_term}"'
+    required_variables: [signal_phrase, function]
+    optional_variables: [location_term]
+    confidence_tier: BALANCED
+    max_generated_queries: 24
+    evidence_target:
+      claim_type: HIRING_SIGNAL
+
+  - id: social_role_application_cta
+    version: "1.0"
+    family: SOCIAL_HIRING_DISCOVERY
+    purpose: Find socially distributed vacancies through application language.
+    enabled: true
+    priority: HIGH
+    objective: FIND_HIRING_SIGNAL
+    sources: [linkedin, google, bing]
+    template:
+      - '"{role_term}" "send your CV"'
+      - '"{role_term}" "CVs to"'
+      - '"{role_term}" "apply now"'
+      - '"{role_term}" "applications open"'
+      - '"{role_term}" "join our team"'
+      - '"{role_term}" "join my team"'
+    required_variables: [role_term]
+    confidence_tier: HIGH_PRECISION
+    max_generated_queries: 18
+    evidence_target:
+      claim_type: VACANCY_EXISTENCE
+
+  - id: linkedin_xray_post_signal_role
+    version: "1.0"
+    family: SOCIAL_HIRING_DISCOVERY
+    purpose: Supplement LinkedIn-native discovery with externally indexed public posts.
+    enabled: true
+    priority: MEDIUM
+    objective: FIND_HIRING_SIGNAL
+    sources: [google, bing]
+    template:
+      - 'site:linkedin.com/posts "{signal_phrase}" "{role_term}"'
+      - 'site:linkedin.com/posts "{signal_phrase}" "{location_term}"'
+    required_variables: [signal_phrase]
+    optional_variables: [role_term, location_term]
+    confidence_tier: BALANCED
+    max_generated_queries: 20
+    evidence_target:
+      claim_type: HIRING_SIGNAL
+    notes:
+      - X-ray is supplementary and never complete LinkedIn coverage.
+
+  - id: linkedin_xray_person_employer_role
+    version: "1.0"
+    family: STAKEHOLDER_DISCOVERY
+    purpose: Find public LinkedIn profiles associated with an employer and relevant title.
+    enabled: true
+    priority: HIGH
+    objective: IDENTIFY_HIRING_MANAGER
+    sources: [google, bing]
+    template:
+      - 'site:linkedin.com/in "{employer}" "{stakeholder_title}"'
+      - 'site:linkedin.com/in "{employer}" "{function}"'
+    required_variables: [employer]
+    optional_variables: [stakeholder_title, function]
+    confidence_tier: BALANCED
+    max_generated_queries: 12
+    evidence_target:
+      claim_type: STAKEHOLDER_IDENTITY
+
+  - id: company_hiring_signal
+    version: "1.0"
+    family: COMPANY_HIRING_DISCOVERY
+    purpose: Find hiring activity for a known employer or agreed client.
+    enabled: true
+    priority: HIGH
+    objective: FIND_HIRING_SIGNAL
+    sources: [linkedin, google, bing, general_web]
+    template:
+      - '"{employer}" "{signal_phrase}"'
+      - '"{employer_alias}" "{signal_phrase}"'
+    required_variables: [employer, signal_phrase]
+    optional_variables: [employer_alias]
+    expansions:
+      employer_alias:
+        source: company_aliases
+        verified_only: true
+        limit: 5
+    confidence_tier: HIGH_PRECISION
+    max_generated_queries: 20
+    evidence_target:
+      claim_type: HIRING_SIGNAL
+
+  - id: company_role_discovery
+    version: "1.0"
+    family: COMPANY_HIRING_DISCOVERY
+    purpose: Search a known employer for a specific role.
+    enabled: true
+    priority: HIGH
+    objective: FIND_DIRECT_EMPLOYER_COPY
+    sources: [google, bing, linkedin, employer_ats]
+    template:
+      - '"{employer}" "{role_term}"'
+      - '"{employer}" careers "{role_term}"'
+      - '"{employer}" jobs "{role_term}"'
+      - '"{employer}" vacancies "{role_term}"'
+    required_variables: [employer, role_term]
+    confidence_tier: HIGH_PRECISION
+    max_generated_queries: 16
+    evidence_target:
+      claim_type: VACANCY_EXISTENCE
+
+  - id: company_site_role
+    version: "1.0"
+    family: COMPANY_HIRING_DISCOVERY
+    purpose: Search an established employer domain for a role.
+    enabled: true
+    priority: CRITICAL
+    objective: FIND_DIRECT_EMPLOYER_COPY
+    sources: [google, bing]
+    template:
+      - 'site:{company_domain} "{role_term}"'
+      - 'site:{company_domain} careers "{role_term}"'
+      - 'site:{company_domain} jobs "{role_term}"'
+    required_variables: [company_domain, role_term]
+    confidence_tier: HIGH_PRECISION
+    max_generated_queries: 8
+    evidence_target:
+      claim_type: DIRECT_EMPLOYER_VACANCY
+
+  - id: ats_discovery_employer
+    version: "1.0"
+    family: ATS_DISCOVERY
+    purpose: Discover the employer careers or ATS surface.
+    enabled: true
+    priority: HIGH
+    objective: FIND_ATS
+    sources: [google, bing, general_web]
+    template:
+      - '"{employer}" careers'
+      - '"{employer}" jobs'
+      - '"{employer}" vacancies'
+      - '"{employer}" apply'
+      - '"{employer}" "work with us"'
+      - '"{employer}" "join us"'
+    required_variables: [employer]
+    confidence_tier: BALANCED
+    max_generated_queries: 10
+    evidence_target:
+      claim_type: ATS_IDENTITY
+    stop_on:
+      - AUTHORITATIVE_ATS_ESTABLISHED
+
+  - id: agency_role
+    version: "1.0"
+    family: AGENCY_DISCOVERY
+    purpose: Find agency vacancies for a target role.
+    enabled: true
+    priority: HIGH
+    objective: FIND_AGENCY_VACANCY
+    sources: [recruitment_agency, google, bing]
+    template:
+      - '"{agency}" "{role_term}"'
+      - '"{agency}" "{location_term}" "{role_term}"'
+      - 'site:{agency_domain} "{role_term}"'
+      - 'site:{agency_domain} "{location_term}" "{role_term}"'
+    required_variables: [agency, role_term]
+    optional_variables: [location_term, agency_domain]
+    confidence_tier: HIGH_PRECISION
+    max_generated_queries: 18
+    evidence_target:
+      claim_type: AGENCY_VACANCY
+
+  - id: employer_attribution_rare_phrase
+    version: "1.0"
+    family: EMPLOYER_ATTRIBUTION
+    purpose: Identify employer using distinctive vacancy wording.
+    enabled: true
+    priority: CRITICAL
+    objective: IDENTIFY_EMPLOYER
+    sources: [google, bing, general_web]
+    template:
+      - '"{rare_phrase}"'
+      - '"{rare_phrase}" "{location}"'
+      - '"{rare_phrase}" "{industry}"'
+      - '"{rare_phrase}" "{role_term}"'
+    required_variables: [rare_phrase]
+    optional_variables: [location, industry, role_term]
+    confidence_tier: HIGH_PRECISION
+    max_generated_queries: 12
+    evidence_target:
+      claim_type: EMPLOYER_IDENTITY
+    fallback_to:
+      - employer_attribution_role_system_location
+      - employer_attribution_role_qualification_industry
+      - employer_attribution_reporting_location
+      - recruiter_client_history
+
+  - id: employer_attribution_role_system_location
+    version: "1.0"
+    family: EMPLOYER_ATTRIBUTION
+    purpose: Search a compact vacancy fingerprint using title, system and location.
+    enabled: true
+    priority: HIGH
+    objective: IDENTIFY_EMPLOYER
+    sources: [google, bing]
+    template:
+      - '"{role_term}" "{erp}" "{location}"'
+      - '"{role_term}" "{system}" "{location}"'
+    required_variables: [role_term]
+    optional_variables: [erp, system, location]
+    confidence_tier: BALANCED
+    max_generated_queries: 12
+    evidence_target:
+      claim_type: EMPLOYER_IDENTITY
+
+  - id: employer_attribution_role_qualification_industry
+    version: "1.0"
+    family: EMPLOYER_ATTRIBUTION
+    purpose: Use qualification and industry as discriminative vacancy clues.
+    enabled: true
+    priority: HIGH
+    objective: IDENTIFY_EMPLOYER
+    sources: [google, bing]
+    template:
+      - '"{role_term}" "{qualification}" "{industry}"'
+      - '"{designation}" "{role_term}" "{location}"'
+    required_variables: [role_term]
+    optional_variables: [qualification, designation, industry, location]
+    confidence_tier: BALANCED
+    max_generated_queries: 12
+    evidence_target:
+      claim_type: EMPLOYER_IDENTITY
+
+  - id: employer_attribution_reporting_location
+    version: "1.0"
+    family: EMPLOYER_ATTRIBUTION
+    purpose: Use reporting-line language and location to narrow anonymous employer candidates.
+    enabled: true
+    priority: HIGH
+    objective: IDENTIFY_EMPLOYER
+    sources: [google, bing]
+    template:
+      - '"{role_term}" "{reporting_phrase}" "{location}"'
+    required_variables: [role_term, reporting_phrase]
+    optional_variables: [location]
+    confidence_tier: BALANCED
+    max_generated_queries: 10
+    evidence_target:
+      claim_type: EMPLOYER_IDENTITY
+
+  - id: employer_attribution_product_role_location
+    version: "1.0"
+    family: EMPLOYER_ATTRIBUTION
+    purpose: Use product and location as employer fingerprint clues.
+    enabled: true
+    priority: MEDIUM
+    objective: IDENTIFY_EMPLOYER
+    sources: [google, bing]
+    template:
+      - '"{product}" "{role_term}" "{location}"'
+    required_variables: [product, role_term]
+    optional_variables: [location]
+    confidence_tier: BALANCED
+    max_generated_queries: 8
+    evidence_target:
+      claim_type: EMPLOYER_IDENTITY
+
+  - id: employer_candidate_test
+    version: "1.0"
+    family: EMPLOYER_ATTRIBUTION
+    purpose: Test a specific employer hypothesis against vacancy evidence.
+    enabled: true
+    priority: CRITICAL
+    objective: IDENTIFY_EMPLOYER
+    sources: [google, bing, employer_ats, general_web]
+    template:
+      - '"{candidate_employer}" "{role_term}"'
+      - 'site:{candidate_domain} "{role_term}"'
+      - '"{candidate_employer}" "{rare_phrase}"'
+      - '"{candidate_employer}" "{erp}"'
+      - '"{candidate_employer}" "{location}" "{function}"'
+    required_variables: [candidate_employer]
+    optional_variables: [role_term, candidate_domain, rare_phrase, erp, location, function]
+    confidence_tier: HIGH_PRECISION
+    max_generated_queries: 14
+    evidence_target:
+      claim_type: EMPLOYER_HYPOTHESIS_SUPPORT
+    trigger_also:
+      - employer_candidate_contradiction
+
+  - id: employer_candidate_contradiction
+    version: "1.0"
+    family: EMPLOYER_CONTRADICTION
+    purpose: Search specifically for evidence that could disprove an employer hypothesis.
+    enabled: true
+    priority: CRITICAL
+    objective: DISPROVE_EMPLOYER
+    sources: [google, bing, general_web]
+    template:
+      - '"{candidate_employer}" "{incumbent_title}"'
+      - '"{candidate_employer}" "{role_term}" appointed'
+      - '"{candidate_employer}" "{role_term}" new'
+      - '"{candidate_employer}" leadership "{function}"'
+      - '"{candidate_employer}" "{wrong_or_conflicting_system}"'
+      - '"{candidate_employer}" annual report "{function}"'
+      - '"{candidate_employer}" leadership team'
+    required_variables: [candidate_employer]
+    optional_variables: [incumbent_title, role_term, function, wrong_or_conflicting_system]
+    confidence_tier: BALANCED
+    max_generated_queries: 12
+    evidence_target:
+      claim_type: EMPLOYER_HYPOTHESIS_CONTRADICTION
+    notes:
+      - Never omit because supporting evidence already appears strong.
+
+  - id: duplicate_exact_title_rare_phrase
+    version: "1.0"
+    family: JOB_DUPLICATE_DISCOVERY
+    purpose: Find alternate copies of a vacancy.
+    enabled: true
+    priority: HIGH
+    objective: FIND_DUPLICATE
+    sources: [google, bing, job_board, recruitment_agency]
+    template:
+      - '"{exact_title}" "{location}" "{rare_phrase}"'
+      - '"{role_term}" "{salary}" "{location}"'
+      - '"{consultant}" "{role_term}"'
+    required_variables: [role_term]
+    optional_variables: [exact_title, location, rare_phrase, salary, consultant]
+    confidence_tier: HIGH_PRECISION
+    max_generated_queries: 12
+    evidence_target:
+      claim_type: DUPLICATE_SOURCE
+
+  - id: duplicate_reference_number
+    version: "1.0"
+    family: JOB_DUPLICATE_DISCOVERY
+    purpose: Find syndicated or historical copies by exact reference number.
+    enabled: true
+    priority: CRITICAL
+    objective: FIND_DUPLICATE
+    sources: [google, bing, recruitment_agency, job_board]
+    template:
+      - '"{reference_number}"'
+    required_variables: [reference_number]
+    confidence_tier: HIGH_PRECISION
+    max_generated_queries: 5
+    evidence_target:
+      claim_type: DUPLICATE_SOURCE
+
+  - id: duplicate_application_email
+    version: "1.0"
+    family: JOB_DUPLICATE_DISCOVERY
+    purpose: Trace vacancy/source lineage using an application email.
+    enabled: true
+    priority: HIGH
+    objective: FIND_DUPLICATE
+    sources: [google, bing, general_web]
+    template:
+      - '"{application_email}"'
+      - '"@{application_domain}" "{role_term}"'
+    required_variables: [application_email]
+    optional_variables: [application_domain, role_term]
+    confidence_tier: HIGH_PRECISION
+    max_generated_queries: 6
+    evidence_target:
+      claim_type: SOURCE_LINEAGE
+
+  - id: recruiter_client_history
+    version: "1.0"
+    family: RECRUITER_CLIENT_HISTORY
+    purpose: Find historical recruiter/agency relationships with a candidate employer.
+    enabled: true
+    priority: MEDIUM
+    objective: IDENTIFY_EMPLOYER
+    sources: [google, bing, recruitment_agency, general_web]
+    template:
+      - '"{recruiter}" "{candidate_employer}"'
+      - '"{agency}" "{candidate_employer}"'
+      - 'site:{agency_domain} "{candidate_employer}"'
+      - '"{consultant}" "{candidate_employer}"'
+      - '"{agency}" "{industry}" "{location}"'
+    required_variables: [candidate_employer]
+    optional_variables: [recruiter, agency, agency_domain, consultant, industry, location]
+    confidence_tier: BALANCED
+    max_generated_queries: 12
+    evidence_target:
+      claim_type: HISTORICAL_RECRUITER_CLIENT_RELATIONSHIP
+    evidence_mode: HISTORICAL
+    notes:
+      - Historical relationship is contextual evidence and not proof of the current anonymous client.
+
+  - id: stakeholder_functional_owner
+    version: "1.0"
+    family: STAKEHOLDER_DISCOVERY
+    purpose: Identify the likely functional decision-maker before generic HR.
+    enabled: true
+    priority: HIGH
+    objective: IDENTIFY_HIRING_MANAGER
+    sources: [linkedin, google, bing, general_web]
+    template:
+      - '"{employer}" "{stakeholder_title}"'
+      - '"{employer}" "{function}" director'
+      - '"{employer}" "head of {function}"'
+      - '"{employer}" "{business_unit}" "{function}"'
+      - 'site:linkedin.com/in "{employer}" "{stakeholder_title}"'
+    required_variables: [employer]
+    optional_variables: [stakeholder_title, function, business_unit]
+    confidence_tier: BALANCED
+    max_generated_queries: 14
+    evidence_target:
+      claim_type: STAKEHOLDER_IDENTITY
+    fallback_to:
+      - stakeholder_hr_ta_route
+
+  - id: stakeholder_hr_ta_route
+    version: "1.0"
+    family: STAKEHOLDER_DISCOVERY
+    purpose: Identify HRBP and Talent Acquisition routes after the functional route.
+    enabled: true
+    priority: MEDIUM
+    objective: IDENTIFY_HR_TA_ROUTE
+    sources: [linkedin, google, bing]
+    template:
+      - '"{employer}" "HR Business Partner"'
+      - '"{employer}" "Talent Acquisition Partner"'
+      - '"{employer}" "Internal Recruiter"'
+      - '"{employer}" "Head of Talent Acquisition"'
+      - '"{employer}" "HR Director"'
+    required_variables: [employer]
+    confidence_tier: BALANCED
+    max_generated_queries: 10
+    evidence_target:
+      claim_type: HR_TA_ROUTE
+
+  - id: stakeholder_business_unit
+    version: "1.0"
+    family: STAKEHOLDER_DISCOVERY
+    purpose: Resolve stakeholder ownership inside a large organisation.
+    enabled: true
+    priority: HIGH
+    objective: IDENTIFY_HIRING_MANAGER
+    sources: [linkedin, google, bing]
+    template:
+      - '"{employer}" "{business_unit}" "{stakeholder_title}"'
+      - '"{division}" "{function}" head'
+      - '"{brand}" "{function}" director'
+    required_variables: [employer]
+    optional_variables: [business_unit, stakeholder_title, division, function, brand]
+    confidence_tier: HIGH_PRECISION
+    max_generated_queries: 10
+    evidence_target:
+      claim_type: BUSINESS_UNIT_STAKEHOLDER
+
+  - id: reporting_line
+    version: "1.0"
+    family: REPORTING_LINE_DISCOVERY
+    purpose: Find reporting-line evidence for a role or person.
+    enabled: true
+    priority: HIGH
+    objective: IDENTIFY_REPORTING_LINE
+    sources: [google, bing, linkedin, general_web]
+    template:
+      - '"{employer}" "{role_term}" "reports to"'
+      - '"{employer}" "{role_term}" "reporting to"'
+      - '"{person}" "{current_title}" "{employer}"'
+    required_variables: [employer]
+    optional_variables: [role_term, person, current_title]
+    confidence_tier: BALANCED
+    max_generated_queries: 10
+    evidence_target:
+      claim_type: REPORTING_LINE
+
+  - id: current_employment_person
+    version: "1.0"
+    family: CURRENT_EMPLOYMENT_VERIFICATION
+    purpose: Verify that a stakeholder or incumbent currently holds a relevant role.
+    enabled: true
+    priority: HIGH
+    objective: VERIFY_PERSON_CURRENT
+    sources: [linkedin, google, bing, general_web]
+    template:
+      - '"{person}" "{employer}"'
+      - '"{person}" "{current_title}"'
+      - 'site:{company_domain} "{person}"'
+      - 'site:linkedin.com/in "{person}" "{employer}"'
+    required_variables: [person]
+    optional_variables: [employer, current_title, company_domain]
+    evidence_mode: CURRENT
+    recency: recent
+    confidence_tier: HIGH_PRECISION
+    max_generated_queries: 10
+    evidence_target:
+      claim_type: CURRENT_EMPLOYMENT
+
+  - id: incumbent_role
+    version: "1.0"
+    family: INCUMBENT_DISCOVERY
+    purpose: Find current or recent incumbents and movement around a role.
+    enabled: true
+    priority: HIGH
+    objective: FIND_INCUMBENT
+    sources: [google, bing, linkedin, general_web]
+    template:
+      - '"{employer}" "{role_term}"'
+      - '"{employer}" "{role_term}" appointed'
+      - '"{employer}" "{role_term}" joins'
+      - '"{employer}" "{role_term}" promoted'
+      - '"{employer}" "{role_term}" leaving'
+      - '"{employer}" "{role_term}" resignation'
+    required_variables: [employer, role_term]
+    confidence_tier: BALANCED
+    max_generated_queries: 12
+    evidence_target:
+      claim_type: INCUMBENT_IDENTITY
+
+  - id: contact_public_route
+    version: "1.0"
+    family: CONTACT_DISCOVERY
+    purpose: Find a legitimate public business contact route for a relevant stakeholder.
+    enabled: true
+    priority: MEDIUM
+    objective: FIND_CONTACT_ROUTE
+    sources: [google, bing, general_web]
+    template:
+      - '"{person}" "{employer}" email'
+      - '"{person}" "@{domain}"'
+      - '"{person}" contact'
+      - '"{person}" "{company_domain}"'
+    required_variables: [person, employer]
+    optional_variables: [domain, company_domain]
+    confidence_tier: HIGH_PRECISION
+    max_generated_queries: 8
+    evidence_target:
+      claim_type: PUBLIC_CONTACT_ROUTE
+    prerequisites:
+      - stakeholder_relevance_established
+    notes:
+      - Never invent private contact information.
+
+  - id: domain_employee
+    version: "1.0"
+    family: DOMAIN_DISCOVERY
+    purpose: Establish the observed employee email domain separately from the website domain.
+    enabled: true
+    priority: HIGH
+    objective: ESTABLISH_DOMAIN
+    sources: [google, bing, general_web]
+    template:
+      - '"{employer}" email'
+      - '"@{candidate_domain}" "{employer}"'
+      - 'site:{company_domain} "@{candidate_domain}"'
+      - '"{employer}" contact'
+    required_variables: [employer]
+    optional_variables: [candidate_domain, company_domain]
+    confidence_tier: BALANCED
+    max_generated_queries: 10
+    evidence_target:
+      claim_type: EMPLOYEE_EMAIL_DOMAIN
+
+  - id: email_pattern_observed
+    version: "1.0"
+    family: EMAIL_PATTERN_DISCOVERY
+    purpose: Find observed employee addresses to derive a pattern hypothesis.
+    enabled: true
+    priority: MEDIUM
+    objective: ESTABLISH_EMAIL_PATTERN
+    sources: [google, bing, general_web]
+    template:
+      - '"{person}" "@{domain}"'
+      - 'site:{company_domain} "@{domain}"'
+    required_variables: [domain]
+    optional_variables: [person, company_domain]
+    confidence_tier: HIGH_PRECISION
+    max_generated_queries: 12
+    evidence_target:
+      claim_type: OBSERVED_EMAIL_PATTERN
+    stop_on:
+      - MULTIPLE_INDEPENDENT_PATTERN_OBSERVATIONS
+
+  - id: phone_public_business
+    version: "1.0"
+    family: CONTACT_DISCOVERY
+    purpose: Find public business telephone routes where legitimate and useful.
+    enabled: true
+    priority: LOW
+    objective: FIND_CONTACT_ROUTE
+    sources: [google, bing, general_web]
+    template:
+      - '"{person}" "{employer}" phone'
+      - '"{employer}" switchboard'
+      - '"{employer}" contact'
+      - '"{employer}" "{location}" contact'
+    required_variables: [employer]
+    optional_variables: [person, location]
+    confidence_tier: BALANCED
+    max_generated_queries: 6
+    evidence_target:
+      claim_type: PUBLIC_BUSINESS_PHONE
+    notes:
+      - Do not seek private personal telephone details through invasive methods.
+
+  - id: salary_exact_title_location
+    version: "1.0"
+    family: SALARY_DISCOVERY
+    purpose: Find salary evidence when remuneration is unknown and commercially material.
+    enabled: true
+    priority: MEDIUM
+    objective: VERIFY_SALARY
+    sources: [google, bing, job_board, recruitment_agency]
+    template:
+      - '"{exact_title}" "{location}" salary'
+      - '"{exact_title}" "{industry}" salary'
+      - '"{role_term}" "{location}" remuneration'
+      - '"{role_term}" "{location}" package'
+      - '"{recruiter}" "{role_term}" "{location}"'
+    required_variables: [role_term]
+    optional_variables: [exact_title, location, industry, recruiter]
+    confidence_tier: BALANCED
+    max_generated_queries: 12
+    evidence_target:
+      claim_type: SALARY_EVIDENCE
+    notes:
+      - Keep vacancy-specific salary evidence separate from benchmark/comparable-role evidence.
+
+  - id: vacancy_freshness
+    version: "1.0"
+    family: VACANCY_FRESHNESS
+    purpose: Determine whether a vacancy appears current or has evidence of closure/fill.
+    enabled: true
+    priority: HIGH
+    objective: VERIFY_VACANCY_ACTIVE
+    sources: [employer_ats, google, bing, job_board]
+    template:
+      - '"{exact_title}" "{employer}"'
+      - '"{reference_number}"'
+      - '"{application_url}"'
+      - 'site:{employer_ats_domain} "{exact_title}"'
+      - '"{role_term}" "{employer}" applications'
+    required_variables: [role_term]
+    optional_variables: [exact_title, employer, reference_number, application_url, employer_ats_domain]
+    evidence_mode: CURRENT
+    recency: recent
+    confidence_tier: HIGH_PRECISION
+    max_generated_queries: 10
+    evidence_target:
+      claim_type: VACANCY_FRESHNESS
+    notes:
+      - Disappearance alone is not evidence that a vacancy is filled.
+
+  - id: executive_movement_employer
+    version: "1.0"
+    family: EXECUTIVE_MOVEMENT
+    purpose: Find executive departures, appointments and movement signals.
+    enabled: true
+    priority: HIGH
+    objective: FIND_EXECUTIVE_MOVEMENT
+    sources: [linkedin, google, bing, general_web]
+    template:
+      - '"{employer}" "{movement_phrase}" "{function}"'
+      - '"{person}" "{movement_phrase}"'
+      - '"{employer}" "stepping down"'
+      - '"{employer}" "leaving" "{function}"'
+      - '"{employer}" "new chapter" "{function}"'
+    required_variables: [employer]
+    optional_variables: [movement_phrase, function, person]
+    expansions:
+      movement_phrase:
+        source: movement_phrases
+    confidence_tier: BALANCED
+    max_generated_queries: 18
+    evidence_target:
+      claim_type: EXECUTIVE_MOVEMENT_SIGNAL
+    notes:
+      - Movement signals are not automatic vacancies.
+
+  - id: business_expansion_employer
+    version: "1.0"
+    family: BUSINESS_EXPANSION
+    purpose: Find employer expansion, acquisition, investment or facility signals.
+    enabled: true
+    priority: MEDIUM
+    objective: FIND_EXPANSION_SIGNAL
+    sources: [google, bing, linkedin, general_web]
+    template:
+      - '"{employer}" "{expansion_phrase}"'
+      - '"{industry}" "{location}" new facility'
+      - '"{company}" new warehouse'
+      - '"{company}" new factory'
+      - '"{company}" expansion South Africa'
+      - '"{company}" acquisition South Africa'
+    required_variables: [company]
+    optional_variables: [employer, expansion_phrase, industry, location]
+    expansions:
+      expansion_phrase:
+        source: expansion_phrases
+    confidence_tier: BALANCED
+    max_generated_queries: 18
+    evidence_target:
+      claim_type: BUSINESS_EXPANSION_SIGNAL
+    notes:
+      - General growth must not be converted into invented vacancies.
+
+  - id: source_discovery_function
+    version: "1.0"
+    family: SOURCE_DISCOVERY
+    purpose: Find potentially useful new recruitment sources.
+    enabled: true
+    priority: LOW
+    objective: DISCOVER_SOURCE
+    sources: [google, bing]
+    template:
+      - '"{role_family}" jobs South Africa'
+      - '"{industry}" careers South Africa'
+      - '"{location}" "{role_family}" vacancies'
+      - '"{function}" recruitment South Africa'
+    required_variables: [role_family]
+    optional_variables: [industry, location, function]
+    confidence_tier: EXPLORATORY
+    max_generated_queries: 10
+    evidence_target:
+      claim_type: SOURCE_CANDIDATE
+    notes:
+      - A source enters the permanent Source Map only after validation.
+
+  - id: source_revalidation
+    version: "1.0"
+    family: SOURCE_REVALIDATION
+    purpose: Revalidate a known source's live inventory or searchability.
+    enabled: true
+    priority: MEDIUM
+    objective: REVALIDATE_SOURCE
+    sources: [google, bing, general_web]
+    template:
+      - '"{employer}" careers'
+      - 'site:{domain} jobs'
+      - 'site:{domain} careers'
+    required_variables: [domain]
+    optional_variables: [employer]
+    confidence_tier: HIGH_PRECISION
+    max_generated_queries: 6
+    evidence_target:
+      claim_type: SOURCE_STATUS
+
+fallback_chains:
+  vacancy_discovery:
+    - vacancy_exact_title_location
+    - vacancy_role_location
+    - vacancy_seniority_function_location
+    - social_explicit_hiring_role_location
+
+  social_hiring:
+    - social_explicit_hiring_role_location
+    - social_explicit_hiring_role_no_location
+    - social_role_location_without_signal
+    - linkedin_xray_post_signal_role
+
+  employer_attribution:
+    - employer_attribution_rare_phrase
+    - employer_attribution_role_system_location
+    - employer_attribution_role_qualification_industry
+    - employer_attribution_reporting_location
+    - recruiter_client_history
+    - employer_candidate_test
+
+  stakeholder_resolution:
+    - stakeholder_functional_owner
+    - stakeholder_business_unit
+    - stakeholder_hr_ta_route
+
+  current_employment:
+    - current_employment_person
+    - incumbent_role
+
+zero_result_behavior:
+  sequence:
+    - VERIFY_QUERY_SYNTAX
+    - REMOVE_LEAST_ESSENTIAL_CONSTRAINT
+    - TRY_CLOSE_ROLE_ALIAS
+    - TRY_GEOGRAPHIC_ALIAS
+    - TRY_ALTERNATIVE_SEARCH_ENGINE
+    - TRY_SOURCE_SPECIFIC_SEARCH
+    - BROADEN_CAREFULLY
+  drop_all_constraints_immediately: false
+
+too_many_results_behavior:
+  sequence:
+    - ADD_EXACT_ROLE
+    - ADD_LOCATION
+    - ADD_SENIORITY
+    - ADD_EMPLOYER
+    - ADD_SIGNAL_PHRASE
+    - ADD_INDUSTRY
+    - ADD_RARE_REQUIREMENT
+    - REDUCE_DATE_WINDOW
+  preferred_action: subdivide
+
+query_deduplication:
+  enabled: true
+  normalise_before_hash:
+    - trim
+    - collapse_whitespace
+    - casefold_where_source_allows
+    - normalise_quotes
+  identity_fields:
+    - normalised_query
+    - source
+    - source_lane
+  store:
+    - query_hash
+    - normalised_query
+    - source
+    - source_lane
+    - last_run
+    - result_count
+    - new_result_count
+
+failed_query_memory:
+  enabled: true
+  store:
+    - query
+    - source
+    - source_lane
+    - executed_at
+    - result
+    - failure_type
+    - technical_or_semantic
+  failure_types:
+    - ZERO_RESULTS
+    - NO_NEW_RESULTS
+    - TOO_BROAD
+    - BLOCKED
+    - INVALID_SYNTAX
+    - SOURCE_FAILURE
+    - LOW_RELEVANCE
+
+retry_rules:
+  rerun_when:
+    - new_evidence_exists
+    - new_aliases_exist
+    - new_location_exists
+    - source_changed
+    - meaningful_time_passed
+    - previous_block_cleared
+    - query_family_updated
+    - vacancy_state_changed
+  repeat_identical_failure_without_new_reason: false
+
+stop_conditions:
+  global:
+    - QUERY_BUDGET_EXHAUSTED
+    - OBJECTIVE_RESOLVED_BY_RESOLUTION_ENGINE
+    - NO_NEW_INFORMATION_AFTER_FALLBACK_CHAIN
+  recognised_resolution_signals:
+    - AUTHORITATIVE_ATS_ESTABLISHED
+    - AUTHORITATIVE_EMPLOYER_MATCH
+    - EMPLOYER_HYPOTHESIS_DISPROVED
+    - CURRENT_EMPLOYMENT_CONFIRMED
+    - STAKEHOLDER_SUFFICIENTLY_RESOLVED
+    - MULTIPLE_INDEPENDENT_PATTERN_OBSERVATIONS
+    - VACANCY_ACTIVE_CONFIRMED
+    - VACANCY_CLOSED_CONFIRMED
+
+information_gain_priority:
+  principle: >
+    Prefer queries expected to reduce the most important unresolved uncertainty.
+  conceptual_score:
+    numerator:
+      - information_gain
+      - precision
+      - commercial_importance
+    denominator:
+      - execution_cost
+  statistically_calibrated_probability: false
+
+high_value_persistence:
+  eligible_seniority_or_value_signals:
+    source: taxonomy/seniority_terms.yaml
+  allow_deeper_fallback_chains_for:
+    - HEAD
+    - DIRECTOR
+    - EXECUTIVE
+    - C_SUITE
+    - BOARD_LEVEL
+    - EXECUTIVE_DIRECTOR
+    - FRACTIONAL_EXECUTIVE
+    - scarce_specialist
+    - principal
+    - lead
+    - architect
+    - consultant_when_commercially_relevant
+  evidence_thresholds_weakened: false
+
+downstream_search_gating:
+  expensive_families:
+    - STAKEHOLDER_DISCOVERY
+    - CURRENT_EMPLOYMENT_VERIFICATION
+    - CONTACT_DISCOVERY
+    - DOMAIN_DISCOVERY
+    - EMAIL_PATTERN_DISCOVERY
+  skip_when:
+    - functional_gate_failed
+    - salary_gate_failed
+    - commercial_employer_rule_failed
+  exceptions:
+    - agreed_client_exception
+
+query_validation:
+  required_checks:
+    - query_not_empty
+    - within_source_length_limit
+    - required_variables_resolved
+    - syntax_valid_for_source
+    - not_inside_retry_window_without_reason
+    - not_duplicate_of_generated_query
+    - source_supports_operators
+  empty_optional_variable_behavior: remove_token_cleanly
+  missing_required_variable_behavior: invalidate_template_instance
+  escape:
+    - quotation_marks
+    - brackets
+    - special_operators
+    - slashes
+    - source_reserved_syntax
+
+visual_inspection_trigger:
+  media_types:
+    - image
+    - carousel
+    - PDF
+    - poster
+    - graphic
+    - screenshot
+  rule: >
+    A relevant visual result must be inspected before concluding that no vacancy information exists.
+
+social_follow_up:
+  inspect_comments_or_reposts_when_they_may_resolve:
+    - employer
+    - application_route
+    - location
+    - hiring_contact
+    - original_source
+  exhaustive_low_value_comment_processing: false
+
+family_interdependencies:
+  vacancy_to_actionable:
+    - VACANCY_DISCOVERY
+    - EMPLOYER_ATTRIBUTION
+    - STAKEHOLDER_DISCOVERY
+    - CURRENT_EMPLOYMENT_VERIFICATION
+    - CONTACT_DISCOVERY
+  movement_to_watch:
+    - EXECUTIVE_MOVEMENT
+    - VACANCY_DISCOVERY
+  duplicate_to_resolution:
+    - JOB_DUPLICATE_DISCOVERY
+    - EMPLOYER_ATTRIBUTION
+    - VACANCY_FRESHNESS
+
+query_metrics:
+  persist:
+    - template_id
+    - runs
+    - queries_generated
+    - results_returned
+    - new_results
+    - valid_signals
+    - canonical_jobs
+    - qualifying_jobs
+    - employers_resolved
+    - stakeholders_resolved
+    - contacts_resolved
+    - outreach_ready_jobs
+    - false_positives
+    - average_cost
+    - last_used
+  calculate:
+    - DISCOVERY_YIELD
+    - COMMERCIAL_YIELD
+  rule: Do not optimise only for raw result count.
+
+performance_feedback:
+  positive_signals:
+    - job_qualified
+    - employer_resolved
+    - stakeholder_resolved
+    - contact_verified
+    - outreach_ready
+    - client_responded
+  negative_signals:
+    - false_positive
+    - stale_vacancy
+    - wrong_employer
+    - wrong_stakeholder
+    - duplicate
+    - blocked_source
+    - zero_results
+  mandatory_searches_may_not_be_permanently_disabled_by_history: true
+
+generated_query_object:
+  required_fields:
+    - query_id
+    - template_id
+    - research_task_id
+    - objective
+    - source
+    - query
+    - confidence_tier
+    - priority
+    - variables_used
+    - reason
+    - evidence_target
+    - generated_at
+  optional_fields:
+    - job_id
+    - source_lane
+    - recency
+    - query_hash
+    - retry_reason
+
+executed_query_extension:
+  fields:
+    - executed_at
+    - status
+    - result_count
+    - new_result_count
+    - relevant_result_count
+    - evidence_found
+    - information_gain
+    - failure_type
+
+query_generation_qa:
+  objective:
+    question: Is the unresolved question explicit?
+  precision:
+    question: Does each query have a reason to exist?
+  expansion:
+    question: Was combinatorial explosion prevented?
+  geography:
+    question: Were appropriate South African variants used?
+  role:
+    question: Were relevant aliases loaded?
+  seniority:
+    question: Were relevant seniority variants used only when useful?
+  source:
+    question: Is syntax valid for this source?
+  history:
+    question: Has this exact search already failed?
+  cost:
+    question: Is query effort proportionate to opportunity value?
+  evidence:
+    question: What claim can this search resolve?
+
+required_test_scenarios:
+  direct_finance_vacancy:
+    known:
+      role: Financial Manager
+      location: Stellenbosch
+      employer: known
+    must_generate:
+      - VACANCY_FRESHNESS
+      - ATS_DISCOVERY
+      - STAKEHOLDER_DISCOVERY
+      - CURRENT_EMPLOYMENT_VERIFICATION
+    must_not_generate:
+      - EMPLOYER_ATTRIBUTION
+
+  anonymous_agency_vacancy:
+    known:
+      role: Financial Manager
+      location: Stellenbosch
+      industry: manufacturing
+      system: SAP
+      qualification: CA(SA)
+      agency: known
+      employer: unknown
+    must_generate:
+      - EMPLOYER_ATTRIBUTION
+      - JOB_DUPLICATE_DISCOVERY
+      - RECRUITER_CLIENT_HISTORY
+      - EMPLOYER_CONTRADICTION
+
+  linkedin_silent_hiring_post:
+    known:
+      phrase: We're growing our finance team
+      location: Cape Town
+      author: identified
+      explicit_job_title: false
+    must_generate:
+      - SOCIAL_HIRING_DISCOVERY
+      - COMPANY_HIRING_DISCOVERY
+    must_trigger:
+      - visual_inspection
+      - relevant_comment_inspection
+      - author_company_trail
+    retain_signal_if_no_specific_vacancy: true
+
+  hiring_manager_unknown:
+    known:
+      employer: confirmed
+      role: confirmed
+      business_unit: known
+    prioritise:
+      - STAKEHOLDER_DISCOVERY
+      - REPORTING_LINE_DISCOVERY
+    do_not_spend_queries_on:
+      - rediscovering_employer
+
+  email_pattern_unknown:
+    known:
+      person: confirmed
+      employer: confirmed
+      employee_domain: confirmed
+    must_generate:
+      - EMAIL_PATTERN_DISCOVERY
+    rule: >
+      Derive a pattern from multiple observed employees and keep the target address
+      inferred unless independently observed.
+
+design_rules:
+  - SEARCH_INTENT_ALWAYS_EXPLICIT
+  - SEARCH_KNOWN_FACTS_BEFORE_GUESSING
+  - EXACT_AND_DISCRIMINATIVE_BEFORE_BROAD
+  - SMALL_OVERLAPPING_QUERIES_BEAT_MASSIVE_BOOLEAN
+  - BOUND_QUERY_EXPANSION
+  - REFLECT_CURRENT_INTELLIGENCE_STATE
+  - DO_NOT_RERUN_FAILED_SEARCH_WITHOUT_REASON
+  - ADAPT_SYNTAX_TO_SOURCE
+  - REFERENCE_ROLE_SENIORITY_GEOGRAPHY_AUTHORITIES
+  - EMPLOYER_ATTRIBUTION_REQUIRES_SUPPORT_AND_CONTRADICTION
+  - FUNCTIONAL_DECISION_MAKERS_SEPARATE_FROM_HR_TA
+  - CONTACT_DISCOVERY_AFTER_STAKEHOLDER_RELEVANCE
+  - CURRENT_AND_HISTORICAL_EVIDENCE_USE_DIFFERENT_SEARCHES
+  - OPTIMISE_FOR_COMMERCIAL_YIELD_NOT_VOLUME
+  - EVERY_QUERY_TARGETS_RESOLVABLE_EVIDENCE_GAP
+  - HIGH_VALUE_OPPORTUNITIES_GET_DEEPER_FALLBACKS
+  - LOW_VALUE_OPPORTUNITIES_STOP_EARLIER
+  - PERSIST_SEARCH_PROGRESS_AND_FAILURES
+  - DOWNSTREAM_OUTCOMES_IMPROVE_TEMPLATE_PRIORITY
+  - QUERY_CONFIGURATION_LIVES_IN_YAML
