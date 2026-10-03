@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "workspace-operational-state.schema.json",
+  "title": "Talent Tree Workspace Operational State",
+  "type": "object",
+  "properties": {
+    "vacancies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "vacancy_id",
+          "lifecycle_status"
+        ],
+        "properties": {
+          "vacancy_id": {
+            "type": "string"
+          },
+          "lifecycle_status": {
+            "enum": [
+              "DISCOVERED",
+              "VERIFYING",
+              "QUALIFIED",
+              "EMPLOYER_RESOLVED",
+              "CANDIDATE_MAPPING",
+              "TOP_10_READY",
+              "CLIENT_ACTION",
+              "CLOSED"
+            ]
+          },
+          "closed_reason": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              null,
+              "FILLED",
+              "EXPIRED",
+              "CLIENT_NO_LONGER_HIRING",
+              "NOT_COMMERCIALLY_RELEVANT",
+              "DUPLICATE",
+              "CANCELLED",
+              "OTHER"
+            ]
+          },
+          "closed_at": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "unread": {
+            "type": "boolean"
+          },
+          "last_user_action_at": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "candidate_assignments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "vacancy_id",
+          "candidate_id",
+          "operational_status"
+        ],
+        "properties": {
+          "vacancy_id": {
+            "type": "string"
+          },
+          "candidate_id": {
+            "type": "string"
+          },
+          "operational_status": {
+            "enum": [
+              "SURFACED",
+              "RELEVANT",
+              "EARMARKED",
+              "TOP_10",
+              "APPROACH",
+              "ENGAGED",
+              "SUBMITTED",
+              "EXCLUDED"
+            ]
+          },
+          "excluded_reason": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "last_user_action_at": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": false
+}
