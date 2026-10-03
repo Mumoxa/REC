@@ -1,0 +1,40 @@
+name: App CI
+
+on:
+  pull_request:
+    paths:
+      - "src/**"
+      - "proxy.ts"
+      - "package.json"
+      - "tsconfig.json"
+      - "next.config.ts"
+      - "supabase/**"
+      - ".github/workflows/app-ci.yml"
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "proxy.ts"
+      - "package.json"
+      - "tsconfig.json"
+      - "next.config.ts"
+      - "supabase/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Build
+        env:
+          NEXT_PUBLIC_DEMO_MODE: "true"
+        run: npm run build
