@@ -17,20 +17,26 @@ authority:
     - vacancy_liveness
     - outreach_decision
 
-source_scheduling:
+channel_execution:
   source_priority_authority: sources/search-priority.yaml
   client_universe_authority: sources/agreed-clients.yaml
-  templates_may_reorder_source_stages: false
-  mandatory_stage_order:
-    - STAGE_1_AGREED_CLIENTS
-    - STAGE_2_STRATEGIC_AGENCIES
-    - STAGE_3_LINKEDIN_INTELLIGENCE
-    - STAGE_4_BROADER_SECONDARY_SOURCES
-  later_stage_agreed_client_match: PROMOTE_TO_STAGE_1
+  independent_channel_runs: true
+  allowed_channels:
+    - AGREED_CLIENTS
+    - AGENCY_SITES
+    - LINKEDIN
+    - JOB_BOARDS
+  default_combined_run_order:
+    - AGREED_CLIENTS
+    - AGENCY_SITES
+    - LINKEDIN
+    - JOB_BOARDS
+  channel_may_run_without_prior_channel: true
+  agreed_client_match_from_any_channel: IMMEDIATE_COMMERCIAL_PRIORITY
   rule: >
-    Query templates determine how to search within the currently authorised stage.
-    They must never cause a lower-priority stage to start before its predecessor's
-    completion gate is satisfied.
+    Query templates determine how to search inside whichever channel is currently running.
+    They must use the same shared role, seniority, geography and query authorities in all four
+    channels. The default combined-run order is a priority preference, not an execution gate.
 
 authoritative_vocabularies:
   role_taxonomy:
