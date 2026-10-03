@@ -82,9 +82,15 @@ At minimum it uses:
 - `schemas/qa-review.schema.json`
 - run/source provenance already produced by the engine.
 
-UI state such as filters, collapse state and saved views is stored separately in:
+UI presentation state such as filters, collapse state and saved views is stored separately in:
 
 - `schemas/workspace-view-state.schema.json`
+
+Recruiter workflow state such as vacancy close/lifecycle and candidate Earmark / Top 10 / Approach status is stored separately in:
+
+- `schemas/workspace-operational-state.schema.json`
+
+Neither UI state nor recruiter workflow state may overwrite research evidence or QA.
 
 ## Key principles
 
