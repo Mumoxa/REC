@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.5.0 — Authoritative Seniority Ontology
+
+- Added `taxonomy/seniority_terms.yaml` as the controlling seniority/search-level authority.
+- Added exact search coverage for Executive Director and board-level roles.
+- Added Non-Executive Director and Independent Non-Executive Director search lanes.
+- Added fractional, interim, portfolio, part-time and virtual executive search terms.
+- Added specialist and expert individual-contributor seniority.
+- Added consultant, consulting and advisory career ladders.
+- Wired seniority into all discovery/enrichment workers.
+- Preserved LinkedIn seniority as positive search expansion only, never as a discovery exclusion.
+- Added seniority fields to signal/opportunity schemas and regression tests.
+
+
 ## 0.4.0 — Authoritative Role Taxonomy
 
 - Preserved the complete Talent Tree master role taxonomy.
