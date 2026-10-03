@@ -123,6 +123,7 @@ query_log_required_fields:
   - source
   - family
   - reason_generated
+  - execution_status
   - evidence_gap_or_coverage_target
   - target_company
   - target_role
