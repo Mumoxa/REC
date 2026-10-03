@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.9.0 — Independent Channels, Shared Intelligence Stack
+
+- Made all four sourcing channels independently runnable.
+- Kept the default combined-run priority as Agreed Clients → Agency Sites → LinkedIn → Job Boards without using it as a prerequisite gate.
+- Added `core/search-structure.md` as the mandatory search lifecycle shared by all four channels.
+- Made every channel inherit the same query templates, 271-node role taxonomy, seniority ontology, geography ontology, qualification/disqualifier rules, evidence standards, scoring, deduplication, employer-attribution and output rules.
+- Updated LinkedIn to load the shared role taxonomy and seniority stack while preserving its ability to retain incomplete role-agnostic social signals.
+- Replaced canonical stage provenance with required `search_channel` provenance; legacy stage fields remain only for compatibility.
+- Converted the orchestrator into a dispatcher supporting single-channel, selected multi-channel and full runs.
+- Replaced sequential-stage regression tests with independent-channel and shared-stack regression tests.
+
+
 ## 0.8.0 — Four-Channel Architecture Guard
 
 - Restored the original project mental model as the canonical human-readable architecture.
