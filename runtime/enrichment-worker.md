@@ -2,7 +2,7 @@
 
 ## Bootstrap
 
-Load `manifest.yaml`, all global files, and all files under `workers.enrichment.load`.
+Load `manifest.yaml` and all files under `workers.enrichment.load`, including `taxonomy/south_africa_locations.yaml`.
 
 ## Mission
 
@@ -36,3 +36,10 @@ Turn discovered records from all channels into a deduplicated, evidence-backed, 
 Return records conforming to `schemas/final-opportunity.schema.json`.
 
 Order the final actionable set by commercial priority, not by source volume.
+
+
+## Geographic normalisation
+
+Use `taxonomy/south_africa_locations.yaml` to retain raw location wording while mapping signals to region, cluster, province/city and commercial node.
+
+Do not discard the specific node after mapping to a broader metro.
