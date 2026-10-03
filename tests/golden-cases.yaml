@@ -234,3 +234,59 @@ cases:
       region_priority: P4
       cluster_label: Remote / National / Hybrid
     reason: National and location-independent terms belong to the P4 catch-all after priority regional sweeps.
+
+
+  - id: taxonomy_credit_risk_included
+    input:
+      title: Credit Risk Manager
+    expected:
+      exclusion_status: IN_SCOPE
+    reason: Credit Risk is explicitly distinct from excluded cyber-risk work.
+
+  - id: taxonomy_commercial_manager_included
+    input:
+      title: Commercial Manager
+      duties: commercial strategy and margin management
+    expected:
+      exclusion_status: IN_SCOPE
+    reason: Commercial Management is included even though traditional direct sales/business-development roles are excluded.
+
+  - id: taxonomy_crm_boundary
+    input:
+      examples:
+        - Lifecycle Manager
+        - CRM Systems Manager
+    expected:
+      Lifecycle Manager: Commercial CRM
+      CRM Systems Manager: CRM Technology
+    reason: Commercial CRM and CRM Technology are separate populations.
+
+  - id: taxonomy_business_analyst_boundary
+    input:
+      title: Business Analyst
+      remit: systems requirements integrations digital platform
+    expected:
+      group_name: Functional IT / Business Systems
+    reason: Technology-centred Business Analysis belongs under Functional IT.
+
+  - id: taxonomy_data_boundary
+    input:
+      examples:
+        - Data Pipeline Engineer
+        - Analytics Engineer
+        - BI Developer
+        - Data Scientist
+        - ML Engineer
+    expected:
+      distinct_taxonomy_nodes: true
+    reason: Data Engineering, Analytics Engineering, BI, Data Science and ML/AI must not be collapsed into one data bucket.
+
+  - id: taxonomy_specialist_priority
+    input:
+      title: Principal Data Engineer
+      people_management: false
+      scarce_skill: true
+      above_threshold: true
+    expected:
+      automatic_downgrade_for_no_people_management: false
+    reason: Scarce specialists can outrank conventional managers on commercial value.
