@@ -1,0 +1,77 @@
+version: 1.0.0
+authority:
+  master_markdown: taxonomy/Talent_Tree_Master_Recruitment_Role_Taxonomy.md
+  machine_registry: taxonomy/role_taxonomy.json
+
+application:
+  linkedin_social_discovery:
+    mode: downstream_only
+    controlling_spec: channels/linkedin/South_Africa_LinkedIn_Hidden_Hiring_Signal_Engine_MASTER.md
+    note: Valid South African LinkedIn opportunities are surfaced before role-family or salary filtering.
+  agency_discovery:
+    mode: classify_and_filter_after_extraction
+  jobboard_discovery:
+    mode: classify_and_filter_after_extraction
+  enrichment:
+    mode: full_taxonomy
+  market_mapping:
+    mode: full_taxonomy
+  candidate_sourcing:
+    mode: full_taxonomy
+
+hard_exclusion_families:
+  - ERP
+  - Cybersecurity
+  - Sales and Business Development
+  - Customer Service and Customer Success
+  - Financial Advice and Planning
+  - Administration and Office Support
+  - Below economic threshold unless an explicit existing-client override applies
+
+economic_threshold:
+  annual_zar: 420000
+  existing_client_override_possible: true
+
+classification_boundaries:
+  - Functional IT vs general Business Analysis
+  - Commercial CRM vs CRM Technology
+  - Commercial Management vs direct Sales
+  - Data Engineering vs Analytics Engineering vs BI vs Data Science vs ML/AI
+  - Cloud engineering vs security-specialist roles
+  - Enterprise/Financial/Credit/Compliance Risk vs Cyber Risk
+  - General applications/business systems vs ERP-specialist work
+
+explicit_inclusions_to_protect:
+  - Commercial Management
+  - Credit Risk
+  - IT Audit when fundamentally audit/assurance
+  - Customer Insights and Marketing Analytics
+  - Salesforce roles at qualifying level
+  - Core Banking technology where not primarily ERP
+  - Data Governance and Information Management
+
+search_priority:
+  tier_1:
+    - C-suite
+    - Managing Director
+    - Director
+    - Head
+    - Executive
+    - General Manager
+  tier_2:
+    - Senior Manager
+    - Manager
+    - Principal
+    - Lead
+    - Architect
+    - highly scarce specialist
+  tier_3:
+    - experienced professional or specialist comfortably above the economic threshold
+
+specialist_priority_rule: >
+  Do not automatically downgrade scarce technology, data, actuarial, investment or functional-IT
+  specialists because they do not manage people. Scarcity, remuneration, technical depth and
+  commercial value can place a specialist above a conventional manager.
+
+source_detail_rule: >
+  Where this file is less detailed than the master markdown, the master markdown governs.
