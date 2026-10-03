@@ -1,5 +1,13 @@
 # LinkedIn Discovery Strategy
 
+## Architecture
+
+Canonical channel facade:
+
+`channels/linkedin.md`
+
+This is **Channel 3 / Stage 3** and begins only after Channels 1 and 2 complete.
+
 ## Authority
 
 The authoritative LinkedIn discovery specification is:
