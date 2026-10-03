@@ -59,7 +59,8 @@ cases:
     given: Researcher proposes a target company with no evidence-backed overlap reason.
     expect:
       qa_gate_c: FAIL_RESEARCH_REQUIRED
-      - remove_or_research_target_company
+      actions:
+        - remove_or_research_target_company
 
   - id: intellectual_property_boundary
     given: Candidate comes from a direct competitor.
@@ -86,4 +87,5 @@ cases:
     given: A proposal labels candidate mapping or QA as Channel 5.
     expect:
       architecture_review: FAIL_RESEARCH_REQUIRED
-      - reject_new_channel_without_explicit_user_authorisation
+      actions:
+        - reject_new_channel_without_explicit_user_authorisation
