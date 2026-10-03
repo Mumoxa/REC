@@ -1,6 +1,6 @@
 engine:
   name: talent-tree-recruitment-intelligence
-  version: 0.9.0
+  version: 0.10.0
   market: South Africa
   status: infrastructure_v1
 
@@ -23,6 +23,7 @@ principles:
   source_priority_authority: sources/search-priority.yaml
   client_universe_authority: sources/agreed-clients.yaml
   client_sweep_schema: schemas/client-sweep.schema.json
+  stakeholder_contact_authority: core/stakeholder-contact-intelligence.md
 
 architecture:
   guard: ARCHITECTURE_GUARD.md
@@ -87,6 +88,7 @@ shared_channel_stack:
   - core/evidence-standard.md
   - core/deduplication.md
   - core/employer-attribution.md
+  - core/stakeholder-contact-intelligence.md
   - sources/agreed-clients.yaml
   - sources/search-priority.yaml
   - sources/source-governance.md
@@ -164,6 +166,7 @@ workers:
       - core/evidence-standard.md
       - core/deduplication.md
       - core/employer-attribution.md
+      - core/stakeholder-contact-intelligence.md
       - sources/agreed-clients.yaml
       - sources/search-priority.yaml
       - schemas/linkedin-signal.schema.json
