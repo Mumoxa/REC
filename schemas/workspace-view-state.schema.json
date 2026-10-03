@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "workspace-view-state.schema.json",
+  "title": "Talent Tree Recruitment Intelligence Workspace View State",
+  "type": "object",
+  "required": [
+    "active_module",
+    "vacancy_view",
+    "layout"
+  ],
+  "properties": {
+    "active_module": {
+      "enum": [
+        "VACANCIES",
+        "COMPANIES",
+        "CANDIDATE_MAPS",
+        "CANDIDATES",
+        "TOP_10",
+        "QA",
+        "RUNS",
+        "EXPORTS"
+      ]
+    },
+    "vacancy_view": {
+      "enum": [
+        "INBOX",
+        "NEW",
+        "AGREED_CLIENTS",
+        "AGENCIES",
+        "LINKEDIN",
+        "JOB_BOARDS",
+        "NEEDS_RESEARCH",
+        "CLOSED_ARCHIVED"
+      ]
+    },
+    "selected_vacancy_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "selected_candidate_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "global_search": {
+      "type": "string"
+    },
+    "vacancy_search": {
+      "type": "string"
+    },
+    "candidate_search": {
+      "type": "string"
+    },
+    "vacancy_filters": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "candidate_filters": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "vacancy_sort": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "candidate_sort": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "saved_view_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "layout": {
+      "type": "object",
+      "required": [
+        "vacancy_density",
+        "middle_pane_state",
+        "candidate_focus"
+      ],
+      "properties": {
+        "vacancy_density": {
+          "enum": [
+            "EXPANDED",
+            "COMPACT",
+            "MINIMAL"
+          ]
+        },
+        "middle_pane_state": {
+          "enum": [
+            "OPEN",
+            "MINIMISED"
+          ]
+        },
+        "candidate_focus": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": true
+}

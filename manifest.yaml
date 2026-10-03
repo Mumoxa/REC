@@ -1,6 +1,6 @@
 engine:
   name: talent-tree-recruitment-intelligence
-  version: 0.11.0
+  version: 0.12.0
   market: South Africa
   status: infrastructure_v1
 
@@ -29,6 +29,11 @@ principles:
   candidate_query_templates_authority: candidate_query_templates.yaml
   candidate_market_map_schema: schemas/candidate-market-map.schema.json
   qa_review_schema: schemas/qa-review.schema.json
+  workspace_interface_authority: interface/README.md
+  vacancy_workspace_authority: interface/vacancy-intelligence-workspace.md
+  workspace_search_filter_authority: interface/search-filter-contract.md
+  workspace_view_state_schema: schemas/workspace-view-state.schema.json
+  workspace_operational_state_schema: schemas/workspace-operational-state.schema.json
   fifty_candidate_target_is_not_quota: true
 
 architecture:
@@ -66,6 +71,9 @@ architecture:
     - candidate_market_mapping
     - independent_qa
     - candidate_query_templates
+    - interface
+    - workspace_presentation
+    - workspace_operational_state
   new_channel_requires_explicit_architecture_change: true
 
 execution:
@@ -87,6 +95,22 @@ execution:
     requires_prior_other_channel_completion: false
     credible_longlist_target: 50
     target_is_quota: false
+  presentation:
+    primary_interface: VACANCIES_INBOX
+    interface_type: browser_workspace
+    source_of_truth: structured_records
+    exports:
+      - EXCEL
+      - CSV
+      - PDF
+    html_snapshot_allowed: true
+    per_run_html_is_source_of_truth: false
+    authorities:
+      - interface/README.md
+      - interface/vacancy-intelligence-workspace.md
+      - interface/search-filter-contract.md
+      - schemas/workspace-view-state.schema.json
+      - schemas/workspace-operational-state.schema.json
   mandatory_qa_gates:
     - A_DISCOVERY
     - B_FINGERPRINT
@@ -243,3 +267,4 @@ source_documents:
 tests:
   golden_cases: tests/golden-cases.yaml
   candidate_market_mapping_golden_cases: tests/candidate-market-mapping-golden-cases.yaml
+  workspace_ui_golden_cases: tests/workspace-ui-golden-cases.yaml

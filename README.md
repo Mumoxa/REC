@@ -52,6 +52,7 @@ The repository has become more detailed underneath the canonical architecture, b
 - `sources/` — client/source registries and governance;
 - `tests/` — regression protection;
 - `archive/originals/` — preserved research/build sources;
+- `interface/` — browser workspace / ATS presentation contract;
 - `query_templates.yaml` — vacancy/employer/stakeholder search construction;
 - `candidate_query_templates.yaml` — downstream passive-candidate search construction;
 - `manifest.yaml` — exactly what each worker loads;
@@ -69,6 +70,7 @@ The repository has become more detailed underneath the canonical architecture, b
 - Any independently runnable channel may feed the same downstream opportunity/candidate-intelligence process.
 - Candidate market mapping targets 50+ credible evidence-backed people where the market supports it; 50 is a research-depth target, never a quota.
 - Independent adversarial QA gates challenge discovery, role fingerprints, target-company maps and candidate claims.
+- The default human interface is the browser-based Vacancy Intelligence Workspace; structured records remain the source of truth and Excel/CSV/PDF are exports.
 - Detailed implementation must map back to one of the four channels or to shared core/support infrastructure.
 
 ## Drift rule
@@ -123,3 +125,38 @@ Examples:
 - `Run AGENCY_SITES only; do not run other channels; process verified opportunities downstream.`
 - `Run LINKEDIN only for the requested geography and process verified opportunities downstream.`
 - `Run all four channels using default priority; do not treat the order as a prerequisite chain.`
+
+
+## Human interface / job-surfacing workspace
+
+The primary human operating surface is the browser-based **Recruitment Intelligence Workspace**.
+
+Default home:
+
+**VACANCIES → Inbox**
+
+The ATS-style workspace uses:
+
+- left: canonical surfaced vacancy queue;
+- middle: selected vacancy intelligence;
+- right: candidates mapped to that vacancy.
+
+Authority:
+
+- `interface/README.md`
+- `interface/vacancy-intelligence-workspace.md`
+- `interface/search-filter-contract.md`
+- `schemas/workspace-view-state.schema.json`
+- `schemas/workspace-operational-state.schema.json`
+
+Key behaviours:
+
+- one canonical vacancy can preserve many source records;
+- job cards support expanded / compact / minimal density;
+- minimise/collapse does not close a vacancy;
+- closing archives rather than deletes intelligence;
+- filters/search persist while moving between jobs and candidates;
+- global search and context search are distinct;
+- searching stored intelligence is distinct from running new AI/web research;
+- candidate operational status is separate from evidence/QA status;
+- Excel/CSV/PDF are export surfaces, not the canonical datastore.
