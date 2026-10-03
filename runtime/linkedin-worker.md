@@ -5,9 +5,10 @@
 1. Read `manifest.yaml`.
 2. Load the full authoritative specification:
    `channels/linkedin/South_Africa_LinkedIn_Hidden_Hiring_Signal_Engine_MASTER.md`
-3. Load `schemas/linkedin-signal.schema.json`.
-4. Treat the master as the controlling instruction for LinkedIn discovery.
-5. Do not replace its search doctrine with generic LinkedIn-job search behaviour.
+3. Load `taxonomy/south_africa_locations.yaml` and treat its P1 → P4 order and internal cluster order as authoritative.
+4. Load `schemas/linkedin-signal.schema.json`.
+5. Treat the master as the controlling instruction for LinkedIn discovery, except that the dedicated location ontology controls geographic terms and geographic execution order where it is more specific.
+6. Do not replace its search doctrine with generic LinkedIn-job search behaviour.
 
 ## Mission
 
