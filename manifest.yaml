@@ -1,6 +1,6 @@
 engine:
   name: talent-tree-recruitment-intelligence
-  version: 0.12.0
+  version: 0.13.0
   market: South Africa
   status: infrastructure_v1
 
@@ -268,3 +268,26 @@ tests:
   golden_cases: tests/golden-cases.yaml
   candidate_market_mapping_golden_cases: tests/candidate-market-mapping-golden-cases.yaml
   workspace_ui_golden_cases: tests/workspace-ui-golden-cases.yaml
+
+
+application:
+  status: operational_v1
+  framework: nextjs_app_router
+  root: src/app
+  primary_route: /
+  primary_interface: VACANCIES_INBOX
+  data_adapter: src/lib/data/repository.ts
+  demo_data: src/lib/data/demo.ts
+  live_store: supabase_postgres
+  database_migration: supabase/migrations/001_initial_operational_schema.sql
+  auth: supabase_magic_link_ssr
+  auth_proxy: proxy.ts
+  ingestion_endpoint: /api/ingest/run
+  ingestion_contract: docs/RUN_PUBLISHING.md
+  app_operations: docs/APP_OPERATIONS.md
+  research_write_boundary: service_or_agent_only
+  recruiter_write_boundary:
+    - vacancy_operations
+    - candidate_operations
+    - saved_views
+  ci: .github/workflows/app-ci.yml
