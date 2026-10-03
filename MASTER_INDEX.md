@@ -2,59 +2,59 @@
 
 This file prevents silent information loss during decomposition.
 
-## Authoritative source documents
+## Current authoritative documents
 
-1. `archive/originals/South_Africa_LinkedIn_Hiring_Signal_Engine.md`
-2. `archive/originals/Talent_Tree_Agreed_Clients_and_Vacancy_Source_Map.md`
+### LinkedIn discovery
 
-The original documents remain evidence/reference material. Modular files are compiled runtime instructions and must not silently contradict the originals.
+`channels/linkedin/South_Africa_LinkedIn_Hidden_Hiring_Signal_Engine_MASTER.md`
 
-## Module mapping
+This is the **current controlling LinkedIn discovery specification**. It supersedes the earlier LinkedIn engine for discovery behaviour.
 
-| Source topic | Runtime home |
+Its central architectural rule is separation of discovery from qualification: LinkedIn discovery is role-agnostic and must send valid South African opportunities downstream before salary, role-family, client, commercial, employer-exclusion or outreach rules are applied.
+
+### Source/client governance
+
+`archive/originals/Talent_Tree_Agreed_Clients_and_Vacancy_Source_Map.md`
+
+This remains the preserved source for agreed-client identity/source intelligence and the broader South African source universe while those tables are progressively compiled into runtime registries.
+
+## Historical reference
+
+`archive/originals/South_Africa_LinkedIn_Hiring_Signal_Engine.md`
+
+This earlier LinkedIn build remains preserved for provenance but does not override the current hidden-hiring master.
+
+## Runtime mapping
+
+| Topic | Runtime home |
 |---|---|
-| Purpose / hiring-signal radar | README.md + channels/linkedin/strategy.md |
-| Geographic scope | channels/linkedin/strategy.md |
-| R420k threshold | core/qualification.md |
-| Excluded role families | core/qualification.md |
-| Priority / senior role logic | core/qualification.md |
-| LinkedIn signal dictionary | channels/linkedin/strategy.md |
-| Early-signal dictionary | channels/linkedin/strategy.md |
-| Search matrix / lanes | channels/linkedin/strategy.md |
-| Image/PDF/carousel inspection | channels/linkedin/strategy.md |
-| Raw signal / vacancy schema | schemas/discovered-job.schema.json |
-| Employer attribution | core/employer-attribution.md |
-| Deduplication | core/deduplication.md |
-| Existing-client priority | sources/agreed-clients.yaml + source-governance.md |
-| Mandatory agencies | channels/agencies/strategy.md |
-| 350-source universe governance | sources/source-governance.md + channels/jobboards/strategy.md |
+| LinkedIn hidden hiring doctrine | channels/linkedin/South_Africa_LinkedIn_Hidden_Hiring_Signal_Engine_MASTER.md |
+| LinkedIn signal schema | schemas/linkedin-signal.schema.json |
+| LinkedIn scheduled worker | runtime/linkedin-worker.md |
+| Salary / commercial qualification | core/qualification.md |
 | Evidence labels | core/evidence-standard.md |
-| Contact / stakeholder layer | schemas/final-opportunity.schema.json + enrichment worker |
-| Final operating workflow | runtime/*.md |
-| Self-learning signals / query yield | DEFERRED: future state store |
-| Dashboard / KPI persistence | DEFERRED: future data layer |
+| Canonical cross-channel deduplication | core/deduplication.md |
+| Employer attribution | core/employer-attribution.md |
+| Agreed clients | sources/agreed-clients.yaml |
+| Agency discovery | channels/agencies/strategy.md |
+| Job-board / ATS discovery | channels/jobboards/strategy.md |
+| Final enrichment | runtime/enrichment-worker.md |
+| Final opportunity schema | schemas/final-opportunity.schema.json |
 
 ## Explicitly deferred — not lost
 
-The following topics are intentionally not implemented as live state in V1 because they require persistent storage rather than prompt text:
+These require persistent state and remain future data-layer work:
 
-- query run history;
-- watched-author history and scoring;
-- false-positive rates;
-- signal phrase yield;
-- query yield;
-- previous canonical vacancy state;
-- employer hypothesis history;
+- query run history and yield scoring;
+- watched-author history;
+- amplifier graph history;
+- phrase / hashtag learning history;
+- ATS-domain learning;
+- company high-intensity watch state;
+- follow-up / reactivation state;
+- canonical opportunity history;
+- hiring-cluster history;
 - persistent evidence graph;
 - dashboard KPI history.
 
-They remain in the archived source documents and will be moved into the future data layer after the discovery workers are validated.
-
-## Open decisions
-
-Do not silently resolve these by editing worker prompts:
-
-1. **Technology scope:** the LinkedIn source specification explicitly includes technology/data roles. Any later decision to separate pure software/data engineering into another taxonomy must be made as a deliberate policy change.
-2. **Agreed-client out-of-taxonomy roles:** the source map says meaningful agreed-client vacancies may still be recorded even where they fall outside the general commercial scraper taxonomy.
-3. **Rieses Food Imports and Angaza identity:** both require identity confirmation before automatic entity matching.
-4. **Old Mutual:** the specific contracting entity/business unit covered by the agreement remains to be confirmed.
+The current LinkedIn master defines the behaviour these future stores must support.
