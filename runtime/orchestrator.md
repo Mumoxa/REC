@@ -1,67 +1,94 @@
-# Runtime — Source-Priority Orchestrator
+# Runtime — Four-Channel Dispatcher
 
 ## Authority
 
 Load:
 
-- `sources/search-priority.yaml`
-- `sources/agreed-clients.yaml`
 - `manifest.yaml`
+- `ARCHITECTURE_GUARD.md`
+- `core/search-structure.md`
+- `sources/search-priority.yaml`
 
-The sourcing sequence is mandatory.
+## Purpose
 
-## Sequence
+Dispatch one or more of the four sourcing channels.
 
-### Stage 1 — Current agreed clients
+The four channels are independently runnable.
 
-Run `runtime/agreed-client-worker.md`.
+## Run modes
 
-Do not release Stage 2 until every current agreed client has complete channel-ledger coverage or explicit recorded access limitations.
+### Single-channel run
 
-### Stage 2 — Strategic agencies
+If one channel is requested, run it directly.
 
-Run `runtime/agency-worker.md` against:
+No prior channel completion is required.
 
-1. PRN Recruitment;
-2. Communicate Recruitment;
-3. Network Recruitment.
+Examples:
 
-Do not release Stage 3 until all three have complete relevant current-inventory coverage.
+- `AGREED_CLIENTS` only
+- `AGENCY_SITES` only
+- `LINKEDIN` only
+- `JOB_BOARDS` only
 
-If any agency vacancy resolves to an agreed client or agreed group entity, promote it immediately to the Stage 1 commercial workflow while preserving the agency source provenance.
+### Selected multi-channel run
 
-### Stage 3 — LinkedIn distributed hiring intelligence
+If a subset is requested, run only those channels.
 
-Run `runtime/linkedin-worker.md` using the authoritative LinkedIn master.
+Unless an explicit order is supplied, use their relative default priority:
 
-Preserve the LinkedIn geographic order:
+`AGREED_CLIENTS → AGENCY_SITES → LINKEDIN → JOB_BOARDS`
 
-**Western Cape → Gauteng → KwaZulu-Natal → broader South Africa**
+### Full run
 
-If any LinkedIn opportunity resolves to an agreed client or agreed group entity, promote it immediately to the Stage 1 commercial workflow while preserving the LinkedIn source provenance.
+If all four channels are requested, default to:
 
-### Stage 4 — Broader secondary sources
+1. AGREED_CLIENTS
+2. AGENCY_SITES
+3. LINKEDIN
+4. JOB_BOARDS
 
-Run `runtime/jobboard-worker.md` against the governed wider source universe.
+This is a default priority order, not a prerequisite chain.
 
-Internal order remains:
+## Shared intelligence stack
 
-**Critical → High → Medium → Low → long-tail**
+Before running any sourcing channel, load the `shared_channel_stack` from `manifest.yaml`.
 
-If any Stage 4 opportunity resolves to an agreed client or agreed group entity, promote it immediately to the Stage 1 commercial workflow.
+Every channel uses the same:
+
+- search structure;
+- query templates;
+- role taxonomy;
+- role boundary rules;
+- seniority ontology;
+- geography ontology;
+- qualification rules;
+- disqualifiers;
+- scoring rubric;
+- evidence standard;
+- deduplication;
+- employer attribution;
+- client-status vocabulary;
+- output structure.
+
+Channel-specific instructions may change source tactics only.
+
+## Channel dispatch map
+
+- `AGREED_CLIENTS` → `runtime/agreed-client-worker.md`
+- `AGENCY_SITES` → `runtime/agency-worker.md`
+- `LINKEDIN` → `runtime/linkedin-worker.md`
+- `JOB_BOARDS` → `runtime/jobboard-worker.md`
+
+## Cross-channel behaviour
+
+- Preserve original source/channel provenance.
+- If any channel discovers an agreed-client vacancy, give it immediate agreed-client commercial priority.
+- Do not require the agreed-client channel to have run first for another channel to recognise an agreed client.
+- Deduplicate across channel outputs when they are consolidated.
+- Do not let one channel create different role/seniority/geography definitions.
 
 ## Enrichment
 
-`runtime/enrichment-worker.md` may enrich records emitted by each completed stage.
+`runtime/enrichment-worker.md` may process output from any single channel or any combination of channels.
 
-Enrichment does not change the source-stage sequence.
-
-## Non-negotiable controls
-
-- Do not start broad-market discovery before Stage 1 completes.
-- Do not start broader LinkedIn intelligence before Stage 2 completes.
-- Do not start Stage 4 before Stage 3 completes.
-- Do not let public job-board volume consume a budget reserved for earlier stages.
-- Do not treat past-client history as a current agreement.
-- Do not erase or downgrade confirmed client status during deduplication.
-- Preserve original discovery stage even when an opportunity is commercially promoted back to Stage 1.
+Enrichment is not a fifth sourcing channel.
