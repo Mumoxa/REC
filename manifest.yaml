@@ -1,0 +1,64 @@
+engine:
+  name: talent-tree-recruitment-intelligence
+  version: 0.1.0
+  market: South Africa
+  status: infrastructure_v1
+
+principles:
+  canonical_repository: true
+  preserve_source_provenance: true
+  evidence_first: true
+  do_not_invent_missing_facts: true
+  client_priority_before_general_market: true
+
+global:
+  load:
+    - core/qualification.md
+    - core/evidence-standard.md
+    - core/deduplication.md
+    - core/employer-attribution.md
+
+workers:
+  linkedin:
+    load:
+      - sources/agreed-clients.yaml
+      - sources/source-governance.md
+      - channels/linkedin/strategy.md
+      - schemas/discovered-job.schema.json
+    output_schema: schemas/discovered-job.schema.json
+
+  agencies:
+    load:
+      - sources/agreed-clients.yaml
+      - sources/source-governance.md
+      - channels/agencies/strategy.md
+      - core/employer-attribution.md
+      - schemas/discovered-job.schema.json
+    output_schema: schemas/discovered-job.schema.json
+
+  jobboards:
+    load:
+      - sources/agreed-clients.yaml
+      - sources/source-governance.md
+      - channels/jobboards/strategy.md
+      - schemas/discovered-job.schema.json
+    output_schema: schemas/discovered-job.schema.json
+
+  enrichment:
+    load:
+      - sources/agreed-clients.yaml
+      - core/qualification.md
+      - core/evidence-standard.md
+      - core/deduplication.md
+      - core/employer-attribution.md
+      - schemas/discovered-job.schema.json
+      - schemas/final-opportunity.schema.json
+    input_schema: schemas/discovered-job.schema.json
+    output_schema: schemas/final-opportunity.schema.json
+
+source_documents:
+  - archive/originals/South_Africa_LinkedIn_Hiring_Signal_Engine.md
+  - archive/originals/Talent_Tree_Agreed_Clients_and_Vacancy_Source_Map.md
+
+tests:
+  golden_cases: tests/golden-cases.yaml
