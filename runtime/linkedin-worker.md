@@ -90,3 +90,12 @@ Use `taxonomy/seniority_terms.yaml` to add positive search lanes for:
 - principal, lead and architect roles.
 
 These searches supplement the hidden-hiring doctrine. They do not narrow discovery.
+
+
+## Query construction authority
+
+Use `query_templates.yaml` to construct bounded, source-aware search actions.
+
+The LinkedIn hidden-hiring master still governs **what LinkedIn discovery must cover**. The query configuration governs **how individual searches are constructed, expanded, deduplicated, retried and measured**.
+
+Do not let query templates apply commercial qualification or suppress otherwise valid LinkedIn hiring signals.
