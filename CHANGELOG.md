@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.10.0 — Post-Discovery Stakeholder & Email Intelligence
+
+- Added `core/stakeholder-contact-intelligence.md` as shared post-discovery enrichment for all four channels.
+- Added a hard activation gate requiring high-confidence role resolution and direct-employer resolution before deep stakeholder/contact work.
+- Formalised functional hiring-owner, executive-sponsor, TA/HR and vacancy-specific stakeholder routes.
+- Required current-employment verification before operational use of stakeholder records.
+- Formalised employee-email-domain discovery separately from website-domain discovery.
+- Added observed-address pattern research and evidence statuses for confirmed/probable/conflicting/unknown company email patterns.
+- Defined probable pattern-inferred business email handling without mislabelling inferred addresses as verified.
+- Added company email intelligence and role/employer resolution gates to the final-opportunity schema.
+- Expanded the canonical report with a consolidated stakeholder/contact matrix.
+- Added query sequencing for functional owner → executive sponsor → HR/TA → employment verification → domain → pattern → contact.
+- Added regression tests for role/employer gating, stakeholder relevance, current employment, pattern evidence and public-repository privacy boundaries.
+
+
 ## 0.9.0 — Independent Channels, Shared Intelligence Stack
 
 - Made all four sourcing channels independently runnable.
