@@ -11,17 +11,26 @@ Turn discovered records from all channels into a deduplicated, evidence-backed, 
 ## Pipeline
 
 1. normalise;
-2. classify;
-3. deduplicate into canonical vacancies;
-4. apply functional and salary qualification;
-5. assess freshness/authenticity;
-6. classify advertiser;
-7. identify/verify employer where required;
-8. apply commercial/client priority;
-9. escalate research depth for senior/scarce roles;
-10. identify relevant hiring stakeholders;
-11. perform contact intelligence only where commercially justified;
-12. final QA.
+2. classify the exact role against the shared role taxonomy;
+3. resolve role seniority using the shared seniority ontology;
+4. deduplicate into canonical vacancies;
+5. apply functional and salary qualification;
+6. assess freshness/authenticity;
+7. classify advertiser;
+8. identify/verify the direct employer where required;
+9. apply commercial/client priority;
+10. evaluate the post-discovery activation gate;
+11. if the gate passes, map functional hiring ownership;
+12. identify relevant executive sponsor(s);
+13. identify TA / HR / internal recruitment routes;
+14. verify current employment for each stakeholder;
+15. establish the employee email domain separately from the website domain;
+16. collect observed public employee business emails;
+17. derive the company email pattern;
+18. find an observed business email for each stakeholder where available;
+19. where no observed address exists and the pattern is sufficiently evidenced, generate a probable pattern-inferred business email;
+20. consolidate stakeholder and company-email intelligence;
+21. final QA.
 
 ## Research discipline
 
@@ -83,6 +92,85 @@ Allowed values:
 
 Never downgrade or erase a confirmed agreed-client status because a duplicate source came from a later stage.
 
-If any source resolves an opportunity to an agreed client or agreed group entity, mark `promotion_to_stage_1 = true` and treat the opportunity as immediate commercial priority.
+If any source resolves an opportunity to an agreed client or agreed group entity, mark `promote_to_agreed_client_priority = true` and treat the opportunity as immediate commercial priority.
 
 A `PAST_CLIENT` remains outside Stage 1 until current-agreement evidence is established.
+
+
+## Post-discovery activation gate
+
+Load and follow `core/stakeholder-contact-intelligence.md`.
+
+Deep stakeholder/contact enrichment begins only when:
+
+```text
+role_resolution = CONFIRMED or HIGH_CONFIDENCE
+AND
+employer_resolution = CONFIRMED or HIGH_CONFIDENCE
+```
+
+If either the exact role or direct employer remains `UNRESOLVED`, continue resolving that uncertainty instead of researching people and emails.
+
+Do not pretend a merely plausible employer is confirmed in order to unlock contact research.
+
+## Stakeholder mapping
+
+Once the activation gate passes, identify people likely to care about receiving strong CVs for the specific role.
+
+Search in this order:
+
+1. direct/functional hiring owner;
+2. relevant functional Head / Director / business-unit leader;
+3. relevant executive sponsor;
+4. TA / internal recruiter / HRBP route;
+5. any vacancy-specific person directly evidenced in the source trail.
+
+For senior roles, broaden the map to the relevant executive team while keeping role relevance explicit.
+
+Do not collect arbitrary executives or generic HR employees without a vacancy-specific reason.
+
+## Email intelligence
+
+Research the organisation's email structure before suggesting person-specific addresses.
+
+Keep separate:
+
+- website domain;
+- employee email domain;
+- observed employee addresses;
+- email pattern;
+- pattern confidence/status;
+- person-specific observed email;
+- person-specific probable pattern-inferred email.
+
+Prefer multiple public observed employee business addresses before deriving a pattern.
+
+A generated address must be labelled `PATTERN_INFERRED` and described as **probable**, never verified.
+
+Never generate a person-specific business email when the employee domain or pattern is too weak or conflicting.
+
+## Consolidated stakeholder output
+
+For each relevant stakeholder return:
+
+- name;
+- current title;
+- relevance category;
+- reason relevant to this vacancy;
+- current-employment status;
+- public profile/source;
+- observed business email if available;
+- suggested probable business email if pattern-derived;
+- email status;
+- pattern basis;
+- evidence/uncertainty.
+
+Also return one company-level email-intelligence object covering domain, observed examples, pattern and contradictions.
+
+## Privacy / public-repository boundary
+
+Use public business contact information only.
+
+Do not seek private personal email addresses or private phone numbers.
+
+Do not commit live person-specific names/email addresses or client-sensitive run outputs to this public GitHub repository. The repo should contain rules, schemas and tests; live enrichment results belong in a private operational store/output.
