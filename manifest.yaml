@@ -1,6 +1,6 @@
 engine:
   name: talent-tree-recruitment-intelligence
-  version: 0.2.0
+  version: 0.3.0
   market: South Africa
   status: infrastructure_v1
 
@@ -10,6 +10,8 @@ principles:
   evidence_first: true
   do_not_invent_missing_facts: true
   discovery_and_qualification_are_separate: true
+  location_authority: taxonomy/south_africa_locations.yaml
+  location_search_order_is_mandatory: true
 
 workers:
   linkedin:
@@ -17,6 +19,7 @@ workers:
     authoritative_spec:
       - channels/linkedin/South_Africa_LinkedIn_Hidden_Hiring_Signal_Engine_MASTER.md
     load:
+      - taxonomy/south_africa_locations.yaml
       - schemas/linkedin-signal.schema.json
     must_not_apply_during_discovery:
       - salary_threshold
@@ -29,6 +32,7 @@ workers:
 
   agencies:
     load:
+      - taxonomy/south_africa_locations.yaml
       - core/qualification.md
       - core/evidence-standard.md
       - core/employer-attribution.md
@@ -40,6 +44,7 @@ workers:
 
   jobboards:
     load:
+      - taxonomy/south_africa_locations.yaml
       - core/qualification.md
       - core/evidence-standard.md
       - sources/agreed-clients.yaml
@@ -50,6 +55,7 @@ workers:
 
   enrichment:
     load:
+      - taxonomy/south_africa_locations.yaml
       - core/qualification.md
       - core/evidence-standard.md
       - core/deduplication.md
