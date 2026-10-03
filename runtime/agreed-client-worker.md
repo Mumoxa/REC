@@ -103,3 +103,14 @@ Also return a client coverage ledger containing:
 - duplicates found;
 - access limitation;
 - last checked.
+
+
+## Mandatory QA Gate A handoff
+
+Before any discovered record enters shared downstream qualification or enrichment, run `A_DISCOVERY` through `runtime/qa-review-worker.md`.
+
+The independent review must challenge vacancy existence/currentness, exact role and location, source authenticity and duplicate lineage, direct employer attribution, client relationship/agreement scope, seniority, material requirements, contradictions and unresolved unknowns.
+
+Only `PASS` or `PASS_WITH_UNKNOWNS` records may proceed. A `FAIL_RESEARCH_REQUIRED` record returns to channel research.
+
+Do not invent missing facts to make a record pass.
