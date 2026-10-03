@@ -131,6 +131,14 @@ For each relevant person include:
 **Unknown / unresolved**
 - ...
 
+### Candidate-market-mapping handoff
+
+- Candidate mapping unlocked: Yes / No
+- QA Gate A: PASS / PASS_WITH_UNKNOWNS / FAIL_RESEARCH_REQUIRED
+- Role/client fingerprint required:
+- Candidate search priority:
+- Material unknowns before mapping:
+
 ### Recommended next action
 
 - Research action:
@@ -149,3 +157,104 @@ For each relevant person include:
 - New stakeholders resolved:
 - Access limitations:
 - Unresolved high-value opportunities:
+
+
+## Candidate market-map output
+
+When candidate mapping is activated, append:
+
+### Role + client environment fingerprint
+
+For each material field:
+
+- field;
+- value;
+- evidence status;
+- source;
+- evidence clue;
+- contradiction/limitation.
+
+### Independent QA Gate B
+
+- claims upheld;
+- claims downgraded;
+- claims removed;
+- unknowns;
+- reviewer conclusion.
+
+### Target-company universe
+
+For each company:
+
+- company;
+- Tier A/B/C/D;
+- reason included;
+- overlap dimensions;
+- evidence status;
+- sources;
+- contradictions.
+
+### Independent QA Gate C
+
+- comparator claims challenged;
+- companies removed/downgraded;
+- unknowns;
+- reviewer conclusion.
+
+### Candidate search execution
+
+For each executed search:
+
+- source/surface;
+- query;
+- search family;
+- reason generated;
+- evidence gap / coverage target;
+- target company;
+- yield;
+- credible candidates surfaced;
+- noise/access limitations.
+
+### Credible candidate longlist
+
+Research-depth target: 50+ where supported; never pad to reach 50.
+
+For each candidate include evidence-backed:
+
+- name;
+- current/recent role and employer;
+- geography;
+- qualifications/designations;
+- functional/industry/value-chain relevance;
+- individually evidenced systems;
+- individually evidenced team/scale responsibility;
+- comparable-environment tier;
+- career progression/performance evidence;
+- contradictions;
+- evidence gaps;
+- availability / compensation / notice / motivation status;
+- sources.
+
+### Independent QA Gate D
+
+- identity/current-employment checks;
+- claims upheld/downgraded/removed;
+- contradictions;
+- unknowns;
+- reviewer conclusion.
+
+### Strongest market set
+
+Normally around 20–25 where the evidence-backed market supports it.
+
+### Top 10 high-conviction profiles
+
+For each:
+
+- Why This Person / Why This Client;
+- direct requirement matches;
+- comparable environment;
+- transferable operating know-how;
+- material unknowns still requiring approach/qualification.
+
+Do not claim access to competitor trade secrets or confidential intellectual property.
