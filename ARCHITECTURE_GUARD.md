@@ -61,7 +61,8 @@ The following are support layers and must never be presented as additional sourc
 - stakeholder/contact intelligence — enrichment method, not sourcing;
 - query generation — search-construction layer, not sourcing;
 - candidate market mapping — shared downstream talent research, not sourcing;
-- independent QA — shared control layer, not sourcing.
+- independent QA — shared control layer, not sourcing;
+- `interface/` / Recruitment Intelligence Workspace — presentation and recruiter operating layer, not sourcing.
 
 ## Canonical facade vs detailed implementation
 
@@ -152,3 +153,26 @@ Mandatory independent review gates exist after:
 4. candidate evidence construction.
 
 A review pass must attempt to disprove unsupported claims and preserve unknowns.
+
+
+## Presentation-layer invariant
+
+The Recruitment Intelligence Workspace is a supporting presentation/operational layer over canonical structured records.
+
+It must not:
+
+- become a fifth sourcing channel;
+- duplicate or override research evidence;
+- convert UI state into evidence;
+- hide material unknowns or QA status;
+- treat exports as the canonical source of truth.
+
+The default job-surfacing interface is `VACANCIES → Inbox` using the ATS-style three-pane workspace defined under `interface/`.
+
+Persistent workspace state is split deliberately:
+
+- view state: filters, search, density, selected records, pane state;
+- operational state: vacancy lifecycle/close state and candidate recruiter workflow state;
+- research evidence: remains governed by the existing opportunity, candidate-map and QA schemas.
+
+This separation prevents recruiter actions such as Earmark, Top 10, Close or Exclude from overwriting factual evidence.
