@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.13.0 — Operational Recruitment Intelligence Application V1
+
+- Built a production Next.js App Router application on top of the REC engine.
+- Implemented the ATS-style Vacancy Intelligence Inbox with three-pane vacancy/job/candidate workflow.
+- Added persistent vacancy and candidate search/filter interactions, display density controls and Candidate Focus.
+- Added Companies, Runs and QA secondary operating views.
+- Added demo mode so the application can be deployed and visually validated before infrastructure provisioning.
+- Added live Supabase/Postgres repository adapter.
+- Added Supabase magic-link authentication with SSR cookie handling and Next.js Proxy protection.
+- Added secure operational database migration with RLS.
+- Separated research evidence from recruiter operational state at the database layer.
+- Added recruiter operations for closing vacancies and Earmark / Top 10 / Approach / Exclude candidate actions.
+- Added idempotent `/api/ingest/run` publishing endpoint for ChatGPT and agent outputs.
+- Added run-publishing and app-operations documentation.
+- Added GitHub Actions typecheck and production-build gate; operational V1 passes both.
+
+
 ## 0.12.0 — Vacancy Intelligence Workspace / ATS Presentation Layer
 
 - Added the browser-based Recruitment Intelligence Workspace as the primary human operating interface.
