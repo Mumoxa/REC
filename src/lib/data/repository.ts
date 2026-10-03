@@ -12,6 +12,7 @@ import type {
 } from "./types";
 import { isDemoMode } from "@/lib/supabase/config";
 import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 
 type Row = Record<string, any>;
 
@@ -21,6 +22,12 @@ export async function getWorkspaceSnapshot(): Promise<WorkspaceSnapshot> {
   }
 
   const supabase = await createClient();
+
+  const { data: authData, error: authError } = await supabase.auth.getClaims();
+  if (authError || !authData?.claims?.sub) {
+    redirect("/login");
+  }
+
   const slug = process.env.WORKSPACE_SLUG || "talent-tree";
 
   const { data: workspace, error: workspaceError } = await supabase
