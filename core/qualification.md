@@ -1,5 +1,17 @@
 # Shared Commercial Qualification Rules
 
+## Taxonomy authority
+
+The detailed role authority is:
+
+- `taxonomy/Talent_Tree_Master_Recruitment_Role_Taxonomy.md`
+- `taxonomy/role_taxonomy.json`
+- `taxonomy/role_taxonomy_rules.yaml`
+
+Where this summary conflicts with the detailed taxonomy, the taxonomy governs.
+
+For LinkedIn social discovery, role filtering remains downstream of discovery.
+
 ## 1. Market
 
 Primary market: **South Africa**.
