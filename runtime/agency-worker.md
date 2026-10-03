@@ -34,3 +34,21 @@ Return records conforming to `schemas/discovered-job.schema.json` plus a source-
 Use `taxonomy/south_africa_locations.yaml` for geographic normalisation and, where geography determines search effort, preserve its P1 Western Cape → P2 Gauteng → P3 KwaZulu-Natal → P4 rest-of-South-Africa order.
 
 Do not flatten commercial/industrial nodes into province or metro names when the source exposes the more specific location.
+
+
+## Seniority search authority
+
+Use `taxonomy/seniority_terms.yaml` to generate positive vacancy-search lanes and classify seniority.
+
+Mandatory coverage includes:
+
+- Executive Director;
+- board, Non-Executive Director and Independent Non-Executive Director roles;
+- fractional / interim / portfolio executives;
+- Director, Head and senior-management titles;
+- Principal / Lead / Architect roles;
+- Specialist / Senior Specialist / Principal Specialist;
+- Consultant / Senior Consultant / Principal Consultant / Managing Consultant;
+- Partner, Practice Lead, Advisory and consulting leadership titles.
+
+Do not require people-management for a role to be high seniority.
