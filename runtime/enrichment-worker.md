@@ -30,8 +30,8 @@ Turn discovered records from all channels into a deduplicated, evidence-backed, 
 18. find an observed business email for each stakeholder where available;
 19. where no observed address exists and the pattern is sufficiently evidenced, generate a probable pattern-inferred business email;
 20. consolidate stakeholder and company-email intelligence;
-21. run QA Gate A for discovery/employer/client/role claims;
-22. if QA passes and role/employer activation gates are met, hand the opportunity to `runtime/candidate-mapping-worker.md`;
+21. verify that upstream QA Gate A has passed; if no Gate A record exists, route to `runtime/qa-review-worker.md` before proceeding;
+22. if QA Gate A is `PASS` or `PASS_WITH_UNKNOWNS` and role/employer activation gates are met, hand the opportunity to `runtime/candidate-mapping-worker.md`;
 23. otherwise return unresolved research actions.
 
 Candidate mapping is shared downstream work and is not a sourcing channel.
@@ -182,7 +182,7 @@ Do not commit live person-specific names/email addresses or client-sensitive run
 
 ## Candidate-mapping handoff
 
-A final opportunity may enter candidate market mapping only when QA Gate A returns `PASS` or `PASS_WITH_UNKNOWNS` and the role/employer activation gates are satisfied.
+A final opportunity may enter candidate market mapping only when the upstream QA Gate A record is `PASS` or `PASS_WITH_UNKNOWNS` and the role/employer activation gates are satisfied.
 
 Pass forward:
 
