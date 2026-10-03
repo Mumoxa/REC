@@ -346,6 +346,32 @@
             "items": {
               "type": "string"
             }
+          },
+          "seniority_signal": {
+            "type": "object",
+            "properties": {
+              "matched_terms": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "board_level": {
+                "type": "boolean"
+              },
+              "executive_director": {
+                "type": "boolean"
+              },
+              "fractional_or_interim": {
+                "type": "boolean"
+              },
+              "consulting_track": {
+                "type": "boolean"
+              },
+              "specialist_track": {
+                "type": "boolean"
+              }
+            }
           }
         }
       }
