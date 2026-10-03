@@ -53,3 +53,10 @@ Run dedicated searches for:
 - consultant / consulting / advisory ladders.
 
 Do not use conventional people-management titles as the only definition of seniority.
+
+
+## Query construction authority
+
+Use `query_templates.yaml` for source-aware query generation and structured-filter planning.
+
+Where an ATS or board provides reliable role, geography, date or category filters, prefer those structured filters to simulated Boolean search. Use fallbacks only when they add a genuinely new information angle.
