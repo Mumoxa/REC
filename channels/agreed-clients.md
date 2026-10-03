@@ -4,7 +4,7 @@
 
 This is one of exactly four sourcing channels.
 
-It is **Stage 1** and always runs first.
+It has **default priority 1** in a combined run and is independently runnable.
 
 ## Mission
 
@@ -40,8 +40,13 @@ For every current agreed client search all applicable:
 
 A confirmed agreed-client or agreed-group vacancy enters the immediate-priority pipeline.
 
-Past clients are not automatically Stage 1.
+Past clients are not automatically current agreed clients.
 
 ## Completion gate
 
-Every current agreed client must have explicit channel coverage before Stage 2 begins.
+Within an agreed-client channel run, every current agreed client must have explicit coverage across all applicable client hiring surfaces before that channel run is considered complete.
+
+
+## Shared stack
+
+This channel uses `core/search-structure.md` and the same role taxonomy, seniority ontology, geography, query templates, qualification rules, evidence standard, scoring rubric and output logic as all other channels.
