@@ -2,7 +2,7 @@
 
 ## Bootstrap
 
-Load `manifest.yaml`, all global files, and all files under `workers.jobboards.load`.
+Load `manifest.yaml` and all files under `workers.jobboards.load`, including `taxonomy/south_africa_locations.yaml`.
 
 ## Mission
 
@@ -26,3 +26,13 @@ Discover and verify relevant vacancies from official careers/ATS pages, major bo
 ## Output
 
 Return records conforming to `schemas/discovered-job.schema.json` and a source coverage ledger for the run.
+
+
+## Geographic authority
+
+Use `taxonomy/south_africa_locations.yaml` for search ordering and normalisation.
+
+Where source mechanics permit location-specific searches, preserve:
+P1 Western Cape → P2 Gauteng → P3 KwaZulu-Natal → P4 rest of South Africa / national.
+
+Within each region, follow the encoded cluster order rather than relying only on province or metro names.
