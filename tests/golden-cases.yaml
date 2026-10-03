@@ -498,52 +498,53 @@ cases:
     reason: Query performance must consider downstream commercial outcomes, not volume alone.
 
 
-  - id: source_priority_strict_sequence
+  - id: channel_agency_independent_run
     input:
-      stage_1_complete: false
+      agreed_client_channel_complete: false
       request: start_agency_discovery
     expected:
-      allowed: false
-    reason: Stage 2 may not begin before the agreed-client sweep is complete.
+      allowed: true
+      search_channel: AGENCY_SITES
+    reason: Agency Sites is independently runnable and does not require the Agreed Clients channel to complete first.
 
-  - id: source_priority_linkedin_waits_for_agencies
+  - id: channel_linkedin_independent_run
     input:
-      stage_1_complete: true
-      stage_2_complete: false
-      request: start_broad_linkedin_intelligence
+      agreed_client_channel_complete: false
+      agency_channel_complete: false
+      request: start_linkedin_intelligence
     expected:
-      allowed: false
-    reason: Broader LinkedIn intelligence is Stage 3 and follows the strategic-agency sweep.
+      allowed: true
+      search_channel: LINKEDIN
+    reason: LinkedIn is independently runnable and uses the same shared intelligence stack.
 
-  - id: source_priority_jobboards_are_stage_4
+  - id: channel_jobboards_independent_run
     input:
-      stage_1_complete: true
-      stage_2_complete: true
-      stage_3_complete: false
+      other_channels_complete: false
       request: start_broader_jobboard_discovery
     expected:
-      allowed: false
-    reason: Broader secondary job-board/source-map work may not crowd out the first three stages.
+      allowed: true
+      search_channel: JOB_BOARDS
+    reason: Job Boards is independently runnable; default cross-channel priority applies only to combined runs.
 
   - id: agreed_client_vacancy_immediate_priority
     input:
       employer: Lightstone
       client_status: AGREED_CLIENT
-      discovered_in_stage: STAGE_4_BROADER_SECONDARY_SOURCES
+      search_channel: JOB_BOARDS
     expected:
-      promotion_to_stage_1: true
+      promote_to_agreed_client_priority: true
       commercial_priority: IMMEDIATE
-    reason: An agreed-client match from any later source is promoted immediately.
+    reason: An agreed-client match from any channel receives immediate agreed-client commercial priority.
 
   - id: agreed_group_entity_immediate_priority
     input:
       employer: Capfin
       client_status: AGREED_GROUP_ENTITY
-      discovered_in_stage: STAGE_2_STRATEGIC_AGENCIES
+      search_channel: AGENCY_SITES
     expected:
-      promotion_to_stage_1: true
+      promote_to_agreed_client_priority: true
       commercial_priority: IMMEDIATE
-    reason: Confirmed Pepkor agreement entities follow the same Stage 1 treatment.
+    reason: Confirmed Pepkor agreement entities receive the same immediate agreed-client treatment regardless of discovery channel.
 
   - id: past_client_not_stage_1
     input:
@@ -551,7 +552,7 @@ cases:
       client_status: PAST_CLIENT
       current_agreement_verified: false
     expected:
-      promotion_to_stage_1: false
+      promote_to_agreed_client_priority: false
       next_action: VERIFY_CURRENT_AGREEMENT
     reason: Historical work does not prove a current agreement.
 
@@ -561,7 +562,7 @@ cases:
       client_status: AGREED_CLIENT
       exact_corporate_identity_verified: false
     expected:
-      stage_1_priority_retained: true
+      agreed_client_priority_retained: true
       automatic_entity_match_confirmed: false
     reason: Angaza is prioritised as agreed while exact identity remains a verification requirement.
 
@@ -571,16 +572,16 @@ cases:
       client_status: AGREED_CLIENT
       employing_business_unit_scope_verified: false
     expected:
-      stage_1_priority_retained: true
+      agreed_client_priority_retained: true
       agreement_scope_status: UNRESOLVED
     reason: Current client priority and unresolved entity scope are separate facts.
 
   - id: client_status_survives_deduplication
     input:
       records:
-        - source_stage: STAGE_1_AGREED_CLIENTS
+        - search_channel: AGREED_CLIENTS
           client_status: AGREED_CLIENT
-        - source_stage: STAGE_4_BROADER_SECONDARY_SOURCES
+        - search_channel: JOB_BOARDS
           client_status: UNKNOWN
       same_canonical_vacancy: true
     expected:
@@ -593,8 +594,8 @@ cases:
       client: Pepkor Group
       one_applicable_channel_missing_ledger_status: true
     expected:
-      stage_1_client_complete: false
-    reason: Every applicable Stage 1 client channel must be searched or explicitly marked with an allowed outcome.
+      agreed_client_channel_run_complete: false
+    reason: Every applicable agreed-client hiring surface must be searched or explicitly marked with an allowed outcome for that channel run.
 
   - id: agency_agreed_client_feedback_loop
     input:
@@ -602,9 +603,9 @@ cases:
       resolved_end_employer: Fairheads Benefit Services
       client_status: AGREED_CLIENT
     expected:
-      source_priority_stage_original: STAGE_2_STRATEGIC_AGENCIES
-      promotion_to_stage_1: true
-    reason: Preserve source provenance while promoting the commercial workflow.
+      search_channel_original: AGENCY_SITES
+      promote_to_agreed_client_priority: true
+    reason: Preserve source provenance while applying agreed-client commercial priority.
 
 
   - id: architecture_exact_four_channels
@@ -672,14 +673,62 @@ cases:
       channel_count: 4
     reason: Every detailed implementation must map back to one of the four canonical channels.
 
-  - id: architecture_stage_channel_mapping
+  - id: architecture_channel_priority_mapping
     input:
-      stages:
-        STAGE_1_AGREED_CLIENTS: AGREED_CLIENTS
-        STAGE_2_STRATEGIC_AGENCIES: AGENCY_SITES
-        STAGE_3_LINKEDIN_INTELLIGENCE: LINKEDIN
-        STAGE_4_BROADER_SECONDARY_SOURCES: JOB_BOARDS
+      default_priority:
+        AGREED_CLIENTS: 1
+        AGENCY_SITES: 2
+        LINKEDIN: 3
+        JOB_BOARDS: 4
     expected:
-      one_to_one_mapping: true
-      separate_stage_taxonomy_creates_extra_channels: false
-    reason: The four source-priority stages are the four channels in execution order.
+      channel_count: 4
+      independent_execution: true
+      default_order_is_gate: false
+    reason: The four channels have a default combined-run priority but remain independently runnable.
+
+
+  - id: channel_shared_role_taxonomy
+    input:
+      channels:
+        - AGREED_CLIENTS
+        - AGENCY_SITES
+        - LINKEDIN
+        - JOB_BOARDS
+    expected:
+      role_taxonomy_source_for_all: taxonomy/role_taxonomy.json
+      separate_channel_role_taxonomies: false
+    reason: All four channels must search and classify against the same 271-node role taxonomy.
+
+  - id: channel_shared_seniority
+    input:
+      channels:
+        - AGREED_CLIENTS
+        - AGENCY_SITES
+        - LINKEDIN
+        - JOB_BOARDS
+    expected:
+      seniority_source_for_all: taxonomy/seniority_terms.yaml
+      separate_channel_seniority_systems: false
+    reason: Board, executive, fractional, specialist and consulting seniority must be handled consistently in every channel.
+
+  - id: channel_shared_search_structure
+    input:
+      channels:
+        - AGREED_CLIENTS
+        - AGENCY_SITES
+        - LINKEDIN
+        - JOB_BOARDS
+    expected:
+      shared_search_structure: core/search-structure.md
+      shared_query_engine: query_templates.yaml
+      channel_specific_difference_limited_to_source_tactics: true
+    reason: Source surface changes by channel; the intelligence/search framework does not.
+
+  - id: channel_single_run_no_dependency
+    input:
+      requested_channel: LINKEDIN
+      other_channels_run: false
+    expected:
+      execute_requested_channel: true
+      prerequisite_channel_run: false
+    reason: Search channels are designed to be run individually.
