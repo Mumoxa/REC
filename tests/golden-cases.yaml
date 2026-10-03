@@ -357,3 +357,142 @@ cases:
       add_positive_search_lane: true
       use_seniority_as_discovery_exclusion: false
     reason: Seniority expands LinkedIn discovery but does not narrow the hidden-hiring engine.
+
+
+  - id: query_exact_before_broad
+    input:
+      objective: FIND_NEW_VACANCY
+      exact_title: Financial Manager
+      location: Stellenbosch
+    expected:
+      first_pass: EXACT
+      broad_exploratory_first: false
+    reason: Exact and discriminative searches must precede broad recall queries.
+
+  - id: query_bounded_expansion
+    input:
+      signal_variants: 20
+      role_aliases: 30
+      location_variants: 15
+      date_variants: 4
+    expected:
+      blind_cartesian_product: false
+      generated_queries_bounded: true
+    reason: The query engine must prevent combinatorial explosion.
+
+  - id: query_references_authoritative_vocabularies
+    input:
+      needs:
+        - role terms
+        - seniority terms
+        - location terms
+    expected:
+      role_source: taxonomy/role_taxonomy.json
+      seniority_source: taxonomy/seniority_terms.yaml
+      location_source: taxonomy/south_africa_locations.yaml
+      duplicate_parallel_lists: false
+    reason: Query configuration references canonical vocabularies rather than maintaining drifting copies.
+
+  - id: query_employer_attribution_support_and_contradiction
+    input:
+      candidate_employer: Example Manufacturing
+      employer_status: HYPOTHESIS
+    expected:
+      supporting_queries: true
+      contradiction_queries: true
+    reason: Employer attribution requires active contradiction research as well as supporting evidence.
+
+  - id: query_known_employer_skips_attribution
+    input:
+      role: Financial Manager
+      employer: Confirmed Employer
+      location: Stellenbosch
+    expected:
+      generate:
+        - VACANCY_FRESHNESS
+        - ATS_DISCOVERY
+        - STAKEHOLDER_DISCOVERY
+      generate_not:
+        - EMPLOYER_ATTRIBUTION
+    reason: Query selection must reflect current intelligence state.
+
+  - id: query_anonymous_agency_vacancy
+    input:
+      role: Financial Manager
+      employer: null
+      agency: Known Agency
+      location: Stellenbosch
+      industry: manufacturing
+      system: SAP
+      qualification: CA(SA)
+    expected:
+      generate:
+        - EMPLOYER_ATTRIBUTION
+        - JOB_DUPLICATE_DISCOVERY
+        - RECRUITER_CLIENT_HISTORY
+        - EMPLOYER_CONTRADICTION
+    reason: Anonymous agency roles require fingerprint and hypothesis-testing query families.
+
+  - id: query_failed_memory_prevents_repeat
+    input:
+      query_hash: abc123
+      prior_failure: ZERO_RESULTS
+      new_evidence: false
+      retry_interval_elapsed: false
+    expected:
+      rerun_identical_query: false
+    reason: Identical failed searches must not be repeated without a new reason.
+
+  - id: query_retry_allowed_on_new_evidence
+    input:
+      query_hash: abc123
+      prior_failure: ZERO_RESULTS
+      new_evidence: true
+    expected:
+      rerun_permitted: true
+    reason: New evidence is an explicit retry condition.
+
+  - id: query_source_specific_syntax
+    input:
+      source: employer_ats
+      structured_filters_available: true
+    expected:
+      prefer_structured_filter: true
+      force_external_boolean: false
+    reason: Reliable native structured search should be preferred where available.
+
+  - id: query_national_geography_not_complete
+    input:
+      query_location: South Africa
+    expected:
+      granular_location_expansion_still_required: true
+    reason: National queries do not replace the location ontology's granular commercial-node coverage.
+
+  - id: query_high_value_deeper_fallback
+    input:
+      seniority_signal: Executive Director
+      commercial_value: high
+    expected:
+      deeper_fallback_chain_allowed: true
+      weaker_evidence_threshold: false
+    reason: High-value opportunities justify more search effort, not lower evidence standards.
+
+  - id: query_contact_requires_stakeholder_relevance
+    input:
+      stakeholder_relevance: unresolved
+    expected:
+      run_contact_discovery: false
+    reason: Contact intelligence starts only after a relevant person has been established.
+
+  - id: query_result_count_not_primary_metric
+    input:
+      query_a:
+        results: 500
+        qualifying_jobs: 0
+      query_b:
+        results: 7
+        qualifying_jobs: 3
+    expected:
+      optimise_only_for_result_count: false
+      track_commercial_yield: true
+    reason: Query performance must consider downstream commercial outcomes, not volume alone.
