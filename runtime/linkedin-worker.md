@@ -109,10 +109,10 @@ Do not let query templates apply commercial qualification or suppress otherwise 
 
 ## Client-status feedback loop
 
-Every opportunity extracted from a LinkedIn signal must carry `client_status` and `source_priority_stage`.
+Every opportunity extracted from a LinkedIn signal must carry `client_status` and `search_channel`.
 
 For LinkedIn discoveries use:
 
-`source_priority_stage = LINKEDIN`
+`search_channel = LINKEDIN`
 
-If the employer resolves to `AGREED_CLIENT` or `AGREED_GROUP_ENTITY`, promote the opportunity immediately into the agreed-client priority workflow without changing the original LinkedIn source provenance.
+If the employer resolves to `AGREED_CLIENT` or `AGREED_GROUP_ENTITY`, give the opportunity immediate agreed-client commercial priority without changing the original LinkedIn source provenance.
