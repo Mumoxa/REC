@@ -16,6 +16,7 @@ principles:
   role_taxonomy_rules: taxonomy/role_taxonomy_rules.yaml
   seniority_authority: taxonomy/seniority_terms.yaml
   query_templates_authority: query_templates.yaml
+  query_output_schema: schemas/generated-query.schema.json
 
 workers:
   linkedin:
