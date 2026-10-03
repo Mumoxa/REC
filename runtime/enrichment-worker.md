@@ -30,7 +30,11 @@ Turn discovered records from all channels into a deduplicated, evidence-backed, 
 18. find an observed business email for each stakeholder where available;
 19. where no observed address exists and the pattern is sufficiently evidenced, generate a probable pattern-inferred business email;
 20. consolidate stakeholder and company-email intelligence;
-21. final QA.
+21. run QA Gate A for discovery/employer/client/role claims;
+22. if QA passes and role/employer activation gates are met, hand the opportunity to `runtime/candidate-mapping-worker.md`;
+23. otherwise return unresolved research actions.
+
+Candidate mapping is shared downstream work and is not a sourcing channel.
 
 ## Research discipline
 
@@ -174,3 +178,22 @@ Use public business contact information only.
 Do not seek private personal email addresses or private phone numbers.
 
 Do not commit live person-specific names/email addresses or client-sensitive run outputs to this public GitHub repository. The repo should contain rules, schemas and tests; live enrichment results belong in a private operational store/output.
+
+
+## Candidate-mapping handoff
+
+A final opportunity may enter candidate market mapping only when QA Gate A returns `PASS` or `PASS_WITH_UNKNOWNS` and the role/employer activation gates are satisfied.
+
+Pass forward:
+
+- canonical opportunity ID;
+- source channel provenance;
+- client status/agreement scope;
+- verified vacancy evidence;
+- exact role resolution;
+- employer resolution;
+- material job requirements with evidence;
+- contradictions and unknowns;
+- stakeholder/contact intelligence where available.
+
+Do not convert unresolved information into facts merely to unlock the next worker.
