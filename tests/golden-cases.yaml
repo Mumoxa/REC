@@ -605,3 +605,81 @@ cases:
       source_priority_stage_original: STAGE_2_STRATEGIC_AGENCIES
       promotion_to_stage_1: true
     reason: Preserve source provenance while promoting the commercial workflow.
+
+
+  - id: architecture_exact_four_channels
+    input:
+      sourcing_channels:
+        - AGREED_CLIENTS
+        - AGENCY_SITES
+        - LINKEDIN
+        - JOB_BOARDS
+    expected:
+      channel_count: 4
+      fifth_channel_allowed_without_explicit_change: false
+    reason: The original project mental model is core plus exactly four sourcing channels.
+
+  - id: architecture_enrichment_is_not_channel
+    input:
+      module: enrichment
+    expected:
+      classification: SUPPORTING_IMPLEMENTATION
+      sourcing_channel: false
+    reason: Enrichment processes discoveries; it is not a discovery channel.
+
+  - id: architecture_query_engine_is_not_channel
+    input:
+      module: query_templates.yaml
+    expected:
+      classification: SUPPORTING_IMPLEMENTATION
+      sourcing_channel: false
+    reason: Query construction controls how to search within a channel, not a separate channel.
+
+  - id: architecture_support_folders_not_channels
+    input:
+      folders:
+        - runtime
+        - schemas
+        - taxonomy
+        - sources
+        - tests
+        - archive
+        - runs
+    expected:
+      sourcing_channels_created: 0
+    reason: Implementation/support layers must not change the four-channel conceptual model.
+
+  - id: architecture_canonical_core_facade
+    input:
+      required_files:
+        - core/ideal-client-profile.md
+        - core/disqualifiers.md
+        - core/scoring-rubric.md
+        - core/output-template.md
+    expected:
+      all_present: true
+    reason: The original four core concerns remain the human-readable system facade.
+
+  - id: architecture_canonical_channel_facade
+    input:
+      required_files:
+        - channels/agreed-clients.md
+        - channels/agency-sites.md
+        - channels/linkedin.md
+        - channels/job-boards.md
+    expected:
+      all_present: true
+      channel_count: 4
+    reason: Every detailed implementation must map back to one of the four canonical channels.
+
+  - id: architecture_stage_channel_mapping
+    input:
+      stages:
+        STAGE_1_AGREED_CLIENTS: AGREED_CLIENTS
+        STAGE_2_STRATEGIC_AGENCIES: AGENCY_SITES
+        STAGE_3_LINKEDIN_INTELLIGENCE: LINKEDIN
+        STAGE_4_BROADER_SECONDARY_SOURCES: JOB_BOARDS
+    expected:
+      one_to_one_mapping: true
+      separate_stage_taxonomy_creates_extra_channels: false
+    reason: The four source-priority stages are the four channels in execution order.
