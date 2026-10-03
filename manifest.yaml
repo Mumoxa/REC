@@ -1,6 +1,6 @@
 engine:
   name: talent-tree-recruitment-intelligence
-  version: 0.3.0
+  version: 0.4.0
   market: South Africa
   status: infrastructure_v1
 
@@ -12,6 +12,8 @@ principles:
   discovery_and_qualification_are_separate: true
   location_authority: taxonomy/south_africa_locations.yaml
   location_search_order_is_mandatory: true
+  role_taxonomy_authority: taxonomy/role_taxonomy.json
+  role_taxonomy_rules: taxonomy/role_taxonomy_rules.yaml
 
 workers:
   linkedin:
@@ -32,6 +34,8 @@ workers:
 
   agencies:
     load:
+      - taxonomy/role_taxonomy.json
+      - taxonomy/role_taxonomy_rules.yaml
       - taxonomy/south_africa_locations.yaml
       - core/qualification.md
       - core/evidence-standard.md
@@ -44,6 +48,8 @@ workers:
 
   jobboards:
     load:
+      - taxonomy/role_taxonomy.json
+      - taxonomy/role_taxonomy_rules.yaml
       - taxonomy/south_africa_locations.yaml
       - core/qualification.md
       - core/evidence-standard.md
@@ -55,6 +61,8 @@ workers:
 
   enrichment:
     load:
+      - taxonomy/role_taxonomy.json
+      - taxonomy/role_taxonomy_rules.yaml
       - taxonomy/south_africa_locations.yaml
       - core/qualification.md
       - core/evidence-standard.md
