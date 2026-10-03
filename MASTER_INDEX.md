@@ -338,3 +338,59 @@ The reviewer challenges prior conclusions, checks primary evidence, searches for
 Company facts are not automatically candidate facts.
 
 Employer technology, turnover, geography, headcount, customers or operating scale may generate candidate hypotheses/searches, but do not confirm individual experience without individual-level evidence.
+
+
+## Recruitment Intelligence Workspace authority
+
+The primary human output/presentation layer is the browser-based Recruitment Intelligence Workspace.
+
+Authority:
+
+- `interface/README.md`
+- `interface/vacancy-intelligence-workspace.md`
+- `interface/search-filter-contract.md`
+- `schemas/workspace-view-state.schema.json`
+- `schemas/workspace-operational-state.schema.json`
+
+### Default job-surfacing location
+
+**VACANCIES → Inbox**
+
+The primary ATS-style screen has three persistent panes:
+
+1. canonical vacancy queue;
+2. selected vacancy intelligence;
+3. relevant candidate market for the selected role.
+
+### Data separation
+
+The workspace consumes canonical structured research records and must not become a second evidence store.
+
+Keep separate:
+
+- research evidence / QA;
+- recruiter operational state;
+- transient/persistent view state;
+- exports.
+
+### Vacancy identity
+
+Several source appearances of one vacancy collapse to one canonical vacancy card while retaining all source provenance.
+
+### Search and filter doctrine
+
+The UI supports global search, pane-level context search, faceted filters, saved views, persistent filter state and cross-pane filtering.
+
+Searching stored intelligence must be distinct from running new AI/web research.
+
+### Output hierarchy
+
+1. structured records / database — source of truth;
+2. browser Recruitment Intelligence Workspace — primary operating interface;
+3. Excel/CSV — analytical/portable exports;
+4. PDF — client-facing packs;
+5. standalone HTML — optional MVP/snapshot only.
+
+### Operational state
+
+Closing a job, earmarking a candidate, Top 10 selection and approach status are recruiter workflow state. They do not alter underlying evidence/QA fields.
