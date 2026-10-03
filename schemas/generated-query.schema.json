@@ -7,6 +7,7 @@
     "template_id",
     "research_task_id",
     "objective",
+    "channel",
     "source",
     "query",
     "confidence_tier",
@@ -172,6 +173,14 @@
           ]
         }
       }
+    },
+    "channel": {
+      "enum": [
+        "AGREED_CLIENTS",
+        "AGENCY_SITES",
+        "LINKEDIN",
+        "JOB_BOARDS"
+      ]
     }
   }
 }
