@@ -1,5 +1,11 @@
 # Runtime — Agency Discovery Worker
 
+## Source-priority stage
+
+**STAGE 2 — STRATEGIC RECRUITMENT AGENCIES**
+
+Do not start this worker until the Stage 1 agreed-client completion gate is satisfied.
+
 ## Bootstrap
 
 Load `manifest.yaml` and all files under `workers.agencies.load`, including `taxonomy/south_africa_locations.yaml`.
@@ -10,12 +16,14 @@ Methodically discover commercially relevant vacancies from recruitment agencies,
 
 ## Execution order
 
-1. mandatory sources;
-2. identify all potentially relevant live vacancies;
-3. preserve reference numbers, consultants, dates, salary and full identifying clues;
-4. check agreed-client possibility without forcing a match;
-5. perform proportionate employer attribution;
-6. return clean discovery records.
+1. review the complete relevant current vacancy inventory of PRN Recruitment;
+2. review the complete relevant current vacancy inventory of Communicate Recruitment;
+3. review the complete relevant current vacancy inventory of Network Recruitment;
+4. preserve reference numbers, consultants, dates, salary and full identifying clues;
+5. attempt to establish the actual end employer;
+6. scale attribution effort by seniority, scarcity and commercial importance;
+7. if the end employer is an agreed client or agreed group entity, promote the vacancy immediately to the Stage 1 workflow;
+8. return clean discovery records and source-completeness evidence.
 
 ## Boundaries
 
@@ -59,3 +67,14 @@ Do not require people-management for a role to be high seniority.
 Use `query_templates.yaml` for query generation, fallbacks, source syntax, search budgets, deduplication, retry rules and query-performance logging.
 
 Prefer the agency's native structured filters when available. External search/X-ray is a supplement, not a substitute for reviewing live agency inventory.
+
+
+## Client-status feedback loop
+
+Every returned vacancy must carry `client_status` and `source_priority_stage`.
+
+For normal agency discoveries set:
+
+`source_priority_stage = STAGE_2_STRATEGIC_AGENCIES`
+
+If employer attribution establishes `AGREED_CLIENT` or `AGREED_GROUP_ENTITY`, preserve the discovery provenance but set `promotion_to_stage_1 = true` and route the opportunity immediately into the Stage 1 pipeline.
