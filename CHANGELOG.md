@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.12.0 — Vacancy Intelligence Workspace / ATS Presentation Layer
+
+- Added the browser-based Recruitment Intelligence Workspace as the primary human operating interface.
+- Set **VACANCIES → Inbox** as the default job-surfacing location.
+- Added the ATS-style three-pane layout: Vacancy Queue → Selected Vacancy → Relevant Candidates.
+- Added expanded / compact / minimal vacancy display density.
+- Distinguished collapse, minimise and close behaviours.
+- Added Candidate Focus mode.
+- Added canonical-vacancy presentation across multiple source records.
+- Added global search, context search, persistent filters, filter chips and saved views.
+- Explicitly separated searching stored intelligence from running new AI/web research.
+- Added evidence-aware candidate filters and cross-pane filtering.
+- Added recruiter operational state for vacancy lifecycle and candidate Earmark / Top 10 / Approach workflows without overwriting evidence/QA.
+- Added workspace view-state and operational-state schemas.
+- Added What's New, Needs Research, Company Hiring, Closed/Archived and export views.
+- Made structured records the source of truth; Excel/CSV/PDF are exports and standalone HTML is optional snapshot/MVP only.
+- Added workspace UI regression cases and archived the user decision.
+
+
 ## 2026-10-03 — Conversation-to-repository sync: candidate intelligence + QA
 
 - Preserved the four-channel architecture and channel independence.
