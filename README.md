@@ -27,16 +27,20 @@ No runtime worker, schema, taxonomy, enrichment process, query engine or source 
 
 Authority: `ARCHITECTURE_GUARD.md`.
 
-## Mandatory source sequence
+## Channel execution
+
+The four channels are independently runnable:
 
 1. **Agreed Clients**
 2. **Agency Sites** — PRN Recruitment, Communicate Recruitment, Network Recruitment
 3. **LinkedIn**
 4. **Job Boards / ATS / broader secondary sources**
 
-This order is strict.
+If a full or multi-channel run is requested, that is the default priority order. It is not a prerequisite chain.
 
-If a later-stage vacancy resolves to an agreed client, it is promoted immediately into the Stage 1 commercial workflow while retaining its original discovery provenance.
+All four channels inherit the same shared search structure, role taxonomy, seniority ontology, geography, qualification rules, evidence standard, scoring logic and output rules.
+
+If any channel resolves a vacancy to an agreed client, it receives immediate agreed-client commercial priority while retaining its original channel provenance.
 
 ## What the support directories do
 
