@@ -403,7 +403,7 @@ export async function POST(request: Request) {
   });
 }
 
-function inferLifecycle(item: IngestPayload["vacancies"][number]) {
+function inferLifecycle(item: NonNullable<IngestPayload["vacancies"]>[number]) {
   if (item.qaStatus === "FAIL_RESEARCH_REQUIRED") return "VERIFYING";
   if (item.candidateMapStatus === "READY") return "TOP_10_READY";
   if (item.candidateMapStatus === "IN_PROGRESS") return "CANDIDATE_MAPPING";
