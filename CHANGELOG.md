@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.4.0 — Authoritative Role Taxonomy
+
+- Preserved the complete Talent Tree master role taxonomy.
+- Compiled all 271 role nodes into a machine-readable registry.
+- Added role-taxonomy governance and boundary rules.
+- Wired the taxonomy into agency, job-board/ATS and enrichment workers.
+- Kept LinkedIn social discovery role-agnostic, with taxonomy filtering downstream.
+- Added taxonomy node/group fields to discovery and final-opportunity schemas.
+- Added regression tests for major classification boundaries and scarce-specialist priority.
+- Recorded the source discrepancy between the stated grouping count and the actual named headings.
+
+
 ## 0.3.0 — Authoritative South Africa Location Ontology
 
 - Added `taxonomy/south_africa_locations.yaml` as the controlling geographic ontology.
