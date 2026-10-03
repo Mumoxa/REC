@@ -29,7 +29,7 @@ This earlier LinkedIn build remains preserved for provenance but does not overri
 | Topic | Runtime home |
 |---|---|
 | LinkedIn hidden hiring doctrine | channels/linkedin/South_Africa_LinkedIn_Hidden_Hiring_Signal_Engine_MASTER.md |
-| LinkedIn signal schema | schemas/linkedin-signal.schema.json |
+| South Africa location authority | taxonomy/south_africa_locations.yaml |\n| Location research rationale | taxonomy/south_africa_locations_research_notes.md |\n| LinkedIn signal schema | schemas/linkedin-signal.schema.json |
 | LinkedIn scheduled worker | runtime/linkedin-worker.md |
 | Salary / commercial qualification | core/qualification.md |
 | Evidence labels | core/evidence-standard.md |
@@ -58,3 +58,14 @@ These require persistent state and remain future data-layer work:
 - dashboard KPI history.
 
 The current LinkedIn master defines the behaviour these future stores must support.
+
+
+## Geographic authority
+
+`taxonomy/south_africa_locations.yaml` is the controlling South Africa location ontology for all discovery and enrichment workers.
+
+Execution order is:
+
+**P1 Western Cape → P2 Gauteng → P3 KwaZulu-Natal → P4 rest of South Africa / national / remote.**
+
+Within each region, the encoded cluster order is also authoritative. Country-level terms do not replace granular node searches.
