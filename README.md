@@ -14,10 +14,10 @@ recruitment-intel/
 │   ├── scoring-rubric.md            ← how to rank/prioritise finds
 │   └── output-template.md           ← exact format for every report
 ├── channels/
-│   ├── agreed-clients.md            ← Channel 1 / Stage 1
-│   ├── agency-sites.md              ← Channel 2 / Stage 2
-│   ├── linkedin.md                  ← Channel 3 / Stage 3
-│   └── job-boards.md                ← Channel 4 / Stage 4
+│   ├── agreed-clients.md            ← Channel 1 / default priority 1
+│   ├── agency-sites.md              ← Channel 2 / default priority 2
+│   ├── linkedin.md                  ← Channel 3 / default priority 3
+│   └── job-boards.md                ← Channel 4 / default priority 4
 └── runs/                            ← optional archive of past outputs
 ```
 
