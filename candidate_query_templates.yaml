@@ -1,0 +1,137 @@
+version: "1.0.0"
+status: AUTHORITATIVE_DOWNSTREAM_EXTENSION
+market: ZA
+purpose: >
+  Generate and audit executable candidate-discovery searches after a vacancy has passed
+  the shared post-discovery and QA gates. This file does not create a sourcing channel.
+
+authority:
+  candidate_mapping: core/candidate-market-mapping.md
+  evidence: core/evidence-standard.md
+  qa: core/independent-qa.md
+  base_query_philosophy: query_templates.yaml
+
+rules:
+  four_channels_only: true
+  candidate_search_is_downstream_not_channel: true
+  execute_queries_not_just_generate: true
+  passive_candidates_are_first_class: true
+  company_first_person_second: true
+  prefer_many_small_overlapping_queries: true
+  giant_boolean_as_primary_method: false
+  preserve_query_reason_and_yield: true
+  credible_longlist_target: 50
+  target_is_not_quota: true
+  never_pad_to_target: true
+  never_invent_people_or_claims: true
+
+sources:
+  - LINKEDIN_NATIVE_PEOPLE
+  - LINKEDIN_POSTS_ACTIVITY
+  - GOOGLE_XRAY
+  - GOOGLE_WEB
+  - PUBLIC_COMPANY_PAGES
+  - PUBLIC_PROFESSIONAL_DIRECTORIES
+  - PUBLIC_INDUSTRY_MEDIA
+  - PUBLIC_CONFERENCE_BIOS
+  - PUBLIC_APPOINTMENT_ANNOUNCEMENTS
+  - OTHER_RELEVANT_PUBLIC_PROFESSIONAL_SOCIAL
+
+search_families:
+
+  DIRECT_TITLE:
+    objective: Find people with the exact or close role title in the target geography/industry.
+    examples:
+      - '"{title}" "{location}" "{industry}"'
+      - '"{title_variant}" "{location}" "{qualification}"'
+
+  TARGET_COMPANY:
+    objective: Search each evidence-backed target employer for relevant people.
+    examples:
+      - 'site:linkedin.com/in "{title}" "{target_company}"'
+      - 'site:linkedin.com/in "{title_variant}" "{target_company}"'
+      - '"{target_company}" "{qualification}" "{function}"'
+
+  QUALIFICATION_FIRST:
+    objective: Find required professional designations/qualifications in the right environment.
+    examples:
+      - 'site:linkedin.com/in "{qualification}" "{industry}" "{location}"'
+      - '"{designation}" "{function}" "{target_company}"'
+
+  ENVIRONMENT_COMPLEXITY:
+    objective: Find people proven in the client's operating complexity.
+    examples:
+      - 'site:linkedin.com/in "{environment_term}" "{function}" "{location}"'
+      - '"{complexity_term}" "{title_variant}" "{industry}"'
+
+  SYSTEM_ERP:
+    objective: Find individually evidenced system/tool experience.
+    examples:
+      - 'site:linkedin.com/in "{system}" "{title_variant}" "{location}"'
+      - '"{erp}" "{function}" "{target_company}"'
+    evidence_note: >
+      Employer system use is not proof of candidate system experience. Search results must
+      lead to candidate-level evidence before the claim is confirmed.
+
+  CAREER_TRAJECTORY:
+    objective: Find candidates whose prior title/path indicates readiness even if the current title differs.
+    examples:
+      - '"{previous_title}" "{current_title}" "{location}"'
+      - 'site:linkedin.com/in "{previous_title}" "{target_company}" "{qualification}"'
+
+  VALUE_CHAIN:
+    objective: Find people in suppliers, customers, distributors and adjacent operating ecosystems.
+    examples:
+      - '"{function}" "{value_chain_company}" "{location}"'
+      - 'site:linkedin.com/in "{title_variant}" "{value_chain_company}"'
+
+  STRONGER_PROVING_GROUND:
+    objective: Find people from larger or more complex evidenced environments.
+    examples:
+      - '"{title_variant}" "{stronger_company}" "{qualification}"'
+      - 'site:linkedin.com/in "{function}" "{stronger_company}"'
+
+  LOCATION:
+    objective: Expand through South African geographic variants without losing priority.
+    priority:
+      - WESTERN_CAPE
+      - GAUTENG
+      - KWAZULU_NATAL
+      - SOUTH_AFRICA_OTHER_OR_NATIONAL
+    examples:
+      - '"{title_variant}" "{suburb_or_node}"'
+      - '"{title_variant}" "{city_or_province}"'
+
+  PERSON_VERIFICATION:
+    objective: Verify a surfaced person's identity/current facts.
+    examples:
+      - '"{person}" "{current_employer}"'
+      - '"{person}" "{qualification}"'
+      - '"{person}" "{system}"'
+      - '"{person}" "{previous_employer}"'
+
+  PERSON_CONTRADICTION:
+    objective: Seek evidence that a material candidate claim is stale or wrong.
+    examples:
+      - '"{person}" "appointed"'
+      - '"{person}" "joins"'
+      - '"{person}" "left" "{current_employer}"'
+      - '"{person}" "{conflicting_employer}"'
+
+query_log_required_fields:
+  - query
+  - source
+  - family
+  - reason_generated
+  - evidence_gap_or_coverage_target
+  - target_company
+  - target_role
+  - executed_at
+  - result_count_or_observed_yield
+  - credible_candidates_surfaced
+  - noise_or_failure_notes
+
+coverage_rule: >
+  Do not stop because 10 candidates have been found. Continue until the relevant evidence-backed
+  target-company universe and required search families have been meaningfully covered, or record
+  a defensible stop condition/access limitation.
