@@ -129,6 +129,7 @@
             ]
           },
           "contact": {
+            "description": "Deprecated generic contact field. Prefer observed_business_email and suggested_probable_business_email.",
             "type": [
               "string",
               "null"
@@ -140,8 +141,51 @@
               "VERIFIED",
               "PATTERN_INFERRED",
               "CATCH_ALL",
+              "CONFLICTING_PATTERN",
               "UNVERIFIABLE",
               "UNKNOWN"
+            ]
+          },
+          "relevance": {
+            "enum": [
+              "PRIMARY_HIRING_OWNER",
+              "FUNCTIONAL_DECISION_MAKER",
+              "EXECUTIVE_SPONSOR",
+              "TALENT_ACQUISITION",
+              "HR_BUSINESS_PARTNER",
+              "VACANCY_CONTACT",
+              "REFERRAL_OR_AMPLIFIER",
+              "POSSIBLE_STAKEHOLDER"
+            ]
+          },
+          "profile_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "observed_business_email": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "suggested_probable_business_email": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "email_pattern_basis": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "email_confidence_note": {
+            "type": [
+              "string",
+              "null"
             ]
           }
         }
@@ -416,6 +460,195 @@
         "LINKEDIN",
         "JOB_BOARDS"
       ]
+    },
+    "role_resolution": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "CONFIRMED",
+            "HIGH_CONFIDENCE",
+            "UNRESOLVED"
+          ]
+        },
+        "exact_role_title": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "taxonomy_node_id": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1,
+          "maximum": 271
+        },
+        "basis": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "contradictions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "employer_resolution": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "CONFIRMED",
+            "HIGH_CONFIDENCE",
+            "UNRESOLVED"
+          ]
+        },
+        "direct_employer": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "legal_or_employing_entity": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "basis": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "contradictions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "contact_enrichment_gate": {
+      "type": "object",
+      "required": [
+        "eligible"
+      ],
+      "properties": {
+        "eligible": {
+          "type": "boolean"
+        },
+        "role_gate_passed": {
+          "type": "boolean"
+        },
+        "employer_gate_passed": {
+          "type": "boolean"
+        },
+        "reason_if_blocked": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "company_email_intelligence": {
+      "type": "object",
+      "properties": {
+        "website_domain": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "employee_email_domain": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "domain_status": {
+          "enum": [
+            "CONFIRMED",
+            "PROBABLE",
+            "CONFLICTING",
+            "UNKNOWN"
+          ]
+        },
+        "observed_business_emails": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string"
+              },
+              "person_or_context": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "source_url": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "evidence_status": {
+                "enum": [
+                  "OBSERVED",
+                  "VERIFIED"
+                ]
+              }
+            }
+          }
+        },
+        "detected_pattern": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "pattern_status": {
+          "enum": [
+            "CONFIRMED_PATTERN",
+            "PROBABLE_PATTERN",
+            "CONFLICTING_PATTERNS",
+            "UNKNOWN_PATTERN"
+          ]
+        },
+        "pattern_basis": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "alternate_patterns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "notes": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
     }
   }
 }
