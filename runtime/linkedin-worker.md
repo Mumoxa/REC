@@ -1,10 +1,10 @@
 # Runtime — LinkedIn Hidden Hiring-Signal Worker
 
-## Source-priority stage
+## Channel
 
-**STAGE 3 — LINKEDIN DISTRIBUTED HIRING INTELLIGENCE**
+**LINKEDIN — default priority 3**
 
-Do not start the broader LinkedIn intelligence sweep until both Stage 1 agreed-client and Stage 2 strategic-agency completion gates are satisfied.
+This channel is independently runnable. No agreed-client or agency run is required beforehand.
 
 ## Bootstrap
 
@@ -111,8 +111,8 @@ Do not let query templates apply commercial qualification or suppress otherwise 
 
 Every opportunity extracted from a LinkedIn signal must carry `client_status` and `source_priority_stage`.
 
-For Stage 3 discoveries use:
+For LinkedIn discoveries use:
 
-`source_priority_stage = STAGE_3_LINKEDIN_INTELLIGENCE`
+`source_priority_stage = LINKEDIN`
 
-If the employer resolves to `AGREED_CLIENT` or `AGREED_GROUP_ENTITY`, promote the opportunity immediately into the Stage 1 workflow without changing the original LinkedIn source provenance.
+If the employer resolves to `AGREED_CLIENT` or `AGREED_GROUP_ENTITY`, promote the opportunity immediately into the agreed-client priority workflow without changing the original LinkedIn source provenance.
