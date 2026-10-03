@@ -145,6 +145,7 @@ objectives:
   - DISPROVE_EMPLOYER
   - FIND_DUPLICATE
   - IDENTIFY_HIRING_MANAGER
+  - IDENTIFY_EXECUTIVE_SPONSOR
   - IDENTIFY_HR_TA_ROUTE
   - IDENTIFY_REPORTING_LINE
   - VERIFY_PERSON_CURRENT
@@ -1153,12 +1154,41 @@ templates:
       - 'site:linkedin.com/in "{employer}" "{stakeholder_title}"'
     required_variables: [employer]
     optional_variables: [stakeholder_title, function, business_unit]
+    prerequisites:
+      - role_resolution_high_confidence
+      - employer_resolution_high_confidence
     confidence_tier: BALANCED
     max_generated_queries: 14
     evidence_target:
       claim_type: STAKEHOLDER_IDENTITY
     fallback_to:
       - stakeholder_hr_ta_route
+
+  - id: stakeholder_executive_sponsor
+    version: "1.0"
+    family: STAKEHOLDER_DISCOVERY
+    purpose: Identify the executive sponsor or senior functional leader relevant to the resolved vacancy.
+    enabled: true
+    priority: HIGH
+    objective: IDENTIFY_EXECUTIVE_SPONSOR
+    sources: [linkedin, google, bing, general_web]
+    template:
+      - '"{employer}" "{function}" executive'
+      - '"{employer}" "{function}" director'
+      - '"{employer}" "head of {function}"'
+      - '"{employer}" leadership "{function}"'
+      - '"{employer}" executive team'
+      - 'site:{company_domain} leadership "{function}"'
+      - 'site:{company_domain} executive "{function}"'
+    required_variables: [employer]
+    optional_variables: [function, company_domain]
+    prerequisites:
+      - role_resolution_high_confidence
+      - employer_resolution_high_confidence
+    confidence_tier: BALANCED
+    max_generated_queries: 12
+    evidence_target:
+      claim_type: EXECUTIVE_SPONSOR_IDENTITY
 
   - id: stakeholder_hr_ta_route
     version: "1.0"
@@ -1175,6 +1205,9 @@ templates:
       - '"{employer}" "Head of Talent Acquisition"'
       - '"{employer}" "HR Director"'
     required_variables: [employer]
+    prerequisites:
+      - role_resolution_high_confidence
+      - employer_resolution_high_confidence
     confidence_tier: BALANCED
     max_generated_queries: 10
     evidence_target:
@@ -1194,6 +1227,9 @@ templates:
       - '"{brand}" "{function}" director'
     required_variables: [employer]
     optional_variables: [business_unit, stakeholder_title, division, function, brand]
+    prerequisites:
+      - role_resolution_high_confidence
+      - employer_resolution_high_confidence
     confidence_tier: HIGH_PRECISION
     max_generated_queries: 10
     evidence_target:
@@ -1235,6 +1271,9 @@ templates:
     optional_variables: [employer, current_title, company_domain]
     evidence_mode: CURRENT
     recency: recent
+    prerequisites:
+      - role_resolution_high_confidence
+      - employer_resolution_high_confidence
     confidence_tier: HIGH_PRECISION
     max_generated_queries: 10
     evidence_target:
@@ -1276,6 +1315,9 @@ templates:
       - '"{person}" "{company_domain}"'
     required_variables: [person, employer]
     optional_variables: [domain, company_domain]
+    prerequisites:
+      - role_resolution_high_confidence
+      - employer_resolution_high_confidence
     confidence_tier: HIGH_PRECISION
     max_generated_queries: 8
     evidence_target:
@@ -1300,6 +1342,9 @@ templates:
       - '"{employer}" contact'
     required_variables: [employer]
     optional_variables: [candidate_domain, company_domain]
+    prerequisites:
+      - role_resolution_high_confidence
+      - employer_resolution_high_confidence
     confidence_tier: BALANCED
     max_generated_queries: 10
     evidence_target:
@@ -1318,6 +1363,9 @@ templates:
       - 'site:{company_domain} "@{domain}"'
     required_variables: [domain]
     optional_variables: [person, company_domain]
+    prerequisites:
+      - role_resolution_high_confidence
+      - employer_resolution_high_confidence
     confidence_tier: HIGH_PRECISION
     max_generated_queries: 12
     evidence_target:
@@ -1488,6 +1536,34 @@ templates:
     max_generated_queries: 6
     evidence_target:
       claim_type: SOURCE_STATUS
+
+post_discovery_enrichment:
+  authority: core/stakeholder-contact-intelligence.md
+  activation_gate:
+    role_resolution:
+      allowed:
+        - CONFIRMED
+        - HIGH_CONFIDENCE
+    employer_resolution:
+      allowed:
+        - CONFIRMED
+        - HIGH_CONFIDENCE
+    if_gate_fails: CONTINUE_ROLE_OR_EMPLOYER_RESOLUTION
+  sequence:
+    - stakeholder_functional_owner
+    - stakeholder_business_unit
+    - stakeholder_executive_sponsor
+    - stakeholder_hr_ta_route
+    - current_employment_person
+    - domain_employee
+    - email_pattern_observed
+    - contact_public_route
+  person_specific_email_inference:
+    query_engine_generates_address: false
+    rule: >
+      Query templates gather observed public business evidence. A probable business address may
+      be constructed later by the enrichment layer only when the employee domain and address
+      pattern are sufficiently evidenced. The constructed address must remain PATTERN_INFERRED.
 
 fallback_chains:
   vacancy_discovery:
