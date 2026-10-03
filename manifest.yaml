@@ -19,6 +19,7 @@ principles:
   query_output_schema: schemas/generated-query.schema.json
   source_priority_authority: sources/search-priority.yaml
   client_universe_authority: sources/agreed-clients.yaml
+  client_sweep_schema: schemas/client-sweep.schema.json
 
 orchestration:
   source_sequence_is_strict: true
@@ -58,6 +59,7 @@ workers:
       - core/evidence-standard.md
       - core/deduplication.md
       - schemas/discovered-job.schema.json
+      - schemas/client-sweep.schema.json
     runtime: runtime/agreed-client-worker.md
     output_schema: schemas/discovered-job.schema.json
 
