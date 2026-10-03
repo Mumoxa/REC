@@ -1,0 +1,386 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Talent Tree LinkedIn Hidden Hiring Signal",
+  "description": "Role-agnostic South African LinkedIn social hiring discovery record. Commercial qualification occurs downstream.",
+  "type": "object",
+  "required": [
+    "signal_id",
+    "source_type",
+    "discovered_at",
+    "geography",
+    "post",
+    "social_graph",
+    "opportunities_found"
+  ],
+  "properties": {
+    "signal_id": {
+      "type": "string"
+    },
+    "linkedin_url": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "original_linkedin_url": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "source_type": {
+      "enum": [
+        "LINKEDIN_JOB_POST",
+        "DIRECT_COMPANY_POST",
+        "DIRECT_HIRING_MANAGER_POST",
+        "INTERNAL_RECRUITER_POST",
+        "EMPLOYEE_REFERRAL_POST",
+        "EMPLOYEE_REPOST",
+        "SILENT_REPOST",
+        "REPOST_WITH_COMMENTARY",
+        "COMMENT_DISCOVERY",
+        "REACTION_FEED_DISCOVERY",
+        "COMPANY_MENTION_DISCOVERY",
+        "AUTHOR_COMPANY_DISCOVERY",
+        "ATS_LINK_POST",
+        "IMAGE_ONLY_HIRING_POST",
+        "PDF_OR_DOCUMENT_HIRING_POST",
+        "MULTI_ROLE_POST",
+        "EXTERNAL_XRAY_DISCOVERY",
+        "TEAM_GROWTH_SIGNAL",
+        "COMPANY_HIRING_CLUSTER"
+      ]
+    },
+    "posted_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "discovered_at": {
+      "type": "string"
+    },
+    "last_checked_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "author": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "title": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "company": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "profile_url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "network_surface": {
+      "type": "object",
+      "properties": {
+        "surfaced_via_person": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "action": {
+          "enum": [
+            "repost",
+            "comment",
+            "reaction",
+            "direct_post",
+            "company_post",
+            "unknown"
+          ]
+        }
+      }
+    },
+    "geography": {
+      "type": "object",
+      "required": [
+        "country"
+      ],
+      "properties": {
+        "raw": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "country": {
+          "const": "South Africa"
+        },
+        "province": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "city": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "node": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "location_confidence": {
+          "enum": [
+            "CONFIRMED",
+            "PROBABLE",
+            "HYPOTHESIS",
+            "UNKNOWN"
+          ]
+        }
+      }
+    },
+    "post": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "hashtags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "mentions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "emails": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "has_image": {
+          "type": "boolean"
+        },
+        "has_document": {
+          "type": "boolean"
+        },
+        "has_carousel": {
+          "type": "boolean"
+        },
+        "has_job_card": {
+          "type": "boolean"
+        }
+      }
+    },
+    "social_graph": {
+      "type": "object",
+      "properties": {
+        "original_author": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "original_company": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reposters": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reposters_with_commentary": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "commenters": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "employee_amplifiers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "external_recruiter_amplifiers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "network_member_that_surfaced_post": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "opportunities_found": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "opportunity_id"
+        ],
+        "properties": {
+          "opportunity_id": {
+            "type": "string"
+          },
+          "title": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "company": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "location_raw": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "application_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "application_email": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "closing_date": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "reference_number": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "discovery_expansion": {
+      "type": "object",
+      "properties": {
+        "new_companies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "new_authors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "new_amplifiers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "candidate_phrases": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "candidate_hashtags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "candidate_ats_domains": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "follow_up": {
+      "type": "object",
+      "properties": {
+        "required": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "last_checked": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    }
+  }
+}
