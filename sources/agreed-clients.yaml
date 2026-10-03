@@ -1,76 +1,135 @@
-version: 0.1.0
-last_researched: 2026-10-01
+version: 1.0.0
+authority: user_supplied_current_client_universe
+market: South Africa
+last_updated: 2026-10-03
 
 rules:
-  search_before_general_market: true
+  search_before_external_market: true
+  current_agreed_clients_are_stage_1: true
+  past_clients_are_not_stage_1_without_current_agreement_evidence: true
   verify_identity_before_automatic_matching: true
   do_not_extend_agreement_to_related_entities_without_scope_evidence: true
+  agreed_group_entities_may_receive_stage_1_when_scope_is_confirmed: true
+  unresolved_identity_or_scope_must_remain_flagged: true
 
-clients:
-  - name: Rieses Food Imports
+client_status_values:
+  - AGREED_CLIENT
+  - AGREED_GROUP_ENTITY
+  - PAST_CLIENT
+  - TARGET_PROSPECT
+  - UNKNOWN
+
+current_agreed_clients:
+
+  - canonical_name: Rieses Food Imports
+    client_status: AGREED_CLIENT
     identity_status: TO_BE_VERIFIED
     aliases:
       - Rieses Food Imports
     notes:
-      - Exact current legal entity and ownership must be verified before automated matching.
+      - This replaces the earlier incorrect Elisa's Food Imports reference.
+      - Verify exact current legal entity and ownership before automated entity matching.
 
-  - name: Pepkor Group
+  - canonical_name: Pepkor Group
+    client_status: AGREED_CLIENT
     identity_status: CONFIRMED_WITH_ENTITY_SCOPE
     aliases:
+      - Pepkor Group
+      - Pepkor Holdings Limited
       - Pepkor Holdings
       - Pepkor
-      - Pepkor Trading
-      - PEP Africa
-      - Grupo Avenida
-      - Capfin
-      - Tenacity Financial Services
-      - Connect Financial Solutions
-      - Abacus Insurance
-      - Abacus Life
-      - Flash Mobile Vending
-      - Flash
-      - Shop2Shop
-      - Pepkor Logistics
-      - Pep Clothing
-      - PepClo
-      - Bradian Logistics
-      - S'Ya Phanda Digital Solutions
-      - Sya Phanda Digital Solutions
+    agreed_group_entities:
+      - name: Pepkor Trading (Pty) Ltd
+        client_status: AGREED_GROUP_ENTITY
+      - name: PEP Africa
+        client_status: AGREED_GROUP_ENTITY
+      - name: Avenida / Grupo Avenida
+        client_status: AGREED_GROUP_ENTITY
+        aliases:
+          - Avenida
+          - Grupo Avenida
+      - name: Pepkor Payments & Lending
+        client_status: AGREED_GROUP_ENTITY
+      - name: Capfin
+        client_status: AGREED_GROUP_ENTITY
+      - name: Tenacity Financial Services
+        client_status: AGREED_GROUP_ENTITY
+      - name: Connect Financial Solutions
+        client_status: AGREED_GROUP_ENTITY
+      - name: Abacus Insurance
+        client_status: AGREED_GROUP_ENTITY
+      - name: Abacus Life
+        client_status: AGREED_GROUP_ENTITY
+      - name: Flash Mobile Vending
+        client_status: AGREED_GROUP_ENTITY
+        aliases:
+          - Flash
+      - name: Shop2Shop
+        client_status: AGREED_GROUP_ENTITY
+      - name: Pepkor Logistics
+        client_status: AGREED_GROUP_ENTITY
+      - name: Pep Clothing / PepClo
+        client_status: AGREED_GROUP_ENTITY
+        aliases:
+          - Pep Clothing
+          - PepClo
+      - name: Bradian Logistics
+        client_status: AGREED_GROUP_ENTITY
+      - name: S'Ya Phanda Digital Solutions
+        client_status: AGREED_GROUP_ENTITY
+        aliases:
+          - Sya Phanda Digital Solutions
+      - name: Pepkor NexTech
+        client_status: AGREED_GROUP_ENTITY
+      - name: Pepkor Data & Analytics
+        client_status: AGREED_GROUP_ENTITY
+      - name: Pepkor Properties
+        client_status: AGREED_GROUP_ENTITY
+      - name: Pepkor IT
+        client_status: AGREED_GROUP_ENTITY
     official_vacancy_url: https://pepkor.co.za/vacancies/
     notes:
-      - Search agreed legal entities and trading/business names separately.
+      - Search each agreed entity/trading name separately.
+      - Do not infer agreement coverage for additional Pepkor-related entities not listed here without scope evidence.
 
-  - name: Lightstone
+  - canonical_name: Lightstone
+    client_status: AGREED_CLIENT
     identity_status: CONFIRMED
     aliases:
       - Lightstone
       - Lightstone Pty Ltd
     official_careers_url: https://corporate.lightstone.co.za/careers
 
-  - name: LASEC Group
+  - canonical_name: LASEC
+    client_status: AGREED_CLIENT
     identity_status: CONFIRMED
     aliases:
       - LASEC
+      - LASEC Medical
       - Lasec SA
       - Lasec Group
 
-  - name: Boschendal
+  - canonical_name: Boschendal Group
+    client_status: AGREED_CLIENT
     identity_status: CONFIRMED
     aliases:
+      - Boschendal Group
       - Boschendal
       - Boschendal Farm
       - Boschendal (Pty) Ltd
     official_careers_url: https://boschendal.com/careers/
     notes:
-      - Do not extend agreement automatically to every related investment or hospitality entity.
+      - Do not extend the agreement automatically to unrelated investment or hospitality entities.
 
-  - name: Fairheads Benefit Services
+  - canonical_name: Fairheads Benefit Services
+    client_status: AGREED_CLIENT
     identity_status: CONFIRMED
     aliases:
       - Fairheads
       - Fairheads Benefit Services
 
-  - name: Crown Food Group
+  - canonical_name: Crown Food Group
+    client_status: AGREED_CLIENT
     identity_status: CONFIRMED
     aliases:
       - Crown Food Group
@@ -78,50 +137,87 @@ clients:
       - Crown Ingredient Solutions
       - Griffith Crown Foods
 
-  - name: Laurium Capital
+  - canonical_name: Laurium Financial Services / Laurium Capital
+    client_status: AGREED_CLIENT
     identity_status: CONFIRMED
     aliases:
+      - Laurium Financial Services
       - Laurium Capital
       - Laurium
     careers_contact: careers@lauriumcapital.com
 
-  - name: Achievement Awards Group
+  - canonical_name: Achievement Awards
+    client_status: AGREED_CLIENT
     identity_status: CONFIRMED
     aliases:
+      - Achievement Awards
       - Achievement Awards Group
       - AAGroup
     official_careers_url: https://www.awards.co.za/careers/
 
-  - name: Old Mutual
+  - canonical_name: Old Mutual
+    client_status: AGREED_CLIENT
     identity_status: CONFIRMED_ENTITY_SCOPE_UNRESOLVED
     aliases:
       - Old Mutual
       - Old Mutual South Africa
     official_careers_url: https://oldmutual.wd3.myworkdayjobs.com/Old_Mutual_Careers
     notes:
-      - Confirm the specific employing entity/business unit is covered by the agreement.
+      - Treat as a current agreed client for Stage 1 search priority.
+      - Preserve employing-entity/business-unit scope as unresolved until verified.
 
-  - name: Angaza
+  - canonical_name: Angaza
+    client_status: AGREED_CLIENT
     identity_status: PROVISIONAL
     aliases:
       - Angaza
     notes:
-      - Public match must be confirmed against signed agreement before automated monitoring.
+      - Treat the relationship as agreed for Stage 1 priority.
+      - Verify exact corporate identity when matching vacancies; do not guess.
 
-  - name: RAM Hand-to-Hand Couriers
+  - canonical_name: RAM Hand-to-Hand Couriers
+    client_status: AGREED_CLIENT
     identity_status: CONFIRMED
     aliases:
       - RAM Hand-to-Hand Couriers
       - RAM Hand to Hand Couriers
       - RAM Transport
     official_careers_url: https://www.ram.co.za/careers
-    notes:
-      - Verify social-media vacancies against official RAM recruitment channels because of published fraud warnings.
 
-  - name: SATURC
+  - canonical_name: SATURC
+    client_status: AGREED_CLIENT
     identity_status: CONFIRMED
     aliases:
       - SATURC
       - Saturc
-    notes:
-      - Current expansion makes proactive vacancy monitoring very high priority.
+
+past_clients_not_current_priority_1:
+
+  - canonical_name: Capita
+    client_status: PAST_CLIENT
+    current_agreement_status: UNVERIFIED
+
+  - canonical_name: NTT Data
+    client_status: PAST_CLIENT
+    current_agreement_status: UNVERIFIED
+    aliases:
+      - NTT DATA
+
+  - canonical_name: WNS
+    client_status: PAST_CLIENT
+    current_agreement_status: UNVERIFIED
+
+matching_rules:
+  current_agreed_client_match:
+    route_to_stage: STAGE_1_AGREED_CLIENTS
+    commercial_priority: IMMEDIATE
+  agreed_group_entity_match:
+    route_to_stage: STAGE_1_AGREED_CLIENTS
+    commercial_priority: IMMEDIATE
+  past_client_match:
+    route_to_stage: VERIFY_CURRENT_AGREEMENT
+    commercial_priority: NORMAL_UNTIL_VERIFIED
+  target_or_prospect_match:
+    route_to_stage: NORMAL_COMMERCIAL_QUALIFICATION
+  unknown_employer:
+    route_to_stage: EMPLOYER_ATTRIBUTION
