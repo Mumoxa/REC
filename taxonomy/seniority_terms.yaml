@@ -61,6 +61,7 @@ priority_bands:
       - Board Chair
     notes:
       - Executive Director must be searched as an exact senior title and not treated as a generic Director synonym.
+      - Executive Director does not by title alone prove statutory board membership; preserve board_status as unverified until evidenced.
       - Board roles may be permanent, portfolio, advisory, statutory or non-executive.
 
   TIER_1_EXECUTIVE_LEADERSHIP:
