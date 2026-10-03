@@ -71,10 +71,10 @@ Prefer the agency's native structured filters when available. External search/X-
 
 ## Client-status feedback loop
 
-Every returned vacancy must carry `client_status` and `source_priority_stage`.
+Every returned vacancy must carry `client_status` and `search_channel`.
 
 For normal agency discoveries set:
 
-`source_priority_stage = AGENCY_SITES`
+`search_channel = AGENCY_SITES`
 
-If employer attribution establishes `AGREED_CLIENT` or `AGREED_GROUP_ENTITY`, preserve the discovery provenance but set `promotion_to_stage_1 = true` and route the opportunity immediately into the Stage 1 pipeline.
+If employer attribution establishes `AGREED_CLIENT` or `AGREED_GROUP_ENTITY`, preserve the discovery provenance but set `promote_to_agreed_client_priority = true` and route the opportunity into the agreed-client commercial-priority workflow.
