@@ -1,6 +1,6 @@
 engine:
   name: talent-tree-recruitment-intelligence
-  version: 0.5.0
+  version: 0.6.0
   market: South Africa
   status: infrastructure_v1
 
@@ -15,6 +15,7 @@ principles:
   role_taxonomy_authority: taxonomy/role_taxonomy.json
   role_taxonomy_rules: taxonomy/role_taxonomy_rules.yaml
   seniority_authority: taxonomy/seniority_terms.yaml
+  query_templates_authority: query_templates.yaml
 
 workers:
   linkedin:
@@ -22,6 +23,7 @@ workers:
     authoritative_spec:
       - channels/linkedin/South_Africa_LinkedIn_Hidden_Hiring_Signal_Engine_MASTER.md
     load:
+      - query_templates.yaml
       - taxonomy/seniority_terms.yaml
       - taxonomy/south_africa_locations.yaml
       - schemas/linkedin-signal.schema.json
@@ -36,6 +38,7 @@ workers:
 
   agencies:
     load:
+      - query_templates.yaml
       - taxonomy/role_taxonomy.json
       - taxonomy/role_taxonomy_rules.yaml
       - taxonomy/seniority_terms.yaml
