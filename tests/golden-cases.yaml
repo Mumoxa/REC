@@ -91,3 +91,55 @@ cases:
       agreement_scope_confirmed: false
       outreach_ready: false
     reason: Specific agreement entity/business unit remains unresolved.
+
+
+  - id: linkedin_discovery_ignores_salary_gate
+    input:
+      channel: linkedin
+      country: South Africa
+      genuine_hiring_signal: true
+      estimated_salary_pa: 300000
+    expected:
+      surface_downstream: true
+      apply_salary_exclusion_in_linkedin_worker: false
+    reason: LinkedIn hidden-hiring master is role-agnostic and commercial filtering happens downstream.
+
+  - id: linkedin_discovery_ignores_role_exclusion
+    input:
+      channel: linkedin
+      country: South Africa
+      genuine_hiring_signal: true
+      role_family: Sales & Business Development
+    expected:
+      surface_downstream: true
+      apply_role_exclusion_in_linkedin_worker: false
+    reason: Discovery coverage must not be narrowed by downstream commercial taxonomy.
+
+  - id: silent_repost_is_first_class_signal
+    input:
+      source_type: SILENT_REPOST
+      original_post_contains_vacancy: true
+    expected:
+      retain_signal: true
+      inspect_reposter_activity: true
+      preserve_repost_chain: true
+    reason: Silent reposts are both vacancy signals and amplifier-discovery paths.
+
+  - id: reaction_feed_discovery_preserves_network_trigger
+    input:
+      source_type: REACTION_FEED_DISCOVERY
+      underlying_vacancy_valid: true
+      surfaced_via_person: Person A
+    expected:
+      retain_underlying_vacancy: true
+      retain_surfacing_person: true
+    reason: Feed reactions are second-order hiring-intelligence signals.
+
+  - id: visual_only_post_requires_media_inspection
+    input:
+      post_text: "We're hiring. See below."
+      has_image: true
+    expected:
+      inspect_media: true
+      allow_multiple_opportunities_from_one_signal: true
+    reason: Useful job data may exist only in an image, PDF, carousel or document.
