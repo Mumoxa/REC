@@ -2,40 +2,77 @@
 
 Version-controlled operating system for Talent Tree's South African recruitment-intelligence engine.
 
-## Purpose
+## Canonical architecture
 
-This repository is the canonical source of truth for the rules, source registries, channel strategies, runtime worker instructions, schemas and regression tests used to discover and qualify commercially valuable hiring opportunities.
+The project deliberately keeps the original simple mental model:
 
-The runtime is deliberately modular:
+```text
+recruitment-intel/
+├── core/
+│   ├── ideal-client-profile.md      ← what a qualifying job looks like
+│   ├── disqualifiers.md             ← what to always exclude
+│   ├── scoring-rubric.md            ← how to rank/prioritise finds
+│   └── output-template.md           ← exact format for every report
+├── channels/
+│   ├── agreed-clients.md            ← Channel 1 / Stage 1
+│   ├── agency-sites.md              ← Channel 2 / Stage 2
+│   ├── linkedin.md                  ← Channel 3 / Stage 3
+│   └── job-boards.md                ← Channel 4 / Stage 4
+└── runs/                            ← optional archive of past outputs
+```
 
-1. **LinkedIn discovery worker** — hiring signals, company/employee/executive posts, X-ray search, hiring-author watches and early signals.
-2. **Agency discovery worker** — priority recruitment agencies and anonymous-employer vacancy discovery.
-3. **Job board / ATS discovery worker** — direct careers pages, ATS platforms, major job boards and the broader source universe.
-4. **Enrichment worker** — normalisation, deduplication, salary/functional qualification, employer attribution, commercial eligibility, stakeholder mapping and contact intelligence.
+**There are exactly four sourcing channels.**
 
-## Design principles
+No runtime worker, schema, taxonomy, enrichment process, query engine or source registry is an additional channel.
 
-- GitHub defines **how the system should work**.
-- Runtime workers load only the modules they need.
-- Shared commercial rules live once and are not copied into channel-specific instructions.
-- Every material conclusion must be evidence-backed.
-- Confirmed, probable, hypothesis and unknown must remain distinct.
-- Existing agreed clients receive first commercial priority.
-- The system is a hiring-signal intelligence engine, not merely a job scraper.
-- Original source specifications are preserved under `archive/originals/`.
+Authority: `ARCHITECTURE_GUARD.md`.
 
-## Repository map
+## Mandatory source sequence
 
-- `core/` — shared commercial and evidence rules.
-- `sources/` — agreed clients and source governance.
-- `channels/` — discovery strategy unique to each channel.
-- `runtime/` — thin worker instructions for scheduled execution.
-- `schemas/` — standard machine-readable output contracts.
-- `tests/` — regression / golden cases.
-- `archive/originals/` — source documents used to compile this build.
-- `manifest.yaml` — declares exactly which files each worker should load.
-- `MASTER_INDEX.md` — maps original source topics into the modular architecture.
+1. **Agreed Clients**
+2. **Agency Sites** — PRN Recruitment, Communicate Recruitment, Network Recruitment
+3. **LinkedIn**
+4. **Job Boards / ATS / broader secondary sources**
 
-## Status
+This order is strict.
 
-Infrastructure V1 — initial decomposition in progress.
+If a later-stage vacancy resolves to an agreed client, it is promoted immediately into the Stage 1 commercial workflow while retaining its original discovery provenance.
+
+## What the support directories do
+
+The repository has become more detailed underneath the canonical architecture, but those folders are implementation support:
+
+- `runtime/` — execution instructions;
+- `schemas/` — machine-readable contracts;
+- `taxonomy/` — role, seniority and geography vocabularies;
+- `sources/` — client/source registries and governance;
+- `tests/` — regression protection;
+- `archive/originals/` — preserved research/build sources;
+- `query_templates.yaml` — how searches are constructed;
+- `manifest.yaml` — exactly what each worker loads;
+- `MASTER_INDEX.md` — map from source research into the architecture.
+
+## Shared principles
+
+- GitHub defines how the system should work.
+- Discovery and qualification are separate.
+- Every material conclusion is evidence-backed.
+- Confirmed, probable, hypothesis and unknown remain distinct.
+- Client status is permanent on vacancy records.
+- Agreed clients receive first commercial priority.
+- The engine is a hiring-intelligence system, not merely a scraper.
+- Detailed implementation must map back to one of the four channels or to shared core/support infrastructure.
+
+## Drift rule
+
+Before adding anything new, classify it as:
+
+- core rule;
+- agreed-client channel;
+- agency-sites channel;
+- LinkedIn channel;
+- job-boards channel;
+- supporting implementation;
+- run output.
+
+If it does not fit one of those, do not silently add a new architectural concept.
