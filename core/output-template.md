@@ -71,6 +71,26 @@ Every run/report should present findings in a consistent structure.
 - Runner-up hypothesis:
 - Remaining uncertainty:
 
+### Post-discovery resolution gate
+
+- Exact role resolution: CONFIRMED / HIGH_CONFIDENCE / UNRESOLVED
+- Role-resolution basis:
+- Direct employer resolution: CONFIRMED / HIGH_CONFIDENCE / UNRESOLVED
+- Employer-resolution basis:
+- Stakeholder/contact enrichment unlocked: Yes / No
+- Reason blocked, if any:
+
+### Company email intelligence
+
+- Company website domain:
+- Employee email domain:
+- Domain status: Confirmed / Probable / Conflicting / Unknown
+- Observed public business-email examples:
+- Detected employee email pattern:
+- Pattern status: Confirmed Pattern / Probable Pattern / Conflicting Patterns / Unknown Pattern
+- Pattern evidence:
+- Alternate patterns / contradictions:
+
 ### Hiring ownership
 
 - Functional decision-maker:
@@ -79,6 +99,23 @@ Every run/report should present findings in a consistent structure.
 - Current-employment verification:
 - Public business contact route:
 - Contact evidence status:
+
+### Consolidated stakeholder/contact matrix
+
+For each relevant person include:
+
+- Name:
+- Current title:
+- Stakeholder relevance:
+- Why this person matters for this specific vacancy:
+- Current-employment status:
+- Public profile/source:
+- Observed public business email, if available:
+- Suggested probable business email, only when derived from an evidenced company pattern:
+- Email status: Observed / Verified / Pattern Inferred / Catch-All / Conflicting Pattern / Unverifiable / Unknown
+- Email-pattern basis:
+- Confidence / uncertainty:
+- Evidence sources:
 
 ### Evidence discipline
 
