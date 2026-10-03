@@ -290,3 +290,70 @@ cases:
     expected:
       automatic_downgrade_for_no_people_management: false
     reason: Scarce specialists can outrank conventional managers on commercial value.
+
+
+  - id: seniority_executive_director_exact_search
+    input:
+      title: Executive Director
+    expected:
+      search_as_exact_title: true
+      board_or_enterprise_band: true
+      do_not_reduce_to_generic_director: true
+    reason: Executive Director is a mandatory high-priority search term.
+
+  - id: seniority_board_ned_search
+    input:
+      title: Independent Non-Executive Director
+    expected:
+      board_level: true
+      search_as_exact_title: true
+      suppress_for_no_operational_management: false
+    reason: Board appointments are first-class senior opportunities.
+
+  - id: seniority_fractional_cfo
+    input:
+      title: Fractional CFO
+      employment_pattern: part-time
+    expected:
+      fractional_or_interim: true
+      seniority_band: TIER_1B_FRACTIONAL_INTERIM_PORTFOLIO
+      downgrade_for_part_time: false
+    reason: Fractional executives are deliberately included in seniority searches.
+
+  - id: seniority_principal_consultant
+    input:
+      title: Principal Consultant
+      people_management: false
+    expected:
+      consulting_track: true
+      high_seniority: true
+      downgrade_for_no_people_management: false
+    reason: Consulting ladders do not map cleanly to corporate manager titles.
+
+  - id: seniority_specialist
+    input:
+      title: Principal Specialist
+      people_management: false
+      scarce_skill: true
+    expected:
+      specialist_track: true
+      high_seniority: true
+      downgrade_for_no_people_management: false
+    reason: Specialist seniority is based on scarcity, technical depth and enterprise impact, not only line management.
+
+  - id: seniority_consultant_not_auto_excluded
+    input:
+      title: Senior Consultant
+      role_family_in_scope: true
+    expected:
+      exclude_because_title_is_consultant: false
+    reason: Consultant and consulting titles are explicit search targets subject to normal role-taxonomy exclusions.
+
+  - id: seniority_board_search_positive_only_on_linkedin
+    input:
+      channel: linkedin
+      title: Board Director
+    expected:
+      add_positive_search_lane: true
+      use_seniority_as_discovery_exclusion: false
+    reason: Seniority expands LinkedIn discovery but does not narrow the hidden-hiring engine.
