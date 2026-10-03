@@ -209,6 +209,7 @@ For each executed search:
 - query;
 - search family;
 - reason generated;
+- execution status;
 - evidence gap / coverage target;
 - target company;
 - yield;
