@@ -4,7 +4,7 @@
 
 This is one of exactly four sourcing channels.
 
-It is **Stage 2** and runs only after the agreed-client sweep.
+It has **default priority 2** in a combined run and is independently runnable.
 
 ## Mandatory agencies
 
@@ -28,10 +28,15 @@ For each relevant vacancy:
 - senior / Lead / specialist / scarce skill: meaningful attribution effort;
 - lower-priority roles: stop when employer attribution becomes disproportionate.
 
-If the employer resolves to an agreed client or agreed group entity, promote immediately to the Channel 1 / Stage 1 commercial workflow.
+If the employer resolves to an agreed client or agreed group entity, promote immediately to the agreed-client commercial workflow.
 
 ## Detailed implementation
 
 - `channels/agencies/strategy.md`
 - `runtime/agency-worker.md`
 - `core/employer-attribution.md`
+
+
+## Shared stack
+
+This channel uses `core/search-structure.md` and the same role taxonomy, seniority ontology, geography, query templates, qualification rules, evidence standard, scoring rubric and output logic as all other channels.
