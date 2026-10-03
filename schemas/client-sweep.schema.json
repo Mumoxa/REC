@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Talent Tree Agreed Client Sweep Ledger",
+  "type": "object",
+  "required": [
+    "run_id",
+    "client",
+    "client_status",
+    "started_at",
+    "channels",
+    "stage_complete"
+  ],
+  "properties": {
+    "run_id": {
+      "type": "string"
+    },
+    "client": {
+      "type": "string"
+    },
+    "client_status": {
+      "enum": [
+        "AGREED_CLIENT",
+        "AGREED_GROUP_ENTITY"
+      ]
+    },
+    "entity_or_alias": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "started_at": {
+      "type": "string"
+    },
+    "completed_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "channels": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "channel",
+          "status"
+        ],
+        "properties": {
+          "channel": {
+            "enum": [
+              "corporate_careers_and_ATS",
+              "parent_company_careers",
+              "subsidiary_and_divisional_careers",
+              "company_linkedin_jobs",
+              "company_linkedin_page_posts",
+              "HR_and_TA_employee_posts",
+              "hiring_manager_posts",
+              "executive_and_functional_leader_posts",
+              "employee_reposts",
+              "referral_posts",
+              "unlinked_we_are_hiring_posts",
+              "recently_removed_or_duplicate_adverts",
+              "attributable_external_job_boards",
+              "attributable_recruitment_agency_adverts"
+            ]
+          },
+          "status": {
+            "enum": [
+              "SEARCHED",
+              "NO_RESULTS",
+              "NOT_APPLICABLE",
+              "ACCESS_LIMITED"
+            ]
+          },
+          "queries_or_filters": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "results_reviewed": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "vacancies_found": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "duplicates_found": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "access_limitation": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "last_checked": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "stage_complete": {
+      "type": "boolean"
+    },
+    "completion_notes": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}
