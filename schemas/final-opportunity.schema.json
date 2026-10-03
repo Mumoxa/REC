@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Talent Tree Final Opportunity",
+  "type": "object",
+  "required": [
+    "canonical_job_id",
+    "role",
+    "commercial",
+    "employer",
+    "evidence",
+    "qa"
+  ],
+  "properties": {
+    "canonical_job_id": {
+      "type": "string"
+    },
+    "source_record_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "role": {
+      "type": "object"
+    },
+    "commercial": {
+      "type": "object",
+      "properties": {
+        "salary_gate": {
+          "enum": [
+            "INCLUDE",
+            "EXCLUDE",
+            "VERIFY"
+          ]
+        },
+        "functional_scope": {
+          "enum": [
+            "INCLUDE",
+            "EXCLUDE",
+            "AGREED_CLIENT_EXCEPTION",
+            "VERIFY"
+          ]
+        },
+        "priority": {
+          "enum": [
+            "PRIORITY_1",
+            "PRIORITY_2",
+            "PRIORITY_3",
+            "REJECT"
+          ]
+        },
+        "existing_client": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      }
+    },
+    "employer": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "status": {
+          "enum": [
+            "CONFIRMED",
+            "PROBABLE",
+            "HYPOTHESIS",
+            "UNKNOWN"
+          ]
+        },
+        "ultimate_parent": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "agreement_scope_status": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "contradictions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "runner_up": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "stakeholders": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "title": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "reason_relevant": {
+            "type": "string"
+          },
+          "employment_status": {
+            "enum": [
+              "CURRENT_VERIFIED",
+              "CURRENT_PROBABLE",
+              "CURRENT_UNVERIFIED",
+              "FORMER",
+              "CONTRADICTED"
+            ]
+          },
+          "contact": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "contact_status": {
+            "enum": [
+              "OBSERVED",
+              "VERIFIED",
+              "PATTERN_INFERRED",
+              "CATCH_ALL",
+              "UNVERIFIABLE",
+              "UNKNOWN"
+            ]
+          }
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "qa": {
+      "type": "object",
+      "properties": {
+        "confirmed": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "inferred": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "unknown": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "human_review_required": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}
