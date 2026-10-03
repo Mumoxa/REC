@@ -1,167 +1,126 @@
-version: 1.0.0
+version: 2.0.0
 authority: user_supplied
-purpose: Mandatory sequential source-priority and stage-gating configuration.
+purpose: Default cross-channel priority and independent-run configuration.
 market: South Africa
 
 core_principle: >
-  The engine starts from where Talent Tree already has the right to do business,
-  then moves outward into agency intelligence, distributed LinkedIn intelligence,
-  and broader secondary market discovery.
+  Talent Tree has four sourcing channels. They share one search structure, role taxonomy,
+  seniority ontology, geography ontology, qualification system and evidence standard.
+  Each channel is independently runnable.
 
-mandatory_sequence:
-  - STAGE_1_AGREED_CLIENTS
-  - STAGE_2_STRATEGIC_AGENCIES
-  - STAGE_3_LINKEDIN_INTELLIGENCE
-  - STAGE_4_BROADER_SECONDARY_SOURCES
+channels:
+  AGREED_CLIENTS:
+    default_priority: 1
+    runtime: runtime/agreed-client-worker.md
+    canonical_facade: channels/agreed-clients.md
+  AGENCY_SITES:
+    default_priority: 2
+    runtime: runtime/agency-worker.md
+    canonical_facade: channels/agency-sites.md
+  LINKEDIN:
+    default_priority: 3
+    runtime: runtime/linkedin-worker.md
+    canonical_facade: channels/linkedin.md
+  JOB_BOARDS:
+    default_priority: 4
+    runtime: runtime/jobboard-worker.md
+    canonical_facade: channels/job-boards.md
 
-sequence_is_strict: true
-equal_weight_channels: false
-broad_market_may_start_before_stage_1_complete: false
-stage_3_may_start_before_stage_2_complete: false
-stage_4_may_start_before_stage_3_complete: false
+execution:
+  independent_channel_runs: true
+  channel_requires_prior_channel_completion: false
+  default_combined_run_order:
+    - AGREED_CLIENTS
+    - AGENCY_SITES
+    - LINKEDIN
+    - JOB_BOARDS
+  combined_order_is_default_priority_not_gate: true
+  equal_commercial_weight: false
+  rule: >
+    If one channel is requested, run that channel directly. If a multi-channel/full-market run
+    is requested, use the default priority order unless the run instruction explicitly selects
+    a different subset/order.
 
-stages:
+shared_search_authority:
+  - core/search-structure.md
+  - query_templates.yaml
+  - taxonomy/role_taxonomy.json
+  - taxonomy/role_taxonomy_rules.yaml
+  - taxonomy/seniority_terms.yaml
+  - taxonomy/south_africa_locations.yaml
+  - core/ideal-client-profile.md
+  - core/disqualifiers.md
+  - core/scoring-rubric.md
+  - core/output-template.md
+  - core/qualification.md
+  - core/evidence-standard.md
+  - core/deduplication.md
+  - core/employer-attribution.md
+  - sources/agreed-clients.yaml
+  - sources/source-governance.md
 
-  STAGE_1_AGREED_CLIENTS:
-    priority: 1
-    label: Current agreed-client universe
-    authority: sources/agreed-clients.yaml
+channel_rules:
+
+  AGREED_CLIENTS:
+    objective: Search the full current agreed-client universe across applicable hiring surfaces.
+    client_universe: sources/agreed-clients.yaml
+    coverage_rule: >
+      Every current agreed client must have explicit coverage outcomes for all applicable client
+      hiring surfaces during an agreed-client channel run.
     commercial_treatment: IMMEDIATE_PRIORITY
-    employer_accessibility_research_required: false
-    objective: >
-      Find every meaningful current hiring opportunity across the complete agreed-client
-      universe before external-market discovery begins.
-    client_channels:
-      - corporate_careers_and_ATS
-      - parent_company_careers
-      - subsidiary_and_divisional_careers
-      - company_linkedin_jobs
-      - company_linkedin_page_posts
-      - HR_and_TA_employee_posts
-      - hiring_manager_posts
-      - executive_and_functional_leader_posts
-      - employee_reposts
-      - referral_posts
-      - unlinked_we_are_hiring_posts
-      - recently_removed_or_duplicate_adverts
-      - attributable_external_job_boards
-      - attributable_recruitment_agency_adverts
-    workflow:
-      - CLIENT_UNIVERSE
-      - VACANCY_DISCOVERY
-      - VERIFY_VACANCY
-      - IDENTIFY_HIRING_OWNER
-      - DETERMINE_TALENT_TREE_RELATIONSHIP
-      - CANDIDATE_MARKET_MAPPING
-      - OUTREACH_OR_CLIENT_ACTION
-    completion_gate:
-      rule: >
-        Every current agreed client must have a run-ledger entry for every applicable channel.
-        A channel may be SEARCHED, NO_RESULTS, NOT_APPLICABLE or ACCESS_LIMITED, but it may not
-        be silently skipped.
-      required_client_coverage: ALL_CURRENT_AGREED_CLIENTS
-    promotion_rule:
-      matched_statuses:
-        - AGREED_CLIENT
-        - AGREED_GROUP_ENTITY
-      action: IMMEDIATE_STAGE_1_PIPELINE
+    role_taxonomy: SHARED
+    seniority: SHARED
+    geography: SHARED
+    query_structure: SHARED
+    qualification: SHARED_WITH_AGREED_CLIENT_EXCEPTION
 
-  STAGE_2_STRATEGIC_AGENCIES:
-    priority: 2
-    label: PRN + Communicate + Network Recruitment
+  AGENCY_SITES:
+    objective: >
+      Review the complete relevant current inventory of PRN Recruitment, Communicate Recruitment
+      and Network Recruitment and identify end employers where proportionate.
     mandatory_sources:
       - PRN Recruitment
       - Communicate Recruitment
       - Network Recruitment
-    inventory_rule: REVIEW_COMPLETE_RELEVANT_CURRENT_INVENTORY
-    objective: >
-      Find relevant vacancies and establish the actual end employer wherever proportionate.
-    workflow:
-      - AGENCY_ADVERT
-      - EXTRACT_EVIDENCE
-      - IDENTIFY_PROBABLE_END_CLIENT
-      - VERIFY_EMPLOYER
-      - ASSESS_COMMERCIAL_VALUE
-      - IDENTIFY_HIRING_STAKEHOLDERS
+    role_taxonomy: SHARED
+    seniority: SHARED
+    geography: SHARED
+    query_structure: SHARED
+    qualification: SHARED
     attribution_effort:
-      executive_director_cfo_head_senior_leadership: AGGRESSIVE_MULTI_ANGLE
-      senior_lead_specialist_scarce_skill: MEANINGFUL
+      board_executive_director_cfo_head_senior_leadership: AGGRESSIVE_MULTI_ANGLE
+      senior_lead_specialist_consultant_scarce_skill: MEANINGFUL
       lower_priority: PROPORTIONATE_STOP_IF_UNRESOLVED
-    feedback_loop:
-      if_end_employer_status:
-        - AGREED_CLIENT
-        - AGREED_GROUP_ENTITY
-      action: PROMOTE_TO_STAGE_1_IMMEDIATELY
-    completion_gate:
-      rule: >
-        Each mandatory agency must have its complete relevant current vacancy inventory reviewed,
-        with source completeness and access limitations logged.
 
-  STAGE_3_LINKEDIN_INTELLIGENCE:
-    priority: 3
-    label: South Africa LinkedIn distributed hiring intelligence
+  LINKEDIN:
+    objective: >
+      Discover South African hiring signals across LinkedIn posts, jobs, people/activity,
+      company pages, reposts, comments, referrals, visual posts and external X-ray.
     controlling_spec: channels/linkedin/South_Africa_LinkedIn_Hidden_Hiring_Signal_Engine_MASTER.md
-    objective: >
-      Discover silent, distributed and socially amplified South African hiring signals after
-      Stage 1 and Stage 2 are complete.
-    signal_surfaces:
-      - individual_recruiter_posts
-      - internal_recruiter_posts
-      - hiring_manager_posts
-      - executive_posts
-      - employee_reposts
-      - referral_requests
-      - team_growth_posts
-      - join_our_team_posts
-      - looking_for_posts
-      - know_anyone_posts
-      - please_share_posts
-      - vacancy_images
-      - vacancy_documents_and_carousels
-      - email_application_posts
-      - comment_distributed_jobs
-      - reposted_vacancies
-      - personal_posts_linking_to_ATS
-      - hashtag_recruitment
-      - company_page_hiring_announcements
-    geography_order:
-      - P1_WESTERN_CAPE
-      - P2_GAUTENG
-      - P3_KWAZULU_NATAL
-      - P4_SOUTH_AFRICA
-    role_agnostic_discovery: true
-    qualification_belongs_downstream: true
-    feedback_loop:
-      if_employer_resolves_to:
-        - AGREED_CLIENT
-        - AGREED_GROUP_ENTITY
-      action: PROMOTE_TO_STAGE_1_IMMEDIATELY
-    completion_gate:
-      rule: >
-        Complete the LinkedIn master's required geographic and social-surface passes or record
-        explicit access limitations before Stage 4 begins.
+    role_taxonomy: SHARED
+    seniority: SHARED
+    geography: SHARED
+    query_structure: SHARED
+    qualification: SHARED_DOWNSTREAM
+    social_signal_rule: >
+      Role-agnostic social signals may be retained when a specific title is not yet recoverable.
+      When a role can be identified, use the same shared role taxonomy and seniority ontology as
+      every other channel.
 
-  STAGE_4_BROADER_SECONDARY_SOURCES:
-    priority: 4
-    label: Broader South African market discovery
+  JOB_BOARDS:
     objective: >
-      Search the governed 350-source universe and long-tail secondary sources only after the
-      first three stages have been completed.
-    internal_order:
+      Search the governed job-board, ATS, direct-careers and broader secondary source universe.
+    internal_source_order:
       - CRITICAL
       - HIGH
       - MEDIUM
       - LOW
       - LONG_TAIL
-    safeguards:
-      - high_volume_public_jobboards_must_not_crowd_out_earlier_stages
-      - prefer_direct_employer_or_original_source_over_aggregator_when_equivalent
-      - preserve_duplicate_sources_without_double_counting
-    feedback_loop:
-      if_employer_resolves_to:
-        - AGREED_CLIENT
-        - AGREED_GROUP_ENTITY
-      action: PROMOTE_TO_STAGE_1_IMMEDIATELY
+    role_taxonomy: SHARED
+    seniority: SHARED
+    geography: SHARED
+    query_structure: SHARED
+    qualification: SHARED
 
 client_status:
   permanent_field: true
@@ -174,19 +133,22 @@ client_status:
       treatment: IMMEDIATE_PRIORITY
     PAST_CLIENT:
       meaning: Previous work exists but current agreement is unverified.
-      treatment: VERIFY_BEFORE_PRIORITY_1
+      treatment: VERIFY_BEFORE_TREATING_AS_CURRENT
     TARGET_PROSPECT:
-      meaning: No current agreement established.
+      meaning: No agreement established.
       treatment: NORMAL_COMMERCIAL_QUALIFICATION
     UNKNOWN:
       meaning: Employer not established.
       treatment: EMPLOYER_ATTRIBUTION_REQUIRED
 
-global_rules:
-  - AGREED_CLIENT_VACANCIES_DO_NOT_COMPETE_WITH_GENERAL_MARKET_VACANCIES
-  - SOURCE_PRIORITY_IS_MANDATORY_AND_SEQUENTIAL
-  - CLIENT_STATUS_MUST_SURVIVE_DEDUPLICATION_AND_ENRICHMENT
-  - CLIENT_STATUS_MUST_NOT_BE_INFERRED_FROM_GROUP_NAME_ALONE
-  - PAST_CLIENT_MUST_NOT_BE_AUTO_PROMOTED_TO_STAGE_1
-  - AGREED_CLIENT_MATCH_FROM_ANY_LATER_STAGE_TRIGGERS_IMMEDIATE_PROMOTION
-  - HIGH_VOLUME_PUBLIC_RESULTS_MUST_NOT_STARVE_HIGHER_PRIORITY_STAGES
+cross_channel_rules:
+  - EACH_CHANNEL_CAN_RUN_WITHOUT_PRIOR_CHANNEL_COMPLETION
+  - ALL_CHANNELS_USE_IDENTICAL_SHARED_SEARCH_AUTHORITIES
+  - CLIENT_STATUS_SURVIVES_DEDUPLICATION_AND_ENRICHMENT
+  - AGREED_CLIENT_MATCH_FROM_ANY_CHANNEL_RECEIVES_IMMEDIATE_COMMERCIAL_PRIORITY
+  - PAST_CLIENT_MUST_NOT_BE_AUTO_PROMOTED_TO_CURRENT_AGREED_CLIENT
+  - ORIGINAL_CHANNEL_PROVENANCE_MUST_BE_PRESERVED
+  - NO_CHANNEL_SPECIFIC_ROLE_TAXONOMY
+  - NO_CHANNEL_SPECIFIC_SENIORITY_ONTOLOGY
+  - NO_CHANNEL_SPECIFIC_GEOGRAPHY_ONTOLOGY
+  - NO_CHANNEL_SPECIFIC_COMMERCIAL_DEFINITION
