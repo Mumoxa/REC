@@ -7,10 +7,10 @@ rules:
   search_before_external_market: true
   current_agreed_clients_are_default_priority_1_in_combined_runs: true
   channels_are_independently_runnable: true
-  past_clients_are_not_stage_1_without_current_agreement_evidence: true
+  past_clients_are_not_current_priority_without_current_agreement_evidence: true
   verify_identity_before_automatic_matching: true
   do_not_extend_agreement_to_related_entities_without_scope_evidence: true
-  agreed_group_entities_may_receive_stage_1_when_scope_is_confirmed: true
+  agreed_group_entities_may_receive_agreed_client_priority_when_scope_is_confirmed: true
   unresolved_identity_or_scope_must_remain_flagged: true
 
 client_status_values:
@@ -213,7 +213,7 @@ matching_rules:
     route_to_channel: AGREED_CLIENTS
     commercial_priority: IMMEDIATE
   agreed_group_entity_match:
-    route_to_stage: STAGE_1_AGREED_CLIENTS
+    route_to_channel: AGREED_CLIENTS
     commercial_priority: IMMEDIATE
   past_client_match:
     route_to_action: VERIFY_CURRENT_AGREEMENT
