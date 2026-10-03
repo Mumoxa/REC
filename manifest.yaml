@@ -53,6 +53,7 @@ workers:
     load:
       - taxonomy/role_taxonomy.json
       - taxonomy/role_taxonomy_rules.yaml
+      - taxonomy/seniority_terms.yaml
       - taxonomy/south_africa_locations.yaml
       - core/qualification.md
       - core/evidence-standard.md
@@ -66,6 +67,7 @@ workers:
     load:
       - taxonomy/role_taxonomy.json
       - taxonomy/role_taxonomy_rules.yaml
+      - taxonomy/seniority_terms.yaml
       - taxonomy/south_africa_locations.yaml
       - core/qualification.md
       - core/evidence-standard.md
