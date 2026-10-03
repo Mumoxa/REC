@@ -1,5 +1,11 @@
 # Runtime — LinkedIn Hidden Hiring-Signal Worker
 
+## Source-priority stage
+
+**STAGE 3 — LINKEDIN DISTRIBUTED HIRING INTELLIGENCE**
+
+Do not start the broader LinkedIn intelligence sweep until both Stage 1 agreed-client and Stage 2 strategic-agency completion gates are satisfied.
+
 ## Bootstrap
 
 1. Read `manifest.yaml`.
@@ -99,3 +105,14 @@ Use `query_templates.yaml` to construct bounded, source-aware search actions.
 The LinkedIn hidden-hiring master still governs **what LinkedIn discovery must cover**. The query configuration governs **how individual searches are constructed, expanded, deduplicated, retried and measured**.
 
 Do not let query templates apply commercial qualification or suppress otherwise valid LinkedIn hiring signals.
+
+
+## Client-status feedback loop
+
+Every opportunity extracted from a LinkedIn signal must carry `client_status` and `source_priority_stage`.
+
+For Stage 3 discoveries use:
+
+`source_priority_stage = STAGE_3_LINKEDIN_INTELLIGENCE`
+
+If the employer resolves to `AGREED_CLIENT` or `AGREED_GROUP_ENTITY`, promote the opportunity immediately into the Stage 1 workflow without changing the original LinkedIn source provenance.
