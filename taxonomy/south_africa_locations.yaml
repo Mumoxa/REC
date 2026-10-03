@@ -1,0 +1,568 @@
+version: 1.0.0
+authority: user_supplied
+scope: South Africa
+purpose: Authoritative geographic ontology and search-priority order for recruitment intelligence discovery and normalisation.
+
+search_order:
+  - priority: P1
+    region: WESTERN_CAPE
+  - priority: P2
+    region: GAUTENG
+  - priority: P3
+    region: KWAZULU_NATAL
+  - priority: P4
+    region: SOUTH_AFRICA_REST_AND_NATIONAL
+
+regions:
+
+  WESTERN_CAPE:
+    label: Western Cape
+    priority: P1
+    highest_priority: true
+    ordered_clusters:
+
+      - cluster_id: WC_CAPE_TOWN_METRO
+        label: Cape Town Metro
+        tier: 1
+        search_frequency: continuous
+        terms:
+          - Cape Town
+          - Cape Town CBD
+          - CBD
+          - City Bowl
+          - Foreshore
+          - Waterfront
+          - V&A Waterfront
+          - De Waterkant
+
+      - cluster_id: WC_NORTHERN_SUBURBS_N1
+        label: Northern Suburbs / N1 corridor
+        tier: 1
+        search_frequency: continuous
+        terms:
+          - Bellville
+          - Tygervalley
+          - Tyger Valley
+          - Durbanville
+          - Century City
+          - Milnerton
+          - Parow
+          - Goodwood
+          - N1 City
+          - Plattekloof
+          - Brackenfell
+          - Kraaifontein
+          - Cape Gate
+          - Bellville South
+          - Stikland
+        relevance_notes:
+          - finance
+          - head-office
+          - retail
+          - FMCG
+          - manufacturing
+          - professional
+          - shared-services
+
+      - cluster_id: WC_INDUSTRIAL_CAPE_TOWN
+        label: Industrial / FMCG / logistics
+        tier: 1
+        search_frequency: continuous
+        terms:
+          - Epping
+          - Epping Industria
+          - Epping Industrial
+          - Montague Gardens
+          - Paarden Eiland
+          - Airport Industria
+          - Airport Industrial
+          - Blackheath
+          - Blackheath Industrial
+          - Kuils River
+          - Brackenfell Industrial
+          - Stikland Industrial
+          - Triangle Farm
+          - Killarney Gardens
+          - Maitland
+          - Maitland Industrial
+          - Elsies River
+          - Parow Industria
+          - Atlantis
+          - Atlantis Industrial
+        relevance_notes:
+          - industrial
+          - FMCG
+          - logistics
+          - manufacturing
+
+      - cluster_id: WC_WINELANDS
+        label: Stellenbosch / Cape Winelands
+        tier: 1
+        search_frequency: continuous
+        disproportionately_high_attention:
+          - Stellenbosch
+        terms:
+          - Stellenbosch
+          - Stellenbosch Winelands
+          - Paarl
+          - Paarl Industrial
+          - Wellington
+          - Franschhoek
+          - Klapmuts
+          - Simondium
+          - Cape Winelands
+          - Winelands
+
+      - cluster_id: WC_CENTURY_CITY
+        label: Century City
+        tier: 1
+        search_frequency: continuous
+        terms:
+          - Century City
+
+      - cluster_id: WC_SOUTHERN_SUBURBS
+        label: Southern Suburbs
+        tier: 2
+        terms:
+          - Claremont
+          - Newlands
+          - Rondebosch
+          - Pinelands
+          - Mowbray
+          - Wynberg
+          - Kenilworth
+          - Tokai
+          - Westlake
+          - Constantia
+
+      - cluster_id: WC_HELDERBERG
+        label: Somerset West / Helderberg
+        tier: 2
+        terms:
+          - Somerset West
+          - Somerset Mall
+          - Strand
+          - Gordon's Bay
+          - Helderberg
+
+      - cluster_id: WC_GARDEN_ROUTE_SECONDARY
+        label: George / Garden Route
+        tier: 2
+        terms:
+          - George
+          - Mossel Bay
+          - Knysna
+
+      - cluster_id: WC_REMAINING_CENTRES
+        label: Remaining Western Cape
+        tier: 3
+        terms:
+          - Worcester
+          - Robertson
+          - Ceres
+          - Malmesbury
+          - Saldanha
+          - Saldanha Bay
+          - Vredenburg
+
+    commercial_weight_order:
+      - Cape Town Metro
+      - Stellenbosch / Winelands
+      - Somerset West / Helderberg
+      - George / Garden Route
+      - Remaining Western Cape
+
+    encoded_engine_order:
+      - Cape Town Metro
+      - Northern Suburbs / N1
+      - Cape Town CBD
+      - Stellenbosch / Cape Winelands
+      - Century City
+      - Industrial Cape Town
+      - Southern Suburbs
+      - Somerset West / Helderberg
+      - George / Garden Route
+      - Remaining Western Cape
+
+  GAUTENG:
+    label: Gauteng
+    priority: P2
+    ordered_clusters:
+
+      - cluster_id: GP_JOHANNESBURG_NORTH
+        label: Sandton / Johannesburg North
+        tier: 1
+        terms:
+          - Johannesburg
+          - Johannesburg North
+          - Sandton
+          - Sandown
+          - Rosebank
+          - Illovo
+          - Melrose
+          - Melrose Arch
+          - Hyde Park
+          - Bryanston
+          - Rivonia
+          - Morningside
+          - Woodmead
+          - Sunninghill
+          - Fourways
+          - Lonehill
+          - Randburg
+          - Northcliff
+
+      - cluster_id: GP_MIDRAND_WATERFALL
+        label: Midrand / Waterfall
+        tier: 1
+        terms:
+          - Midrand
+          - Waterfall
+          - Waterfall City
+          - Kyalami
+          - Halfway House
+          - Vorna Valley
+          - Corporate Park
+          - Midrand Business District
+          - Samrand
+
+      - cluster_id: GP_CENTURION_PRETORIA
+        label: Centurion / Pretoria
+        tier: 1
+        terms:
+          - Centurion
+          - Highveld
+          - Irene
+          - Eco Park
+          - Midstream
+          - Pretoria
+          - Pretoria East
+          - Menlyn
+          - Menlyn Maine
+          - Hatfield
+          - Brooklyn
+          - Lynnwood
+          - Silver Lakes
+
+      - cluster_id: GP_EKURHULENI_EAST_RAND
+        label: Ekurhuleni / East Rand
+        tier: 1
+        terms:
+          - East Rand
+          - Ekurhuleni
+          - Bedfordview
+          - Edenvale
+          - Modderfontein
+          - Kempton Park
+          - Isando
+          - Spartan
+          - Jet Park
+          - OR Tambo
+          - Boksburg
+          - Bartlett
+          - Anderbolt
+          - Germiston
+          - Wadeville
+          - Alberton
+          - Alrode
+          - Benoni
+          - Springs
+        relevance_notes:
+          - industrial
+          - manufacturing
+          - FMCG
+          - logistics
+          - engineering
+          - supply-chain finance
+
+      - cluster_id: GP_JOHANNESBURG_WEST
+        label: Johannesburg West
+        tier: 2
+        terms:
+          - Roodepoort
+          - Constantia Kloof
+          - Florida
+          - Honeydew
+          - Strubens Valley
+          - Krugersdorp
+          - West Rand
+
+      - cluster_id: GP_EMERGING_PERIPHERAL
+        label: Emerging / peripheral nodes
+        tier: 2
+        terms:
+          - Lanseria
+          - Cosmo City
+          - Diepsloot
+          - Pretoria North
+          - Rosslyn
+          - Silverton
+          - Waltloo
+
+    encoded_engine_order:
+      - Sandton / Johannesburg North
+      - Midrand / Waterfall
+      - Centurion
+      - Pretoria
+      - Ekurhuleni / East Rand
+      - Randburg / Fourways
+      - West Rand
+      - Remaining Gauteng
+
+  KWAZULU_NATAL:
+    label: KwaZulu-Natal
+    priority: P3
+    ordered_clusters:
+
+      - cluster_id: KZN_UMHLANGA_DURBAN_NORTH
+        label: Umhlanga / Durban North
+        tier: 1
+        terms:
+          - Umhlanga
+          - uMhlanga
+          - Umhlanga Ridge
+          - Umhlanga Rocks
+          - La Lucia
+          - Durban North
+          - Mount Edgecombe
+          - Cornubia
+          - Riverhorse Valley
+          - Briardene
+        relevance_notes:
+          - head-office
+          - finance
+          - professional
+          - corporate
+
+      - cluster_id: KZN_DURBAN
+        label: Durban
+        tier: 1
+        terms:
+          - Durban
+          - Durban CBD
+          - Durban Central
+          - Berea
+          - Morningside
+          - Musgrave
+          - Springfield
+          - Springfield Park
+
+      - cluster_id: KZN_PINETOWN_WESTMEAD
+        label: Pinetown / Westmead / New Germany
+        tier: 1
+        terms:
+          - Pinetown
+          - Westmead
+          - Westmead Industrial
+          - New Germany
+          - New Germany Industrial
+          - Mariannhill
+          - Queensburgh
+        relevance_notes:
+          - manufacturing
+          - industrial
+
+      - cluster_id: KZN_NORTH_COAST_LOGISTICS
+        label: Ballito / Dube TradePort
+        tier: 1
+        terms:
+          - Ballito
+          - Shaka's Rock
+          - Salt Rock
+          - Dube TradePort
+          - Dube Trade Port
+          - King Shaka
+          - King Shaka International Airport
+          - La Mercy
+          - Tongaat
+          - oThongathi
+          - Verulam
+
+      - cluster_id: KZN_HAMMARSDALE_CATO_RIDGE
+        label: Hammarsdale / Cato Ridge
+        tier: 1
+        terms:
+          - Hammarsdale
+          - Cato Ridge
+          - Keystone Park
+          - Shongweni
+        relevance_notes:
+          - industrial expansion
+          - logistics expansion
+
+      - cluster_id: KZN_SOUTH_DURBAN_INDUSTRIAL
+        label: South Durban Industrial
+        tier: 1
+        terms:
+          - Mobeni
+          - Jacobs
+          - Clairwood
+          - Prospecton
+          - Isipingo
+          - Amanzimtoti
+          - Umbogintwini
+        relevance_notes:
+          - manufacturing
+          - chemicals
+          - automotive
+          - FMCG
+          - logistics
+          - industrial finance
+
+      - cluster_id: KZN_PIETERMARITZBURG
+        label: Pietermaritzburg
+        tier: 2
+        terms:
+          - Pietermaritzburg
+          - PMB
+          - Howick
+          - Hilton
+
+      - cluster_id: KZN_RICHARDS_BAY
+        label: Richards Bay
+        tier: 2
+        terms:
+          - Richards Bay
+          - Empangeni
+
+      - cluster_id: KZN_REMAINING
+        label: Remaining KZN
+        tier: 3
+        terms:
+          - Newcastle
+          - Ladysmith
+
+    encoded_engine_order:
+      - Umhlanga / Durban North
+      - Durban
+      - Pinetown / Westmead / New Germany
+      - Ballito / Dube TradePort
+      - Hammarsdale / Cato Ridge
+      - South Durban Industrial
+      - Pietermaritzburg
+      - Richards Bay
+      - Remaining KZN
+
+  SOUTH_AFRICA_REST_AND_NATIONAL:
+    label: Rest of South Africa / National
+    priority: P4
+    ordered_clusters:
+
+      - cluster_id: EC_GQEBERHA_COEGA
+        province: Eastern Cape
+        label: Gqeberha / Coega
+        terms:
+          - Gqeberha
+          - Port Elizabeth
+          - PE
+          - Coega
+          - Coega SEZ
+
+      - cluster_id: EC_EAST_LONDON
+        province: Eastern Cape
+        label: East London
+        terms:
+          - East London
+          - Buffalo City
+
+      - cluster_id: FS_BLOEMFONTEIN
+        province: Free State
+        label: Bloemfontein
+        terms:
+          - Bloemfontein
+
+      - cluster_id: FS_SASOLBURG
+        province: Free State
+        label: Sasolburg
+        terms:
+          - Sasolburg
+
+      - cluster_id: MP_MBOBELA
+        province: Mpumalanga
+        label: Mbombela
+        terms:
+          - Mbombela
+          - Nelspruit
+          - White River
+
+      - cluster_id: MP_EMALAHLENI_MIDDELBURG
+        province: Mpumalanga
+        label: eMalahleni / Middelburg
+        terms:
+          - Witbank
+          - eMalahleni
+          - Middelburg
+
+      - cluster_id: MP_SECUNDA
+        province: Mpumalanga
+        label: Secunda
+        terms:
+          - Secunda
+
+      - cluster_id: LP_POLOKWANE
+        province: Limpopo
+        label: Polokwane
+        terms:
+          - Polokwane
+          - Lephalale
+          - Tzaneen
+
+      - cluster_id: NW_RUSTENBURG
+        province: North West
+        label: Rustenburg
+        terms:
+          - Rustenburg
+          - Brits
+          - Hartbeespoort
+          - Potchefstroom
+          - Klerksdorp
+
+      - cluster_id: NC_NORTHERN_CAPE
+        province: Northern Cape
+        label: Northern Cape
+        terms:
+          - Kimberley
+          - Kathu
+          - Kuruman
+          - Upington
+
+      - cluster_id: ZA_NATIONAL_REMOTE
+        label: Remote / National / Hybrid
+        terms:
+          - South Africa
+          - ZA
+          - Nationwide
+          - National
+          - Remote
+          - Remote South Africa
+          - South Africa Remote
+          - Hybrid
+          - Hybrid South Africa
+          - Anywhere in South Africa
+          - Work from home
+          - WFH
+          - Johannesburg or Cape Town
+          - Cape Town or Johannesburg
+          - JHB/CPT
+          - CPT/JHB
+          - Gauteng or Western Cape
+          - Cape Town / Durban / Johannesburg
+
+    encoded_engine_order:
+      - Gqeberha / Coega
+      - East London
+      - Bloemfontein
+      - Mbombela
+      - eMalahleni / Middelburg
+      - Secunda
+      - Polokwane
+      - Rustenburg
+      - remaining SA
+      - Remote / National / Hybrid
+
+normalisation_rules:
+  preserve_raw_location_text: true
+  match_aliases_to_cluster: true
+  allow_multiple_location_terms_per_signal: true
+  do_not_treat_country_only_search_as_complete_coverage: true
+  do_not_collapse_commercial_nodes_into_metro_only: true
