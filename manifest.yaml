@@ -1,6 +1,6 @@
 engine:
   name: talent-tree-recruitment-intelligence
-  version: 0.6.0
+  version: 0.7.0
   market: South Africa
   status: infrastructure_v1
 
@@ -17,13 +17,57 @@ principles:
   seniority_authority: taxonomy/seniority_terms.yaml
   query_templates_authority: query_templates.yaml
   query_output_schema: schemas/generated-query.schema.json
+  source_priority_authority: sources/search-priority.yaml
+  client_universe_authority: sources/agreed-clients.yaml
+
+orchestration:
+  source_sequence_is_strict: true
+  stages:
+    - id: STAGE_1_AGREED_CLIENTS
+      worker: agreed_clients
+      must_complete_before:
+        - STAGE_2_STRATEGIC_AGENCIES
+    - id: STAGE_2_STRATEGIC_AGENCIES
+      worker: agencies
+      must_complete_before:
+        - STAGE_3_LINKEDIN_INTELLIGENCE
+    - id: STAGE_3_LINKEDIN_INTELLIGENCE
+      worker: linkedin
+      must_complete_before:
+        - STAGE_4_BROADER_SECONDARY_SOURCES
+    - id: STAGE_4_BROADER_SECONDARY_SOURCES
+      worker: jobboards
+  promotion_rule:
+    later_stage_agreed_client_match: IMMEDIATE_STAGE_1_PIPELINE
+  downstream_enrichment:
+    worker: enrichment
+    may_process_outputs_from_each_completed_stage: true
 
 workers:
+  agreed_clients:
+    purpose: stage_1_current_agreed_client_sweep
+    load:
+      - sources/search-priority.yaml
+      - sources/agreed-clients.yaml
+      - query_templates.yaml
+      - taxonomy/role_taxonomy.json
+      - taxonomy/role_taxonomy_rules.yaml
+      - taxonomy/seniority_terms.yaml
+      - taxonomy/south_africa_locations.yaml
+      - core/qualification.md
+      - core/evidence-standard.md
+      - core/deduplication.md
+      - schemas/discovered-job.schema.json
+    runtime: runtime/agreed-client-worker.md
+    output_schema: schemas/discovered-job.schema.json
+
   linkedin:
     purpose: role_agnostic_social_hiring_discovery
     authoritative_spec:
       - channels/linkedin/South_Africa_LinkedIn_Hidden_Hiring_Signal_Engine_MASTER.md
     load:
+      - sources/search-priority.yaml
+      - sources/agreed-clients.yaml
       - query_templates.yaml
       - taxonomy/seniority_terms.yaml
       - taxonomy/south_africa_locations.yaml
@@ -39,6 +83,8 @@ workers:
 
   agencies:
     load:
+      - sources/search-priority.yaml
+      - sources/agreed-clients.yaml
       - query_templates.yaml
       - taxonomy/role_taxonomy.json
       - taxonomy/role_taxonomy_rules.yaml
@@ -55,6 +101,8 @@ workers:
 
   jobboards:
     load:
+      - sources/search-priority.yaml
+      - sources/agreed-clients.yaml
       - query_templates.yaml
       - taxonomy/role_taxonomy.json
       - taxonomy/role_taxonomy_rules.yaml
@@ -70,6 +118,8 @@ workers:
 
   enrichment:
     load:
+      - sources/search-priority.yaml
+      - sources/agreed-clients.yaml
       - query_templates.yaml
       - taxonomy/role_taxonomy.json
       - taxonomy/role_taxonomy_rules.yaml
