@@ -76,11 +76,15 @@ Classify actual responsibilities, not title keywords alone.
 
 ## 5. Commercial priority
 
-Use the source-map ordering:
+The canonical source-stage order is controlled by `sources/search-priority.yaml`:
 
-**Agreed Client Vacancy > Attributable Agency Vacancy > Direct Employer Vacancy > Recruiter Vacancy with Unknown Employer > Aggregated / Syndicated Vacancy**
+**AGREED_CLIENTS → AGENCY_SITES → LINKEDIN → JOB_BOARDS**
 
-This is a prioritisation rule, not permission to skip the lower-priority universe.
+This source-stage sequence dominates scheduling.
+
+Within the active/completed stage, use `core/scoring-rubric.md` to prioritise by client relationship, seniority, scarcity, evidence quality, freshness and expected information gain.
+
+A later-stage vacancy that resolves to an agreed client is immediately promoted to the Stage 1 commercial workflow while retaining its original discovery provenance.
 
 ## 6. Stop rule
 
