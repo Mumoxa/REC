@@ -9,13 +9,17 @@ This channel is independently runnable. No agreed-client or agency run is requir
 ## Bootstrap
 
 1. Read `manifest.yaml`.
-2. Load the full authoritative specification:
-   `channels/linkedin/South_Africa_LinkedIn_Hidden_Hiring_Signal_Engine_MASTER.md`
-3. Load `taxonomy/seniority_terms.yaml` for positive search expansion only; never use seniority to suppress valid LinkedIn signals.
-4. Load `taxonomy/south_africa_locations.yaml` and treat its P1 → P4 order and internal cluster order as authoritative.
-5. Load `schemas/linkedin-signal.schema.json`.
-6. Treat the master as the controlling instruction for LinkedIn discovery, except that the dedicated location ontology controls geographic terms and geographic execution order where it is more specific.
-7. Do not replace its search doctrine with generic LinkedIn-job search behaviour.
+2. Load every file in `shared_channel_stack`, including:
+   - `query_templates.yaml`;
+   - `taxonomy/role_taxonomy.json`;
+   - `taxonomy/role_taxonomy_rules.yaml`;
+   - `taxonomy/seniority_terms.yaml`;
+   - `taxonomy/south_africa_locations.yaml`;
+   - the shared core qualification/evidence/scoring/output rules.
+3. Load the LinkedIn channel-specific files listed under `workers.linkedin.channel_specific_load`.
+4. Load the full authoritative LinkedIn discovery specification:
+   `channels/linkedin/South_Africa_LinkedIn_Hidden_Hiring_Signal_Engine_MASTER.md`.
+5. The LinkedIn master controls LinkedIn-specific discovery surfaces and tactics. It does not create a separate role, seniority, geography or commercial taxonomy.
 
 ## Mission
 
