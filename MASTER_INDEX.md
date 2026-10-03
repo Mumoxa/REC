@@ -284,3 +284,57 @@ A pattern-derived address remains `PATTERN_INFERRED`; it is never upgraded to ve
 The public GitHub repository stores rules, schemas and tests only.
 
 Live stakeholder names, person-specific contact data and client-sensitive run outputs must not be committed to the public repository; they belong in a private operational output/data store.
+
+
+## Candidate market-mapping authority
+
+Authority:
+
+- `core/candidate-market-mapping.md`
+- `candidate_query_templates.yaml`
+- `runtime/candidate-mapping-worker.md`
+- `schemas/role-environment-fingerprint.schema.json`
+- `schemas/candidate-market-map.schema.json`
+
+This is shared downstream work for verified opportunities produced by any of the four independently runnable sourcing channels.
+
+### Required sequence
+
+`verified opportunity → fingerprint → QA → target-company map → QA → generated/executed candidate searches → credible longlist → candidate verification → QA → strongest market set → Top 10`
+
+### Research depth
+
+Target at least 50 credible evidence-backed candidates where the market supports it.
+
+The target is not a quota. Never pad, invent, duplicate or lower evidence standards to reach 50.
+
+### Passive-candidate doctrine
+
+Visible job-seeking status is not required. Search the actual market, especially direct competitors, same value chain, comparable operating complexity and stronger proving grounds.
+
+### Search surfaces
+
+Generate and execute searches across LinkedIn, Google/X-ray and relevant public professional/social sources. Every query retains a reason and yield record.
+
+## Independent QA authority
+
+Authority:
+
+- `core/independent-qa.md`
+- `runtime/qa-review-worker.md`
+- `schemas/qa-review.schema.json`
+
+Mandatory gates:
+
+1. `A_DISCOVERY`
+2. `B_FINGERPRINT`
+3. `C_TARGET_COMPANY`
+4. `D_CANDIDATE`
+
+The reviewer challenges prior conclusions, checks primary evidence, searches for contradictions where consequential, and preserves unknowns.
+
+## Anti-hallucination candidate boundary
+
+Company facts are not automatically candidate facts.
+
+Employer technology, turnover, geography, headcount, customers or operating scale may generate candidate hypotheses/searches, but do not confirm individual experience without individual-level evidence.

@@ -1,6 +1,6 @@
 engine:
   name: talent-tree-recruitment-intelligence
-  version: 0.10.0
+  version: 0.11.0
   market: South Africa
   status: infrastructure_v1
 
@@ -24,6 +24,12 @@ principles:
   client_universe_authority: sources/agreed-clients.yaml
   client_sweep_schema: schemas/client-sweep.schema.json
   stakeholder_contact_authority: core/stakeholder-contact-intelligence.md
+  candidate_market_mapping_authority: core/candidate-market-mapping.md
+  independent_qa_authority: core/independent-qa.md
+  candidate_query_templates_authority: candidate_query_templates.yaml
+  candidate_market_map_schema: schemas/candidate-market-map.schema.json
+  qa_review_schema: schemas/qa-review.schema.json
+  fifty_candidate_target_is_not_quota: true
 
 architecture:
   guard: ARCHITECTURE_GUARD.md
@@ -57,6 +63,9 @@ architecture:
     - enrichment
     - employer_attribution
     - stakeholder_intelligence
+    - candidate_market_mapping
+    - independent_qa
+    - candidate_query_templates
   new_channel_requires_explicit_architecture_change: true
 
 execution:
@@ -72,6 +81,17 @@ execution:
   downstream_enrichment:
     worker: enrichment
     may_process_any_channel_output: true
+  downstream_candidate_mapping:
+    worker: candidate_mapping
+    may_process_any_channel_output: true
+    requires_prior_other_channel_completion: false
+    credible_longlist_target: 50
+    target_is_quota: false
+  mandatory_qa_gates:
+    - A_DISCOVERY
+    - B_FINGERPRINT
+    - C_TARGET_COMPANY
+    - D_CANDIDATE
 
 shared_channel_stack:
   - core/search-structure.md
@@ -89,6 +109,7 @@ shared_channel_stack:
   - core/deduplication.md
   - core/employer-attribution.md
   - core/stakeholder-contact-intelligence.md
+  - core/independent-qa.md
   - sources/agreed-clients.yaml
   - sources/search-priority.yaml
   - sources/source-governance.md
@@ -177,6 +198,40 @@ workers:
       - schemas/discovered-job.schema.json
     output_schema: schemas/final-opportunity.schema.json
 
+  qa_review:
+    sourcing_channel: false
+    purpose: independent_adversarial_evidence_review
+    runtime: runtime/qa-review-worker.md
+    authority:
+      - core/evidence-standard.md
+      - core/independent-qa.md
+      - schemas/qa-review.schema.json
+
+  candidate_mapping:
+    sourcing_channel: false
+    purpose: shared_passive_candidate_market_mapping_and_top10
+    runtime: runtime/candidate-mapping-worker.md
+    may_process_any_channel_output: true
+    requires_prior_other_channel_completion: false
+    credible_longlist_target: 50
+    target_is_quota: false
+    load:
+      - core/evidence-standard.md
+      - core/independent-qa.md
+      - core/candidate-market-mapping.md
+      - candidate_query_templates.yaml
+      - taxonomy/role_taxonomy.json
+      - taxonomy/role_taxonomy_rules.yaml
+      - taxonomy/seniority_terms.yaml
+      - taxonomy/south_africa_locations.yaml
+      - schemas/final-opportunity.schema.json
+      - schemas/role-environment-fingerprint.schema.json
+      - schemas/candidate-market-map.schema.json
+      - schemas/qa-review.schema.json
+    accepted_inputs:
+      - schemas/final-opportunity.schema.json
+    output_schema: schemas/candidate-market-map.schema.json
+
 source_documents:
   current_linkedin_master:
     - channels/linkedin/South_Africa_LinkedIn_Hidden_Hiring_Signal_Engine_MASTER.md
@@ -187,3 +242,4 @@ source_documents:
 
 tests:
   golden_cases: tests/golden-cases.yaml
+  candidate_market_mapping_golden_cases: tests/candidate-market-mapping-golden-cases.yaml

@@ -1,5 +1,22 @@
 # Changelog
 
+## 2026-10-03 — Conversation-to-repository sync: candidate intelligence + QA
+
+- Preserved the four-channel architecture and channel independence.
+- Added shared candidate market mapping for verified opportunities from any channel.
+- Added role/client environment fingerprinting.
+- Added evidence-backed Tier A/B/C/D target-company mapping.
+- Added executable LinkedIn/Google/public-social candidate query templates.
+- Added passive-talent doctrine and 50+ credible-candidate research-depth target.
+- Explicitly defined 50 as a target, never a quota or permission to pad.
+- Added candidate-level non-inference rules: company facts do not become person facts.
+- Added independent adversarial QA Gates A–D.
+- Added strongest-market-set and Top-10 client-facing outputs.
+- Added machine-readable fingerprint, QA and candidate-market-map schemas.
+- Added regression cases for product drift, channel independence and hallucination controls.
+- Wired candidate mapping/QA into manifest, orchestrator, enrichment and canonical output.
+
+
 ## 0.10.0 — Post-Discovery Stakeholder & Email Intelligence
 
 - Added `core/stakeholder-contact-intelligence.md` as shared post-discovery enrichment for all four channels.

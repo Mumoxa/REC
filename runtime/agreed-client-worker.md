@@ -17,7 +17,7 @@ All role, seniority, geography, query, qualification, evidence, scoring and outp
 
 ## Mission
 
-Search the **entire current agreed-client universe first**.
+Search the **entire current agreed-client universe**. In a combined/full run this channel has default priority 1. In a single-channel run, execute it directly without waiting for or requiring any other channel.
 
 An agreed-client vacancy is not required to compete with a general-market vacancy for commercial priority. Once a vacancy is credibly attributable to a current agreed client or confirmed agreed group entity, route it immediately into the the agreed-client channel recruitment pipeline.
 
@@ -103,3 +103,14 @@ Also return a client coverage ledger containing:
 - duplicates found;
 - access limitation;
 - last checked.
+
+
+## Mandatory QA Gate A handoff
+
+Before any discovered record enters shared downstream qualification or enrichment, run `A_DISCOVERY` through `runtime/qa-review-worker.md`.
+
+The independent review must challenge vacancy existence/currentness, exact role and location, source authenticity and duplicate lineage, direct employer attribution, client relationship/agreement scope, seniority, material requirements, contradictions and unresolved unknowns.
+
+Only `PASS` or `PASS_WITH_UNKNOWNS` records may proceed. A `FAIL_RESEARCH_REQUIRED` record returns to channel research.
+
+Do not invent missing facts to make a record pass.

@@ -1,0 +1,335 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "candidate-market-map.schema.json",
+  "title": "Talent Tree Candidate Market Map",
+  "type": "object",
+  "required": [
+    "opportunity_id",
+    "source_channel",
+    "upstream_qa_gate_a",
+    "fingerprint",
+    "target_companies",
+    "qa_gate_c",
+    "search_log",
+    "credible_longlist",
+    "qa_gate_d",
+    "top_10"
+  ],
+  "properties": {
+    "opportunity_id": {
+      "type": "string"
+    },
+    "source_channel": {
+      "enum": [
+        "AGREED_CLIENTS",
+        "AGENCY_SITES",
+        "LINKEDIN",
+        "JOB_BOARDS"
+      ]
+    },
+    "credible_longlist_target": {
+      "type": "integer",
+      "const": 50
+    },
+    "target_is_quota": {
+      "type": "boolean",
+      "const": false
+    },
+    "fingerprint": {
+      "$ref": "role-environment-fingerprint.schema.json"
+    },
+    "qa_gate_b": {
+      "$ref": "qa-review.schema.json"
+    },
+    "target_companies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "company",
+          "tier",
+          "reason",
+          "evidence_status"
+        ],
+        "properties": {
+          "company": {
+            "type": "string"
+          },
+          "tier": {
+            "enum": [
+              "A_DIRECT_EQUIVALENT",
+              "B_VALUE_CHAIN",
+              "C_OPERATING_COMPLEXITY",
+              "D_STRONGER_PROVING_GROUND"
+            ]
+          },
+          "reason": {
+            "type": "string"
+          },
+          "evidence_status": {
+            "enum": [
+              "CONFIRMED",
+              "PROBABLE",
+              "HYPOTHESIS",
+              "UNKNOWN"
+            ]
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "contradictions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "qa_gate_c": {
+      "$ref": "qa-review.schema.json"
+    },
+    "search_log": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "query",
+          "source",
+          "family",
+          "reason_generated",
+          "execution_status"
+        ],
+        "properties": {
+          "query": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "family": {
+            "type": "string"
+          },
+          "reason_generated": {
+            "type": "string"
+          },
+          "evidence_gap_or_coverage_target": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "target_company": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "executed_at": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "observed_yield": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "credible_candidates_surfaced": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "notes": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "execution_status": {
+            "enum": [
+              "EXECUTED",
+              "ACCESS_LIMITED",
+              "NOT_APPLICABLE",
+              "NOT_EXECUTED"
+            ]
+          }
+        }
+      }
+    },
+    "credible_longlist": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/candidate"
+      }
+    },
+    "strongest_market_set": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/candidate"
+      }
+    },
+    "qa_gate_d": {
+      "$ref": "qa-review.schema.json"
+    },
+    "top_10": {
+      "type": "array",
+      "maxItems": 10,
+      "items": {
+        "$ref": "#/$defs/candidate"
+      }
+    },
+    "coverage_summary": {
+      "type": "object"
+    },
+    "unknowns": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "access_limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "upstream_qa_gate_a": {
+      "$ref": "qa-review.schema.json"
+    }
+  },
+  "$defs": {
+    "claim": {
+      "type": "object",
+      "required": [
+        "name",
+        "value",
+        "evidence_status"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {},
+        "evidence_status": {
+          "enum": [
+            "CONFIRMED",
+            "PROBABLE",
+            "HYPOTHESIS",
+            "UNKNOWN"
+          ]
+        },
+        "source_url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "notes": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "required": [
+        "name",
+        "profile_urls",
+        "claims",
+        "reason_surfaced",
+        "contradictions",
+        "evidence_gaps",
+        "availability_status",
+        "compensation_status",
+        "notice_period_status",
+        "motivation_status"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "profile_urls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reason_surfaced": {
+          "type": "string"
+        },
+        "comparable_environment_tier": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "claims": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/claim"
+          }
+        },
+        "contradictions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "evidence_gaps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "why_this_person_why_this_client": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "availability_status": {
+          "enum": [
+            "CONFIRMED",
+            "PROBABLE",
+            "HYPOTHESIS",
+            "UNKNOWN"
+          ]
+        },
+        "compensation_status": {
+          "enum": [
+            "CONFIRMED",
+            "PROBABLE",
+            "HYPOTHESIS",
+            "UNKNOWN"
+          ]
+        },
+        "notice_period_status": {
+          "enum": [
+            "CONFIRMED",
+            "PROBABLE",
+            "HYPOTHESIS",
+            "UNKNOWN"
+          ]
+        },
+        "motivation_status": {
+          "enum": [
+            "CONFIRMED",
+            "PROBABLE",
+            "HYPOTHESIS",
+            "UNKNOWN"
+          ]
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}

@@ -59,7 +59,9 @@ The following are support layers and must never be presented as additional sourc
 - enrichment — downstream processing, not sourcing;
 - employer attribution — research method, not sourcing;
 - stakeholder/contact intelligence — enrichment method, not sourcing;
-- query generation — search-construction layer, not sourcing.
+- query generation — search-construction layer, not sourcing;
+- candidate market mapping — shared downstream talent research, not sourcing;
+- independent QA — shared control layer, not sourcing.
 
 ## Canonical facade vs detailed implementation
 
@@ -117,3 +119,36 @@ All four channels must use the same:
 Channel-specific differences are limited to source surfaces, native filters/syntax, evidence traversal and provenance.
 
 A channel may not fork its own role taxonomy, seniority hierarchy, geography order, commercial definition or query philosophy.
+
+
+## Shared downstream candidate intelligence
+
+After any one channel produces a sufficiently verified opportunity, that opportunity may enter the shared candidate-intelligence pipeline without requiring any other channel to have run.
+
+Shared downstream modules include:
+
+- `core/candidate-market-mapping.md`;
+- `core/independent-qa.md`;
+- `candidate_query_templates.yaml`;
+- `runtime/candidate-mapping-worker.md`;
+- `runtime/qa-review-worker.md`;
+- candidate/QA schemas.
+
+These modules must never be numbered or described as additional sourcing channels.
+
+### Candidate research-depth rule
+
+The system aims for at least 50 credible evidence-backed candidates where the market supports that depth.
+
+This is a research target, not a quota. It must never cause list padding, lowered evidence standards or invented people/claims.
+
+### QA invariant
+
+Mandatory independent review gates exist after:
+
+1. discovery / vacancy / client resolution;
+2. role/client fingerprint construction;
+3. target-company mapping;
+4. candidate evidence construction.
+
+A review pass must attempt to disprove unsupported claims and preserve unknowns.

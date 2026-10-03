@@ -78,3 +78,14 @@ For normal agency discoveries set:
 `search_channel = AGENCY_SITES`
 
 If employer attribution establishes `AGREED_CLIENT` or `AGREED_GROUP_ENTITY`, preserve the discovery provenance but set `promote_to_agreed_client_priority = true` and route the opportunity into the agreed-client commercial-priority workflow.
+
+
+## Mandatory QA Gate A handoff
+
+Before any discovered record enters shared downstream qualification or enrichment, run `A_DISCOVERY` through `runtime/qa-review-worker.md`.
+
+The independent review must challenge vacancy existence/currentness, exact role and location, source authenticity and duplicate lineage, advertiser-versus-employer distinction, direct employer attribution, client relationship/agreement scope where relevant, seniority, material requirements, contradictions and unresolved unknowns.
+
+Only `PASS` or `PASS_WITH_UNKNOWNS` records may proceed. A `FAIL_RESEARCH_REQUIRED` record returns to channel research.
+
+Do not invent missing facts to make a record pass.

@@ -5,11 +5,12 @@ last_updated: 2026-10-03
 
 rules:
   search_before_external_market: true
-  current_agreed_clients_are_stage_1: true
-  past_clients_are_not_stage_1_without_current_agreement_evidence: true
+  current_agreed_clients_are_default_priority_1_in_combined_runs: true
+  channels_are_independently_runnable: true
+  past_clients_are_not_current_priority_without_current_agreement_evidence: true
   verify_identity_before_automatic_matching: true
   do_not_extend_agreement_to_related_entities_without_scope_evidence: true
-  agreed_group_entities_may_receive_stage_1_when_scope_is_confirmed: true
+  agreed_group_entities_may_receive_agreed_client_priority_when_scope_is_confirmed: true
   unresolved_identity_or_scope_must_remain_flagged: true
 
 client_status_values:
@@ -163,7 +164,7 @@ current_agreed_clients:
       - Old Mutual South Africa
     official_careers_url: https://oldmutual.wd3.myworkdayjobs.com/Old_Mutual_Careers
     notes:
-      - Treat as a current agreed client for Stage 1 search priority.
+      - Treat as a current agreed client for default agreed-client commercial priority.
       - Preserve employing-entity/business-unit scope as unresolved until verified.
 
   - canonical_name: Angaza
@@ -172,7 +173,7 @@ current_agreed_clients:
     aliases:
       - Angaza
     notes:
-      - Treat the relationship as agreed for Stage 1 priority.
+      - Treat the relationship as agreed for default agreed-client commercial priority.
       - Verify exact corporate identity when matching vacancies; do not guess.
 
   - canonical_name: RAM Hand-to-Hand Couriers
@@ -209,15 +210,15 @@ past_clients_not_current_priority_1:
 
 matching_rules:
   current_agreed_client_match:
-    route_to_stage: STAGE_1_AGREED_CLIENTS
+    route_to_channel: AGREED_CLIENTS
     commercial_priority: IMMEDIATE
   agreed_group_entity_match:
-    route_to_stage: STAGE_1_AGREED_CLIENTS
+    route_to_channel: AGREED_CLIENTS
     commercial_priority: IMMEDIATE
   past_client_match:
-    route_to_stage: VERIFY_CURRENT_AGREEMENT
+    route_to_action: VERIFY_CURRENT_AGREEMENT
     commercial_priority: NORMAL_UNTIL_VERIFIED
   target_or_prospect_match:
-    route_to_stage: NORMAL_COMMERCIAL_QUALIFICATION
+    route_to_action: NORMAL_COMMERCIAL_QUALIFICATION
   unknown_employer:
-    route_to_stage: EMPLOYER_ATTRIBUTION
+    route_to_action: EMPLOYER_ATTRIBUTION
