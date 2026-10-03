@@ -60,3 +60,10 @@ Do not downgrade a role merely because:
 - it is a board/non-executive appointment.
 
 Use scarcity, remuneration, technical depth, enterprise impact, advisory scope and decision authority alongside title.
+
+
+## Query construction authority
+
+Use `query_templates.yaml` for unresolved evidence gaps such as employer attribution, contradiction testing, stakeholder resolution, current-employment checks, domain/email-pattern work, salary evidence and freshness verification.
+
+Query generation must be state-aware: do not spend searches reconfirming facts that are already sufficiently resolved. Expensive downstream searches stop when commercial gates fail unless an agreed-client exception applies.
