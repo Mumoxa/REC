@@ -17,6 +17,21 @@ authority:
     - vacancy_liveness
     - outreach_decision
 
+source_scheduling:
+  source_priority_authority: sources/search-priority.yaml
+  client_universe_authority: sources/agreed-clients.yaml
+  templates_may_reorder_source_stages: false
+  mandatory_stage_order:
+    - STAGE_1_AGREED_CLIENTS
+    - STAGE_2_STRATEGIC_AGENCIES
+    - STAGE_3_LINKEDIN_INTELLIGENCE
+    - STAGE_4_BROADER_SECONDARY_SOURCES
+  later_stage_agreed_client_match: PROMOTE_TO_STAGE_1
+  rule: >
+    Query templates determine how to search within the currently authorised stage.
+    They must never cause a lower-priority stage to start before its predecessor's
+    completion gate is satisfied.
+
 authoritative_vocabularies:
   role_taxonomy:
     source: taxonomy/role_taxonomy.json
