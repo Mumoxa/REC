@@ -1,5 +1,25 @@
 # Master Index and Source-Coverage Map
 
+## Architecture guard
+
+The canonical system model is permanently anchored by `ARCHITECTURE_GUARD.md`.
+
+At the human-readable level the project remains:
+
+- four shared core concerns:
+  - `core/ideal-client-profile.md`
+  - `core/disqualifiers.md`
+  - `core/scoring-rubric.md`
+  - `core/output-template.md`
+- exactly four sourcing channels:
+  - `channels/agreed-clients.md`
+  - `channels/agency-sites.md`
+  - `channels/linkedin.md`
+  - `channels/job-boards.md`
+- optional `runs/` archive.
+
+Runtime, schemas, taxonomy, source registries, query configuration, enrichment and tests are implementation support and do not create extra channels.
+
 This file prevents silent information loss during decomposition.
 
 ## Current authoritative documents
