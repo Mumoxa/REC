@@ -8,17 +8,12 @@ This channel is independently runnable. It does not require any other sourcing c
 
 ## Bootstrap
 
-Load:
+1. Read `manifest.yaml`.
+2. Load every file in `shared_channel_stack`.
+3. Load the agreed-client channel-specific files listed under `workers.agreed_clients.channel_specific_load`.
+4. Apply `channels/agreed-clients.md` for source-surface tactics only.
 
-1. `manifest.yaml`;
-2. `sources/search-priority.yaml`;
-3. `sources/agreed-clients.yaml`;
-4. `query_templates.yaml`;
-5. `taxonomy/role_taxonomy.json`;
-6. `taxonomy/role_taxonomy_rules.yaml`;
-7. `taxonomy/seniority_terms.yaml`;
-8. `taxonomy/south_africa_locations.yaml`;
-9. evidence, deduplication and output schemas listed in the manifest.
+All role, seniority, geography, query, qualification, evidence, scoring and output rules come from the shared stack.
 
 ## Mission
 
