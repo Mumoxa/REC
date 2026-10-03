@@ -1,6 +1,6 @@
 engine:
   name: talent-tree-recruitment-intelligence
-  version: 0.8.0
+  version: 0.9.0
   market: South Africa
   status: infrastructure_v1
 
@@ -10,8 +10,11 @@ principles:
   evidence_first: true
   do_not_invent_missing_facts: true
   discovery_and_qualification_are_separate: true
+  four_channels_only: true
+  channels_independently_runnable: true
+  shared_search_structure_is_mandatory: true
+  search_structure_authority: core/search-structure.md
   location_authority: taxonomy/south_africa_locations.yaml
-  location_search_order_is_mandatory: true
   role_taxonomy_authority: taxonomy/role_taxonomy.json
   role_taxonomy_rules: taxonomy/role_taxonomy_rules.yaml
   seniority_authority: taxonomy/seniority_terms.yaml
@@ -35,6 +38,7 @@ architecture:
     - core/disqualifiers.md
     - core/scoring-rubric.md
     - core/output-template.md
+    - core/search-structure.md
   canonical_channel_facade:
     AGREED_CLIENTS: channels/agreed-clients.md
     AGENCY_SITES: channels/agency-sites.md
@@ -54,118 +58,114 @@ architecture:
     - stakeholder_intelligence
   new_channel_requires_explicit_architecture_change: true
 
-orchestration:
-  orchestration_runtime: runtime/orchestrator.md
-  source_sequence_is_strict: true
-  stages:
-    - id: STAGE_1_AGREED_CLIENTS
-      worker: agreed_clients
-      must_complete_before:
-        - STAGE_2_STRATEGIC_AGENCIES
-    - id: STAGE_2_STRATEGIC_AGENCIES
-      worker: agencies
-      must_complete_before:
-        - STAGE_3_LINKEDIN_INTELLIGENCE
-    - id: STAGE_3_LINKEDIN_INTELLIGENCE
-      worker: linkedin
-      must_complete_before:
-        - STAGE_4_BROADER_SECONDARY_SOURCES
-    - id: STAGE_4_BROADER_SECONDARY_SOURCES
-      worker: jobboards
-  promotion_rule:
-    later_stage_agreed_client_match: IMMEDIATE_STAGE_1_PIPELINE
+execution:
+  runner: runtime/orchestrator.md
+  independent_channel_runs: true
+  prior_channel_completion_required: false
+  default_combined_run_order:
+    - AGREED_CLIENTS
+    - AGENCY_SITES
+    - LINKEDIN
+    - JOB_BOARDS
+  default_order_is_priority_not_gate: true
   downstream_enrichment:
     worker: enrichment
-    may_process_outputs_from_each_completed_stage: true
+    may_process_any_channel_output: true
+
+shared_channel_stack:
+  - core/search-structure.md
+  - query_templates.yaml
+  - taxonomy/role_taxonomy.json
+  - taxonomy/role_taxonomy_rules.yaml
+  - taxonomy/seniority_terms.yaml
+  - taxonomy/south_africa_locations.yaml
+  - core/ideal-client-profile.md
+  - core/disqualifiers.md
+  - core/scoring-rubric.md
+  - core/output-template.md
+  - core/qualification.md
+  - core/evidence-standard.md
+  - core/deduplication.md
+  - core/employer-attribution.md
+  - sources/agreed-clients.yaml
+  - sources/search-priority.yaml
+  - sources/source-governance.md
 
 workers:
   agreed_clients:
-    purpose: stage_1_current_agreed_client_sweep
-    load:
-      - sources/search-priority.yaml
-      - sources/agreed-clients.yaml
-      - query_templates.yaml
-      - taxonomy/role_taxonomy.json
-      - taxonomy/role_taxonomy_rules.yaml
-      - taxonomy/seniority_terms.yaml
-      - taxonomy/south_africa_locations.yaml
-      - core/qualification.md
-      - core/evidence-standard.md
-      - core/deduplication.md
-      - schemas/discovered-job.schema.json
+    channel: AGREED_CLIENTS
+    independently_runnable: true
+    inherit: shared_channel_stack
+    purpose: current_agreed_client_universe_search
+    channel_specific_load:
+      - channels/agreed-clients.md
       - schemas/client-sweep.schema.json
+      - schemas/discovered-job.schema.json
     runtime: runtime/agreed-client-worker.md
     output_schema: schemas/discovered-job.schema.json
 
-  linkedin:
-    purpose: role_agnostic_social_hiring_discovery
-    authoritative_spec:
-      - channels/linkedin/South_Africa_LinkedIn_Hidden_Hiring_Signal_Engine_MASTER.md
-    load:
-      - sources/search-priority.yaml
-      - sources/agreed-clients.yaml
-      - query_templates.yaml
-      - taxonomy/seniority_terms.yaml
-      - taxonomy/south_africa_locations.yaml
-      - schemas/linkedin-signal.schema.json
-    must_not_apply_during_discovery:
-      - salary_threshold
-      - role_family_exclusions
-      - commercial_priority
-      - employer_exclusions
-      - client_priority
-      - outreach_priority
-    output_schema: schemas/linkedin-signal.schema.json
-
   agencies:
-    load:
-      - sources/search-priority.yaml
-      - sources/agreed-clients.yaml
-      - query_templates.yaml
-      - taxonomy/role_taxonomy.json
-      - taxonomy/role_taxonomy_rules.yaml
-      - taxonomy/seniority_terms.yaml
-      - taxonomy/south_africa_locations.yaml
-      - core/qualification.md
-      - core/evidence-standard.md
-      - core/employer-attribution.md
-      - sources/agreed-clients.yaml
-      - sources/source-governance.md
+    channel: AGENCY_SITES
+    independently_runnable: true
+    inherit: shared_channel_stack
+    purpose: strategic_agency_inventory_and_employer_attribution
+    channel_specific_load:
+      - channels/agency-sites.md
       - channels/agencies/strategy.md
       - schemas/discovered-job.schema.json
+    runtime: runtime/agency-worker.md
     output_schema: schemas/discovered-job.schema.json
 
+  linkedin:
+    channel: LINKEDIN
+    independently_runnable: true
+    inherit: shared_channel_stack
+    purpose: south_africa_social_hiring_intelligence
+    authoritative_spec:
+      - channels/linkedin/South_Africa_LinkedIn_Hidden_Hiring_Signal_Engine_MASTER.md
+    channel_specific_load:
+      - channels/linkedin.md
+      - channels/linkedin/strategy.md
+      - schemas/linkedin-signal.schema.json
+    runtime: runtime/linkedin-worker.md
+    output_schema: schemas/linkedin-signal.schema.json
+    discovery_note: >
+      LinkedIn uses the same role taxonomy and seniority ontology for search expansion and
+      classification. It may retain a role-agnostic social signal when the exact role is not yet
+      recoverable; this is a recall rule, not a separate taxonomy.
+
   jobboards:
-    load:
-      - sources/search-priority.yaml
-      - sources/agreed-clients.yaml
-      - query_templates.yaml
-      - taxonomy/role_taxonomy.json
-      - taxonomy/role_taxonomy_rules.yaml
-      - taxonomy/seniority_terms.yaml
-      - taxonomy/south_africa_locations.yaml
-      - core/qualification.md
-      - core/evidence-standard.md
-      - sources/agreed-clients.yaml
-      - sources/source-governance.md
+    channel: JOB_BOARDS
+    independently_runnable: true
+    inherit: shared_channel_stack
+    purpose: job_board_ats_and_broader_secondary_discovery
+    channel_specific_load:
+      - channels/job-boards.md
       - channels/jobboards/strategy.md
       - schemas/discovered-job.schema.json
+    runtime: runtime/jobboard-worker.md
     output_schema: schemas/discovered-job.schema.json
 
   enrichment:
+    sourcing_channel: false
+    purpose: shared_post_discovery_normalisation_and_enrichment
     load:
-      - sources/search-priority.yaml
-      - sources/agreed-clients.yaml
+      - core/search-structure.md
       - query_templates.yaml
       - taxonomy/role_taxonomy.json
       - taxonomy/role_taxonomy_rules.yaml
       - taxonomy/seniority_terms.yaml
       - taxonomy/south_africa_locations.yaml
+      - core/ideal-client-profile.md
+      - core/disqualifiers.md
+      - core/scoring-rubric.md
+      - core/output-template.md
       - core/qualification.md
       - core/evidence-standard.md
       - core/deduplication.md
       - core/employer-attribution.md
       - sources/agreed-clients.yaml
+      - sources/search-priority.yaml
       - schemas/linkedin-signal.schema.json
       - schemas/discovered-job.schema.json
       - schemas/final-opportunity.schema.json
@@ -180,6 +180,7 @@ source_documents:
   historical_reference:
     - archive/originals/South_Africa_LinkedIn_Hiring_Signal_Engine.md
     - archive/originals/Talent_Tree_Agreed_Clients_and_Vacancy_Source_Map.md
+    - archive/originals/BUILD_INSTRUCTION_query_templates.md
 
 tests:
   golden_cases: tests/golden-cases.yaml
