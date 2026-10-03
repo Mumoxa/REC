@@ -2,7 +2,7 @@
 
 ## Bootstrap
 
-Load `manifest.yaml`, all global files, and all files under `workers.agencies.load`.
+Load `manifest.yaml` and all files under `workers.agencies.load`, including `taxonomy/south_africa_locations.yaml`.
 
 ## Mission
 
@@ -27,3 +27,10 @@ Methodically discover commercially relevant vacancies from recruitment agencies,
 ## Output
 
 Return records conforming to `schemas/discovered-job.schema.json` plus a source-completeness summary for each mandatory agency.
+
+
+## Geographic authority
+
+Use `taxonomy/south_africa_locations.yaml` for geographic normalisation and, where geography determines search effort, preserve its P1 Western Cape → P2 Gauteng → P3 KwaZulu-Natal → P4 rest-of-South-Africa order.
+
+Do not flatten commercial/industrial nodes into province or metro names when the source exposes the more specific location.
