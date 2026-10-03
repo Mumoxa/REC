@@ -1751,6 +1751,7 @@ generated_query_object:
     - template_id
     - research_task_id
     - objective
+    - channel
     - source
     - query
     - confidence_tier
