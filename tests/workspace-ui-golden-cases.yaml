@@ -1,0 +1,101 @@
+version: "1.0.0"
+purpose: Regression protection for the Recruitment Intelligence Workspace.
+
+cases:
+  - id: ui_is_not_fifth_channel
+    given: Workspace displays jobs from all four sourcing channels.
+    expect:
+      - presentation_layer_only
+      - channel_count_remains_4
+
+  - id: canonical_vacancy_multiple_sources
+    given: Same vacancy appears on employer ATS, LinkedIn and a job board.
+    expect:
+      - one_canonical_vacancy
+      - preserve_all_source_records
+      - show_source_lineage
+    forbid:
+      - duplicate_vacancy_cards_per_source
+
+  - id: selecting_job_scopes_candidates
+    given: User selects vacancy A.
+    expect:
+      - middle_pane_shows_vacancy_A
+      - right_pane_shows_candidates_mapped_to_vacancy_A
+      - vacancy_filters_remain_active
+
+  - id: collapse_does_not_close
+    given: User changes vacancy card from expanded to minimal.
+    expect:
+      - lifecycle_state_unchanged
+      - vacancy_remains_active
+
+  - id: minimise_does_not_close
+    given: User minimises selected-vacancy pane.
+    expect:
+      - lifecycle_state_unchanged
+      - selected_vacancy_context_remains_active
+
+  - id: close_preserves_intelligence
+    given: User closes vacancy as Filled.
+    expect:
+      - remove_from_default_active_inbox
+      - retain_sources
+      - retain_candidate_map
+      - retain_top_10
+      - retain_search_log
+      - retain_QA_history
+      - store_close_reason
+
+  - id: filter_persistence
+    given: User applies Western Cape + Finance + Employer Confirmed filters and opens vacancies.
+    expect:
+      - filters_persist
+      - queue_position_preserved_where_feasible
+    forbid:
+      - implicit_filter_reset
+
+  - id: context_search_is_not_research
+    given: User searches CA(SA) SAP in candidate pane.
+    expect:
+      - filter_existing_mapped_candidates
+      - do_not_start_external_research
+
+  - id: research_is_explicit
+    given: User wants fresh candidate discovery.
+    expect:
+      - explicit_run_research_action
+      - research_query_logged
+
+  - id: evidence_aware_system_filter
+    given: User filters SAP = CONFIRMED.
+    expect:
+      - candidate_level_confirmed_SAP_only
+    forbid:
+      - employer_level_hypothesis_as_confirmed
+
+  - id: candidate_status_separate_from_QA
+    given: Candidate is TOP_10 but notice period is unresolved.
+    expect:
+      - operational_status_TOP_10
+      - notice_period_UNKNOWN
+
+  - id: candidate_focus_mode
+    given: User switches to Candidate Focus.
+    expect:
+      - candidate_pane_expands
+      - selected_job_context_remains_visible
+      - lifecycle_state_unchanged
+
+  - id: export_is_snapshot
+    given: User exports filtered vacancies to Excel.
+    expect:
+      - canonical_records_unchanged
+      - export_is_snapshot
+
+  - id: closed_job_reappears
+    given: Previously closed role is surfaced again with current evidence.
+    expect:
+      - preserve_historical_closed_record
+      - link_current_activity_to_history
+      - require_current_evidence
