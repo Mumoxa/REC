@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.0 — Authoritative Hidden Hiring LinkedIn Engine
+
+- Adopted `South_Africa_LinkedIn_Hidden_Hiring_Signal_Engine_MASTER.md` as the controlling LinkedIn discovery specification.
+- Changed LinkedIn discovery to a strict role-agnostic discovery layer.
+- Removed salary, role-family, client-priority and commercial filtering from the LinkedIn worker bootstrap.
+- Added a dedicated LinkedIn social-signal schema.
+- Added explicit conflict precedence: the current LinkedIn master governs over historical LinkedIn instructions.
+- Preserved downstream qualification/enrichment as a separate worker.
+
 ## 0.1.0 — Infrastructure V1
 
 - Initialized canonical recruitment-intelligence repository.
