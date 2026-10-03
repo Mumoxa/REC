@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.8.0 — Four-Channel Architecture Guard
+
+- Restored the original project mental model as the canonical human-readable architecture.
+- Locked sourcing to exactly four channels: Agreed Clients, Agency Sites, LinkedIn and Job Boards.
+- Added `ARCHITECTURE_GUARD.md`.
+- Added canonical core facade files: ideal-client-profile, disqualifiers, scoring-rubric and output-template.
+- Added canonical channel facade files at `channels/*.md`.
+- Added optional `runs/` archive with privacy guardrails.
+- Explicitly classified runtime, schemas, taxonomy, sources, tests, archive, query construction and enrichment as support layers rather than sourcing channels.
+- Aligned detailed agency, LinkedIn and job-board strategy files to their canonical channel/stage.
+- Added regression guards preventing silent introduction of a fifth sourcing channel.
+
+
 ## 0.7.0 — Client-First Sequential Source Priority
 
 - Replaced equal/parallel source treatment with a strict four-stage sourcing sequence.
