@@ -496,3 +496,112 @@ cases:
       optimise_only_for_result_count: false
       track_commercial_yield: true
     reason: Query performance must consider downstream commercial outcomes, not volume alone.
+
+
+  - id: source_priority_strict_sequence
+    input:
+      stage_1_complete: false
+      request: start_agency_discovery
+    expected:
+      allowed: false
+    reason: Stage 2 may not begin before the agreed-client sweep is complete.
+
+  - id: source_priority_linkedin_waits_for_agencies
+    input:
+      stage_1_complete: true
+      stage_2_complete: false
+      request: start_broad_linkedin_intelligence
+    expected:
+      allowed: false
+    reason: Broader LinkedIn intelligence is Stage 3 and follows the strategic-agency sweep.
+
+  - id: source_priority_jobboards_are_stage_4
+    input:
+      stage_1_complete: true
+      stage_2_complete: true
+      stage_3_complete: false
+      request: start_broader_jobboard_discovery
+    expected:
+      allowed: false
+    reason: Broader secondary job-board/source-map work may not crowd out the first three stages.
+
+  - id: agreed_client_vacancy_immediate_priority
+    input:
+      employer: Lightstone
+      client_status: AGREED_CLIENT
+      discovered_in_stage: STAGE_4_BROADER_SECONDARY_SOURCES
+    expected:
+      promotion_to_stage_1: true
+      commercial_priority: IMMEDIATE
+    reason: An agreed-client match from any later source is promoted immediately.
+
+  - id: agreed_group_entity_immediate_priority
+    input:
+      employer: Capfin
+      client_status: AGREED_GROUP_ENTITY
+      discovered_in_stage: STAGE_2_STRATEGIC_AGENCIES
+    expected:
+      promotion_to_stage_1: true
+      commercial_priority: IMMEDIATE
+    reason: Confirmed Pepkor agreement entities follow the same Stage 1 treatment.
+
+  - id: past_client_not_stage_1
+    input:
+      employer: NTT Data
+      client_status: PAST_CLIENT
+      current_agreement_verified: false
+    expected:
+      promotion_to_stage_1: false
+      next_action: VERIFY_CURRENT_AGREEMENT
+    reason: Historical work does not prove a current agreement.
+
+  - id: angaza_identity_guard
+    input:
+      employer_name_match: Angaza
+      client_status: AGREED_CLIENT
+      exact_corporate_identity_verified: false
+    expected:
+      stage_1_priority_retained: true
+      automatic_entity_match_confirmed: false
+    reason: Angaza is prioritised as agreed while exact identity remains a verification requirement.
+
+  - id: old_mutual_scope_guard
+    input:
+      employer: Old Mutual
+      client_status: AGREED_CLIENT
+      employing_business_unit_scope_verified: false
+    expected:
+      stage_1_priority_retained: true
+      agreement_scope_status: UNRESOLVED
+    reason: Current client priority and unresolved entity scope are separate facts.
+
+  - id: client_status_survives_deduplication
+    input:
+      records:
+        - source_stage: STAGE_1_AGREED_CLIENTS
+          client_status: AGREED_CLIENT
+        - source_stage: STAGE_4_BROADER_SECONDARY_SOURCES
+          client_status: UNKNOWN
+      same_canonical_vacancy: true
+    expected:
+      canonical_client_status: AGREED_CLIENT
+      erase_confirmed_client_status: false
+    reason: Deduplication must not lose the strongest confirmed client relationship.
+
+  - id: agreed_client_channel_coverage
+    input:
+      client: Pepkor Group
+      one_applicable_channel_missing_ledger_status: true
+    expected:
+      stage_1_client_complete: false
+    reason: Every applicable Stage 1 client channel must be searched or explicitly marked with an allowed outcome.
+
+  - id: agency_agreed_client_feedback_loop
+    input:
+      source: Network Recruitment
+      resolved_end_employer: Fairheads Benefit Services
+      client_status: AGREED_CLIENT
+    expected:
+      source_priority_stage_original: STAGE_2_STRATEGIC_AGENCIES
+      promotion_to_stage_1: true
+    reason: Preserve source provenance while promoting the commercial workflow.
