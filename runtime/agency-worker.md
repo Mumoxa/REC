@@ -52,3 +52,10 @@ Mandatory coverage includes:
 - Partner, Practice Lead, Advisory and consulting leadership titles.
 
 Do not require people-management for a role to be high seniority.
+
+
+## Query construction authority
+
+Use `query_templates.yaml` for query generation, fallbacks, source syntax, search budgets, deduplication, retry rules and query-performance logging.
+
+Prefer the agency's native structured filters when available. External search/X-ray is a supplement, not a substitute for reviewing live agency inventory.
