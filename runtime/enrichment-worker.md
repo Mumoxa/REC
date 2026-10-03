@@ -43,3 +43,20 @@ Order the final actionable set by commercial priority, not by source volume.
 Use `taxonomy/south_africa_locations.yaml` to retain raw location wording while mapping signals to region, cluster, province/city and commercial node.
 
 Do not discard the specific node after mapping to a broader metro.
+
+
+## Seniority classification
+
+Use `taxonomy/seniority_terms.yaml` to classify seniority after discovery.
+
+Treat board, Executive Director, fractional/interim leadership, consultant/consulting, specialist, Principal/Lead/Architect and scarce expert roles as explicit seniority tracks.
+
+Do not downgrade a role merely because:
+
+- it has no direct reports;
+- it is fractional or part-time;
+- it is consulting/advisory;
+- it uses Specialist, Principal, Lead or Architect rather than Manager;
+- it is a board/non-executive appointment.
+
+Use scarcity, remuneration, technical depth, enterprise impact, advisory scope and decision authority alongside title.
