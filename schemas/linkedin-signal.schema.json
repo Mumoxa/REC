@@ -293,7 +293,9 @@
       "items": {
         "type": "object",
         "required": [
-          "opportunity_id"
+          "opportunity_id",
+          "client_status",
+          "source_priority_stage"
         ],
         "properties": {
           "opportunity_id": {
@@ -370,6 +372,63 @@
               },
               "specialist_track": {
                 "type": "boolean"
+              }
+            }
+          },
+          "client_status": {
+            "enum": [
+              "AGREED_CLIENT",
+              "AGREED_GROUP_ENTITY",
+              "PAST_CLIENT",
+              "TARGET_PROSPECT",
+              "UNKNOWN"
+            ]
+          },
+          "source_priority_stage": {
+            "enum": [
+              "STAGE_1_AGREED_CLIENTS",
+              "STAGE_2_STRATEGIC_AGENCIES",
+              "STAGE_3_LINKEDIN_INTELLIGENCE",
+              "STAGE_4_BROADER_SECONDARY_SOURCES"
+            ]
+          },
+          "client_relationship": {
+            "type": "object",
+            "properties": {
+              "matched_client_canonical": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "matched_entity": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "agreement_scope_status": {
+                "enum": [
+                  "CONFIRMED",
+                  "UNRESOLVED",
+                  "NOT_APPLICABLE",
+                  "UNKNOWN"
+                ]
+              },
+              "identity_status": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "promotion_to_stage_1": {
+                "type": "boolean"
+              },
+              "basis": {
+                "type": [
+                  "string",
+                  "null"
+                ]
               }
             }
           }
