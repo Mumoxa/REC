@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.6.0 — Authoritative Query Construction Engine
+
+- Preserved the full `query_templates.yaml` build instruction under `archive/originals/`.
+- Added root-level `query_templates.yaml` as the controlling query-construction configuration.
+- Implemented 43 distinct query templates across vacancy, social hiring, company, agency, ATS, employer attribution/contradiction, duplicates, stakeholders, reporting lines, employment verification, contacts, salary/freshness, executive movement, expansion and source research.
+- Added bounded expansion, exact-first sequencing, source profiles, fallbacks, query budgets, stop conditions, query deduplication, failed-query memory and retry rules.
+- Added information-gain and commercial-yield prioritisation.
+- Referenced existing role, seniority and geography authorities rather than duplicating those vocabularies.
+- Wired query configuration into all four workers.
+- Added `schemas/generated-query.schema.json`.
+- Added query-engine regression cases.
+
+
 ## 0.5.0 — Authoritative Seniority Ontology
 
 - Added `taxonomy/seniority_terms.yaml` as the controlling seniority/search-level authority.
