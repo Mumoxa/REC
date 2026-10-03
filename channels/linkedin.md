@@ -4,7 +4,7 @@
 
 This is one of exactly four sourcing channels.
 
-It is **Stage 3** and runs after the agreed-client and mandatory-agency stages.
+It has **default priority 3** in a combined run and is independently runnable.
 
 ## Mission
 
@@ -48,3 +48,8 @@ Detailed routing:
 Runtime:
 
 `runtime/linkedin-worker.md`
+
+
+## Shared stack
+
+This channel uses `core/search-structure.md` and the same 271-node role taxonomy, seniority ontology, geography, query templates, qualification rules, evidence standard, scoring rubric and output logic as all other channels. Role-agnostic social signals may remain unclassified until a role becomes identifiable; this does not create a separate LinkedIn taxonomy.
