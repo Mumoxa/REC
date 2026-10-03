@@ -36,3 +36,20 @@ Where source mechanics permit location-specific searches, preserve:
 P1 Western Cape → P2 Gauteng → P3 KwaZulu-Natal → P4 rest of South Africa / national.
 
 Within each region, follow the encoded cluster order rather than relying only on province or metro names.
+
+
+## Seniority search authority
+
+Where the source supports keyword/title searching, use `taxonomy/seniority_terms.yaml` as a positive search vocabulary.
+
+Run dedicated searches for:
+
+- Executive Director and board-level appointments;
+- Non-Executive Director / Independent Non-Executive Director;
+- fractional, interim and portfolio executives;
+- Director / Head / Executive / General Manager;
+- Principal / Lead / Architect;
+- specialist and scarce expert roles;
+- consultant / consulting / advisory ladders.
+
+Do not use conventional people-management titles as the only definition of seniority.
