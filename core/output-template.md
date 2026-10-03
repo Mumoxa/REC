@@ -259,3 +259,55 @@ For each:
 - material unknowns still requiring approach/qualification.
 
 Do not claim access to competitor trade secrets or confidential intellectual property.
+
+
+## Presentation / workspace contract
+
+Canonical run outputs are structured intelligence records.
+
+The human operating layer is the Recruitment Intelligence Workspace defined under `interface/`.
+
+### Vacancy Inbox presentation
+
+Each canonical vacancy should be renderable with:
+
+- role title;
+- employer and employer evidence status;
+- location;
+- client status;
+- source/channel;
+- source count/lineage;
+- first seen;
+- last seen;
+- last verified;
+- QA state;
+- candidate-map state;
+- mapped-candidate count;
+- Top 10 count;
+- research-needed indicators.
+
+### Selected vacancy presentation
+
+The selected-vacancy pane should render:
+
+- overview;
+- evidence-aware requirements;
+- source lineage;
+- employer attribution;
+- stakeholders;
+- candidate-map state;
+- research search log;
+- QA;
+- history.
+
+### Candidate presentation
+
+The selected vacancy's candidate pane should render candidate evidence and recruiter operational state separately.
+
+Do not infer operational state from evidence and do not infer evidence from operational actions.
+
+### Export contract
+
+Excel/CSV/PDF exports are snapshots/views of canonical records. Exporting does not mutate the canonical research record.
+
+Standalone HTML may be used as a portable snapshot/MVP but is not the canonical run output or data store.
