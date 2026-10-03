@@ -8,7 +8,7 @@ It has **default priority 1** in a combined run and is independently runnable.
 
 ## Mission
 
-Search the complete current agreed-client universe across direct and indirect hiring channels before any external-market sourcing begins.
+Search the complete current agreed-client universe across direct and indirect hiring channels. In a combined/full run this channel has default priority 1; when selected alone it runs directly and does not require any other channel.
 
 ## Required coverage
 
