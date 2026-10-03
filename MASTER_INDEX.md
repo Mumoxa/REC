@@ -114,3 +114,47 @@ It explicitly includes:
 - Fractional roles must not be downgraded because they are part-time or portfolio-based.
 - Consultant and specialist titles remain subject to the role taxonomy, but are not excluded merely because of title form.
 - LinkedIn uses seniority as positive search expansion only; it remains role-agnostic during signal discovery.
+
+
+## Query construction authority
+
+`query_templates.yaml` is the controlling configuration for turning unresolved recruitment-intelligence questions into executable searches.
+
+Source provenance:
+- `archive/originals/BUILD_INSTRUCTION_query_templates.md` — preserved build instruction.
+- `query_templates.yaml` — runtime configuration.
+- `schemas/generated-query.schema.json` — generated/executed query contract.
+
+### Boundaries
+
+The query layer generates **search actions**, not business conclusions.
+
+It must not independently decide:
+- commercial qualification;
+- employer confirmation;
+- hiring-manager confirmation;
+- email verification;
+- vacancy liveness;
+- outreach.
+
+### Canonical vocabulary references
+
+Query construction references, rather than duplicates:
+- `taxonomy/role_taxonomy.json`;
+- `taxonomy/seniority_terms.yaml`;
+- `taxonomy/south_africa_locations.yaml`;
+- the authoritative LinkedIn hiring-signal master;
+- agreed-client/company aliases;
+- source-governance/source-registry data.
+
+### Operating doctrine
+
+- exact and discriminative searches before broad searches;
+- small overlapping queries rather than giant Boolean strings;
+- bounded expansion rather than blind Cartesian products;
+- source-specific syntax and structured filters;
+- state-aware query selection;
+- support and contradiction searches for employer attribution;
+- failed-query memory and controlled retries;
+- information-gain and commercial-yield optimisation;
+- deeper search for high-value opportunities without lowering evidence standards.
