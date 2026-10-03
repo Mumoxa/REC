@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.7.0 — Client-First Sequential Source Priority
+
+- Replaced equal/parallel source treatment with a strict four-stage sourcing sequence.
+- Stage 1 now searches the complete current agreed-client universe across direct and indirect hiring channels.
+- Stage 2 is the exhaustive relevant inventory of PRN Recruitment, Communicate Recruitment and Network Recruitment.
+- Stage 3 runs the South African LinkedIn distributed hiring-intelligence engine.
+- Stage 4 runs the broader 350-source/secondary-market universe.
+- Added `runtime/agreed-client-worker.md` and `runtime/orchestrator.md`.
+- Added `sources/search-priority.yaml` as the stage-gating authority.
+- Updated the current agreed-client universe, including the expanded Pepkor entity list.
+- Kept Capita, NTT Data and WNS as past clients rather than current Stage 1 clients.
+- Added permanent `client_status` and `source_priority_stage` fields to vacancy/opportunity schemas.
+- Added `schemas/client-sweep.schema.json` for mandatory Stage 1 channel coverage.
+- Added feedback-loop promotion from later stages back into the Stage 1 commercial workflow.
+- Added regression tests preventing out-of-order stage execution and loss of client status.
+- Made query templates subordinate to source-stage scheduling.
+
+
 ## 0.6.0 — Authoritative Query Construction Engine
 
 - Preserved the full `query_templates.yaml` build instruction under `archive/originals/`.
