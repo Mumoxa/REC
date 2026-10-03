@@ -8,9 +8,11 @@ This file answers:
 
 This is a prioritisation rubric, not a source-discovery taxonomy.
 
-## 1. Source-stage priority — dominant ordering
+## 1. Cross-channel default priority
 
-The mandatory sourcing sequence always takes precedence:
+The four channels are independently runnable.
+
+When multiple channels are run together, the default priority order is:
 
 1. `AGREED_CLIENTS`
 2. `AGENCY_SITES`
@@ -19,7 +21,7 @@ The mandatory sourcing sequence always takes precedence:
 
 Authority: `sources/search-priority.yaml`.
 
-A lower-stage result cannot crowd out unfinished higher-stage work.
+This ordering affects combined-run scheduling and budget allocation. It is not a prerequisite gate between independent channel runs.
 
 ## 2. Client relationship
 
