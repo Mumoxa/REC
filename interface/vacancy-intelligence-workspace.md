@@ -525,3 +525,21 @@ Exports should include:
 Exporting must not alter the canonical record.
 
 A generated HTML file may be used as a lightweight prototype or portable snapshot, but per-run HTML is not the canonical data store.
+
+
+# Keyboard efficiency
+
+For high-volume processing, support optional keyboard shortcuts without making them mandatory for normal use.
+
+Recommended actions:
+
+- Up / Down — previous / next vacancy;
+- Enter — open/select vacancy;
+- / — focus search;
+- F — open filters;
+- E — earmark selected candidate;
+- T — add selected candidate to Top 10;
+- X — exclude selected candidate;
+- C — collapse selected vacancy card.
+
+Keyboard actions must respect the same permissions, evidence boundaries and lifecycle rules as visible UI controls.
