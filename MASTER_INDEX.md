@@ -158,3 +158,38 @@ Query construction references, rather than duplicates:
 - failed-query memory and controlled retries;
 - information-gain and commercial-yield optimisation;
 - deeper search for high-value opportunities without lowering evidence standards.
+
+
+## Source-priority authority
+
+The controlling sourcing order is defined in:
+
+- `sources/search-priority.yaml` — strict stage order and completion gates;
+- `sources/agreed-clients.yaml` — current agreed-client universe and past-client distinctions;
+- `runtime/orchestrator.md` — runtime stage orchestration;
+- `schemas/client-sweep.schema.json` — Stage 1 client-channel coverage ledger.
+
+### Mandatory order
+
+1. **Stage 1 — Current agreed clients**
+2. **Stage 2 — PRN Recruitment / Communicate Recruitment / Network Recruitment**
+3. **Stage 3 — South Africa LinkedIn distributed hiring intelligence**
+4. **Stage 4 — Broader secondary sources**
+
+These are sequential stages, not equal-weight channels.
+
+### Permanent relationship field
+
+Every vacancy/opportunity record must preserve one of:
+
+- `AGREED_CLIENT`
+- `AGREED_GROUP_ENTITY`
+- `PAST_CLIENT`
+- `TARGET_PROSPECT`
+- `UNKNOWN`
+
+A later-stage discovery that resolves to an agreed client is immediately promoted to the Stage 1 commercial workflow while its original source provenance and discovery stage remain intact.
+
+### Current-vs-past distinction
+
+Capita, NTT Data and WNS are retained as `PAST_CLIENT` until a current agreement is verified. They do not enter the current Stage 1 universe automatically.
