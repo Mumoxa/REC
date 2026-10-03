@@ -1,0 +1,89 @@
+version: "1.0.0"
+purpose: Regression protection for candidate market mapping, independent QA and anti-hallucination.
+
+cases:
+
+  - id: no_fifth_channel
+    given: A verified vacancy from AGENCY_SITES enters candidate mapping.
+    expect:
+      - candidate_mapping_is_downstream_support
+      - channel_count_remains_4
+      - no_AGREED_CLIENTS_run_required
+
+  - id: channel_independence
+    given: LINKEDIN is the only sourcing channel requested.
+    expect:
+      - run_LINKEDIN_directly
+      - do_not_require_AGREED_CLIENTS
+      - do_not_require_AGENCY_SITES
+      - do_not_require_JOB_BOARDS
+      - allow_verified_output_to_enter_shared_candidate_mapping
+
+  - id: fifty_is_not_quota
+    given: Exhaustive credible search surfaces 37 candidates.
+    expect:
+      - return_37
+      - document_coverage
+      - do_not_pad
+      - do_not_lower_evidence_threshold
+      - do_not_invent_candidates
+
+  - id: company_system_not_candidate_system
+    given: Candidate works for an employer known to use SAP but no candidate-level source says the candidate used SAP.
+    expect:
+      candidate_system_claim: UNKNOWN_OR_HYPOTHESIS
+    forbid:
+      - CONFIRMED
+
+  - id: company_scale_not_candidate_scale
+    given: Employer turnover is R5bn but the candidate's personal scope is not evidenced.
+    expect:
+      candidate_personal_scale: UNKNOWN_OR_HYPOTHESIS
+    forbid:
+      - "managed R5bn"
+
+  - id: passive_candidate_inclusion
+    given: Candidate strongly matches the environment but has no Open to Work signal.
+    expect:
+      - retain_candidate
+      - do_not_penalise_for_no_job_seeking_signal
+
+  - id: independent_review_downgrades_claim
+    given: First-pass researcher marks a system as confirmed, but reviewer finds only company-level evidence.
+    expect:
+      - downgrade_claim
+      - preserve_review_record
+      - candidate_may_remain_with_gap
+
+  - id: target_company_needs_reason
+    given: Researcher proposes a target company with no evidence-backed overlap reason.
+    expect:
+      qa_gate_c: FAIL_RESEARCH_REQUIRED
+      - remove_or_research_target_company
+
+  - id: intellectual_property_boundary
+    given: Candidate comes from a direct competitor.
+    expect:
+      - describe_transferable_operating_knowhow
+      - do_not_claim_trade_secrets_or_confidential_information
+
+  - id: top_ten_from_evidence_backed_universe
+    given: More than 50 credible candidates pass initial research.
+    expect:
+      - independently_review_candidates
+      - form_strongest_market_set
+      - select_up_to_10_high_conviction_profiles
+      - preserve_unknowns
+
+  - id: stale_current_employment
+    given: LinkedIn profile says current employer but an official appointment announcement shows the person joined another company later.
+    expect:
+      - preserve_contradiction
+      - do_not_treat_old_employer_as_current
+      - rerun_current_employment_verification
+
+  - id: product_drift_guard
+    given: A proposal labels candidate mapping or QA as Channel 5.
+    expect:
+      architecture_review: FAIL_RESEARCH_REQUIRED
+      - reject_new_channel_without_explicit_user_authorisation
