@@ -1,5 +1,13 @@
 # Recruitment Agency Discovery Strategy
 
+## Architecture
+
+Canonical channel facade:
+
+`channels/agency-sites.md`
+
+This is **Channel 2 / Stage 2** and begins only after Channel 1 agreed-client coverage is complete.
+
 ## Overarching rule
 
 Agency adverts are commercially useful intelligence. Do not treat the recruitment agency as the hiring employer unless evidence says it is hiring for itself.
