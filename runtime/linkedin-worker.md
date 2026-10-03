@@ -120,3 +120,14 @@ For LinkedIn discoveries use:
 `search_channel = LINKEDIN`
 
 If the employer resolves to `AGREED_CLIENT` or `AGREED_GROUP_ENTITY`, give the opportunity immediate agreed-client commercial priority without changing the original LinkedIn source provenance.
+
+
+## Mandatory QA Gate A handoff
+
+Before any discovered record enters shared downstream qualification or enrichment, run `A_DISCOVERY` through `runtime/qa-review-worker.md`.
+
+The independent review must challenge whether the signal truly represents hiring activity, exact role/title where recoverable, location, source authenticity, repost/duplicate lineage, direct employer attribution, client relationship/agreement scope where relevant, seniority, material requirements, contradictions and unresolved unknowns.
+
+Only `PASS` or `PASS_WITH_UNKNOWNS` records may proceed. A `FAIL_RESEARCH_REQUIRED` record returns to channel research.
+
+Do not invent missing facts to make a record pass.
