@@ -237,3 +237,50 @@ Every sourcing channel uses the same:
 - output structure.
 
 Channel-specific strategy controls source surfaces and tactics only.
+
+
+## Post-discovery stakeholder and email intelligence
+
+Authority:
+
+`core/stakeholder-contact-intelligence.md`
+
+This is shared downstream enrichment for opportunities from all four sourcing channels. It is **not** a fifth channel.
+
+### Activation gate
+
+Deep stakeholder/contact research starts only when:
+
+- the specific role is `CONFIRMED` or `HIGH_CONFIDENCE`; and
+- the direct employer is `CONFIRMED` or `HIGH_CONFIDENCE`.
+
+If either remains unresolved, research stays focused on resolving the role/employer.
+
+### Stakeholder research order
+
+1. direct / functional hiring owner;
+2. relevant functional Head / Director / business-unit leader;
+3. relevant executive sponsor;
+4. TA / internal recruiter / HRBP;
+5. vacancy-specific people evidenced in the source trail;
+6. current-employment verification.
+
+### Company email intelligence
+
+Research:
+
+- website domain separately from employee email domain;
+- multiple observed public employee business addresses;
+- company email pattern;
+- conflicting/alternate patterns;
+- observed person-specific business email where available.
+
+If an exact stakeholder address is not publicly observed but the organisation's business-email domain and pattern are sufficiently evidenced, the private run output may include a **probable pattern-inferred business email**.
+
+A pattern-derived address remains `PATTERN_INFERRED`; it is never upgraded to verified merely because the pattern fits.
+
+### Privacy/storage boundary
+
+The public GitHub repository stores rules, schemas and tests only.
+
+Live stakeholder names, person-specific contact data and client-sensitive run outputs must not be committed to the public repository; they belong in a private operational output/data store.
