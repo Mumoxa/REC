@@ -289,6 +289,57 @@
           ]
         }
       }
+    },
+    "seniority": {
+      "type": "object",
+      "properties": {
+        "band": {
+          "enum": [
+            "TIER_0_BOARD_AND_ENTERPRISE",
+            "TIER_1_EXECUTIVE_LEADERSHIP",
+            "TIER_1B_FRACTIONAL_INTERIM_PORTFOLIO",
+            "TIER_2_DIRECTOR_HEAD",
+            "TIER_3_SENIOR_MANAGEMENT",
+            "TIER_4_PRINCIPAL_LEAD_ARCHITECT",
+            "TIER_5_SPECIALIST",
+            "TIER_6_CONSULTING",
+            "TIER_7_EXPERIENCED_PROFESSIONAL",
+            "UNKNOWN"
+          ]
+        },
+        "matched_terms": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "board_level": {
+          "type": "boolean"
+        },
+        "executive_director": {
+          "type": "boolean"
+        },
+        "fractional_or_interim": {
+          "type": "boolean"
+        },
+        "consulting_track": {
+          "type": "boolean"
+        },
+        "specialist_track": {
+          "type": "boolean"
+        },
+        "people_management_required": {
+          "type": "boolean"
+        },
+        "confidence": {
+          "enum": [
+            "CONFIRMED",
+            "PROBABLE",
+            "HYPOTHESIS",
+            "UNKNOWN"
+          ]
+        }
+      }
     }
   }
 }
