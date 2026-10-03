@@ -17,7 +17,7 @@ All role, seniority, geography, query, qualification, evidence, scoring and outp
 
 ## Mission
 
-Search the **entire current agreed-client universe first**.
+Search the **entire current agreed-client universe**. In a combined/full run this channel has default priority 1. In a single-channel run, execute it directly without waiting for or requiring any other channel.
 
 An agreed-client vacancy is not required to compete with a general-market vacancy for commercial priority. Once a vacancy is credibly attributable to a current agreed client or confirmed agreed group entity, route it immediately into the the agreed-client channel recruitment pipeline.
 
