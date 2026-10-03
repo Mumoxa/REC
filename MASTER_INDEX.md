@@ -69,3 +69,22 @@ Execution order is:
 **P1 Western Cape → P2 Gauteng → P3 KwaZulu-Natal → P4 rest of South Africa / national / remote.**
 
 Within each region, the encoded cluster order is also authoritative. Country-level terms do not replace granular node searches.
+
+
+## Role taxonomy authority
+
+The controlling role taxonomy is:
+
+- `taxonomy/Talent_Tree_Master_Recruitment_Role_Taxonomy.md` — complete preserved source.
+- `taxonomy/role_taxonomy.json` — machine-readable registry containing all 271 role nodes.
+- `taxonomy/role_taxonomy_rules.yaml` — application precedence, exclusions and classification boundaries.
+- `taxonomy/ROLE_TAXONOMY_VALIDATION.md` — validation record, including the unresolved summary-count discrepancy.
+
+### Application
+
+- LinkedIn social discovery remains broad; taxonomy filtering occurs downstream.
+- Agency and job-board/ATS workers use the taxonomy for search focus and classification after extraction.
+- Enrichment applies the full taxonomy, economic threshold, boundary rules and priority logic.
+- Market mapping and candidate sourcing use the full taxonomy.
+
+Abbreviated role lists must not replace the 271-node registry.
