@@ -10,7 +10,7 @@
     "role",
     "evidence",
     "client_status",
-    "source_priority_stage"
+    "search_channel"
   ],
   "properties": {
     "record_id": {
@@ -413,6 +413,11 @@
         "STAGE_2_STRATEGIC_AGENCIES",
         "STAGE_3_LINKEDIN_INTELLIGENCE",
         "STAGE_4_BROADER_SECONDARY_SOURCES"
+      ],
+      "description": "Deprecated compatibility field from the earlier sequential-stage model. Use search_channel for current runs.",
+      "type": [
+        "string",
+        "null"
       ]
     },
     "client_relationship": {
@@ -454,6 +459,14 @@
           ]
         }
       }
+    },
+    "search_channel": {
+      "enum": [
+        "AGREED_CLIENTS",
+        "AGENCY_SITES",
+        "LINKEDIN",
+        "JOB_BOARDS"
+      ]
     }
   }
 }
