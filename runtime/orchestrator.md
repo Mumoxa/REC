@@ -114,3 +114,25 @@ After any channel produces a consolidated opportunity:
 This pipeline can start from output of **any single channel**. It never requires another sourcing channel to have completed.
 
 Candidate mapping and QA are not sourcing channels.
+
+
+## Run completion and publication gate
+
+Do not confuse source/channel coverage completion with REC research-run completion.
+
+A run is `COMPLETE` only when every qualifying verified opportunity from the requested channel scope has:
+
+1. passed QA Gate A;
+2. completed the role/client fingerprint and passed QA Gate B;
+3. completed target-company mapping and passed QA Gate C;
+4. executed candidate searches with recorded coverage/yield;
+5. built and verified the credible candidate market;
+6. passed QA Gate D for the client-facing candidate set;
+7. produced at least one QA-cleared candidate in the research `TOP_10` bucket with an evidence-grounded fit rationale; and
+8. been persisted into REC with the vacancy, candidate assignment(s), evidence and QA records successfully verified in the canonical datastore.
+
+The 50-person credible-longlist depth and Top-10 size remain research targets, not quotas. A scarce market may legitimately produce fewer candidates, but zero client-submittable candidates means the run is not complete.
+
+If channel discovery is exhausted while candidate work remains unfinished, use `RUNNING` or `PARTIAL` and report the remaining gap. Never return `COMPLETE` solely because vacancies were found and validated.
+
+When the user asks to "publish", publication is part of the requested run. Do not claim publication until persistence succeeds and the persisted vacancy/candidate counts have been verified.
