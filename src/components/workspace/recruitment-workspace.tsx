@@ -29,6 +29,7 @@ const marketLabels: Record<MarketBucket, string> = {
 };
 
 export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: WorkspaceSnapshot }) {
+  const initialSavedViews = initialSnapshot.savedViews || [];
   const [vacancies, setVacancies] = useState(initialSnapshot.vacancies);
   const [selectedId, setSelectedId] = useState(initialSnapshot.vacancies[0]?.id ?? "");
   const [globalSearch, setGlobalSearch] = useState("");
@@ -41,6 +42,15 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
   const [marketFilter, setMarketFilter] = useState<MarketBucket | "ALL">("ALL");
   const [selectedCandidateId, setSelectedCandidateId] = useState<string | null>(null);
   const [saving, setSaving] = useState<string | null>(null);
+  const [archiveFilter, setArchiveFilter] = useState<"ACTIVE" | "ARCHIVED" | "ALL">("ACTIVE");
+  const [savedViews, setSavedViews] = useState(initialSavedViews);
+  const [loadedViewName, setLoadedViewName] = useState<string>("");
+  const [saveName, setSaveName] = useState<string>("");
+  const [savingView, setSavingView] = useState(false);
+  const [exclusionTarget, setExclusionTarget] = useState<{ candidateId: string; name: string } | null>(null);
+  const [excludeReason, setExcludeReason] = useState<string>("NOT_SUBMITTED");
+  const [closeConfirmOpen, setCloseConfirmOpen] = useState(false);
+  const [closeReason, setCloseReason] = useState("FILLED");
 
   const filteredVacancies = useMemo(() => {
     const q = globalSearch.trim().toLowerCase();
@@ -62,7 +72,11 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
       const matchesChannel =
         channelFilter === "ALL" || vacancy.searchChannel === channelFilter;
       const matchesRegion = regionFilter === "ALL" || vacancy.region === regionFilter;
-      return matchesQuery && matchesChannel && matchesRegion && vacancy.lifecycleStatus !== "CLOSED";
+      const matchesArchive =
+        archiveFilter === "ALL" ||
+        (archiveFilter === "ACTIVE" && vacancy.lifecycleStatus !== "CLOSED") ||
+        (archiveFilter === "ARCHIVED" && vacancy.lifecycleStatus === "CLOSED");
+      return matchesQuery && matchesChannel && matchesRegion && matchesArchive;
     });
   }, [vacancies, globalSearch, channelFilter, regionFilter]);
 
@@ -111,8 +125,10 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
     };
   }, [vacancies]);
 
-  async function updateCandidateStatus(candidate: CandidateAssignment, status: CandidateOperationalStatus) {
+  async function updateCandidateStatus(candidate: CandidateAssignment, status: CandidateOperationalStatus, reason?: string) {
     if (!selected) return;
+    // Preserve evidence-backed market bucket; do not let recruiter action rewrite research.
+    const previousStatus = candidate.operationalStatus;
     setSaving(`candidate:${candidate.candidateId}`);
     setVacancies((current) =>
       current.map((vacancy) =>
@@ -125,12 +141,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
                   ? {
                       ...item,
                       operationalStatus: status,
-                      marketBucket:
-                        status === "TOP_10"
-                          ? "TOP_10"
-                          : status === "EXCLUDED"
-                            ? "EXCLUDED"
-                            : item.marketBucket,
+                      // marketBucket intentionally preserved from research
                     }
                   : item
               ),
@@ -139,28 +150,117 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
     );
 
     if (!initialSnapshot.demoMode) {
-      await fetch("/api/ops/candidate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          vacancyId: selected.id,
-          candidateId: candidate.candidateId,
-          operationalStatus: status,
-        }),
-      });
+      try {
+        const res = await fetch("/api/ops/candidate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            vacancyId: selected.id,
+            candidateId: candidate.candidateId,
+            operationalStatus: status,
+            ...(reason ? { reason } : {}),
+          }),
+        });
+        if (!res.ok) {
+          throw new Error(await res.text());
+        }
+      } catch (err) {
+        // Roll back optimistic change so failed mutation never lies to user.
+        setVacancies((current) =>
+          current.map((vacancy) =>
+            vacancy.id !== selected.id
+              ? vacancy
+              : {
+                  ...vacancy,
+                  candidates: vacancy.candidates.map((item) =>
+                    item.candidateId === candidate.candidateId
+                      ? { ...item, operationalStatus: previousStatus }
+                      : item
+                  ),
+                }
+          )
+        );
+        alert("Failed to save candidate operation. Change was not saved.");
+        setSaving(null);
+        return;
+      }
     }
     setSaving(null);
+    // Clear exclusion confirmation if this was an exclusion with reason
+    if (status === "EXCLUDED" && exclusionTarget) {
+      setExclusionTarget(null);
+      setExcludeReason("NOT_SUBMITTED");
+    }
   }
 
+
+  function restoreSavedView(view: typeof savedViews[0]) {
+    if (!view) return;
+    const s = view.viewState || {};
+    if (typeof s.globalSearch === "string") setGlobalSearch(s.globalSearch);
+    if (typeof s.channelFilter === "string") setChannelFilter(s.channelFilter);
+    if (typeof s.regionFilter === "string") setRegionFilter(s.regionFilter);
+    if (typeof s.archiveFilter === "string") setArchiveFilter(s.archiveFilter as typeof archiveFilter);
+    if (typeof s.density === "string") setDensity(s.density as Density);
+    if (typeof s.marketFilter === "string") setMarketFilter(s.marketFilter as MarketBucket | "ALL");
+    if (typeof s.jobTab === "string") setJobTab(s.jobTab as JobTab);
+    if (typeof s.candidateSearch === "string") setCandidateSearch(s.candidateSearch);
+    setLoadedViewName(view.name);
+  }
+
+  async function saveCurrentView() {
+    if (!saveName.trim()) return;
+    setSavingView(true);
+    const payload = {
+      name: saveName.trim(),
+      viewState: {
+        globalSearch,
+        channelFilter,
+        regionFilter,
+        archiveFilter,
+        density,
+        marketFilter,
+        jobTab,
+        candidateSearch,
+      },
+    };
+    try {
+      const res = await fetch("/api/ops/saved-view", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error(await res.text());
+      const json = await res.json();
+      if (json.savedView) {
+        setSavedViews((prev) => {
+          const idx = prev.findIndex((v) => v.name === json.savedView.name);
+          if (idx >= 0) {
+            const copy = [...prev];
+            copy[idx] = { ...json.savedView, viewState: json.savedView.view_state || payload.viewState };
+            return copy;
+          }
+          return [...prev, { ...json.savedView, viewState: json.savedView.view_state || payload.viewState }];
+        });
+        setLoadedViewName(saveName.trim());
+      }
+      setSaveName("");
+    } catch (e) {
+      alert("Failed to save view.");
+    } finally {
+      setSavingView(false);
+    }
+  }
   async function closeVacancy() {
     if (!selected) return;
-    const reason = window.prompt(
-      "Close reason: FILLED, EXPIRED, CLIENT_NO_LONGER_HIRING, NOT_COMMERCIALLY_RELEVANT, DUPLICATE, CANCELLED, OTHER",
-      "FILLED"
-    );
-    if (!reason) return;
-
+    // Accessibility repair: replacement for window.prompt is handled by an inline control below.
+    // This keeps the old entry point but avoids the inaccessible browser prompt.
+    // The UI control below will call confirmCloseVacancy directly.
+  }
+  async function confirmCloseVacancy(reason: string) {
+    if (!selected) return;
     setSaving(`vacancy:${selected.id}`);
+    const previousStatus = selected.lifecycleStatus;
     setVacancies((current) =>
       current.map((vacancy) =>
         vacancy.id === selected.id ? { ...vacancy, lifecycleStatus: "CLOSED" } : vacancy
@@ -168,15 +268,32 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
     );
 
     if (!initialSnapshot.demoMode) {
-      await fetch("/api/ops/vacancy", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ vacancyId: selected.id, action: "CLOSE", reason }),
-      });
+      try {
+        const res = await fetch("/api/ops/vacancy", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ vacancyId: selected.id, action: "CLOSE", reason }),
+        });
+        if (!res.ok) throw new Error(await res.text());
+      } catch (err) {
+        // Roll back so a failed mutation never appears saved.
+        setVacancies((current) =>
+          current.map((vacancy) =>
+            vacancy.id === selected.id ? { ...vacancy, lifecycleStatus: previousStatus } : vacancy
+          )
+        );
+        alert("Failed to close vacancy. Change was not saved.");
+        setSaving(null);
+        return;
+      }
     }
 
-    const next = filteredVacancies.find((v) => v.id !== selected.id);
-    if (next) setSelectedId(next.id);
+    const next = filteredVacancies.find((v) => v.id !== selected.id && v.lifecycleStatus !== "CLOSED");
+    if (next) {
+      setSelectedId(next.id);
+      setSelectedCandidateId(null);
+      setJobTab("OVERVIEW");
+    }
     setSaving(null);
   }
 
@@ -265,6 +382,25 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
                 </option>
               ))}
             </select>
+            <select value={loadedViewName} onChange={(e) => {
+              const view = savedViews.find((v) => v.name === e.target.value);
+              if (view) restoreSavedView(view);
+              else setLoadedViewName("");
+            }} aria-label="Load saved view">
+              <option value="">— Load view —</option>
+              {savedViews.map((v) => (
+                <option key={v.id} value={v.name}>{v.name}</option>
+              ))}
+            </select>
+            <div className="save-view-row" style={{ display: "inline-flex", gap: "4px", alignItems: "center" }}>
+              <input aria-label="Saved view name" value={saveName} onChange={(e) => setSaveName(e.target.value)} placeholder="View name" style={{ width: "120px" }} />
+              <button disabled={savingView || !saveName.trim()} onClick={saveCurrentView} aria-label="Save current view">Save</button>
+            </div>
+            <select value={archiveFilter} onChange={(event) => setArchiveFilter(event.target.value as typeof archiveFilter)} aria-label="Archive filter">
+              <option value="ACTIVE">Active</option>
+              <option value="ARCHIVED">Archived</option>
+              <option value="ALL">All</option>
+            </select>
           </div>
 
           <div className="density-control">
@@ -318,13 +454,31 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
                   <span>{selected.sourceLabel}</span>
                 </div>
               </div>
-              <button
-                className="close-job-button"
-                onClick={closeVacancy}
-                disabled={saving === `vacancy:${selected.id}`}
-              >
-                Close job
-              </button>
+              {!closeConfirmOpen ? (
+                <button
+                  className="close-job-button"
+                  onClick={() => setCloseConfirmOpen(true)}
+                  disabled={saving === `vacancy:${selected.id}`}
+                  aria-label="Close vacancy"
+                >
+                  Close job
+                </button>
+              ) : (
+                <div className="close-confirm" role="region" aria-label="Close vacancy confirmation">
+                  <label htmlFor="close-reason">Reason</label>
+                  <select id="close-reason" value={closeReason} onChange={(e) => setCloseReason(e.target.value)}>
+                    <option value="FILLED">FILLED</option>
+                    <option value="EXPIRED">EXPIRED</option>
+                    <option value="CLIENT_NO_LONGER_HIRING">CLIENT_NO_LONGER_HIRING</option>
+                    <option value="NOT_COMMERCIALLY_RELEVANT">NOT_COMMERCIALLY_RELEVANT</option>
+                    <option value="DUPLICATE">DUPLICATE</option>
+                    <option value="CANCELLED">CANCELLED</option>
+                    <option value="OTHER">OTHER</option>
+                  </select>
+                  <button onClick={() => { confirmCloseVacancy(closeReason); setCloseConfirmOpen(false); }} disabled={saving === `vacancy:${selected.id}`} aria-label="Confirm close">Confirm</button>
+                  <button onClick={() => setCloseConfirmOpen(false)} aria-label="Cancel close">Cancel</button>
+                </div>
+              )}
             </div>
 
             <div className="status-line">
@@ -427,7 +581,13 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
                         current === candidate.candidateId ? null : candidate.candidateId
                       )
                     }
-                    onStatus={(status) => updateCandidateStatus(candidate, status)}
+                    onStatus={(status, reason) => updateCandidateStatus(candidate, status, reason)}
+                    exclusionTarget={exclusionTarget}
+                    onExcludeStart={(id, name) => { setExclusionTarget({ candidateId: id, name }); setExcludeReason("NOT_SUBMITTED"); }}
+                    excludeReason={excludeReason}
+                    onExcludeReasonChange={setExcludeReason}
+                    onExcludeConfirm={() => { if (exclusionTarget) updateCandidateStatus(candidate, "EXCLUDED", excludeReason); }}
+                    onExcludeCancel={() => { setExclusionTarget(null); setExcludeReason("NOT_SUBMITTED"); }}
                   />
                 ))}
                 {visibleCandidates.length === 0 && (
@@ -732,12 +892,24 @@ function CandidateCard({
   saving,
   onOpen,
   onStatus,
+  exclusionTarget,
+  onExcludeStart,
+  excludeReason,
+  onExcludeReasonChange,
+  onExcludeConfirm,
+  onExcludeCancel,
 }: {
   candidate: CandidateAssignment;
   selected: boolean;
   saving: boolean;
   onOpen: () => void;
-  onStatus: (status: CandidateOperationalStatus) => void;
+  onStatus: (status: CandidateOperationalStatus, reason?: string) => void;
+  exclusionTarget?: { candidateId: string; name: string } | null;
+  onExcludeStart?: (candidateId: string, name: string) => void;
+  excludeReason?: string;
+  onExcludeReasonChange?: (reason: string) => void;
+  onExcludeConfirm?: () => void;
+  onExcludeCancel?: () => void;
 }) {
   return (
     <article className={`candidate-card ${selected ? "open" : ""}`}>
@@ -758,7 +930,22 @@ function CandidateCard({
         <button disabled={saving} onClick={() => onStatus("EARMARKED")} className={candidate.operationalStatus === "EARMARKED" ? "active" : ""}>Earmark</button>
         <button disabled={saving} onClick={() => onStatus("TOP_10")} className={candidate.operationalStatus === "TOP_10" ? "active" : ""}>Top 10</button>
         <button disabled={saving} onClick={() => onStatus("APPROACH")} className={candidate.operationalStatus === "APPROACH" ? "active" : ""}>Approach</button>
-        <button disabled={saving} onClick={() => onStatus("EXCLUDED")} className="danger-lite">Exclude</button>
+        {exclusionTarget?.candidateId === candidate.candidateId ? (
+          <div className="exclusion-confirm" role="region" aria-label="Confirm exclusion">
+            <label htmlFor={`exclude-reason-${candidate.candidateId}`}>Reason</label>
+            <select id={`exclude-reason-${candidate.candidateId}`} value={excludeReason ?? "NOT_SUBMITTED"} onChange={(e) => onExcludeReasonChange?.(e.target.value)}>
+              <option value="NOT_SUBMITTED">NOT_SUBMITTED</option>
+              <option value="NO_LONGER_RELEVANT">NO_LONGER_RELEVANT</option>
+              <option value="COMPETITOR_EXCLUSIVE">COMPETITOR_EXCLUSIVE</option>
+              <option value="CLIENT_INSTRUCTED">CLIENT_INSTRUCTED</option>
+              <option value="OTHER">OTHER</option>
+            </select>
+            <button onClick={() => onExcludeConfirm?.()} aria-label="Confirm exclusion">Confirm</button>
+            <button onClick={() => onExcludeCancel?.()} aria-label="Cancel exclusion">Cancel</button>
+          </div>
+        ) : (
+          <button disabled={saving} onClick={() => onExcludeStart?.(candidate.candidateId, candidate.name)} className="danger-lite">Exclude</button>
+        )}
       </div>
 
       {selected && (

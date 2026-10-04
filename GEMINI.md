@@ -1,9 +1,14 @@
-# Gemini Agent Instructions
+# Gemini Agent — REC Quick Reference
 
-Read and obey `AGENTS.md` before performing any REC research or implementation work.
+Obey `AGENTS.md`. Key invariants for this session (same as CLAUDE.md):
 
-Use the canonical REC publisher rather than treating local environment-file absence as a publication blocker:
-
-`npm run rec:publish -- runs/<RUN-ID>/publication-payload.json`
-
-A recruitment run does not finish until qualifying vacancies have client-submittable candidates and live REC persistence has been verified.
+- Authoritative sources: `manifest.yaml`, `ARCHITECTURE_GUARD.md`, `interface/README.md`.
+- Four sourcing channels only.
+- Research `marketBucket` and Recruiter `operationalStatus` are separate concepts.
+- Evidence states (CONFIRMED/PROBABLE/HYPOTHESIS/UNKNOWN) never collapse into workflow.
+- Candidate exclusion and vacancy close require reasons; roll back on server failure.
+- Database persistence verified via ingestion endpoint; local JSON is not publication.
+- Archive/closed retrieval supported (`archiveFilter` in workspace).
+- Hiring-team intelligence distinguishes observed from probable email with evidence labels.
+- Verify repository: `npm run verify`.
+- Never commit personal data.

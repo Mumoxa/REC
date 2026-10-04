@@ -1,7 +1,17 @@
-# Claude Code / Claude Agent Instructions
+# Claude Agent — REC Quick Reference
 
-Read and obey `AGENTS.md` before performing any REC research or implementation work.
+Obey `AGENTS.md` first. Key invariants for this session:
 
-Critical rule: a missing local `.env` or ingest key is not a reason to stop a recruitment run. Use the repository's `npm run rec:publish -- <payload>` publication command, which bootstraps the live REC connection through Vercel.
+- Source-of-truth: `manifest.yaml` + `ARCHITECTURE_GUARD.md` + `interface/README.md`.
+- Four sourcing channels only: AGREED_CLIENTS, AGENCY_SITES, LINKEDIN, JOB_BOARDS.
+- Research Top 10 (`marketBucket`) and Recruiter Top 10 (`operationalStatus`) are separate; never let a recruiter click overwrite evidence.
+- Candidate exclusion requires a reason; close vacancy requires a reason.
+- Failed mutations must roll back; never leave optimistic state after server error.
+- Database = work product; publish via `npm run rec:publish -- <payload>`; check persistence.
+- Archival surface exists (`archiveFilter`); closed vacancies must remain retrievable.
+- Evidence (CONFIRMED/PROBABLE/HYPOTHESIS/UNKNOWN) is separate from QA and from operational workflow.
+- Hiring-team intelligence preserves observed vs probable email with evidence provenance.
+- Health/verify: `npm run verify` (typecheck + contracts + regression + build).
+- No candidate/stakeholder PII should enter source control.
 
-Do not end a qualifying recruitment run at vacancy discovery, QA Gate A or payload generation. Continue through candidate mapping, QA Gate D, client-submittable Top 10 and verified REC persistence.
+Continue through candidate mapping, QA Gate D, client-submittable Top 10 and verified REC persistence.
