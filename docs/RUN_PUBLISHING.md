@@ -39,7 +39,7 @@ A run may be marked `COMPLETE` only when every qualifying verified opportunity p
 6. completed the Tier A/B/C/D target-company map;
 7. passed QA Gate C;
 8. generated and executed candidate searches with recorded coverage/yield;
-9. produced an evidence-backed candidate market;
+9. produced an evidence-backed candidate market containing the credible longlist, strongest-market layer and final Top 10 subset;
 10. verified candidate identity and material claims;
 11. passed QA Gate D for the client-facing set;
 12. produced at least one genuinely client-submittable research `TOP_10` candidate; and
@@ -61,7 +61,7 @@ For the run-completion contract, a candidate is client-submittable only when:
 - `whyFit` contains an evidence-grounded Why This Person / Why This Client rationale;
 - material evidence gaps and unknowns are preserved.
 
-The engine should still aim for a credible longlist of 50+ where the market supports it and up to 10 high-conviction Top-10 profiles. Those are research-depth targets, not quotas. Never pad either set.
+The engine should still aim for a credible longlist of 50+ where the market supports it, a strongest-market layer of roughly 20–25, and then up to 10 high-conviction Top-10 profiles. The Top 10 is not the full market. Those are research-depth targets, not quotas. Never pad either set.
 
 ## Meaning of "published"
 
