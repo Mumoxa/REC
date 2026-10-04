@@ -82,6 +82,19 @@ export default function LoginPage() {
     }
   }
 
+  function useExistingCode() {
+    const address = email.trim();
+    if (!address) {
+      setMessage("Enter your work email first, then choose I already have a code.");
+      return;
+    }
+
+    setEmail(address);
+    rememberPending(address);
+    setPhase("VERIFY");
+    setMessage("Enter the current verification code from your existing Talent Tree email. No new email has been sent.");
+  }
+
   async function verifyCode(event: FormEvent) {
     event.preventDefault();
 
@@ -174,6 +187,17 @@ export default function LoginPage() {
             <button type="submit" disabled={loading}>
               {demo ? "Open demo workspace" : loading ? "Sending…" : "Email me a sign-in"}
             </button>
+
+            {!demo && (
+              <button
+                type="button"
+                className="secondary-login-button"
+                disabled={loading}
+                onClick={useExistingCode}
+              >
+                I already have a code
+              </button>
+            )}
           </form>
         ) : (
           <form onSubmit={verifyCode}>
