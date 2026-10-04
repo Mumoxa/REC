@@ -154,6 +154,28 @@ Mandatory independent review gates exist after:
 
 A review pass must attempt to disprove unsupported claims and preserve unknowns.
 
+### Run-completion invariant
+
+A sourcing-channel coverage sweep and a completed REC recruitment run are different states.
+
+A REC research run may be marked `COMPLETE` only when every qualifying verified opportunity produced by that run has progressed through the shared downstream candidate-intelligence pipeline and has at least one QA-cleared, client-submittable candidate.
+
+For completion purposes, a client-submittable candidate must:
+
+- be attached to the same canonical vacancy;
+- have candidate QA status `PASS` or `PASS_WITH_UNKNOWNS`;
+- be in the research `TOP_10` market bucket;
+- have an evidence-grounded `Why This Person / Why This Client` rationale;
+- preserve material evidence gaps and unknowns rather than hiding them.
+
+The system still targets up to 10 high-conviction profiles and at least 50 credible longlist candidates where the market supports that depth. The completion invariant does not require padding to reach either number.
+
+If discovery/coverage is finished but one or more qualifying vacancies do not yet have a client-submittable candidate set, the research run must remain `RUNNING` or be marked `PARTIAL`; it must not be labelled `COMPLETE`.
+
+If a channel sweep finds no qualifying opportunities, record that coverage outcome explicitly, but do not call the recruitment run `COMPLETE` merely because source searching ended.
+
+"Published" means successfully persisted into the canonical REC operational datastore and verified there. Rendering results in chat, a report, an export or a local file is not publication.
+
 
 ## Presentation-layer invariant
 
