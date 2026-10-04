@@ -38,7 +38,7 @@ export const demoSnapshot: WorkspaceSnapshot = {
       clientStatus: "TARGET_PROSPECT",
       searchChannel: "AGENCY_SITES",
       sourceLabel: "PRN Recruitment",
-      lifecycleStatus: "TOP_10_READY",
+      lifecycleStatus: "MARKET_READY",
       qaStatus: "PASS_WITH_UNKNOWNS",
       candidateMapStatus: "READY",
       candidateMarketSummary: {
