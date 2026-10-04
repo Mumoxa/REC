@@ -219,6 +219,16 @@ This is a valid publication, but it is **not a completed run**:
       "clientStatus": "AGREED_CLIENT",
       "qaStatus": "PASS",
       "candidateMapStatus": "IN_PROGRESS",
+      "stakeholderMapStatus": "IN_PROGRESS",
+      "stakeholderMapNote": "Hiring-team and company email intelligence research is underway.",
+      "companyEmailIntelligence": {
+        "domainStatus": "UNKNOWN",
+        "observedPatternExamplesCount": 0,
+        "patternStatus": "UNKNOWN_PATTERN",
+        "patternBasis": [],
+        "alternatePatterns": []
+      },
+      "stakeholders": [],
       "sources": [],
       "requirements": [],
       "researchQueries": [],
@@ -254,6 +264,40 @@ A complete run must contain a submit-ready candidate set:
       "clientStatus": "AGREED_CLIENT",
       "qaStatus": "PASS",
       "candidateMapStatus": "READY",
+      "stakeholderMapStatus": "READY",
+      "companyEmailIntelligence": {
+        "websiteDomain": "example.com",
+        "employeeEmailDomain": "example.com",
+        "domainStatus": "CONFIRMED",
+        "observedPatternExamplesCount": 2,
+        "observedBusinessEmailExamples": [
+          "public.person@example.com",
+          "another.person@example.com"
+        ],
+        "detectedPattern": "firstname.lastname@example.com",
+        "patternStatus": "CONFIRMED_PATTERN",
+        "patternBasis": [
+          "Two public employee business-email examples use the same format."
+        ],
+        "alternatePatterns": []
+      },
+      "stakeholders": [
+        {
+          "key": "stakeholder-001",
+          "name": "Hiring Owner",
+          "title": "Finance Director",
+          "relevance": "PRIMARY_HIRING_OWNER",
+          "reasonRelevant": "Functional finance leader likely to own the appointment.",
+          "currentEmploymentStatus": "CURRENT_VERIFIED",
+          "profileUrl": "https://www.linkedin.com/in/example",
+          "observedBusinessEmail": null,
+          "probableBusinessEmail": "hiring.owner@example.com",
+          "emailStatus": "PATTERN_INFERRED",
+          "emailPatternBasis": "firstname.lastname@example.com",
+          "emailConfidenceNote": "Probable business email derived from the evidenced company pattern.",
+          "evidenceStatus": "CONFIRMED"
+        }
+      ],
       "candidates": [
         {
           "canonicalKey": "opaque-candidate-key",
@@ -280,6 +324,9 @@ A successful response must expose enough information to verify publication, incl
 - persisted candidate count;
 - persisted candidate-assignment count;
 - persisted submit-ready Top-10 count;
+- persisted stakeholder count;
+- persisted vacancies with completed hiring-team intelligence;
+- persisted company email-intelligence count;
 - whether the completion contract was satisfied.
 
 The caller must check these values before claiming publication.
