@@ -21,6 +21,67 @@ export interface VacancySource {
   postedAt?: string | null;
 }
 
+export type StakeholderRelevance =
+  | "PRIMARY_HIRING_OWNER"
+  | "FUNCTIONAL_DECISION_MAKER"
+  | "EXECUTIVE_SPONSOR"
+  | "TALENT_ACQUISITION"
+  | "HR_BUSINESS_PARTNER"
+  | "VACANCY_CONTACT"
+  | "REFERRAL_OR_AMPLIFIER"
+  | "POSSIBLE_STAKEHOLDER";
+
+export type StakeholderMapStatus =
+  | "NOT_STARTED"
+  | "IN_PROGRESS"
+  | "READY"
+  | "BLOCKED_WITH_EVIDENCE";
+
+export type BusinessEmailStatus =
+  | "OBSERVED"
+  | "VERIFIED"
+  | "PATTERN_INFERRED"
+  | "CATCH_ALL"
+  | "CONFLICTING_PATTERN"
+  | "UNVERIFIABLE"
+  | "UNKNOWN";
+
+export interface HiringStakeholder {
+  id: string;
+  key: string;
+  name: string;
+  title?: string | null;
+  relevance?: StakeholderRelevance | null;
+  reasonRelevant?: string | null;
+  currentEmploymentStatus?: string | null;
+  profileUrl?: string | null;
+  observedBusinessEmail?: string | null;
+  probableBusinessEmail?: string | null;
+  emailStatus?: BusinessEmailStatus | null;
+  emailPatternBasis?: string | null;
+  emailConfidenceNote?: string | null;
+  evidenceStatus: EvidenceStatus;
+  lastVerified?: string | null;
+}
+
+export interface CompanyEmailIntelligence {
+  websiteDomain?: string | null;
+  employeeEmailDomain?: string | null;
+  domainStatus: "CONFIRMED" | "PROBABLE" | "CONFLICTING" | "UNKNOWN";
+  observedPatternExamplesCount: number;
+  observedBusinessEmailExamples: string[];
+  detectedPattern?: string | null;
+  patternStatus:
+    | "CONFIRMED_PATTERN"
+    | "PROBABLE_PATTERN"
+    | "CONFLICTING_PATTERNS"
+    | "UNKNOWN_PATTERN";
+  patternBasis: string[];
+  alternatePatterns: string[];
+  notes?: string | null;
+  lastVerified?: string | null;
+}
+
 export interface CandidateClaim {
   name: string;
   value: string;
@@ -72,6 +133,8 @@ export interface Vacancy {
   lifecycleStatus: VacancyLifecycle;
   qaStatus: QaStatus;
   candidateMapStatus: "NOT_STARTED" | "IN_PROGRESS" | "READY";
+  stakeholderMapStatus: StakeholderMapStatus;
+  stakeholderMapNote?: string | null;
   firstSeen: string;
   lastSeen?: string | null;
   lastVerified?: string | null;
@@ -79,6 +142,8 @@ export interface Vacancy {
   unread: boolean;
   requirements: Requirement[];
   sources: VacancySource[];
+  stakeholders: HiringStakeholder[];
+  companyEmailIntelligence?: CompanyEmailIntelligence | null;
   candidates: CandidateAssignment[];
   researchQueries: ResearchQuery[];
 }
