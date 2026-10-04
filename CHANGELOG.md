@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-10-04 — Agent publication bootstrap and write-through REC workflow
+
+- Restored the production `INGEST_API_KEY` path in Vercel and registered the matching hashed token in Supabase.
+- Added `npm run rec:publish -- <payload>` as the canonical agent publication command.
+- Added automatic Vercel production-environment bootstrap when a local ingest key is absent; agents no longer require hand-built `.env` files to publish.
+- Added model-neutral `AGENTS.md` plus Claude and Gemini execution guards so vacancy discovery or payload creation cannot be mistaken for run completion.
+- Made progressive write-through publication a runtime rule: Gate A, fingerprint, target companies, candidate batches, Gate D and final Top 10 should update the same REC records.
+- Explicitly prohibited publication/authentication problems from terminating candidate research.
+- Added agent-publication regression checks to CI.
+
+
 ## 2026-10-04 — Submit-ready run completion and verified publication
 
 - Separated source/channel coverage completion from REC research-run completion.

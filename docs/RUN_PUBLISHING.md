@@ -79,11 +79,37 @@ The following are **not** publication:
 
 An agent must not say "published" until persistence verification succeeds.
 
+## Publication must not depend on a hand-built local environment
+
+The absence of a local `.env`, `.env.local` or plaintext ingestion key is **not** a valid reason to stop a REC run or leave an otherwise publishable checkpoint only on disk.
+
+From a repository checkout, use:
+
+```bash
+npm run rec:publish -- runs/<RUN-ID>/publication-payload.json
+```
+
+The canonical publisher first uses an already-supplied `INGEST_API_KEY`. If none is present, it binds the checkout to the production REC Vercel project and re-executes through `vercel env run --environment=production`, so the credential remains in the authorised process environment rather than source control.
+
+A workstation/agent environment may require one-time Vercel OAuth authentication. That is an identity/authorization requirement, not application configuration and must not be "fixed" by weakening endpoint authentication or committing a secret.
+
+A temporary publication-authentication problem must not terminate vacancy research or candidate mapping. Continue the run, keep it `RUNNING` or `PARTIAL`, preserve stable IDs/checkpoints, and retry publication through the authorised path.
+
 ## Publishing paths
 
 ### Preferred from connected ChatGPT
 
 When the Supabase connector is available, the agent may write validated records directly to the configured project using the canonical database schema and must verify the write before claiming publication.
+
+### Canonical repository publisher
+
+Preferred for coding/research agents operating from this repository:
+
+```bash
+npm run rec:publish -- runs/<RUN-ID>/publication-payload.json
+```
+
+It publishes to `https://rec-phi-weld.vercel.app/api/ingest/run` and refuses to report success unless the ingestion response includes the required persistence verification.
 
 ### HTTP ingestion
 

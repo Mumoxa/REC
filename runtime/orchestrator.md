@@ -136,3 +136,27 @@ The 50-person credible-longlist depth and Top-10 size remain research targets, n
 If channel discovery is exhausted while candidate work remains unfinished, use `RUNNING` or `PARTIAL` and report the remaining gap. Never return `COMPLETE` solely because vacancies were found and validated.
 
 When the user asks to "publish", publication is part of the requested run. Do not claim publication until persistence succeeds and the persisted vacancy/candidate counts have been verified.
+
+
+## Write-through checkpoint rule
+
+The live REC datastore is the durable checkpoint for a run.
+
+Do not perform an entire channel run in memory/local files and attempt the first publication only at the end. Publish progressively using the same stable run and canonical vacancy IDs after material milestones, including:
+
+- Gate A / verified vacancy -> `RUNNING`, `CANDIDATE_MAPPING`;
+- Gate B fingerprint completion;
+- Gate C target-company completion;
+- meaningful candidate batches / search-yield updates;
+- Gate D strongest-market / Top-10 updates;
+- final submit-ready state.
+
+Use the repository publisher:
+
+```bash
+npm run rec:publish -- runs/<RUN-ID>/publication-payload.json
+```
+
+A missing local `.env` is not a stop condition. The publisher bootstraps the authorised production Vercel environment when the key is not already present.
+
+If publication authentication is temporarily unavailable, continue downstream research rather than terminating after vacancy discovery. Keep the run `RUNNING` or `PARTIAL`, preserve the checkpoint payload privately, and retry publication. Never convert an infrastructure/authentication limitation into an artificial end of the recruitment run.

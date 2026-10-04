@@ -128,3 +128,20 @@ The independent review must challenge vacancy existence/currentness, exact role 
 Only `PASS` or `PASS_WITH_UNKNOWNS` records may proceed. A `FAIL_RESEARCH_REQUIRED` record returns to channel research.
 
 Do not invent missing facts to make a record pass.
+
+
+## Progressive REC publication
+
+Channel 1 is a live REC workflow, not a local report-generation exercise.
+
+As soon as a qualifying vacancy passes Gate A, publish it into REC as an in-progress candidate-mapping record. Re-publish the same canonical vacancy as the fingerprint, target-company universe, candidate batches, QA reviews and Top 10 are produced.
+
+Canonical repository command:
+
+```bash
+npm run rec:publish -- runs/<RUN-ID>/publication-payload.json
+```
+
+Do not inspect the checkout, notice only `.env.example`, and conclude that publication is unavailable. The publisher can obtain the authorised production ingestion environment through the canonical Vercel project.
+
+A publication-authentication problem does not excuse terminating Channel 1 at discovery/QA Gate A. Continue the downstream candidate work, preserve the run as `RUNNING` or `PARTIAL`, and retry publication through the authorised path.
