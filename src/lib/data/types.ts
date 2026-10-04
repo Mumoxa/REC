@@ -82,6 +82,16 @@ export interface CompanyEmailIntelligence {
   lastVerified?: string | null;
 }
 
+export interface CandidateMarketSummary {
+  coverageStatus: "NOT_STARTED" | "IN_PROGRESS" | "COMPLETE" | "SCARCE_MARKET";
+  rawProfilesReviewed?: number | null;
+  credibleMarketCount: number;
+  strongestMarketCount: number;
+  top10Count: number;
+  executedQueryCount: number;
+  coverageNote?: string | null;
+}
+
 export interface CandidateClaim {
   name: string;
   value: string;
@@ -133,6 +143,7 @@ export interface Vacancy {
   lifecycleStatus: VacancyLifecycle;
   qaStatus: QaStatus;
   candidateMapStatus: "NOT_STARTED" | "IN_PROGRESS" | "READY";
+  candidateMarketSummary: CandidateMarketSummary;
   stakeholderMapStatus: StakeholderMapStatus;
   stakeholderMapNote?: string | null;
   firstSeen: string;
