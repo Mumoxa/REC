@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026-10-05 — Full candidate market restored as the core deliverable
+
+- Reframed the live workspace from Top-10-first to full candidate-market visibility.
+- Candidate market now visibly separates credible market, longlist, strongest market and final Top 10.
+- Normal research target remains 50+ credible candidates where supported, with a strongest-market layer normally around 20–25 before the final Top 10.
+- Added candidate-market coverage state and persistence summary.
+- COMPLETE market coverage with fewer than 50 credible candidates is rejected unless the vacancy is explicitly marked SCARCE_MARKET with an evidence-grounded coverage note.
+- Candidate-market summary counts must reconcile to persisted Longlist / Strongest Market / Top-10 assignments.
+- Updated agent instructions so no model can treat Top 10 as the full candidate-market deliverable.
+- Updated the canonical candidate-market schema to require strongest-market and coverage-summary outputs.
+
+
 ## 2026-10-05 — Hiring team and probable email intelligence made first-class
 
 - Exposed hiring-team/contact intelligence as a dedicated vacancy tab in the live REC workspace.
