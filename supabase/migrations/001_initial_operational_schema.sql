@@ -81,7 +81,7 @@ create table if not exists public.vacancy_operations (
   id uuid primary key default gen_random_uuid(),
   workspace_id uuid not null references public.workspaces(id) on delete cascade,
   vacancy_id uuid not null references public.vacancies(id) on delete cascade,
-  lifecycle_status text not null default 'DISCOVERED' check (lifecycle_status in ('DISCOVERED','VERIFYING','QUALIFIED','EMPLOYER_RESOLVED','CANDIDATE_MAPPING','TOP_10_READY','CLIENT_ACTION','CLOSED')),
+  lifecycle_status text not null default 'DISCOVERED' check (lifecycle_status in ('DISCOVERED','VERIFYING','QUALIFIED','EMPLOYER_RESOLVED','CANDIDATE_MAPPING','MARKET_READY','CLIENT_ACTION','CLOSED')),
   unread boolean not null default true,
   closed_reason text check (closed_reason is null or closed_reason in ('FILLED','EXPIRED','CLIENT_NO_LONGER_HIRING','NOT_COMMERCIALLY_RELEVANT','DUPLICATE','CANCELLED','OTHER')),
   closed_at timestamptz,
