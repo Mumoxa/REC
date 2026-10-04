@@ -1,0 +1,12 @@
+create index if not exists idx_candidate_assignments_candidate on public.candidate_assignments(candidate_id);
+create index if not exists idx_candidate_operations_candidate on public.candidate_operations(candidate_id);
+create index if not exists idx_candidate_operations_vacancy on public.candidate_operations(vacancy_id);
+create index if not exists idx_qa_candidate on public.qa_reviews(candidate_id);
+create index if not exists idx_qa_run on public.qa_reviews(run_id);
+create index if not exists idx_qa_workspace on public.qa_reviews(workspace_id);
+create index if not exists idx_research_queries_run on public.research_queries(run_id);
+create index if not exists idx_saved_views_user on public.saved_views(user_id);
+create index if not exists idx_vacancies_company on public.vacancies(company_id);
+create index if not exists idx_vacancy_operations_vacancy on public.vacancy_operations(vacancy_id);
+create index if not exists idx_vacancy_sources_run on public.vacancy_sources(run_id);
+create index if not exists idx_workspace_members_user on public.workspace_members(user_id);
