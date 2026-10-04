@@ -7,12 +7,12 @@ import { isDemoMode } from "@/lib/supabase/config";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [token, setToken] = useState("");
-  const [phase, setPhase] = useState<"EMAIL" | "OTP">("EMAIL");
+  const [phase, setPhase] = useState<"EMAIL" | "VERIFY">("EMAIL");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const demo = isDemoMode();
 
-  async function sendCode(event: FormEvent) {
+  async function sendSignIn(event: FormEvent) {
     event.preventDefault();
 
     if (demo) {
@@ -25,19 +25,24 @@ export default function LoginPage() {
 
     try {
       const supabase = createClient();
+      const callbackUrl = `${window.location.origin}/auth/callback?next=/`;
+
       const { error } = await supabase.auth.signInWithOtp({
         email: email.trim(),
         options: {
           shouldCreateUser: false,
+          emailRedirectTo: callbackUrl,
         },
       });
 
       if (error) throw error;
 
-      setPhase("OTP");
-      setMessage("A 6-digit sign-in code has been sent to your email.");
+      setPhase("VERIFY");
+      setMessage(
+        "Check your email. If it contains a Sign in link, click it. If it contains a 6-digit code, enter the code below."
+      );
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Unable to send sign-in code.");
+      setMessage(error instanceof Error ? error.message : "Unable to start sign-in.");
     } finally {
       setLoading(false);
     }
@@ -65,7 +70,7 @@ export default function LoginPage() {
 
       if (error) throw error;
 
-      window.location.href = "/";
+      window.location.assign("/");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Unable to verify this code.");
     } finally {
@@ -73,7 +78,7 @@ export default function LoginPage() {
     }
   }
 
-  async function resendCode() {
+  async function resend() {
     if (demo) return;
 
     setLoading(true);
@@ -82,17 +87,22 @@ export default function LoginPage() {
 
     try {
       const supabase = createClient();
+      const callbackUrl = `${window.location.origin}/auth/callback?next=/`;
       const { error } = await supabase.auth.signInWithOtp({
         email: email.trim(),
         options: {
           shouldCreateUser: false,
+          emailRedirectTo: callbackUrl,
         },
       });
 
       if (error) throw error;
-      setMessage("A new 6-digit sign-in code has been sent.");
+
+      setMessage(
+        "A new sign-in email was sent. Use its Sign in link, or enter its 6-digit code below."
+      );
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Unable to resend sign-in code.");
+      setMessage(error instanceof Error ? error.message : "Unable to resend sign-in email.");
     } finally {
       setLoading(false);
     }
@@ -113,7 +123,7 @@ export default function LoginPage() {
         <p>Sign in to access the vacancy intelligence workspace.</p>
 
         {phase === "EMAIL" ? (
-          <form onSubmit={sendCode}>
+          <form onSubmit={sendSignIn}>
             <label htmlFor="email">Work email</label>
             <input
               id="email"
@@ -125,7 +135,7 @@ export default function LoginPage() {
               placeholder="you@company.co.za"
             />
             <button type="submit" disabled={loading}>
-              {demo ? "Open demo workspace" : loading ? "Sending code…" : "Send sign-in code"}
+              {demo ? "Open demo workspace" : loading ? "Sending…" : "Email me a sign-in"}
             </button>
           </form>
         ) : (
@@ -137,6 +147,12 @@ export default function LoginPage() {
               </button>
             </div>
 
+            <div className="login-option-note">
+              If your email contains a <strong>Sign in</strong> link, use that link. It will return here through the secure callback and open the workspace.
+            </div>
+
+            <div className="login-divider"><span>or enter a code</span></div>
+
             <label htmlFor="token">6-digit verification code</label>
             <input
               id="token"
@@ -145,19 +161,17 @@ export default function LoginPage() {
               autoComplete="one-time-code"
               pattern="[0-9]{6}"
               maxLength={6}
-              required
               value={token}
               onChange={(event) => setToken(event.target.value.replace(/\D/g, "").slice(0, 6))}
               placeholder="000000"
-              autoFocus
             />
 
             <button type="submit" disabled={loading || token.length !== 6}>
-              {loading ? "Verifying…" : "Sign in"}
+              {loading ? "Verifying…" : "Verify code"}
             </button>
 
-            <button type="button" className="secondary-login-button" disabled={loading} onClick={resendCode}>
-              Send another code
+            <button type="button" className="secondary-login-button" disabled={loading} onClick={resend}>
+              Send another sign-in email
             </button>
           </form>
         )}
