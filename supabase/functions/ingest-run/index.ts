@@ -634,7 +634,7 @@ Deno.serve(async (request) => {
     ? await Promise.all([
         supabase
           .from("vacancies")
-          .select("id,stakeholder_map_status,stakeholder_map_note")
+          .select("id,stakeholder_map_status,stakeholder_map_note,candidate_market_summary")
           .in("id", persistedVacancies),
         supabase
           .from("stakeholders")
@@ -687,11 +687,64 @@ Deno.serve(async (request) => {
       .map((row) => row.id),
   );
 
+  const persistedMarketCounts = new Map<
+    string,
+    { credible: number; strongest: number; top10: number }
+  >();
+  for (const row of assignmentRows) {
+    const current = persistedMarketCounts.get(row.vacancy_id) || {
+      credible: 0,
+      strongest: 0,
+      top10: 0,
+    };
+    if (["LONGLIST", "STRONG_MARKET", "TOP_10"].includes(row.market_bucket)) {
+      current.credible += 1;
+    }
+    if (["STRONG_MARKET", "TOP_10"].includes(row.market_bucket)) {
+      current.strongest += 1;
+    }
+    if (row.market_bucket === "TOP_10") {
+      current.top10 += 1;
+    }
+    persistedMarketCounts.set(row.vacancy_id, current);
+  }
+
+  const fullMarketReadyVacancyIds = new Set(
+    (persistedVacancyStateResult.data || [])
+      .filter((row) => {
+        const summary = (row.candidate_market_summary || {}) as {
+          coverageStatus?: string;
+          credibleMarketCount?: number;
+          strongestMarketCount?: number;
+          top10Count?: number;
+          coverageNote?: string | null;
+        };
+        const counts = persistedMarketCounts.get(row.id) || {
+          credible: 0,
+          strongest: 0,
+          top10: 0,
+        };
+        const terminal =
+          summary.coverageStatus === "COMPLETE" ||
+          summary.coverageStatus === "SCARCE_MARKET";
+        const countsMatch =
+          summary.credibleMarketCount === counts.credible &&
+          summary.strongestMarketCount === counts.strongest &&
+          summary.top10Count === counts.top10;
+        const scarcityExplained =
+          summary.coverageStatus !== "SCARCE_MARKET" ||
+          Boolean(summary.coverageNote?.trim());
+        return terminal && countsMatch && scarcityExplained;
+      })
+      .map((row) => row.id),
+  );
+
   const completionContractSatisfied =
     persistedVacancies.length > 0 &&
     persistedVacancies.every(
       (vacancyId) =>
         submitReadyVacancyIds.has(vacancyId) &&
+        fullMarketReadyVacancyIds.has(vacancyId) &&
         hiringTeamReadyVacancyIds.has(vacancyId),
     );
 
@@ -699,7 +752,7 @@ Deno.serve(async (request) => {
     return response(
       {
         error:
-          "Persistence verification failed: COMPLETE requires both (a) a persisted QA-cleared TOP_10 candidate with a non-empty fit rationale and (b) completed hiring-team/contact intelligence for every vacancy.",
+          "Persistence verification failed: COMPLETE requires (a) a persisted full candidate market with terminal coverage state and reconciled longlist/strongest/Top-10 counts, (b) at least one QA-cleared TOP_10 candidate with a non-empty fit rationale, and (c) completed hiring-team/contact intelligence for every vacancy.",
       },
       500,
     );
@@ -721,6 +774,7 @@ Deno.serve(async (request) => {
       persistedCandidateCount: verifiedCandidateIds.size,
       persistedCandidateAssignmentCount: assignmentRows.length,
       persistedSubmitReadyTop10Count: submitReadyRows.length,
+      persistedFullMarketReadyVacancyCount: fullMarketReadyVacancyIds.size,
       persistedStakeholderCount: (persistedStakeholdersResult.data || []).length,
       persistedHiringTeamReadyVacancyCount: hiringTeamReadyVacancyIds.size,
       persistedCompanyEmailIntelligenceCount: (persistedEmailIntelResult.data || []).length,
