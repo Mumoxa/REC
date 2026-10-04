@@ -2,7 +2,9 @@
 
 ## Goal
 
-A ChatGPT/agent run should be able to execute any REC sourcing channel, complete the shared QA/candidate workflow, then publish validated structured results into the Recruitment Intelligence Workspace.
+A ChatGPT/agent run should execute the requested REC sourcing channel(s), process every qualifying verified opportunity through the shared QA and candidate-intelligence pipeline, and publish the resulting structured records into the Recruitment Intelligence Workspace.
+
+The repository remains the workflow authority. The operational database is the canonical run-result store.
 
 ## Human command pattern
 
@@ -13,13 +15,75 @@ Examples:
 - `Use REC. Run Channel 3 across South Africa and publish.`
 - `Use REC. Run all four channels and publish validated output.`
 
-The repository remains the workflow authority. The operational database stores run results.
+When the user asks to **publish**, persistence into REC is part of the requested task. A chat response is not publication.
+
+## Two different completion concepts
+
+### Source/channel coverage completion
+
+A sourcing worker can finish searching its required source surfaces and record coverage outcomes such as `SEARCHED`, `NO_RESULTS`, `NOT_APPLICABLE` or `ACCESS_LIMITED`.
+
+That only means the source sweep has finished.
+
+It does **not** mean the REC recruitment run is complete.
+
+### REC research-run completion
+
+A run may be marked `COMPLETE` only when every qualifying verified opportunity produced by the requested scope has:
+
+1. passed QA Gate A;
+2. completed the role/client environment fingerprint;
+3. passed QA Gate B;
+4. completed the Tier A/B/C/D target-company map;
+5. passed QA Gate C;
+6. generated and executed candidate searches with recorded coverage/yield;
+7. produced an evidence-backed candidate market;
+8. verified candidate identity and material claims;
+9. passed QA Gate D for the client-facing set;
+10. produced at least one genuinely client-submittable research `TOP_10` candidate; and
+11. been persisted into REC and post-write verification has confirmed the expected vacancy/candidate records exist.
+
+If discovery is finished but candidate work remains, use `RUNNING` or `PARTIAL`.
+
+If a qualifying vacancy has zero submit-ready candidates, the run is not `COMPLETE`.
+
+If a channel sweep finds no qualifying opportunities, record that outcome explicitly, but do not call the recruitment run `COMPLETE` merely because source searching ended.
+
+## Client-submittable candidate definition
+
+For the run-completion contract, a candidate is client-submittable only when:
+
+- the candidate is attached to the same canonical vacancy;
+- `marketBucket = TOP_10`;
+- candidate QA is `PASS` or `PASS_WITH_UNKNOWNS`;
+- `whyFit` contains an evidence-grounded Why This Person / Why This Client rationale;
+- material evidence gaps and unknowns are preserved.
+
+The engine should still aim for a credible longlist of 50+ where the market supports it and up to 10 high-conviction Top-10 profiles. Those are research-depth targets, not quotas. Never pad either set.
+
+## Meaning of "published"
+
+"Published" means:
+
+1. the structured payload was accepted by the REC ingestion path;
+2. canonical vacancy/candidate records were persisted into the operational database; and
+3. the response or a post-write database read verified persisted vacancy, candidate-assignment and submit-ready candidate counts.
+
+The following are **not** publication:
+
+- rendering results in ChatGPT;
+- producing Markdown/HTML/PDF/CSV/Excel;
+- writing a local file;
+- preparing an ingestion payload without sending it;
+- receiving a successful research answer with no datastore write.
+
+An agent must not say "published" until persistence verification succeeds.
 
 ## Publishing paths
 
 ### Preferred from connected ChatGPT
 
-When the Supabase connector is available, the agent may write validated records directly to the configured project using the canonical database schema.
+When the Supabase connector is available, the agent may write validated records directly to the configured project using the canonical database schema and must verify the write before claiming publication.
 
 ### HTTP ingestion
 
@@ -51,6 +115,142 @@ The publishing contract uses stable keys:
 
 Repeated publication should enrich/update canonical records rather than create duplicates.
 
+## Progressive publication
+
+A record can become visible progressively.
+
+### Gate A / candidate mapping started
+
+Once a qualifying vacancy passes Gate A, publish it as:
+
+- `candidateMapStatus = IN_PROGRESS`
+- `lifecycleStatus = CANDIDATE_MAPPING`
+- run status `RUNNING` or `PARTIAL`
+
+Continue enriching the same canonical vacancy.
+
+### Candidate market grows
+
+Upsert into the same vacancy:
+
+- target companies;
+- executed research queries;
+- longlist candidates;
+- candidate claims;
+- candidate QA;
+- strongest-market candidates;
+- Top-10 candidates.
+
+### Completion
+
+Only after the completion contract is satisfied:
+
+- `candidateMapStatus = READY`
+- `lifecycleStatus = TOP_10_READY`
+- run status `COMPLETE`
+
+## Ingestion enforcement
+
+The ingestion Edge Function rejects a payload that declares `run.status = COMPLETE` when any included qualifying vacancy:
+
+- is not `candidateMapStatus = READY`;
+- has no research `TOP_10` candidate;
+- has no Top-10 candidate with QA `PASS` or `PASS_WITH_UNKNOWNS`; or
+- has no evidence-grounded non-empty `whyFit`.
+
+The function also defaults an omitted run status to `RUNNING`, never `COMPLETE`.
+
+## Vacancy-only progressive payload example
+
+This is a valid publication, but it is **not a completed run**:
+
+```json
+{
+  "workspaceSlug": "talent-tree",
+  "run": {
+    "externalRunId": "RUN-20261004-001",
+    "channel": "AGREED_CLIENTS",
+    "status": "RUNNING",
+    "specVersion": "REC-main"
+  },
+  "vacancies": [
+    {
+      "canonicalKey": "example-company-head-of-finance-cape-town",
+      "title": "Head of Finance",
+      "employerName": "Example Company",
+      "employerStatus": "CONFIRMED",
+      "location": "Cape Town",
+      "region": "Western Cape",
+      "roleFamily": "Finance",
+      "seniority": "Head",
+      "clientStatus": "AGREED_CLIENT",
+      "qaStatus": "PASS",
+      "candidateMapStatus": "IN_PROGRESS",
+      "sources": [],
+      "requirements": [],
+      "researchQueries": [],
+      "candidates": []
+    }
+  ]
+}
+```
+
+## Complete payload minimum example
+
+A complete run must contain a submit-ready candidate set:
+
+```json
+{
+  "workspaceSlug": "talent-tree",
+  "run": {
+    "externalRunId": "RUN-20261004-001",
+    "channel": "AGREED_CLIENTS",
+    "status": "COMPLETE",
+    "specVersion": "REC-main"
+  },
+  "vacancies": [
+    {
+      "canonicalKey": "example-company-head-of-finance-cape-town",
+      "title": "Head of Finance",
+      "employerName": "Example Company",
+      "employerStatus": "CONFIRMED",
+      "location": "Cape Town",
+      "region": "Western Cape",
+      "roleFamily": "Finance",
+      "seniority": "Head",
+      "clientStatus": "AGREED_CLIENT",
+      "qaStatus": "PASS",
+      "candidateMapStatus": "READY",
+      "candidates": [
+        {
+          "canonicalKey": "opaque-candidate-key",
+          "name": "Candidate Name",
+          "currentTitle": "Financial Manager",
+          "currentEmployer": "Comparable Employer",
+          "marketBucket": "TOP_10",
+          "qaStatus": "PASS",
+          "whyFit": "Evidence-grounded rationale linking the candidate's verified experience to the vacancy requirements.",
+          "evidenceGaps": []
+        }
+      ]
+    }
+  ]
+}
+```
+
+## Successful ingestion response
+
+A successful response must expose enough information to verify publication, including:
+
+- run ID and external run ID;
+- persisted vacancy count;
+- persisted candidate count;
+- persisted candidate-assignment count;
+- persisted submit-ready Top-10 count;
+- whether the completion contract was satisfied.
+
+The caller must check these values before claiming publication.
+
 ## Evidence boundary
 
 Agent publishing may update research/evidence tables.
@@ -63,62 +263,20 @@ Recruiter actions write only to operational state:
 - candidate operational status;
 - saved views.
 
-## Visibility lifecycle
-
-A record can become visible progressively:
-
-1. discovery published;
-2. QA Gate A status visible;
-3. employer/role resolution updates;
-4. fingerprint/target-company work progresses;
-5. candidate map grows;
-6. Top 10 becomes ready.
-
-The site should reflect the current structured state rather than wait for one giant final report.
-
-## Example payload
-
-```json
-{
-  "workspaceSlug": "talent-tree",
-  "run": {
-    "externalRunId": "RUN-20261004-001",
-    "channel": "AGENCY_SITES",
-    "status": "COMPLETE",
-    "specVersion": "REC-main"
-  },
-  "vacancies": [
-    {
-      "canonicalKey": "company-role-location",
-      "title": "Head of Finance",
-      "employerName": "Example Company",
-      "employerStatus": "CONFIRMED",
-      "location": "Cape Town",
-      "region": "Western Cape",
-      "roleFamily": "Finance",
-      "seniority": "Head",
-      "clientStatus": "TARGET_PROSPECT",
-      "qaStatus": "PASS",
-      "candidateMapStatus": "READY",
-      "sources": [],
-      "requirements": [],
-      "researchQueries": [],
-      "candidates": []
-    }
-  ]
-}
-```
-
-## Run identifiers
+## Run identifiers and status
 
 Recommended format:
 
 `RUN-YYYYMMDD-NNN`
 
-A run ID is not a claim of completion. The separate run status must remain one of:
+A run ID is not a claim of completion.
 
-- QUEUED
-- RUNNING
-- COMPLETE
-- PARTIAL
-- FAILED
+Allowed run statuses remain:
+
+- `QUEUED`
+- `RUNNING`
+- `COMPLETE`
+- `PARTIAL`
+- `FAILED`
+
+`COMPLETE` is reserved for the submit-ready completion contract above.

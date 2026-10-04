@@ -9,6 +9,12 @@ on:
       - "tsconfig.json"
       - "next.config.ts"
       - "supabase/**"
+      - "runtime/**"
+      - "docs/**"
+      - "tests/**"
+      - "ARCHITECTURE_GUARD.md"
+      - "manifest.yaml"
+      - "README.md"
       - ".github/workflows/app-ci.yml"
   push:
     branches: [main]
@@ -19,6 +25,12 @@ on:
       - "tsconfig.json"
       - "next.config.ts"
       - "supabase/**"
+      - "runtime/**"
+      - "docs/**"
+      - "tests/**"
+      - "ARCHITECTURE_GUARD.md"
+      - "manifest.yaml"
+      - "README.md"
 
 jobs:
   build:
@@ -31,6 +43,8 @@ jobs:
           node-version: "22"
       - name: Install dependencies
         run: npm install --no-audit --no-fund
+      - name: Completion contract checks
+        run: npm run test:contracts
       - name: Typecheck
         run: npm run typecheck
       - name: Build

@@ -110,17 +110,24 @@ Use the upstream `final-opportunity.canonical_job_id` as the exact `opportunity_
 
 Output must conform to `schemas/candidate-market-map.schema.json`.
 
-A completed run includes:
+Candidate mapping for an opportunity is complete only when it includes:
 
 - fingerprint + evidence;
 - QA Gate B;
 - target-company map;
 - QA Gate C;
 - generated/executed search log;
-- longlist;
-- candidate evidence;
+- credible longlist with coverage/yield recorded;
+- candidate identity and material-claim verification;
 - QA Gate D;
 - strongest market set;
-- Top 10;
+- a client-submittable research Top 10 set;
+- evidence-grounded Why This Person / Why This Client narratives;
 - unknowns;
 - coverage/limitations.
+
+At least one candidate must be genuinely client-submittable for the opportunity to satisfy the REC run-completion gate. A client-submittable candidate is a research `TOP_10` candidate with candidate QA `PASS` or `PASS_WITH_UNKNOWNS` and a non-empty evidence-grounded fit rationale.
+
+The Top 10 may contain fewer than 10 people where the evidence-backed market is smaller. The credible-longlist target remains 50 where the market supports it; never pad either set.
+
+If zero candidates satisfy the client-submittable definition after meaningful search coverage, return the evidence-backed market result and documented scarcity/access gaps, but leave the parent REC run `RUNNING` or `PARTIAL`; do not mark it `COMPLETE`.

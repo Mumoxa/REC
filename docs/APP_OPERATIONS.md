@@ -30,11 +30,14 @@ Authenticated pages are protected by Next.js `proxy.ts` and Supabase JWT claim v
 
 ```text
 REC instructions
-  → ChatGPT / agent research run
-  → validated structured payload
+  → ChatGPT / agent sourcing + downstream candidate research
+  → progressive structured publication
   → Supabase operational database
+  → post-write persistence verification
   → Next.js server repository adapter
   → Vacancy Intelligence Workspace
+
+A source sweep ending does not make a REC run complete. `COMPLETE` requires QA-cleared client-submittable Top-10 candidate(s) for every qualifying vacancy. "Published" requires successful persistence verification.
 ```
 
 ## Write boundaries

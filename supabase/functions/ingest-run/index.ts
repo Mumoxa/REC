@@ -189,8 +189,20 @@ Deno.serve(async (request) => {
     );
   }
 
+  const requestedRunStatus = payload.run.status || "RUNNING";
+  const completionError = validateCompletionContract(payload, requestedRunStatus);
+  if (completionError) {
+    return response({ error: completionError }, 400);
+  }
+
   const workspaceSlug = payload.workspaceSlug || "talent-tree";
   const now = new Date().toISOString();
+  const completedAt =
+    requestedRunStatus === "COMPLETE" ||
+    requestedRunStatus === "PARTIAL" ||
+    requestedRunStatus === "FAILED"
+      ? payload.run.completedAt ?? now
+      : null;
 
   const { data: workspace, error: workspaceError } = await supabase
     .from("workspaces")
@@ -211,12 +223,12 @@ Deno.serve(async (request) => {
         workspace_id: workspaceId,
         external_run_id: payload.run.externalRunId,
         channel: payload.run.channel,
-        status: payload.run.status || "COMPLETE",
+        status: requestedRunStatus,
         spec_version: payload.run.specVersion || "REC-main",
         geography: payload.run.geography || {},
         metrics: payload.run.metrics || {},
         started_at: payload.run.startedAt || now,
-        completed_at: payload.run.completedAt ?? now,
+        completed_at: completedAt,
         updated_at: now,
       },
       { onConflict: "workspace_id,external_run_id" },
@@ -521,6 +533,47 @@ Deno.serve(async (request) => {
     }
   }
 
+  const { data: verifiedAssignments, error: verificationError } =
+    persistedVacancies.length > 0
+      ? await supabase
+          .from("candidate_assignments")
+          .select("vacancy_id,candidate_id,market_bucket,qa_status,why_fit")
+          .in("vacancy_id", persistedVacancies)
+      : { data: [], error: null };
+
+  if (verificationError) {
+    return response(
+      { error: `Persistence verification failed: ${verificationError.message}` },
+      500,
+    );
+  }
+
+  const assignmentRows = verifiedAssignments || [];
+  const verifiedCandidateIds = new Set(
+    assignmentRows.map((row) => row.candidate_id),
+  );
+  const submitReadyRows = assignmentRows.filter((row) =>
+    isPersistedClientSubmittableCandidate(row),
+  );
+  const submitReadyVacancyIds = new Set(
+    submitReadyRows.map((row) => row.vacancy_id),
+  );
+  const completionContractSatisfied =
+    persistedVacancies.length > 0 &&
+    persistedVacancies.every((vacancyId) =>
+      submitReadyVacancyIds.has(vacancyId),
+    );
+
+  if (requestedRunStatus === "COMPLETE" && !completionContractSatisfied) {
+    return response(
+      {
+        error:
+          "Persistence verification failed: COMPLETE requires at least one persisted QA-cleared TOP_10 candidate with a non-empty fit rationale for every vacancy.",
+      },
+      500,
+    );
+  }
+
   await supabase
     .from("ingest_tokens")
     .update({ last_used_at: now })
@@ -530,9 +583,84 @@ Deno.serve(async (request) => {
     ok: true,
     runId: run.id,
     externalRunId: payload.run.externalRunId,
+    runStatus: requestedRunStatus,
     persistedVacancies,
+    verification: {
+      persistedVacancyCount: persistedVacancies.length,
+      persistedCandidateCount: verifiedCandidateIds.size,
+      persistedCandidateAssignmentCount: assignmentRows.length,
+      persistedSubmitReadyTop10Count: submitReadyRows.length,
+      completionContractSatisfied,
+    },
   });
 });
+
+function validateCompletionContract(
+  payload: Payload,
+  runStatus: NonNullable<Payload["run"]["status"]>,
+): string | null {
+  if (runStatus !== "COMPLETE") return null;
+
+  const vacancies = payload.vacancies || [];
+  if (vacancies.length === 0) {
+    return "A COMPLETE REC run requires at least one qualifying vacancy with client-submittable candidates. A finished source sweep with no qualifying opportunities must not be labelled COMPLETE.";
+  }
+
+  for (const item of vacancies) {
+    const qaPassed =
+      item.qaStatus === "PASS" || item.qaStatus === "PASS_WITH_UNKNOWNS";
+
+    if (!qaPassed) {
+      return `Vacancy "${item.title}" cannot be COMPLETE because QA Gate A has not passed.`;
+    }
+
+    if (item.candidateMapStatus !== "READY") {
+      return `Vacancy "${item.title}" cannot be COMPLETE because candidateMapStatus is not READY.`;
+    }
+
+    const submitReadyCandidates = (item.candidates || []).filter(
+      isPayloadClientSubmittableCandidate,
+    );
+
+    if (submitReadyCandidates.length === 0) {
+      return `Vacancy "${item.title}" cannot be COMPLETE because it has no QA-cleared TOP_10 candidate with a non-empty evidence-grounded fit rationale.`;
+    }
+  }
+
+  return null;
+}
+
+function isPayloadClientSubmittableCandidate(
+  candidate: NonNullable<
+    NonNullable<Payload["vacancies"]>[number]["candidates"]
+  >[number],
+): boolean {
+  const qaPassed =
+    candidate.qaStatus === "PASS" ||
+    candidate.qaStatus === "PASS_WITH_UNKNOWNS";
+
+  return (
+    candidate.marketBucket === "TOP_10" &&
+    qaPassed &&
+    Boolean(candidate.whyFit?.trim())
+  );
+}
+
+function isPersistedClientSubmittableCandidate(candidate: {
+  market_bucket?: string | null;
+  qa_status?: string | null;
+  why_fit?: string | null;
+}): boolean {
+  const qaPassed =
+    candidate.qa_status === "PASS" ||
+    candidate.qa_status === "PASS_WITH_UNKNOWNS";
+
+  return (
+    candidate.market_bucket === "TOP_10" &&
+    qaPassed &&
+    Boolean(candidate.why_fit?.trim())
+  );
+}
 
 function inferLifecycle(
   item: NonNullable<Payload["vacancies"]>[number],

@@ -70,20 +70,34 @@ The the agreed-client channel sweep must be comprehensive across the client univ
 
 Use the role taxonomy and seniority ontology for classification, prioritisation and search expansion, but retain meaningful agreed-client hiring intelligence even where a general-market role would normally require exclusion/review.
 
-## Completion gate
+## Coverage gate
 
-the agreed-client channel is complete only when **every current agreed client** has a coverage-ledger entry for every applicable channel.
+The agreed-client **source sweep** has completed its coverage obligation only when **every current agreed client** has a coverage-ledger entry for every applicable source surface.
 
-Allowed channel outcomes:
+Allowed source-surface outcomes:
 
 - `SEARCHED`
 - `NO_RESULTS`
 - `NOT_APPLICABLE`
 - `ACCESS_LIMITED`
 
-A channel may not be silently skipped.
+A source surface may not be silently skipped.
 
-The agreed-client channel run is complete when its own coverage gate is satisfied or explicit access limitations are recorded. This does not gate execution of the other channels.
+Passing this coverage gate means discovery coverage is documented. It does **not** mean the REC recruitment run is complete.
+
+## REC run-completion gate
+
+For every qualifying verified agreed-client opportunity, continue immediately through the shared downstream pipeline:
+
+`QA A → fingerprint → QA B → target companies → QA C → executed candidate searches → credible longlist → candidate verification → QA D → strongest market → Top 10`.
+
+The agreed-client REC run may be marked `COMPLETE` only when every qualifying opportunity has at least one QA-cleared, client-submittable research `TOP_10` candidate with an evidence-grounded fit rationale and the resulting vacancy/candidate records have been successfully persisted and verified in REC.
+
+If discovery coverage is finished but candidate work is unfinished, or any qualifying vacancy has zero client-submittable candidates, the run is `RUNNING` or `PARTIAL`, never `COMPLETE`.
+
+The 50-candidate credible-longlist target and Top-10 size are research-depth targets, not quotas. Do not pad a market to satisfy the completion gate.
+
+This run-completion requirement does not gate execution of the other sourcing channels; channel independence remains intact.
 
 ## Output
 

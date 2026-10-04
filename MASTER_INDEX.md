@@ -308,6 +308,14 @@ Target at least 50 credible evidence-backed candidates where the market supports
 
 The target is not a quota. Never pad, invent, duplicate or lower evidence standards to reach 50.
 
+### Run-completion rule
+
+Completing source discovery or vacancy validation is not REC run completion.
+
+Every qualifying verified opportunity must continue through the candidate market-mapping sequence and produce at least one QA-cleared, client-submittable research Top-10 candidate with an evidence-grounded fit rationale. Until then the parent run remains `RUNNING` or `PARTIAL`.
+
+A result is "published" only after canonical datastore persistence and post-write verification; chat/report output alone is not publication.
+
 ### Passive-candidate doctrine
 
 Visible job-seeking status is not required. Search the actual market, especially direct competitors, same value chain, comparable operating complexity and stronger proving grounds.
