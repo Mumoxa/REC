@@ -944,7 +944,7 @@ function inferLifecycle(
   item: NonNullable<Payload["vacancies"]>[number],
 ) {
   if (item.qaStatus === "FAIL_RESEARCH_REQUIRED") return "VERIFYING";
-  if (item.candidateMapStatus === "READY") return "TOP_10_READY";
+  if (item.candidateMapStatus === "READY") return "MARKET_READY";
   if (item.candidateMapStatus === "IN_PROGRESS") return "CANDIDATE_MAPPING";
   if (item.employerStatus === "CONFIRMED") return "EMPLOYER_RESOLVED";
   return "DISCOVERED";
