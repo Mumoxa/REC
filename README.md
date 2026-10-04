@@ -118,6 +118,18 @@ Authority:
 
 This is downstream infrastructure, **not a fifth sourcing channel**.
 
+## Agent publication
+
+REC research is write-through. Agents should publish verified progress into the workspace throughout a run rather than wait for one final report.
+
+Canonical repository command:
+
+```bash
+npm run rec:publish -- runs/<RUN-ID>/publication-payload.json
+```
+
+A local `.env` is not required. If `INGEST_API_KEY` is absent from the current process, the publisher uses the authorised REC Vercel project environment. A one-time Vercel login may be required on a new machine, but agents must not weaken authentication or stop candidate research because a local environment file is missing.
+
 ## Completion and publication semantics
 
 A REC run is not complete when vacancy discovery or vacancy validation ends.
