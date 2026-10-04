@@ -1,8 +1,12 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { isDemoMode } from "@/lib/supabase/config";
+
+const PENDING_EMAIL_KEY = "talent-tree:pending-auth-email";
+const PENDING_AT_KEY = "talent-tree:pending-auth-at";
+const PENDING_TTL_MS = 15 * 60 * 1000;
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -11,6 +15,36 @@ export default function LoginPage() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const demo = isDemoMode();
+
+  useEffect(() => {
+    if (demo) return;
+
+    const pendingEmail = window.localStorage.getItem(PENDING_EMAIL_KEY);
+    const pendingAt = Number(window.localStorage.getItem(PENDING_AT_KEY) || "0");
+
+    if (pendingEmail && pendingAt && Date.now() - pendingAt < PENDING_TTL_MS) {
+      setEmail(pendingEmail);
+      rememberPending(email.trim());
+      setPhase("VERIFY");
+      setMessage(
+        "A Talent Tree sign-in email was already sent. Use the current email or current 6-digit code below. No new code has been sent."
+      );
+      return;
+    }
+
+    window.localStorage.removeItem(PENDING_EMAIL_KEY);
+    window.localStorage.removeItem(PENDING_AT_KEY);
+  }, [demo]);
+
+  function rememberPending(address: string) {
+    window.localStorage.setItem(PENDING_EMAIL_KEY, address);
+    window.localStorage.setItem(PENDING_AT_KEY, String(Date.now()));
+  }
+
+  function clearPending() {
+    window.localStorage.removeItem(PENDING_EMAIL_KEY);
+    window.localStorage.removeItem(PENDING_AT_KEY);
+  }
 
   async function sendSignIn(event: FormEvent) {
     event.preventDefault();
@@ -70,6 +104,7 @@ export default function LoginPage() {
 
       if (error) throw error;
 
+      clearPending();
       window.location.assign("/");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Unable to verify this code.");
@@ -98,8 +133,9 @@ export default function LoginPage() {
 
       if (error) throw error;
 
+      rememberPending(email.trim());
       setMessage(
-        "A new sign-in email was sent. Use its Sign in link, or enter its 6-digit code below."
+        "A new sign-in email was sent. This replaces the previous code/link; use only the newest email."
       );
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Unable to resend sign-in email.");
@@ -109,6 +145,7 @@ export default function LoginPage() {
   }
 
   function restart() {
+    clearPending();
     setPhase("EMAIL");
     setToken("");
     setMessage("");
@@ -170,8 +207,12 @@ export default function LoginPage() {
               {loading ? "Verifying…" : "Verify code"}
             </button>
 
+            <div className="login-option-note">
+              Only request another email if you need one. Sending another email replaces the previous code/link.
+            </div>
+
             <button type="button" className="secondary-login-button" disabled={loading} onClick={resend}>
-              Send another sign-in email
+              Send a new sign-in email
             </button>
           </form>
         )}
