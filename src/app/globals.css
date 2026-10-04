@@ -159,7 +159,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .evidence-pill.probable { background:var(--blue-soft); color:#406c99; }
 .evidence-pill.hypothesis { background:var(--amber-soft); color:var(--amber); }
 .evidence-pill.unknown { background:#eef1f4; color:#707c87; }
-.progress-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:7px; margin-top:8px; }
+.progress-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(82px,1fr)); gap:7px; margin-top:8px; }
 .metric-card { border:1px solid var(--line); border-radius:7px; padding:9px; text-align:center; background:var(--surface-muted); }
 .metric-card strong { display:block; font-size:17px; }
 .metric-card span { font-size:9px; color:#7d8995; }
