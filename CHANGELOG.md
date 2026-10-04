@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026-10-05 — Hiring team and probable email intelligence made first-class
+
+- Exposed hiring-team/contact intelligence as a dedicated vacancy tab in the live REC workspace.
+- Bound the existing stakeholder store into the application data layer.
+- Split observed public business emails from pattern-inferred probable business emails.
+- Added vacancy-level company employee-email domain/pattern intelligence.
+- Added stakeholder mapping state: NOT_STARTED, IN_PROGRESS, READY, BLOCKED_WITH_EVIDENCE.
+- Made stakeholder/contact enrichment and company email intelligence part of the REC completion contract.
+- Target depth is 2–10 genuinely relevant hiring stakeholders where the market supports it; no padding.
+- Added persistence verification counts for stakeholder and company-email intelligence.
+
+
 ## 2026-10-04 — Agent publication bootstrap and write-through REC workflow
 
 - Restored the production `INGEST_API_KEY` path in Vercel and registered the matching hashed token in Supabase.
