@@ -25,7 +25,7 @@
               "QUALIFIED",
               "EMPLOYER_RESOLVED",
               "CANDIDATE_MAPPING",
-              "TOP_10_READY",
+              "MARKET_READY",
               "CLIENT_ACTION",
               "CLOSED"
             ]
