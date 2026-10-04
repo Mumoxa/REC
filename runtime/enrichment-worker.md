@@ -20,7 +20,7 @@ Turn discovered records from all channels into a deduplicated, evidence-backed, 
 8. identify/verify the direct employer where required;
 9. apply commercial/client priority;
 10. evaluate the post-discovery activation gate;
-11. if the gate passes, map functional hiring ownership;
+11. if the gate passes, map functional hiring ownership and build the evidence-backed 2–10 person hiring-team universe where the market supports it;
 12. identify relevant executive sponsor(s);
 13. identify TA / HR / internal recruitment routes;
 14. verify current employment for each stakeholder;
@@ -194,6 +194,6 @@ Pass forward:
 - employer resolution;
 - material job requirements with evidence;
 - contradictions and unknowns;
-- stakeholder/contact intelligence where available.
+- stakeholder/contact intelligence as a required enrichment outcome: `READY` or `BLOCKED_WITH_EVIDENCE`, never silently omitted.
 
 Do not convert unresolved information into facts merely to unlock the next worker.
