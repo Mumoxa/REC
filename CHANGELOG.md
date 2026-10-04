@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-10-04 — Workspace review, design system and interaction prototype
+
+- Added a code/product review with severity-ranked gaps, production gates and explicit prototype limits.
+- Added an ultra-modern, evidence-first workspace design system informed by the requested Taste Skill principles, adapted for an operational ATS dashboard.
+- Added a buildless three-pane vacancy/candidate workspace prototype using clearly labelled synthetic records and browser-local demo state only.
+- Added vacancy/candidate record-binding rules, stable opaque candidate IDs, saved-view schema support and required close/exclude reasons.
+- Clarified OR/AND facets, unknown-versus-missing filters, evidence-level joins, text-query matching and Research Top 10 versus Recruiter Top 10.
+- Added executable Node smoke/contract checks and workspace golden cases; production browser, privacy, backend and performance gates remain open.
+
 ## 0.13.0 — Operational Recruitment Intelligence Application V1
 
 - Moved privileged run ingestion from the Vercel app into a Supabase Edge Function; Vercel no longer needs a Supabase admin/service-role secret.

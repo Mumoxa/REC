@@ -37,13 +37,17 @@
       "type": [
         "string",
         "null"
-      ]
+      ],
+      "minLength": 1,
+      "description": "References final-opportunity.canonical_job_id; see interface/record-binding-contract.md."
     },
     "selected_candidate_id": {
       "type": [
         "string",
         "null"
-      ]
+      ],
+      "minLength": 1,
+      "description": "References candidate-market-map candidate_id; see interface/record-binding-contract.md."
     },
     "global_search": {
       "type": "string"
@@ -66,13 +70,137 @@
       "type": [
         "string",
         "null"
+      ],
+      "enum": [
+        null,
+        "COMMERCIAL_PRIORITY",
+        "FIRST_SEEN_NEWEST",
+        "UNRESOLVED_OLDEST",
+        "LAST_VERIFIED",
+        "QA_STATE",
+        "CANDIDATE_COUNT",
+        "TOP_10_READINESS",
+        "SENIORITY",
+        "GEOGRAPHY"
       ]
     },
     "candidate_sort": {
       "type": [
         "string",
         "null"
+      ],
+      "enum": [
+        null,
+        "TOP_10_ORDER",
+        "STRONGEST_MARKET_SET",
+        "ENVIRONMENT_CLOSENESS",
+        "REQUIREMENT_COVERAGE",
+        "EVIDENCE_COMPLETENESS",
+        "TARGET_COMPANY_TIER",
+        "LAST_VERIFIED",
+        "ALPHABETICAL"
       ]
+    },
+    "active_vacancy_tab": {
+      "enum": [
+        "OVERVIEW",
+        "REQUIREMENTS",
+        "SOURCES",
+        "EMPLOYER",
+        "STAKEHOLDERS",
+        "CANDIDATE_MAP",
+        "SEARCH_LOG",
+        "QA",
+        "HISTORY"
+      ]
+    },
+    "date_window": {
+      "type": "object",
+      "properties": {
+        "field": {
+          "enum": [
+            "POSTED_AT",
+            "FIRST_SEEN_AT",
+            "LAST_SEEN_AT",
+            "LAST_VERIFIED_AT",
+            "LAST_CHANGED_AT"
+          ]
+        },
+        "preset": {
+          "enum": [
+            "ANY",
+            "TODAY",
+            "LAST_7_DAYS",
+            "LAST_30_DAYS",
+            "CUSTOM"
+          ]
+        },
+        "from": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "to": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false
+    },
+    "visible_fields": {
+      "type": "object",
+      "properties": {
+        "vacancies": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "CLIENT_STATUS",
+              "CHANNEL",
+              "EMPLOYER_RESOLUTION",
+              "LOCATION",
+              "FIRST_SEEN",
+              "LAST_VERIFIED",
+              "QA_STATE",
+              "CANDIDATE_COUNT",
+              "TOP_10_COUNT",
+              "LIFECYCLE"
+            ]
+          }
+        },
+        "candidates": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "CURRENT_EMPLOYER",
+              "CURRENT_TITLE",
+              "LOCATION",
+              "TARGET_TIER",
+              "QUALIFICATION",
+              "REQUIREMENT_COVERAGE",
+              "EVIDENCE_STATUS",
+              "QA_STATUS",
+              "OPERATIONAL_STATUS",
+              "LAST_VERIFIED"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "queue_scroll_position": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "candidate_scroll_position": {
+      "type": "integer",
+      "minimum": 0
     },
     "saved_view_id": {
       "type": [

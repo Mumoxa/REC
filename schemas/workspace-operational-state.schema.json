@@ -14,7 +14,9 @@
         ],
         "properties": {
           "vacancy_id": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1,
+            "description": "Foreign key to final-opportunity.canonical_job_id; see interface/record-binding-contract.md."
           },
           "lifecycle_status": {
             "enum": [
@@ -44,11 +46,20 @@
               "OTHER"
             ]
           },
+          "closed_reason_detail": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 1,
+            "pattern": ".*\\S.*"
+          },
           "closed_at": {
             "type": [
               "string",
               "null"
-            ]
+            ],
+            "format": "date-time"
           },
           "unread": {
             "type": "boolean"
@@ -57,9 +68,72 @@
             "type": [
               "string",
               "null"
-            ]
+            ],
+            "format": "date-time"
           }
         },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "lifecycle_status": {
+                  "const": "CLOSED"
+                }
+              },
+              "required": [
+                "lifecycle_status"
+              ]
+            },
+            "then": {
+              "required": [
+                "closed_reason",
+                "closed_at"
+              ],
+              "properties": {
+                "closed_reason": {
+                  "type": "string",
+                  "enum": [
+                    "FILLED",
+                    "EXPIRED",
+                    "CLIENT_NO_LONGER_HIRING",
+                    "NOT_COMMERCIALLY_RELEVANT",
+                    "DUPLICATE",
+                    "CANCELLED",
+                    "OTHER"
+                  ]
+                },
+                "closed_at": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "closed_reason": {
+                  "const": "OTHER"
+                }
+              },
+              "required": [
+                "closed_reason"
+              ]
+            },
+            "then": {
+              "required": [
+                "closed_reason_detail"
+              ],
+              "properties": {
+                "closed_reason_detail": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": ".*\\S.*"
+                }
+              }
+            }
+          }
+        ],
         "additionalProperties": true
       }
     },
@@ -74,10 +148,14 @@
         ],
         "properties": {
           "vacancy_id": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1,
+            "description": "Foreign key to final-opportunity.canonical_job_id; see interface/record-binding-contract.md."
           },
           "candidate_id": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1,
+            "description": "Foreign key to candidate-market-map candidate_id; see interface/record-binding-contract.md."
           },
           "operational_status": {
             "enum": [
@@ -101,9 +179,36 @@
             "type": [
               "string",
               "null"
-            ]
+            ],
+            "format": "date-time"
           }
         },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "operational_status": {
+                  "const": "EXCLUDED"
+                }
+              },
+              "required": [
+                "operational_status"
+              ]
+            },
+            "then": {
+              "required": [
+                "excluded_reason"
+              ],
+              "properties": {
+                "excluded_reason": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": ".*\\S.*"
+                }
+              }
+            }
+          }
+        ],
         "additionalProperties": true
       }
     }

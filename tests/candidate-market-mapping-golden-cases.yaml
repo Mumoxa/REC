@@ -89,3 +89,12 @@ cases:
       architecture_review: FAIL_RESEARCH_REQUIRED
       actions:
         - reject_new_channel_without_explicit_user_authorisation
+
+  - id: stable_candidate_identity_for_workspace_actions
+    given: Candidate evidence is refreshed in a later market-mapping run.
+    expect:
+      - preserve_stable_opaque_candidate_id
+      - preserve_vacancy_specific_candidate_assignment
+      - do_not_derive_identifier_from_name_email_or_profile_url
+    forbid:
+      - deduplicate_people_by_name_alone

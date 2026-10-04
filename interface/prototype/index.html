@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#111a17" />
+    <meta name="description" content="Talent Tree Recruitment Intelligence workspace prototype." />
+    <title>Vacancy inbox · Talent Tree Intelligence</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to workspace</a>
+    <div class="app-frame">
+      <header class="topbar">
+        <a class="brand" href="#main-content" aria-label="Talent Tree Intelligence home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 36 36" fill="none">
+              <path d="M18 29V17M18 21L10 14M18 18L26 10M18 25L27 20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+              <circle cx="18" cy="8" r="3.3" fill="currentColor" />
+              <circle cx="8" cy="12" r="2.5" fill="currentColor" opacity=".72" />
+              <circle cx="28" cy="8" r="2.5" fill="currentColor" opacity=".72" />
+              <circle cx="29" cy="19" r="2.3" fill="currentColor" opacity=".54" />
+              <path d="M11 30H25" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity=".72" />
+            </svg>
+          </span>
+          <span class="brand-copy">
+            <strong>Talent Tree</strong>
+            <small>INTELLIGENCE</small>
+          </span>
+          <span class="brand-divider" aria-hidden="true"></span>
+          <span class="brand-product">REC</span>
+        </a>
+
+        <nav class="module-nav" aria-label="Primary navigation">
+          <button class="module-link is-active" type="button" data-module="VACANCIES" aria-current="page"><span>Vacancies</span><span class="nav-count">28</span></button>
+          <button class="module-link" type="button" data-module="COMPANIES"><span>Companies</span></button>
+          <button class="module-link" type="button" data-module="CANDIDATE_MAPS"><span>Candidate maps</span></button>
+          <button class="module-link" type="button" data-module="CANDIDATES"><span>Candidates</span></button>
+          <button class="module-link" type="button" data-module="TOP_10"><span>Top 10</span></button>
+          <button class="module-link" type="button" data-module="QA"><span>QA</span></button>
+          <button class="module-link" type="button" data-module="RUNS"><span>Runs</span></button>
+          <button class="module-link" type="button" data-module="EXPORTS"><span>Exports</span></button>
+        </nav>
+
+        <div class="topbar-tools">
+          <button class="global-search-trigger" id="open-global-search" type="button" aria-haspopup="dialog" aria-controls="global-search-dialog">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.7" cy="8.7" r="5.4" /><path d="m12.7 12.7 4 4" /></svg>
+            <span>Search intelligence</span>
+            <kbd>⌘ K</kbd>
+          </button>
+          <span class="connection-state"><span class="connection-dot"></span>Local preview</span>
+          <button class="account-button" id="account-profile" type="button" aria-label="Demo recruiter profile; settings unavailable" title="Prototype account; settings unavailable">
+            <span>TT</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="preview-ribbon" role="note">
+        <span class="preview-mark" aria-hidden="true"><span></span></span>
+        <strong>Prototype environment</strong>
+        <span class="preview-copy">Synthetic sample records only. No live research or backend is connected.</span>
+        <span class="preview-separator" aria-hidden="true"></span>
+        <span class="preview-copy preview-persistence">Workflow changes stay in this browser.</span>
+        <button class="text-button reset-preview" id="reset-preview" type="button">Reset preview</button>
+      </div>
+
+      <main id="main-content" class="app-main">
+        <section class="page-heading" aria-labelledby="page-title">
+          <div class="heading-copy">
+            <div class="breadcrumb"><span>Workspace</span><span class="crumb-slash">/</span><span>Vacancies</span><span class="crumb-slash">/</span><span>Inbox</span></div>
+            <div class="heading-title-row">
+              <h1 id="page-title">Vacancy inbox</h1>
+              <span class="sync-state"><span class="sync-pulse"></span>Research sync idle</span>
+            </div>
+            <p>Every surfaced role, its evidence trail and the market around it — in one working context.</p>
+          </div>
+          <div class="heading-summary" aria-label="Inbox summary">
+            <div class="summary-metric"><span class="summary-value" id="active-count">18</span><span class="summary-label">active roles</span></div>
+            <div class="summary-rule" aria-hidden="true"></div>
+            <div class="summary-metric"><span class="summary-value" id="research-count">06</span><span class="summary-label">need research</span></div>
+            <div class="summary-rule" aria-hidden="true"></div>
+            <div class="summary-metric"><span class="summary-value" id="client-count">04</span><span class="summary-label">agreed clients</span></div>
+          </div>
+        </section>
+
+        <section class="workspace-toolbar" aria-label="Workspace view controls">
+          <div class="active-filter-region" id="active-filter-chips" aria-live="polite"><span class="empty-filter-label">All active roles</span></div>
+          <div class="workspace-toolbar-controls">
+            <label class="toolbar-select-label"><span class="sr-only">Load saved view</span><select class="toolbar-select saved-view-select" id="saved-view-select" aria-label="Load a saved view"><option value="">Saved views</option></select></label>
+            <button class="toolbar-button save-view-button" id="open-save-view" type="button" aria-label="Save this workspace view"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v14M3 10h14" /></svg><span>Save view</span></button>
+            <button class="toolbar-button" id="open-filters" type="button" aria-label="Filter vacancies" aria-haspopup="dialog" aria-controls="filters-dialog"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M5.5 10h9M8 15h4" /></svg><span>Filters</span><span class="toolbar-count" id="filter-count" hidden>0</span></button>
+            <label class="toolbar-select-label sort-select-label"><span class="sr-only">Sort vacancies</span><select class="toolbar-select" id="sort-by" aria-label="Sort vacancies"><option value="COMMERCIAL_PRIORITY">Priority order</option><option value="FIRST_SEEN_NEWEST">Newest first seen</option><option value="UNRESOLVED_OLDEST">Oldest unresolved</option><option value="LAST_VERIFIED">Last verified</option><option value="CANDIDATE_COUNT">Candidate count</option></select></label>
+            <div class="density-switch" role="group" aria-label="Vacancy card density">
+              <button type="button" data-density="EXPANDED" aria-pressed="true" title="Expanded vacancy cards">E</button>
+              <button type="button" data-density="COMPACT" aria-pressed="false" title="Compact vacancy cards">C</button>
+              <button type="button" data-density="MINIMAL" aria-pressed="false" title="Minimal vacancy cards">M</button>
+            </div>
+            <button class="toolbar-button candidate-drawer-trigger" id="open-candidate-pane" type="button" aria-controls="candidate-pane"><span>Candidate market</span><span class="toolbar-count" id="candidate-toolbar-count">39</span></button>
+          </div>
+        </section>
+
+        <div class="mobile-pane-switcher" role="group" aria-label="Workspace panes">
+          <button class="mobile-pane-button is-active" type="button" aria-pressed="true" data-mobile-pane="queue">Vacancies</button>
+          <button class="mobile-pane-button" type="button" aria-pressed="false" data-mobile-pane="detail">Intelligence</button>
+          <button class="mobile-pane-button" type="button" aria-pressed="false" data-mobile-pane="candidates">Candidates</button>
+        </div>
+
+        <section class="workbench" id="workbench" data-mobile-pane="queue" aria-label="Three-pane vacancy intelligence workspace">
+          <aside class="pane queue-pane" aria-labelledby="queue-heading">
+            <div class="pane-heading queue-heading">
+              <div>
+                <div class="pane-kicker"><span class="status-tick"></span> Opportunity stream</div>
+                <h2 id="queue-heading">Vacancies <span class="heading-count" id="queue-total">28</span></h2>
+              </div>
+              <button class="icon-button quiet-button" id="queue-options" type="button" aria-label="Vacancy queue options" title="Queue options">
+                <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="4" cy="10" r="1" fill="currentColor" stroke="none"/><circle cx="10" cy="10" r="1" fill="currentColor" stroke="none"/><circle cx="16" cy="10" r="1" fill="currentColor" stroke="none"/></svg>
+              </button>
+            </div>
+
+            <div class="queue-controls">
+              <label class="search-field local-search">
+                <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.7" cy="8.7" r="5.4" /><path d="m12.7 12.7 4 4" /></svg>
+                <span class="sr-only">Search current vacancy view</span>
+                <input id="vacancy-search" type="search" placeholder="Find a vacancy" autocomplete="off" />
+                <kbd>/</kbd>
+              </label>
+              <label class="sr-only" for="vacancy-view">Vacancy view</label>
+              <select class="view-select" id="vacancy-view" aria-label="Choose vacancy view">
+                <option value="INBOX">Inbox · all active</option>
+                <option value="NEW">What's new</option>
+                <option value="AGREED_CLIENTS">Agreed clients</option>
+                <option value="AGENCIES">Agency sites</option>
+                <option value="LINKEDIN">LinkedIn signals</option>
+                <option value="JOB_BOARDS">Job boards / ATS</option>
+                <option value="NEEDS_RESEARCH">Needs research</option>
+                <option value="CLOSED_ARCHIVED">Closed / archived</option>
+              </select>
+              <div class="queue-view-note"><span class="queue-view-label" id="queue-view-label">All active vacancies</span><span class="queue-sort-label" id="queue-sort-label">Priority order</span></div>
+            </div>
+
+            <div class="vacancy-list" id="vacancy-list" role="group" aria-label="Vacancy results" tabindex="0"></div>
+            <div class="queue-footer">
+              <span><span class="footer-light"></span> Structured records · read only</span>
+              <button class="text-button" id="show-queue-shortcuts" type="button" title="Use the up and down arrow keys to move between vacancies">Keyboard help</button>
+            </div>
+          </aside>
+
+          <section class="pane detail-pane" id="detail-pane" aria-labelledby="selected-role-title">
+            <div id="selected-role-content"></div>
+          </section>
+
+          <aside class="pane candidate-pane" id="candidate-pane" aria-labelledby="candidate-heading">
+            <div class="candidate-context-bar">
+              <span class="context-pin" aria-hidden="true"></span>
+              <span class="context-label">Market for</span>
+              <strong id="candidate-role-context">Finance Director, Southern Africa</strong>
+              <button class="context-open" id="open-role-context" type="button" aria-label="Return to selected vacancy details">↗</button>
+            </div>
+            <div class="candidate-header">
+              <div>
+                <div class="pane-kicker"><span class="candidate-kicker-mark"></span> Downstream intelligence</div>
+                <div class="candidate-title-row"><h2 id="candidate-heading">Candidate market</h2><span class="candidate-total" id="candidate-total">39</span></div>
+                <span class="candidate-sample-note" id="candidate-sample-note" aria-live="polite">Showing synthetic preview records</span>
+              </div>
+              <button class="icon-button quiet-button focus-mode-button" id="candidate-focus" type="button" aria-pressed="false" title="Expand candidate workspace" aria-label="Expand candidate focus mode">
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 7V3h4M13 3h4v4M17 13v4h-4M7 17H3v-4" /></svg>
+              </button>
+            </div>
+
+            <div class="candidate-coverage" id="candidate-coverage"></div>
+            <div class="candidate-controls">
+              <label class="search-field candidate-search-field">
+                <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.7" cy="8.7" r="5.4" /><path d="m12.7 12.7 4 4" /></svg>
+                <span class="sr-only">Search candidates already mapped to this vacancy</span>
+                <input id="candidate-search" type="search" placeholder="Search mapped talent" autocomplete="off" />
+              </label>
+              <button class="filter-mini-button" id="candidate-filter-toggle" type="button" aria-pressed="false" aria-label="Filter candidates by evidence status">
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M5.5 10h9M8 15h4" /></svg>
+              </button>
+            </div>
+            <div class="candidate-group-tabs" id="candidate-groups" role="group" aria-label="Candidate market segment"></div>
+            <div class="candidate-filter-banner" id="candidate-filter-banner" hidden></div>
+            <div class="candidate-list" id="candidate-list" role="list" aria-label="Mapped candidate records" tabindex="0"></div>
+            <div class="candidate-footer">
+              <div class="candidate-footer-meta"><span class="footer-light"></span><span>Research remains explicit</span></div>
+              <button class="research-button" id="run-candidate-search" type="button">
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v14M3 10h14" /></svg>
+                Run candidate search
+              </button>
+            </div>
+          </aside>
+        </section>
+
+        <footer class="workspace-footnote">
+          <span>Evidence status and recruiter workflow are separate layers.</span>
+          <span class="footnote-divider" aria-hidden="true"></span>
+          <span>Source lineage remains attached to the canonical vacancy.</span>
+          <span class="footnote-spacer"></span>
+          <span class="footnote-mono">REC / WORKSPACE PROTOTYPE</span>
+        </footer>
+      </main>
+    </div>
+
+    <div class="drawer-scrim" id="drawer-scrim" hidden></div>
+    <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
+
+    <dialog class="workspace-dialog filters-dialog" id="filters-dialog" aria-labelledby="filters-title">
+      <form method="dialog" id="filters-form">
+        <div class="dialog-heading">
+          <div><span class="dialog-kicker">Inbox refinement</span><h2 id="filters-title">Filter vacancies</h2></div>
+          <button class="icon-button dialog-close" data-close-dialog="filters-dialog" type="button" aria-label="Close filters"><span aria-hidden="true">×</span></button>
+        </div>
+        <p class="dialog-intro">Filter stored opportunity records. This does not run research or change evidence.</p>
+        <div class="filter-form-grid">
+          <label>Client relationship
+            <select id="filter-client">
+              <option value="ANY">Any relationship</option>
+              <option value="AGREED_CLIENT">Agreed client</option>
+              <option value="AGREED_GROUP_ENTITY">Agreed group entity</option>
+              <option value="PAST_CLIENT">Past client</option>
+              <option value="TARGET_PROSPECT">Target prospect</option>
+              <option value="UNKNOWN">Unknown</option>
+            </select>
+          </label>
+          <label>Discovery channel
+            <select id="filter-channel">
+              <option value="ANY">Any channel</option>
+              <option value="AGREED_CLIENTS">Agreed clients</option>
+              <option value="AGENCY_SITES">Agency sites</option>
+              <option value="LINKEDIN">LinkedIn</option>
+              <option value="JOB_BOARDS">Job boards / ATS</option>
+            </select>
+          </label>
+          <label>Employer resolution
+            <select id="filter-employer">
+              <option value="ANY">Any status</option>
+              <option value="CONFIRMED">Confirmed</option>
+              <option value="PROBABLE">Probable</option>
+              <option value="HYPOTHESIS">Hypothesis</option>
+              <option value="UNKNOWN">Unknown</option>
+            </select>
+          </label>
+          <label>Independent QA
+            <select id="filter-qa">
+              <option value="ANY">Any QA state</option>
+              <option value="PASS">Passed</option>
+              <option value="PASS_WITH_UNKNOWNS">Passed with unknowns</option>
+              <option value="FAIL_RESEARCH_REQUIRED">Research required</option>
+              <option value="NOT_REVIEWED">Not reviewed</option>
+            </select>
+          </label>
+          <label>Geography
+            <select id="filter-region">
+              <option value="ANY">All regions</option>
+              <option value="Western Cape">Western Cape</option>
+              <option value="Gauteng">Gauteng</option>
+              <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+              <option value="Other">Other / national</option>
+            </select>
+          </label>
+          <label>Freshness
+            <select id="filter-freshness">
+              <option value="ANY">Any date</option>
+              <option value="TODAY">Seen today</option>
+              <option value="LAST_7_DAYS">Last 7 days</option>
+              <option value="LAST_30_DAYS">Last 30 days</option>
+            </select>
+          </label>
+          <label>Candidate map readiness
+            <select id="filter-top10">
+              <option value="ANY">Any map state</option>
+              <option value="READY">Research Top 10 ready</option>
+              <option value="IN_PROGRESS">Research Top 10 in progress</option>
+              <option value="NOT_STARTED">Candidate map not started</option>
+            </select>
+          </label>
+        </div>
+        <label class="check-row"><input id="filter-unread" type="checkbox" /><span class="custom-check" aria-hidden="true"></span><span>Unread / newly surfaced only</span></label>
+        <div class="dialog-actions">
+          <button class="secondary-button" id="clear-filters" type="button">Clear filters</button>
+          <button class="primary-button" id="apply-filters" type="submit">Apply filters</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="workspace-dialog compact-dialog" id="save-view-dialog" aria-labelledby="save-view-title">
+      <form method="dialog" id="save-view-form">
+        <div class="dialog-heading">
+          <div><span class="dialog-kicker">Reusable workspace</span><h2 id="save-view-title">Save this view</h2></div>
+          <button class="icon-button dialog-close" data-close-dialog="save-view-dialog" type="button" aria-label="Close save view dialog"><span aria-hidden="true">×</span></button>
+        </div>
+        <p class="dialog-intro">Save the current view, filters, search, sort, date window and display density. No research records are copied.</p>
+        <label class="field-label" for="saved-view-name">View name</label>
+        <input class="text-input" id="saved-view-name" name="saved-view-name" maxlength="80" placeholder="e.g. Western Cape finance — needs review" required />
+        <div class="dialog-actions">
+          <button class="secondary-button" data-close-dialog="save-view-dialog" type="button">Cancel</button>
+          <button class="primary-button" id="confirm-save-view" type="submit">Save personal view</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="workspace-dialog global-search-dialog" id="global-search-dialog" aria-labelledby="global-search-title">
+      <div class="dialog-heading global-search-heading">
+        <div><span class="dialog-kicker">Search the intelligence base</span><h2 id="global-search-title">Find a record</h2></div>
+        <button class="icon-button dialog-close" id="close-global-search" type="button" aria-label="Close global search"><span aria-hidden="true">×</span></button>
+      </div>
+      <label class="search-field global-search-field">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.7" cy="8.7" r="5.4" /><path d="m12.7 12.7 4 4" /></svg>
+        <span class="sr-only">Search vacancies, companies and mapped candidates</span>
+        <input id="global-search-input" type="search" placeholder="Role, company, candidate, requirement, source…" autocomplete="off" />
+        <kbd>ESC</kbd>
+      </label>
+      <p class="search-scope-note">Stored intelligence only. To search the web, choose an explicit research action.</p>
+      <div class="global-search-results" id="global-search-results" role="group" aria-label="Global search results"></div>
+    </dialog>
+
+    <dialog class="workspace-dialog action-dialog" id="research-dialog" aria-labelledby="research-title">
+      <div class="dialog-heading">
+        <div><span class="dialog-kicker">Explicit research action</span><h2 id="research-title">Start candidate search</h2></div>
+        <button class="icon-button dialog-close" data-close-dialog="research-dialog" type="button" aria-label="Close research dialog"><span aria-hidden="true">×</span></button>
+      </div>
+      <div class="research-confirmation">
+        <div class="research-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 18.5h16M6.5 15.5l3.1-4 2.6 2.1 5.4-7.1"/><circle cx="17.6" cy="6.5" r="1.2"/></svg></div>
+        <div><strong id="research-role-name">Finance Director, Southern Africa</strong><p>This would generate and execute role-specific searches, then write query, source, reason and observed yield to the candidate Search Log.</p></div>
+      </div>
+      <div class="prototype-notice"><span class="notice-symbol">i</span><span>This preview does not call AI, the web or a research worker. The action below adds a clearly marked demo event only.</span></div>
+      <div class="dialog-actions">
+        <button class="secondary-button" data-close-dialog="research-dialog" type="button">Cancel</button>
+        <button class="primary-button" id="confirm-research" type="button">Log demo action</button>
+      </div>
+    </dialog>
+
+    <dialog class="workspace-dialog action-dialog" id="close-vacancy-dialog" aria-labelledby="close-vacancy-title">
+      <form method="dialog" id="close-vacancy-form">
+        <div class="dialog-heading">
+          <div><span class="dialog-kicker">Lifecycle action · reversible</span><h2 id="close-vacancy-title">Archive this vacancy?</h2></div>
+          <button class="icon-button dialog-close" data-close-dialog="close-vacancy-dialog" type="button" aria-label="Close archive dialog"><span aria-hidden="true">×</span></button>
+        </div>
+        <p class="dialog-intro" id="close-vacancy-description">The role will leave the active inbox. Its source records, candidate map, Top 10, search log and QA history remain intact.</p>
+        <label class="field-label" for="close-reason">Reason for closing <span class="required-mark">Required</span></label>
+        <select class="text-input" id="close-reason" required>
+          <option value="">Choose a reason</option>
+          <option value="FILLED">Filled</option>
+          <option value="EXPIRED">Expired</option>
+          <option value="CLIENT_NO_LONGER_HIRING">Client no longer hiring</option>
+          <option value="NOT_COMMERCIALLY_RELEVANT">Not commercially relevant</option>
+          <option value="DUPLICATE">Duplicate</option>
+          <option value="CANCELLED">Cancelled</option>
+          <option value="OTHER">Other</option>
+        </select>
+        <label class="field-label detail-label" for="close-reason-detail" hidden>Explain the reason</label>
+        <textarea class="text-input reason-detail" id="close-reason-detail" rows="2" maxlength="240" placeholder="Add a short explanation" hidden></textarea>
+        <div class="dialog-actions">
+          <button class="secondary-button" data-close-dialog="close-vacancy-dialog" type="button">Keep active</button>
+          <button class="danger-button" id="confirm-close-vacancy" type="submit">Archive vacancy</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="workspace-dialog evidence-dialog" id="candidate-evidence-dialog" aria-labelledby="evidence-title">
+      <div class="dialog-heading">
+        <div><span class="dialog-kicker">Person-level evidence · sample only</span><h2 id="evidence-title">Candidate evidence</h2></div>
+        <button class="icon-button dialog-close" data-close-dialog="candidate-evidence-dialog" type="button" aria-label="Close candidate evidence"><span aria-hidden="true">×</span></button>
+      </div>
+      <div id="candidate-evidence-content"></div>
+      <div class="dialog-actions">
+        <button class="secondary-button" data-close-dialog="candidate-evidence-dialog" type="button">Close</button>
+      </div>
+    </dialog>
+
+    <dialog class="workspace-dialog compact-dialog" id="exclude-candidate-dialog" aria-labelledby="exclude-title">
+      <form method="dialog" id="exclude-candidate-form">
+        <div class="dialog-heading">
+          <div><span class="dialog-kicker">Recruiter workflow · not evidence</span><h2 id="exclude-title">Exclude candidate</h2></div>
+          <button class="icon-button dialog-close" data-close-dialog="exclude-candidate-dialog" type="button" aria-label="Close exclude dialog"><span aria-hidden="true">×</span></button>
+        </div>
+        <p class="dialog-intro" id="exclude-candidate-name"></p>
+        <label class="field-label" for="exclude-reason">Reason <span class="required-mark">Required</span></label>
+        <select class="text-input" id="exclude-reason" required>
+          <option value="">Choose a reason</option>
+          <option value="ROLE_SCOPE">Role scope mismatch</option>
+          <option value="EXPERIENCE_GAP">Material experience gap</option>
+          <option value="DUPLICATE_PERSON">Duplicate identity</option>
+          <option value="EVIDENCE_CONFLICT">Evidence conflict</option>
+          <option value="OTHER">Other / recruiter review</option>
+        </select>
+        <div class="dialog-actions">
+          <button class="secondary-button" data-close-dialog="exclude-candidate-dialog" type="button">Cancel</button>
+          <button class="danger-button" id="confirm-exclude-candidate" type="submit">Exclude from this vacancy</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="workspace-dialog compact-dialog" id="keyboard-help-dialog" aria-labelledby="keyboard-help-title">
+      <div class="dialog-heading">
+        <div><span class="dialog-kicker">Keyboard navigation</span><h2 id="keyboard-help-title">Move through the queue</h2></div>
+        <button class="icon-button dialog-close" data-close-dialog="keyboard-help-dialog" type="button" aria-label="Close keyboard help"><span aria-hidden="true">×</span></button>
+      </div>
+      <div class="shortcut-list">
+        <div><span>Search all stored intelligence</span><kbd>⌘ K</kbd><kbd>Ctrl K</kbd></div>
+        <div><span>Search the current vacancy list</span><kbd>/</kbd></div>
+        <div><span>Move between visible vacancies</span><kbd>↑</kbd><kbd>↓</kbd></div>
+        <div><span>Open the focused vacancy</span><kbd>Enter</kbd></div>
+        <div><span>Close the current dialog</span><kbd>Esc</kbd></div>
+      </div>
+      <div class="dialog-actions"><button class="primary-button" data-close-dialog="keyboard-help-dialog" type="button">Done</button></div>
+    </dialog>
+  </body>
+</html>

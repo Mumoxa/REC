@@ -349,7 +349,10 @@ Authority:
 - `interface/README.md`
 - `interface/vacancy-intelligence-workspace.md`
 - `interface/search-filter-contract.md`
+- `interface/record-binding-contract.md`
+- `interface/design-system.md`
 - `schemas/workspace-view-state.schema.json`
+- `schemas/workspace-saved-view.schema.json`
 - `schemas/workspace-operational-state.schema.json`
 
 ### Default job-surfacing location

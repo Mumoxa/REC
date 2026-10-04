@@ -102,6 +102,10 @@ Do not infer candidate experience from employer characteristics.
 
 Unknown salary, notice, availability and motivation remain `UNKNOWN` until established.
 
+## Stable record identity
+
+Use the upstream `final-opportunity.canonical_job_id` as the exact `opportunity_id` in the candidate market map and role/environment fingerprint. Assign each person a stable opaque `candidate_id`; preserve it across refreshes, never derive it from personal data, and never deduplicate on name alone. Candidate workflow actions are keyed to the vacancy-candidate pair.
+
 ## Completion
 
 Output must conform to `schemas/candidate-market-map.schema.json`.

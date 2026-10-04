@@ -99,3 +99,66 @@ cases:
       - preserve_historical_closed_record
       - link_current_activity_to_history
       - require_current_evidence
+  - id: workspace_record_identity_binding
+    given: A final opportunity, role fingerprint, candidate market map, and workspace operational records refer to the same vacancy.
+    expect:
+      - final_opportunity_canonical_job_id_equals_candidate_map_opportunity_id
+      - final_opportunity_canonical_job_id_equals_workspace_vacancy_id
+      - candidate_objects_have_stable_opaque_candidate_id
+      - candidate_assignment_uses_candidate_id_not_display_name
+    forbid:
+      - generate_new_vacancy_id_per_source_appearance
+      - derive_candidate_id_from_personal_data
+
+  - id: close_requires_reason_and_timestamp
+    given: Recruiter closes a vacancy.
+    expect:
+      - lifecycle_status_CLOSED
+      - non_null_closed_reason
+      - closed_at_date_time
+      - preserve_source_candidate_map_top10_search_log_and_QA
+
+  - id: close_other_reason_requires_explanation
+    given: Recruiter closes a vacancy with closed_reason OTHER.
+    expect:
+      - closed_reason_detail_is_required
+      - whitespace_only_explanation_is_rejected
+
+  - id: exclude_requires_reason
+    given: Recruiter excludes a candidate from one vacancy.
+    expect:
+      - operational_status_EXCLUDED
+      - non_empty_excluded_reason
+      - whitespace_only_reason_is_rejected
+      - candidate_evidence_unchanged
+      - other_vacancy_assignments_unchanged
+
+  - id: research_top10_is_not_recruiter_top10
+    given: A candidate is in the evidence-reviewed candidate-market-map top_10, but a recruiter has not added the person to their workflow Top 10.
+    expect:
+      - show_research_top10_recommendation
+      - recruiter_operational_status_remains_unchanged
+      - no_research_claim_is_overwritten_by_recruiter_action
+
+  - id: recruiter_workflow_actions_do_not_regress_lifecycle
+    given: Candidate assignment is at TOP_10, APPROACH, ENGAGED or SUBMITTED.
+    expect:
+      - show_earmarked_as_complete_at_or_after_EARMARKED
+      - show_recruiter_top10_as_complete_at_or_after_TOP_10
+      - disable_earlier_actions_after_workflow_progression
+      - unmarking_TOP_10_returns_to_EARMARKED
+
+  - id: saved_view_round_trip
+    given: Recruiter saves a view with search, filters, sort, date window, density and visible fields.
+    expect:
+      - saved_view_has_stable_id_name_scope_created_at_updated_at
+      - restore_all_saved_view_facets_together
+      - restore_saved_active_tab_and_layout_state
+      - keep_research_evidence_out_of_saved_view
+
+  - id: no_live_personal_data_in_browser_preview
+    given: Recruiter uses the static UI prototype.
+    expect:
+      - prototype_banner_identifies_synthetic_sample_records
+      - prototype_does_not_connect_to_research_provider
+      - local_storage_contains_demo_view_and_operational_state_only

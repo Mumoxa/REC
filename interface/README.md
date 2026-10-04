@@ -69,6 +69,16 @@ Search and filter behaviour is defined in:
 
 - `interface/search-filter-contract.md`
 
+Identity joins across vacancy, candidate-map and operational records are defined in:
+
+- `interface/record-binding-contract.md`
+
+The visual system, responsive behaviour and accessibility rules are defined in:
+
+- `interface/design-system.md`
+
+A buildless, interactive UI prototype lives in `interface/prototype/`. It demonstrates the approved operating model using clearly marked fictional sample records; it is not a production frontend, backend, research run or source of truth.
+
 ## Data authority
 
 The interface must consume canonical structured data from the existing schemas and workers.
@@ -82,9 +92,10 @@ At minimum it uses:
 - `schemas/qa-review.schema.json`
 - run/source provenance already produced by the engine.
 
-UI presentation state such as filters, collapse state and saved views is stored separately in:
+UI presentation state such as filters, collapse state, date windows, visible fields and saved views is stored separately in:
 
 - `schemas/workspace-view-state.schema.json`
+- `schemas/workspace-saved-view.schema.json`
 
 Recruiter workflow state such as vacancy close/lifecycle and candidate Earmark / Top 10 / Approach status is stored separately in:
 

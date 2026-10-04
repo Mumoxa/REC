@@ -543,3 +543,24 @@ Recommended actions:
 - C — collapse selected vacancy card.
 
 Keyboard actions must respect the same permissions, evidence boundaries and lifecycle rules as visible UI controls.
+
+# Responsive, visual and accessibility contract
+
+This section is additive. It changes presentation and ergonomics only; it does not change the sourcing architecture, candidate-research sequence or evidence authority.
+
+- The visual and interaction authority is `interface/design-system.md`.
+- At desktop widths, preserve the three-pane queue → vacancy intelligence → relevant candidate market.
+- At intermediate widths, keep vacancy context visible and expose the candidate pane as an accessible drawer.
+- At narrow widths, use explicit Vacancies / Intelligence / Candidates work-pane switching; do not compress all three desktop panes into unreadable columns.
+- Preserve compatible vacancy and candidate filters, queue position and selected canonical vacancy when panes change. If a context-specific filter is incompatible, identify the one removed filter and why; do not silently reset the whole search.
+- Candidate Focus may minimise the middle pane, but the selected role and its lifecycle remain visible in the candidate context bar. It is not a close/archive action.
+- Support visible keyboard focus, keyboard access to controls, semantic landmarks/tables, labelled search and filter inputs, reduced motion and text labels in addition to status colour. Target WCAG 2.2 AA.
+- Distinguish initial loading, access-limited, error, no-data and no-results-after-filter states in production. A failed request must not be shown as an empty market.
+- Show the date/time basis for currentness, QA and historical states. Do not imply a successful recent verification where the underlying record has no timestamp.
+- The production application must not persist live candidate/person or stakeholder contact data in browser-local view state.
+
+# Research Top 10 and Recruiter Top 10
+
+The evidence-reviewed `candidate-market-map.top_10` is the **Research Top 10**. The vacancy-specific `candidate_assignments[].operational_status = TOP_10` is the **Recruiter Top 10** action. They may differ. A recruiter action must never edit the market-map recommendation, its underlying claims or its QA record.
+
+The Research Top 10 is a curated output from the verified candidate universe, not an unexplained AI suitability score. The 50-person depth target remains a research target, never a list-size quota.

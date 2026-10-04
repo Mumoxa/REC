@@ -14,13 +14,16 @@
   ],
   "properties": {
     "canonical_job_id": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1,
+      "description": "Canonical vacancy identity. Other workspace records reference this exact value."
     },
     "source_record_ids": {
       "type": "array",
       "items": {
         "type": "string"
-      }
+      },
+      "description": "Source appearance IDs (for example discovered-job.record_id); each source record links to this canonical vacancy."
     },
     "role": {
       "type": "object"

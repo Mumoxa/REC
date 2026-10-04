@@ -17,7 +17,9 @@
   ],
   "properties": {
     "opportunity_id": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1,
+      "description": "Must equal final-opportunity.canonical_job_id; see interface/record-binding-contract.md."
     },
     "source_channel": {
       "enum": [
@@ -242,6 +244,7 @@
     "candidate": {
       "type": "object",
       "required": [
+        "candidate_id",
         "name",
         "profile_urls",
         "claims",
@@ -327,6 +330,11 @@
             "HYPOTHESIS",
             "UNKNOWN"
           ]
+        },
+        "candidate_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Stable opaque identifier used by workspace candidate assignments. Do not derive it from personal data."
         }
       }
     }

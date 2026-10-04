@@ -32,7 +32,11 @@ principles:
   workspace_interface_authority: interface/README.md
   vacancy_workspace_authority: interface/vacancy-intelligence-workspace.md
   workspace_search_filter_authority: interface/search-filter-contract.md
+  workspace_record_binding_authority: interface/record-binding-contract.md
+  workspace_design_authority: interface/design-system.md
+  workspace_prototype_authority: interface/prototype/README.md
   workspace_view_state_schema: schemas/workspace-view-state.schema.json
+  workspace_saved_view_schema: schemas/workspace-saved-view.schema.json
   workspace_operational_state_schema: schemas/workspace-operational-state.schema.json
   fifty_candidate_target_is_not_quota: true
 
@@ -109,7 +113,11 @@ execution:
       - interface/README.md
       - interface/vacancy-intelligence-workspace.md
       - interface/search-filter-contract.md
+      - interface/record-binding-contract.md
+      - interface/design-system.md
+      - interface/prototype/README.md
       - schemas/workspace-view-state.schema.json
+      - schemas/workspace-saved-view.schema.json
       - schemas/workspace-operational-state.schema.json
   mandatory_qa_gates:
     - A_DISCOVERY
