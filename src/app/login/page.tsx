@@ -24,10 +24,9 @@ export default function LoginPage() {
 
     if (pendingEmail && pendingAt && Date.now() - pendingAt < PENDING_TTL_MS) {
       setEmail(pendingEmail);
-      rememberPending(email.trim());
       setPhase("VERIFY");
       setMessage(
-        "A Talent Tree sign-in email was already sent. Use the current email or current 6-digit code below. No new code has been sent."
+        "A Talent Tree sign-in email was already sent. Use the current email or current verification code below. No new code has been sent."
       );
       return;
     }
@@ -71,9 +70,10 @@ export default function LoginPage() {
 
       if (error) throw error;
 
+      rememberPending(email.trim());
       setPhase("VERIFY");
       setMessage(
-        "Check your email. If it contains a Sign in link, click it. If it contains a 6-digit code, enter the code below."
+        "Check your email. If it contains a Sign in link, click it. If it contains a verification code, enter the code below."
       );
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Unable to start sign-in.");
@@ -85,9 +85,9 @@ export default function LoginPage() {
   async function verifyCode(event: FormEvent) {
     event.preventDefault();
 
-    const cleanToken = token.replace(/\D/g, "").slice(0, 6);
-    if (cleanToken.length !== 6) {
-      setMessage("Enter the 6-digit code from your email.");
+    const cleanToken = token.replace(/\D/g, "").slice(0, 10);
+    if (cleanToken.length < 6 || cleanToken.length > 10) {
+      setMessage("Enter the verification code exactly as shown in your Talent Tree email.");
       return;
     }
 
@@ -190,20 +190,20 @@ export default function LoginPage() {
 
             <div className="login-divider"><span>or enter a code</span></div>
 
-            <label htmlFor="token">6-digit verification code</label>
+            <label htmlFor="token">Verification code</label>
             <input
               id="token"
               className="otp-input"
               inputMode="numeric"
               autoComplete="one-time-code"
-              pattern="[0-9]{6}"
-              maxLength={6}
+              pattern="[0-9]{6,10}"
+              maxLength={10}
               value={token}
-              onChange={(event) => setToken(event.target.value.replace(/\D/g, "").slice(0, 6))}
-              placeholder="000000"
+              onChange={(event) => setToken(event.target.value.replace(/\D/g, "").slice(0, 10))}
+              placeholder="Enter code"
             />
 
-            <button type="submit" disabled={loading || token.length !== 6}>
+            <button type="submit" disabled={loading || token.length < 6 || token.length > 10}>
               {loading ? "Verifying…" : "Verify code"}
             </button>
 
