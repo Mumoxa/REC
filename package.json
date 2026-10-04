@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "test:contracts": "node tests/run-completion-contract-smoke.mjs"
+    "test:contracts": "node tests/run-completion-contract-smoke.mjs && node tests/agent-publication-contract-smoke.mjs",
+    "rec:publish": "node scripts/rec-publish.mjs"
   },
   "engines": {
     "node": ">=22.0.0"
