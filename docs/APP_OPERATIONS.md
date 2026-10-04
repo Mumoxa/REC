@@ -22,7 +22,7 @@ Required environment variables:
 
 ## Authentication
 
-Live mode uses Supabase Auth magic-link login with server-side cookie handling.
+Live mode uses Supabase Auth email OTP login with server-side cookie handling. The Auth email template must include `{{ .Token }}` so users receive a visible 6-digit code rather than relying on a one-click magic link.
 
 Authenticated pages are protected by Next.js `proxy.ts` and Supabase JWT claim validation.
 
