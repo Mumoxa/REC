@@ -146,7 +146,10 @@ Authority:
 - `interface/README.md`
 - `interface/vacancy-intelligence-workspace.md`
 - `interface/search-filter-contract.md`
+- `interface/record-binding-contract.md`
+- `interface/design-system.md`
 - `schemas/workspace-view-state.schema.json`
+- `schemas/workspace-saved-view.schema.json`
 - `schemas/workspace-operational-state.schema.json`
 
 Key behaviours:
@@ -160,3 +163,5 @@ Key behaviours:
 - searching stored intelligence is distinct from running new AI/web research;
 - candidate operational status is separate from evidence/QA status;
 - Excel/CSV/PDF are export surfaces, not the canonical datastore.
+
+A buildless, interactive UI prototype is available at `interface/prototype/index.html`. It is a synthetic-data-only interaction reference, not the production frontend, canonical datastore or live research output. Product/code review and remaining production gates are documented in `interface/review-and-gaps.md`.

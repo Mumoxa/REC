@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "workspace-saved-view.schema.json",
+  "title": "Talent Tree Recruitment Intelligence Workspace Saved View",
+  "type": "object",
+  "required": [
+    "saved_view_id",
+    "name",
+    "scope",
+    "view_state",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "saved_view_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable saved-view identifier; not a vacancy or candidate identifier."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "scope": {
+      "enum": [
+        "PERSONAL",
+        "TEAM",
+        "SYSTEM"
+      ]
+    },
+    "owner_user_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "view_state": {
+      "$ref": "workspace-view-state.schema.json",
+      "description": "A view-state snapshot. It must not contain research evidence or operational status."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "is_default": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "additionalProperties": false
+}

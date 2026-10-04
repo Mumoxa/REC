@@ -5,7 +5,7 @@
   "type": "object",
   "required": ["opportunity_id", "role", "employer", "claims", "qa_gate_b"],
   "properties": {
-    "opportunity_id": {"type": "string"},
+    "opportunity_id": {"type": "string", "minLength": 1, "description": "Must equal final-opportunity.canonical_job_id; see interface/record-binding-contract.md."},
     "role": {"type": "string"},
     "employer": {"type": "string"},
     "source_channel": {"enum": ["AGREED_CLIENTS", "AGENCY_SITES", "LINKEDIN", "JOB_BOARDS"]},

@@ -130,3 +130,16 @@ This log is distinct from ephemeral UI search/filter activity.
 - removing one filter does not clear all filters;
 - navigation should preserve context and queue position where feasible;
 - design for hundreds or thousands of records.
+
+## Filter semantics for consistent implementations
+
+This section makes the preceding facet list executable without changing which facets the product supports.
+
+- A whitespace-separated text query is case-insensitive; every term must match within the same record's indexed text, and each term is a substring rather than a quoted phrase. Punctuation is retained. Global and context search use the same rule over different indexed scopes.
+- When a facet permits multiple selected values, values within that facet are combined with **OR**; distinct facets are combined with **AND**.
+- Missing and `UNKNOWN` values remain distinct. A filter for unknown must not silently include records that were never loaded or not checked.
+- Evidence filters join at the claim/person level. A company-level SAP fact cannot satisfy a candidate-level `SAP = CONFIRMED` filter.
+- Counts and active chips describe the currently loaded query scope and must not imply that a server-side result set is complete when it is paginated.
+- Date filters use ISO 8601 timestamps and an explicit timezone. The API contract must say whether each boundary is inclusive; the UI must display the selected date field (for example, last verified rather than posted date).
+- Applying a saved view restores its filters, query, sort, date window, density and visible fields as one state transition. Removing a single chip removes only its own facet value.
+- Context search is always a read of stored records. A research worker may be invoked only by a separately labelled, user-initiated action and must create a research-log entry.

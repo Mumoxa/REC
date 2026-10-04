@@ -314,6 +314,17 @@ For every candidate capture:
 - notice period: `UNKNOWN` until reliably established;
 - motivation/willingness to move: `UNKNOWN` until established.
 
+## Stable candidate identity
+
+Every candidate in a market map must have a stable opaque `candidate_id` so vacancy-specific recruiter actions can refer to a person without using a display name as a database key.
+
+- Preserve the ID across research refreshes and map rebuilds.
+- Do not derive it from a name, email address, profile URL or other personal data.
+- Resolve identity/deduplication with evidence; a name match alone is insufficient.
+- Operational status remains attached to the candidate-vacancy assignment, not to the candidate globally.
+
+The map's `opportunity_id` must equal the upstream `final-opportunity.canonical_job_id`. Workspace binding rules are defined in `interface/record-binding-contract.md`.
+
 ## Critical non-inference rules
 
 A company fact is not automatically a candidate fact.
