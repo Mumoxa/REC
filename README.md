@@ -69,6 +69,7 @@ The repository has become more detailed underneath the canonical architecture, b
 - The engine is a hiring-intelligence system, not merely a scraper.
 - Any independently runnable channel may feed the same downstream opportunity/candidate-intelligence process.
 - Candidate market mapping targets 50+ credible evidence-backed people where the market supports it; 50 is a research-depth target, never a quota.
+- A sourcing sweep finishing is not the same as a REC run completing: a run is `COMPLETE` only when every qualifying verified vacancy has at least one QA-cleared, client-submittable research Top-10 candidate and the resulting records have been persisted and verified in REC.
 - Independent adversarial QA gates challenge discovery, role fingerprints, target-company maps and candidate claims.
 - The default human interface is the browser-based Vacancy Intelligence Workspace; structured records remain the source of truth and Excel/CSV/PDF are exports.
 - Detailed implementation must map back to one of the four channels or to shared core/support infrastructure.
@@ -116,6 +117,14 @@ Authority:
 - `runtime/qa-review-worker.md`
 
 This is downstream infrastructure, **not a fifth sourcing channel**.
+
+## Completion and publication semantics
+
+A REC run is not complete when vacancy discovery or vacancy validation ends.
+
+For every qualifying verified vacancy, continue through candidate mapping until there is a QA-cleared client-submittable research Top-10 candidate set. If that condition is not met, use `RUNNING` or `PARTIAL`.
+
+"Published" is a datastore state: the structured run must be persisted into the REC operational database and the persisted vacancy/candidate counts verified. A chat response, report, export or local artifact is not publication.
 
 ## Normal run instructions
 
