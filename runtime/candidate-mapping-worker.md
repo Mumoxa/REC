@@ -110,7 +110,8 @@ Use the upstream `final-opportunity.canonical_job_id` as the exact `opportunity_
 
 Output must conform to `schemas/candidate-market-map.schema.json`.
 
-Candidate mapping for an opportunity is complete only when it includes:
+Candidate mapping for an opportunity is complete only when it includes **all market layers**. The Top 10 is the final high-conviction subset, not the candidate-market deliverable by itself.
+
 
 - fingerprint + evidence;
 - QA Gate B;

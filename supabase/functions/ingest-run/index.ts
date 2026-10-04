@@ -30,6 +30,15 @@ type Payload = {
     sourceLabel?: string | null;
     qaStatus?: "PASS" | "PASS_WITH_UNKNOWNS" | "FAIL_RESEARCH_REQUIRED";
     candidateMapStatus?: "NOT_STARTED" | "IN_PROGRESS" | "READY";
+    candidateMarketSummary?: {
+      coverageStatus: "NOT_STARTED" | "IN_PROGRESS" | "COMPLETE" | "SCARCE_MARKET";
+      rawProfilesReviewed?: number | null;
+      credibleMarketCount: number;
+      strongestMarketCount: number;
+      top10Count: number;
+      executedQueryCount: number;
+      coverageNote?: string | null;
+    };
     stakeholderMapStatus?: "NOT_STARTED" | "IN_PROGRESS" | "READY" | "BLOCKED_WITH_EVIDENCE";
     stakeholderMapNote?: string | null;
     companyEmailIntelligence?: {
@@ -307,6 +316,7 @@ Deno.serve(async (request) => {
           source_label: item.sourceLabel || payload.run.channel,
           qa_status: item.qaStatus || "PASS_WITH_UNKNOWNS",
           candidate_map_status: item.candidateMapStatus || "NOT_STARTED",
+          candidate_market_summary: item.candidateMarketSummary || {},
           stakeholder_map_status: item.stakeholderMapStatus || "NOT_STARTED",
           stakeholder_map_note: item.stakeholderMapNote,
           first_seen: item.firstSeen || now,
@@ -624,7 +634,7 @@ Deno.serve(async (request) => {
     ? await Promise.all([
         supabase
           .from("vacancies")
-          .select("id,stakeholder_map_status,stakeholder_map_note")
+          .select("id,stakeholder_map_status,stakeholder_map_note,candidate_market_summary")
           .in("id", persistedVacancies),
         supabase
           .from("stakeholders")
@@ -677,11 +687,64 @@ Deno.serve(async (request) => {
       .map((row) => row.id),
   );
 
+  const persistedMarketCounts = new Map<
+    string,
+    { credible: number; strongest: number; top10: number }
+  >();
+  for (const row of assignmentRows) {
+    const current = persistedMarketCounts.get(row.vacancy_id) || {
+      credible: 0,
+      strongest: 0,
+      top10: 0,
+    };
+    if (["LONGLIST", "STRONG_MARKET", "TOP_10"].includes(row.market_bucket)) {
+      current.credible += 1;
+    }
+    if (["STRONG_MARKET", "TOP_10"].includes(row.market_bucket)) {
+      current.strongest += 1;
+    }
+    if (row.market_bucket === "TOP_10") {
+      current.top10 += 1;
+    }
+    persistedMarketCounts.set(row.vacancy_id, current);
+  }
+
+  const fullMarketReadyVacancyIds = new Set(
+    (persistedVacancyStateResult.data || [])
+      .filter((row) => {
+        const summary = (row.candidate_market_summary || {}) as {
+          coverageStatus?: string;
+          credibleMarketCount?: number;
+          strongestMarketCount?: number;
+          top10Count?: number;
+          coverageNote?: string | null;
+        };
+        const counts = persistedMarketCounts.get(row.id) || {
+          credible: 0,
+          strongest: 0,
+          top10: 0,
+        };
+        const terminal =
+          summary.coverageStatus === "COMPLETE" ||
+          summary.coverageStatus === "SCARCE_MARKET";
+        const countsMatch =
+          summary.credibleMarketCount === counts.credible &&
+          summary.strongestMarketCount === counts.strongest &&
+          summary.top10Count === counts.top10;
+        const scarcityExplained =
+          summary.coverageStatus !== "SCARCE_MARKET" ||
+          Boolean(summary.coverageNote?.trim());
+        return terminal && countsMatch && scarcityExplained;
+      })
+      .map((row) => row.id),
+  );
+
   const completionContractSatisfied =
     persistedVacancies.length > 0 &&
     persistedVacancies.every(
       (vacancyId) =>
         submitReadyVacancyIds.has(vacancyId) &&
+        fullMarketReadyVacancyIds.has(vacancyId) &&
         hiringTeamReadyVacancyIds.has(vacancyId),
     );
 
@@ -689,7 +752,7 @@ Deno.serve(async (request) => {
     return response(
       {
         error:
-          "Persistence verification failed: COMPLETE requires both (a) a persisted QA-cleared TOP_10 candidate with a non-empty fit rationale and (b) completed hiring-team/contact intelligence for every vacancy.",
+          "Persistence verification failed: COMPLETE requires (a) a persisted full candidate market with terminal coverage state and reconciled longlist/strongest/Top-10 counts, (b) at least one QA-cleared TOP_10 candidate with a non-empty fit rationale, and (c) completed hiring-team/contact intelligence for every vacancy.",
       },
       500,
     );
@@ -711,6 +774,7 @@ Deno.serve(async (request) => {
       persistedCandidateCount: verifiedCandidateIds.size,
       persistedCandidateAssignmentCount: assignmentRows.length,
       persistedSubmitReadyTop10Count: submitReadyRows.length,
+      persistedFullMarketReadyVacancyCount: fullMarketReadyVacancyIds.size,
       persistedStakeholderCount: (persistedStakeholdersResult.data || []).length,
       persistedHiringTeamReadyVacancyCount: hiringTeamReadyVacancyIds.size,
       persistedCompanyEmailIntelligenceCount: (persistedEmailIntelResult.data || []).length,
@@ -740,6 +804,70 @@ function validateCompletionContract(
 
     if (item.candidateMapStatus !== "READY") {
       return `Vacancy "${item.title}" cannot be COMPLETE because candidateMapStatus is not READY.`;
+    }
+
+    const marketSummary = item.candidateMarketSummary;
+    if (!marketSummary) {
+      return `Vacancy "${item.title}" cannot be COMPLETE because the full candidate-market coverage summary is missing.`;
+    }
+
+    if (
+      marketSummary.coverageStatus !== "COMPLETE" &&
+      marketSummary.coverageStatus !== "SCARCE_MARKET"
+    ) {
+      return `Vacancy "${item.title}" cannot be COMPLETE because candidate-market coverage is not COMPLETE or SCARCE_MARKET.`;
+    }
+
+    const credibleCandidates = (item.candidates || []).filter((candidate) =>
+      ["LONGLIST", "STRONG_MARKET", "TOP_10"].includes(
+        candidate.marketBucket || "UNREVIEWED",
+      ),
+    );
+    const strongestCandidates = credibleCandidates.filter((candidate) =>
+      ["STRONG_MARKET", "TOP_10"].includes(
+        candidate.marketBucket || "UNREVIEWED",
+      ),
+    );
+    const top10Candidates = credibleCandidates.filter(
+      (candidate) => candidate.marketBucket === "TOP_10",
+    );
+    const executedQueryCount = (item.researchQueries || []).filter(
+      (query) => query.executionStatus === "EXECUTED",
+    ).length;
+
+    if (
+      marketSummary.credibleMarketCount !== credibleCandidates.length ||
+      marketSummary.strongestMarketCount !== strongestCandidates.length ||
+      marketSummary.top10Count !== top10Candidates.length ||
+      marketSummary.executedQueryCount !== executedQueryCount
+    ) {
+      return `Vacancy "${item.title}" cannot be COMPLETE because candidate-market summary counts do not match the persisted market/search payload.`;
+    }
+
+    if (marketSummary.credibleMarketCount < marketSummary.strongestMarketCount) {
+      return `Vacancy "${item.title}" cannot be COMPLETE because strongest-market count exceeds the credible market.`;
+    }
+
+    if (marketSummary.strongestMarketCount < marketSummary.top10Count) {
+      return `Vacancy "${item.title}" cannot be COMPLETE because Top 10 count exceeds the strongest market.`;
+    }
+
+    if (marketSummary.executedQueryCount < 1) {
+      return `Vacancy "${item.title}" cannot be COMPLETE because no candidate-market search query was executed.`;
+    }
+
+    if (
+      marketSummary.coverageStatus === "COMPLETE" &&
+      marketSummary.credibleMarketCount < 50
+    ) {
+      return `Vacancy "${item.title}" cannot use COMPLETE market coverage with fewer than 50 credible candidates; use SCARCE_MARKET with an evidence-grounded coverage note when the real market is smaller.`;
+    }
+
+    if (
+      marketSummary.coverageStatus === "SCARCE_MARKET" &&
+      !marketSummary.coverageNote?.trim()
+    ) {
+      return `Vacancy "${item.title}" cannot use SCARCE_MARKET without an evidence-grounded coverage/scarcity note.`;
     }
 
     const stakeholderReady =
@@ -816,7 +944,7 @@ function inferLifecycle(
   item: NonNullable<Payload["vacancies"]>[number],
 ) {
   if (item.qaStatus === "FAIL_RESEARCH_REQUIRED") return "VERIFYING";
-  if (item.candidateMapStatus === "READY") return "TOP_10_READY";
+  if (item.candidateMapStatus === "READY") return "MARKET_READY";
   if (item.candidateMapStatus === "IN_PROGRESS") return "CANDIDATE_MAPPING";
   if (item.employerStatus === "CONFIRMED") return "EMPLOYER_RESOLVED";
   return "DISCOVERED";

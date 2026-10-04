@@ -69,7 +69,7 @@ Company A
 Cape Town
 PRN Recruitment
 First seen: Today 09:31
-54 candidates · 10 Top 10
+54 credible · 24 strongest · 10 Top 10
 QA Passed
 ```
 
@@ -106,7 +106,8 @@ Useful at-a-glance indicators include:
 - first seen;
 - last verified;
 - candidate-map progress;
-- candidate count;
+- credible candidate-market count;
+- strongest-market count;
 - Top 10 count;
 - new/unread status;
 - research-required indicator.
@@ -116,7 +117,7 @@ Example:
 ```text
 Head of Finance
 Company A · Cape Town
-57 mapped · 10 Top 10 · QA ✓
+57 credible · 24 strongest · 10 Top 10 · QA ✓
 ```
 
 or:
@@ -253,9 +254,10 @@ This pane is vacancy-contextual by default; it is not the entire candidate datab
 
 Recommended sections:
 
-- Top 10
-- Strong Market
+- All credible market
 - Longlist
+- Strongest Market
+- Top 10
 - Unreviewed
 - Excluded
 
@@ -264,9 +266,10 @@ Show counts for each.
 Example:
 
 ```text
-Top 10          10
-Strong Market   24
-Longlist        57
+Credible market 57
+Longlist         33
+Strongest market 24
+Top 10           10
 Unreviewed      16
 Excluded         8
 ```
@@ -397,7 +400,7 @@ DISCOVERED
 → QUALIFIED
 → EMPLOYER RESOLVED
 → CANDIDATE MAPPING
-→ TOP 10 READY
+→ MARKET READY
 → CLIENT ACTION
 → CLOSED
 ```
@@ -563,4 +566,4 @@ This section is additive. It changes presentation and ergonomics only; it does n
 
 The evidence-reviewed `candidate-market-map.top_10` is the **Research Top 10**. The vacancy-specific `candidate_assignments[].operational_status = TOP_10` is the **Recruiter Top 10** action. They may differ. A recruiter action must never edit the market-map recommendation, its underlying claims or its QA record.
 
-The Research Top 10 is a curated output from the verified candidate universe, not an unexplained AI suitability score. The 50-person depth target remains a research target, never a list-size quota.
+The Research Top 10 is a curated final subset from the verified candidate universe, not an unexplained AI suitability score and not the whole market. The broader market should retain the 50+ credible-longlist target where supported and the strongest-market layer normally around 20–25. These remain research-depth targets, never list-size quotas.

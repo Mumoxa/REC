@@ -149,6 +149,17 @@ The research target is normally **2–10 genuinely relevant stakeholders** where
 
 A completed run may not silently skip this work. Each vacancy must reach stakeholder status `READY` or `BLOCKED_WITH_EVIDENCE`, and company email-pattern intelligence must be recorded.
 
+## Candidate-market depth
+
+REC is not a Top-10 shortlist generator. Each qualified vacancy should preserve the full researched market:
+
+- broad raw discovery may surface 100–200+ profiles;
+- credible evidence-backed candidate market: target 50+ where the market supports it;
+- strongest-market layer: normally about 20–25;
+- final high-conviction client-facing subset: Top 10.
+
+These are research-depth targets, not quotas. Smaller markets are valid when coverage and scarcity are evidenced. The Top 10 must never replace the broader market map.
+
 ## Completion and publication semantics
 
 A REC run is not complete when vacancy discovery or vacancy validation ends.
