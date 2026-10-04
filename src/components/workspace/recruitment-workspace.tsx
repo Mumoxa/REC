@@ -11,7 +11,7 @@ import type {
 } from "@/lib/data/types";
 
 type Density = "EXPANDED" | "COMPACT" | "MINIMAL";
-type JobTab = "OVERVIEW" | "REQUIREMENTS" | "SOURCES" | "SEARCH_LOG" | "QA";
+type JobTab = "OVERVIEW" | "HIRING_TEAM" | "REQUIREMENTS" | "SOURCES" | "SEARCH_LOG" | "QA";
 
 const channelLabels: Record<string, string> = {
   AGREED_CLIENTS: "Agreed Clients",
@@ -54,6 +54,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
           vacancy.roleFamily,
           vacancy.sourceLabel,
           vacancy.requirements.map((r) => `${r.label} ${r.value}`).join(" "),
+          vacancy.stakeholders.map((person) => `${person.name} ${person.title ?? ""} ${person.relevance ?? ""} ${person.observedBusinessEmail ?? ""} ${person.probableBusinessEmail ?? ""}`).join(" "),
         ]
           .join(" ")
           .toLowerCase()
@@ -340,14 +341,14 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
             </div>
 
             <nav className="job-tabs">
-              {(["OVERVIEW", "REQUIREMENTS", "SOURCES", "SEARCH_LOG", "QA"] as JobTab[]).map(
+              {(["OVERVIEW", "HIRING_TEAM", "REQUIREMENTS", "SOURCES", "SEARCH_LOG", "QA"] as JobTab[]).map(
                 (tab) => (
                   <button
                     key={tab}
                     className={jobTab === tab ? "active" : ""}
                     onClick={() => setJobTab(tab)}
                   >
-                    {tab === "SEARCH_LOG" ? "Search log" : tab[0] + tab.slice(1).toLowerCase()}
+                    {tab === "SEARCH_LOG" ? "Search log" : tab === "HIRING_TEAM" ? "Hiring team" : tab[0] + tab.slice(1).toLowerCase()}
                   </button>
                 )
               )}
@@ -355,6 +356,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
 
             <div className="job-content">
               {jobTab === "OVERVIEW" && <Overview vacancy={selected} />}
+              {jobTab === "HIRING_TEAM" && <HiringTeam vacancy={selected} />}
               {jobTab === "REQUIREMENTS" && <Requirements vacancy={selected} />}
               {jobTab === "SOURCES" && <Sources vacancy={selected} />}
               {jobTab === "SEARCH_LOG" && <SearchLog vacancy={selected} />}
@@ -515,9 +517,127 @@ function Overview({ vacancy }: { vacancy: Vacancy }) {
       <div className="progress-grid">
         <MetricCard label="Sources" value={vacancy.sources.length} />
         <MetricCard label="Queries run" value={vacancy.researchQueries.filter((q) => q.executionStatus === "EXECUTED").length} />
+        <MetricCard label="Hiring team" value={vacancy.stakeholders.length} />
         <MetricCard label="Candidates" value={vacancy.candidates.length} />
         <MetricCard label="Top 10" value={vacancy.candidates.filter((c) => c.marketBucket === "TOP_10").length} />
       </div>
+    </div>
+  );
+}
+
+function HiringTeam({ vacancy }: { vacancy: Vacancy }) {
+  const intel = vacancy.companyEmailIntelligence;
+  const statusLabel = vacancy.stakeholderMapStatus.replaceAll("_", " ");
+
+  return (
+    <div className="stack-lg hiring-team-panel">
+      <div className="hiring-team-status">
+        <div>
+          <div className="section-title">Hiring-team research</div>
+          <p className="summary-copy">
+            Named people who are likely to own, influence or execute hiring for this vacancy.
+            Observed business emails are kept separate from pattern-inferred probable addresses.
+          </p>
+        </div>
+        <StatusPill text={statusLabel} subtle />
+      </div>
+
+      {vacancy.stakeholderMapNote && (
+        <div className="contact-research-note">{vacancy.stakeholderMapNote}</div>
+      )}
+
+      <div className="section-title">Company email intelligence</div>
+      <div className="email-intel-grid">
+        <div className="email-intel-card">
+          <span>Website domain</span>
+          <strong>{intel?.websiteDomain || "Unknown"}</strong>
+        </div>
+        <div className="email-intel-card">
+          <span>Employee email domain</span>
+          <strong>{intel?.employeeEmailDomain || "Unknown"}</strong>
+          <small>{intel?.domainStatus || "UNKNOWN"}</small>
+        </div>
+        <div className="email-intel-card">
+          <span>Detected pattern</span>
+          <strong>{intel?.detectedPattern || "Unknown"}</strong>
+          <small>{intel?.patternStatus || "UNKNOWN_PATTERN"}</small>
+        </div>
+        <div className="email-intel-card">
+          <span>Observed examples</span>
+          <strong>{intel?.observedPatternExamplesCount ?? 0}</strong>
+          <small>{intel?.observedBusinessEmailExamples?.join(" · ") || "No public examples stored"}</small>
+        </div>
+      </div>
+
+      {!!intel?.patternBasis?.length && (
+        <div className="contact-pattern-basis">
+          <strong>Pattern basis</strong>
+          <span>{intel.patternBasis.join(" · ")}</span>
+        </div>
+      )}
+
+      <div className="section-title">Hiring stakeholders</div>
+      {vacancy.stakeholders.length === 0 ? (
+        <div className="empty-state">
+          {vacancy.stakeholderMapStatus === "NOT_STARTED"
+            ? "Hiring-team research has not started for this vacancy."
+            : vacancy.stakeholderMapStatus === "IN_PROGRESS"
+              ? "Hiring-team research is in progress; no stakeholder has been resolved yet."
+              : "No stakeholder was resolved. Review the research note and evidence before outreach."}
+        </div>
+      ) : (
+        <div className="stakeholder-list">
+          {vacancy.stakeholders.map((person) => (
+            <article className="stakeholder-card" key={person.id}>
+              <div className="stakeholder-head">
+                <div>
+                  <strong>{person.name}</strong>
+                  <div className="muted">{person.title || "Title unresolved"}</div>
+                </div>
+                <div className="stakeholder-pills">
+                  {person.relevance && <StatusPill text={person.relevance.replaceAll("_", " ")} subtle />}
+                  <EvidencePill status={person.evidenceStatus} />
+                </div>
+              </div>
+
+              {person.reasonRelevant && <p>{person.reasonRelevant}</p>}
+
+              <div className="stakeholder-grid">
+                <div>
+                  <span>Employment</span>
+                  <strong>{person.currentEmploymentStatus?.replaceAll("_", " ") || "Unknown"}</strong>
+                </div>
+                <div>
+                  <span>Observed business email</span>
+                  <strong>{person.observedBusinessEmail || "—"}</strong>
+                </div>
+                <div>
+                  <span>Probable business email</span>
+                  <strong>{person.probableBusinessEmail || "—"}</strong>
+                </div>
+                <div>
+                  <span>Email status</span>
+                  <strong>{person.emailStatus?.replaceAll("_", " ") || "UNKNOWN"}</strong>
+                </div>
+              </div>
+
+              {(person.emailPatternBasis || person.emailConfidenceNote) && (
+                <div className="stakeholder-evidence-note">
+                  {person.emailPatternBasis && <span><b>Pattern:</b> {person.emailPatternBasis}</span>}
+                  {person.emailConfidenceNote && <span><b>Confidence:</b> {person.emailConfidenceNote}</span>}
+                </div>
+              )}
+
+              <div className="stakeholder-links">
+                {person.profileUrl && (
+                  <a href={person.profileUrl} target="_blank" rel="noreferrer">Profile</a>
+                )}
+                {person.lastVerified && <span>Verified {formatDate(person.lastVerified)}</span>}
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
