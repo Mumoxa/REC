@@ -830,7 +830,7 @@ function EvidencePill({ status }: { status: string }) {
 }
 
 function lifecycleLabel(status: Vacancy["lifecycleStatus"]) {
-  return status === "TOP_10_READY" ? "MARKET READY" : status.replaceAll("_", " ");
+  return status.replaceAll("_", " ");
 }
 
 function formatDate(value: string) {
