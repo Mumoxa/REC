@@ -210,7 +210,7 @@
       ],
     },
     {
-      id: 'vac-demo-045', role: 'Group Financial Controller', employer: 'Northline Retail Holdings', employerStatus: 'CONFIRMED', location: 'Cape Town, Western Cape', region: 'Western Cape', clientStatus: 'AGREED_GROUP_ENTITY', channel: 'AGENCY_SITES', channelLabel: 'Agency sites', lifecycle: 'TOP_10_READY', qaState: 'PASS', researchRequired: false, firstSeen: 'Monday, 14:22', lastSeen: 'Today, 08:15', lastVerified: '42 min ago', lastVerifiedMinutes: 42, candidateCount: 54, credibleCount: 54, strongestCount: 23, top10Count: 10, sourceCount: 4, new: false, unread: false, priority: 2, ref: 'VAC-045 · TT-OPP-2026-045', salaryGate: 'INCLUDE', roleConfidence: 'CONFIRMED', employerConfidence: 'CONFIRMED',
+      id: 'vac-demo-045', role: 'Group Financial Controller', employer: 'Northline Retail Holdings', employerStatus: 'CONFIRMED', location: 'Cape Town, Western Cape', region: 'Western Cape', clientStatus: 'AGREED_GROUP_ENTITY', channel: 'AGENCY_SITES', channelLabel: 'Agency sites', lifecycle: 'MARKET_READY', qaState: 'PASS', researchRequired: false, firstSeen: 'Monday, 14:22', lastSeen: 'Today, 08:15', lastVerified: '42 min ago', lastVerifiedMinutes: 42, candidateCount: 54, credibleCount: 54, strongestCount: 23, top10Count: 10, sourceCount: 4, new: false, unread: false, priority: 2, ref: 'VAC-045 · TT-OPP-2026-045', salaryGate: 'INCLUDE', roleConfidence: 'CONFIRMED', employerConfidence: 'CONFIRMED',
       qaGates: [
         { gate: 'A', label: 'Discovery, role and employer', state: 'PASS', note: 'Employer and vacancy evidence were independently checked.', time: 'Monday' },
         { gate: 'B', label: 'Role / environment fingerprint', state: 'PASS', note: 'Requirements were reviewed against primary sources.', time: 'Tuesday' },
@@ -339,7 +339,7 @@
       'vac-demo-042': { lifecycle_status: 'VERIFYING', unread: true },
       'vac-demo-043': { lifecycle_status: 'CANDIDATE_MAPPING', unread: false },
       'vac-demo-044': { lifecycle_status: 'QUALIFIED', unread: false },
-      'vac-demo-045': { lifecycle_status: 'TOP_10_READY', unread: false },
+      'vac-demo-045': { lifecycle_status: 'MARKET_READY', unread: false },
       'vac-demo-046': { lifecycle_status: 'VERIFYING', unread: false },
       'vac-demo-038': { lifecycle_status: 'CLOSED', closed_reason: 'FILLED', closed_at: '2026-09-26T16:40:00Z', unread: false },
     },
@@ -361,7 +361,7 @@
     { id: 'system-new', name: 'What’s new', system: true, state: { vacancyView: 'NEW', sort: 'FIRST_SEEN_NEWEST' } },
     { id: 'system-agreed', name: 'Agreed clients · open', system: true, state: { vacancyView: 'AGREED_CLIENTS', sort: 'COMMERCIAL_PRIORITY' } },
     { id: 'system-research', name: 'Employer / QA research', system: true, state: { vacancyView: 'NEEDS_RESEARCH', sort: 'UNRESOLVED_OLDEST' } },
-    { id: 'system-top10', name: 'Top 10 ready', system: true, state: { vacancyView: 'INBOX', filters: { client: 'ANY', channel: 'ANY', employer: 'ANY', qa: 'PASS', region: 'ANY', freshness: 'ANY', unread: false, top10Ready: 'READY' }, sort: 'CANDIDATE_COUNT' } },
+    { id: 'system-top10', name: 'Market ready', system: true, state: { vacancyView: 'INBOX', filters: { client: 'ANY', channel: 'ANY', employer: 'ANY', qa: 'PASS', region: 'ANY', freshness: 'ANY', unread: false, top10Ready: 'READY' }, sort: 'CANDIDATE_COUNT' } },
   ];
 
   const tabs = [
@@ -466,7 +466,7 @@
     return { AGREED_CLIENTS: 'Agreed clients', AGENCY_SITES: 'Agency sites', LINKEDIN: 'LinkedIn', JOB_BOARDS: 'Job boards / ATS' }[channel] || channel;
   }
   function lifecycleLabel(status) {
-    return { DISCOVERED: 'Discovered', VERIFYING: 'Verifying', QUALIFIED: 'Qualified', EMPLOYER_RESOLVED: 'Employer resolved', CANDIDATE_MAPPING: 'Candidate mapping', TOP_10_READY: 'Top 10 ready', CLIENT_ACTION: 'Client action', CLOSED: 'Closed' }[status] || formatStatus(status);
+    return { DISCOVERED: 'Discovered', VERIFYING: 'Verifying', QUALIFIED: 'Qualified', EMPLOYER_RESOLVED: 'Employer resolved', CANDIDATE_MAPPING: 'Candidate mapping', MARKET_READY: 'Market ready', CLIENT_ACTION: 'Client action', CLOSED: 'Closed' }[status] || formatStatus(status);
   }
   function visibleOpportunities() {
     const q = (view.vacancySearch || '').trim().toLocaleLowerCase();
@@ -673,7 +673,7 @@
       ['qa', 'QA', { PASS: 'QA passed', PASS_WITH_UNKNOWNS: 'QA passed · unknowns', FAIL_RESEARCH_REQUIRED: 'Research required', NOT_REVIEWED: 'QA not reviewed' }],
       ['region', 'Region', { 'Western Cape': 'Western Cape', Gauteng: 'Gauteng', 'KwaZulu-Natal': 'KwaZulu-Natal', Other: 'Other / national' }],
       ['freshness', 'Date', { TODAY: 'Seen today', LAST_7_DAYS: 'Last 7 days', LAST_30_DAYS: 'Last 30 days' }],
-      ['top10Ready', 'Map', { READY: 'Research Top 10 ready', IN_PROGRESS: 'Top 10 in progress', NOT_STARTED: 'Candidate map not started' }],
+      ['top10Ready', 'Map', { READY: 'Research Market ready', IN_PROGRESS: 'Top 10 in progress', NOT_STARTED: 'Candidate map not started' }],
     ];
     const active = filterLabels.filter(([key]) => f[key] && f[key] !== 'ANY').map(([key, label, values]) => `<span class="filter-chip">${escapeHtml(values[f[key]] || label)}<button type="button" data-remove-filter="${key}" aria-label="Remove ${escapeHtml(label)} filter">×</button></span>`);
     if (f.unread) active.push('<span class="filter-chip">Unread only<button type="button" data-remove-filter="unread" aria-label="Remove unread filter">×</button></span>');
