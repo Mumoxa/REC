@@ -2,6 +2,7 @@ import { demoSnapshot } from "./demo";
 import type {
   CandidateAssignment,
   CandidateClaim,
+  CandidateMarketSummary,
   CompanyEmailIntelligence,
   HiringStakeholder,
   QaStatus,
@@ -176,6 +177,11 @@ function toVacancy(
     lifecycleStatus: operation?.lifecycle_status || "DISCOVERED",
     qaStatus: row.qa_status || "PASS_WITH_UNKNOWNS",
     candidateMapStatus: row.candidate_map_status || "NOT_STARTED",
+    candidateMarketSummary: toCandidateMarketSummary(
+      row.candidate_market_summary,
+      assignments,
+      queries
+    ),
     stakeholderMapStatus: row.stakeholder_map_status || "NOT_STARTED",
     stakeholderMapNote: row.stakeholder_map_note,
     firstSeen: row.first_seen,
@@ -221,6 +227,43 @@ function toSource(row: Row): VacancySource {
     url: row.source_url,
     evidenceStatus: row.evidence_status || "UNKNOWN",
     postedAt: row.posted_at,
+  };
+}
+
+function toCandidateMarketSummary(
+  value: unknown,
+  assignments: Row[],
+  queries: Row[]
+): CandidateMarketSummary {
+  const raw =
+    value && typeof value === "object" && !Array.isArray(value)
+      ? (value as Row)
+      : {};
+
+  const credible = assignments.filter((row) =>
+    ["LONGLIST", "STRONG_MARKET", "TOP_10"].includes(row.market_bucket)
+  ).length;
+  const strongest = assignments.filter((row) =>
+    ["STRONG_MARKET", "TOP_10"].includes(row.market_bucket)
+  ).length;
+  const top10 = assignments.filter((row) => row.market_bucket === "TOP_10").length;
+  const executed = queries.filter((row) => row.execution_status === "EXECUTED").length;
+
+  return {
+    coverageStatus:
+      raw.coverageStatus ||
+      raw.coverage_status ||
+      (credible > 0 ? "IN_PROGRESS" : "NOT_STARTED"),
+    rawProfilesReviewed:
+      raw.rawProfilesReviewed ?? raw.raw_profiles_reviewed ?? null,
+    credibleMarketCount:
+      raw.credibleMarketCount ?? raw.credible_market_count ?? credible,
+    strongestMarketCount:
+      raw.strongestMarketCount ?? raw.strongest_market_count ?? strongest,
+    top10Count: raw.top10Count ?? raw.top10_count ?? top10,
+    executedQueryCount:
+      raw.executedQueryCount ?? raw.executed_query_count ?? executed,
+    coverageNote: raw.coverageNote ?? raw.coverage_note ?? null,
   };
 }
 
