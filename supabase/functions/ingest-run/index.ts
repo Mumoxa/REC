@@ -30,6 +30,15 @@ type Payload = {
     sourceLabel?: string | null;
     qaStatus?: "PASS" | "PASS_WITH_UNKNOWNS" | "FAIL_RESEARCH_REQUIRED";
     candidateMapStatus?: "NOT_STARTED" | "IN_PROGRESS" | "READY";
+    candidateMarketSummary?: {
+      coverageStatus: "NOT_STARTED" | "IN_PROGRESS" | "COMPLETE" | "SCARCE_MARKET";
+      rawProfilesReviewed?: number | null;
+      credibleMarketCount: number;
+      strongestMarketCount: number;
+      top10Count: number;
+      executedQueryCount: number;
+      coverageNote?: string | null;
+    };
     stakeholderMapStatus?: "NOT_STARTED" | "IN_PROGRESS" | "READY" | "BLOCKED_WITH_EVIDENCE";
     stakeholderMapNote?: string | null;
     companyEmailIntelligence?: {
@@ -307,6 +316,7 @@ Deno.serve(async (request) => {
           source_label: item.sourceLabel || payload.run.channel,
           qa_status: item.qaStatus || "PASS_WITH_UNKNOWNS",
           candidate_map_status: item.candidateMapStatus || "NOT_STARTED",
+          candidate_market_summary: item.candidateMarketSummary || {},
           stakeholder_map_status: item.stakeholderMapStatus || "NOT_STARTED",
           stakeholder_map_note: item.stakeholderMapNote,
           first_seen: item.firstSeen || now,
@@ -740,6 +750,70 @@ function validateCompletionContract(
 
     if (item.candidateMapStatus !== "READY") {
       return `Vacancy "${item.title}" cannot be COMPLETE because candidateMapStatus is not READY.`;
+    }
+
+    const marketSummary = item.candidateMarketSummary;
+    if (!marketSummary) {
+      return `Vacancy "${item.title}" cannot be COMPLETE because the full candidate-market coverage summary is missing.`;
+    }
+
+    if (
+      marketSummary.coverageStatus !== "COMPLETE" &&
+      marketSummary.coverageStatus !== "SCARCE_MARKET"
+    ) {
+      return `Vacancy "${item.title}" cannot be COMPLETE because candidate-market coverage is not COMPLETE or SCARCE_MARKET.`;
+    }
+
+    const credibleCandidates = (item.candidates || []).filter((candidate) =>
+      ["LONGLIST", "STRONG_MARKET", "TOP_10"].includes(
+        candidate.marketBucket || "UNREVIEWED",
+      ),
+    );
+    const strongestCandidates = credibleCandidates.filter((candidate) =>
+      ["STRONG_MARKET", "TOP_10"].includes(
+        candidate.marketBucket || "UNREVIEWED",
+      ),
+    );
+    const top10Candidates = credibleCandidates.filter(
+      (candidate) => candidate.marketBucket === "TOP_10",
+    );
+    const executedQueryCount = (item.researchQueries || []).filter(
+      (query) => query.executionStatus === "EXECUTED",
+    ).length;
+
+    if (
+      marketSummary.credibleMarketCount !== credibleCandidates.length ||
+      marketSummary.strongestMarketCount !== strongestCandidates.length ||
+      marketSummary.top10Count !== top10Candidates.length ||
+      marketSummary.executedQueryCount !== executedQueryCount
+    ) {
+      return `Vacancy "${item.title}" cannot be COMPLETE because candidate-market summary counts do not match the persisted market/search payload.`;
+    }
+
+    if (marketSummary.credibleMarketCount < marketSummary.strongestMarketCount) {
+      return `Vacancy "${item.title}" cannot be COMPLETE because strongest-market count exceeds the credible market.`;
+    }
+
+    if (marketSummary.strongestMarketCount < marketSummary.top10Count) {
+      return `Vacancy "${item.title}" cannot be COMPLETE because Top 10 count exceeds the strongest market.`;
+    }
+
+    if (marketSummary.executedQueryCount < 1) {
+      return `Vacancy "${item.title}" cannot be COMPLETE because no candidate-market search query was executed.`;
+    }
+
+    if (
+      marketSummary.coverageStatus === "COMPLETE" &&
+      marketSummary.credibleMarketCount < 50
+    ) {
+      return `Vacancy "${item.title}" cannot use COMPLETE market coverage with fewer than 50 credible candidates; use SCARCE_MARKET with an evidence-grounded coverage note when the real market is smaller.`;
+    }
+
+    if (
+      marketSummary.coverageStatus === "SCARCE_MARKET" &&
+      !marketSummary.coverageNote?.trim()
+    ) {
+      return `Vacancy "${item.title}" cannot use SCARCE_MARKET without an evidence-grounded coverage/scarcity note.`;
     }
 
     const stakeholderReady =
