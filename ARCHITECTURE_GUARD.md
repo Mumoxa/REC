@@ -158,7 +158,7 @@ A review pass must attempt to disprove unsupported claims and preserve unknowns.
 
 A sourcing-channel coverage sweep and a completed REC recruitment run are different states.
 
-A REC research run may be marked `COMPLETE` only when every qualifying verified opportunity produced by that run has progressed through the shared downstream candidate-intelligence pipeline and has at least one QA-cleared, client-submittable candidate.
+A REC research run may be marked `COMPLETE` only when every qualifying verified opportunity produced by that run has completed hiring-team/contact intelligence (including company email-domain/pattern research, or an evidence-grounded blocker outcome), progressed through the shared downstream candidate-intelligence pipeline, and has at least one QA-cleared, client-submittable candidate.
 
 For completion purposes, a client-submittable candidate must:
 
