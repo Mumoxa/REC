@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-10-04 — Submit-ready run completion and verified publication
+
+- Separated source/channel coverage completion from REC research-run completion.
+- Reserved `COMPLETE` for runs where every qualifying verified vacancy has progressed through QA Gates A-D and has at least one QA-cleared, client-submittable research Top-10 candidate.
+- Clarified that the 50-person credible-longlist target and Top-10 size are research targets, never padding quotas.
+- Defined "published" as successful canonical datastore persistence plus post-write verification; chat/report rendering is explicitly not publication.
+- Hardened Channel 1 and shared orchestration instructions so vacancy validation cannot prematurely terminate candidate mapping.
+- Added dedicated run-completion and publication regression cases.
+- Tightened the run-publishing contract and progressive-ingestion lifecycle.
+
+
 ## 2026-10-04 — Workspace review, design system and interaction prototype
 
 - Added a code/product review with severity-ranked gaps, production gates and explicit prototype limits.
