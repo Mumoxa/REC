@@ -39,7 +39,7 @@ A run may be marked `COMPLETE` only when every qualifying verified opportunity p
 6. completed the Tier A/B/C/D target-company map;
 7. passed QA Gate C;
 8. generated and executed candidate searches with recorded coverage/yield;
-9. produced an evidence-backed candidate market;
+9. produced an evidence-backed candidate market containing the credible longlist, strongest-market layer and final Top 10 subset;
 10. verified candidate identity and material claims;
 11. passed QA Gate D for the client-facing set;
 12. produced at least one genuinely client-submittable research `TOP_10` candidate; and
@@ -61,7 +61,7 @@ For the run-completion contract, a candidate is client-submittable only when:
 - `whyFit` contains an evidence-grounded Why This Person / Why This Client rationale;
 - material evidence gaps and unknowns are preserved.
 
-The engine should still aim for a credible longlist of 50+ where the market supports it and up to 10 high-conviction Top-10 profiles. Those are research-depth targets, not quotas. Never pad either set.
+The engine should still aim for a credible longlist of 50+ where the market supports it, a strongest-market layer of roughly 20–25, and then up to 10 high-conviction Top-10 profiles. The Top 10 is not the full market. Those are research-depth targets, not quotas. Never pad either set.
 
 ## Meaning of "published"
 
@@ -219,6 +219,15 @@ This is a valid publication, but it is **not a completed run**:
       "clientStatus": "AGREED_CLIENT",
       "qaStatus": "PASS",
       "candidateMapStatus": "IN_PROGRESS",
+      "candidateMarketSummary": {
+        "coverageStatus": "IN_PROGRESS",
+        "rawProfilesReviewed": 0,
+        "credibleMarketCount": 0,
+        "strongestMarketCount": 0,
+        "top10Count": 0,
+        "executedQueryCount": 0,
+        "coverageNote": "Candidate-market research has not yet produced a credible market."
+      },
       "stakeholderMapStatus": "IN_PROGRESS",
       "stakeholderMapNote": "Hiring-team and company email intelligence research is underway.",
       "companyEmailIntelligence": {
@@ -264,6 +273,15 @@ A complete run must contain a submit-ready candidate set:
       "clientStatus": "AGREED_CLIENT",
       "qaStatus": "PASS",
       "candidateMapStatus": "READY",
+      "candidateMarketSummary": {
+        "coverageStatus": "SCARCE_MARKET",
+        "rawProfilesReviewed": 18,
+        "credibleMarketCount": 1,
+        "strongestMarketCount": 1,
+        "top10Count": 1,
+        "executedQueryCount": 1,
+        "coverageNote": "Minimal structural example only. In a real run, use SCARCE_MARKET only after meaningful coverage proves the credible market is genuinely below the normal 50+ research target."
+      },
       "stakeholderMapStatus": "READY",
       "companyEmailIntelligence": {
         "websiteDomain": "example.com",
@@ -281,6 +299,17 @@ A complete run must contain a submit-ready candidate set:
         ],
         "alternatePatterns": []
       },
+      "researchQueries": [
+        {
+          "queryKey": "candidate-search-001",
+          "query": "example evidence-backed candidate search",
+          "source": "GOOGLE_XRAY",
+          "family": "DIRECT_TITLE",
+          "executionStatus": "EXECUTED",
+          "observedYield": 18,
+          "candidatesSurfaced": 1
+        }
+      ],
       "stakeholders": [
         {
           "key": "stakeholder-001",
@@ -324,6 +353,7 @@ A successful response must expose enough information to verify publication, incl
 - persisted candidate count;
 - persisted candidate-assignment count;
 - persisted submit-ready Top-10 count;
+- persisted vacancies with a fully reconciled candidate market;
 - persisted stakeholder count;
 - persisted vacancies with completed hiring-team intelligence;
 - persisted company email-intelligence count;

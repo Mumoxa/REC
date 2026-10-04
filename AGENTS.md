@@ -37,7 +37,9 @@ Finishing source coverage, writing `discovered-jobs.json`, completing QA Gate A,
 
 For every qualifying verified vacancy continue through:
 
-`Gate A -> fingerprint -> Gate B -> target companies -> Gate C -> candidate searches -> credible market -> candidate verification -> Gate D -> strongest market -> Top 10 -> client-submittable candidate(s) -> verified REC persistence`.
+`Gate A -> hiring-team/contact intelligence -> fingerprint -> Gate B -> target companies -> Gate C -> broad candidate searches -> credible market (target 50+ where supported) -> candidate verification -> Gate D -> strongest market (normally ~20–25) -> final Top 10 subset -> client-submittable candidate(s) -> verified REC persistence`.
+
+**Do not treat Top 10 as the candidate-market deliverable.** Preserve the broader credible market and strongest-market layer in REC. A run with only a Top 10 and no evidence-backed broader market/coverage is incomplete.
 
 A run may be labelled `COMPLETE` only under the completion contract in `docs/RUN_PUBLISHING.md`.
 

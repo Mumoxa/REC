@@ -22,7 +22,7 @@ const channelLabels: Record<string, string> = {
 
 const marketLabels: Record<MarketBucket, string> = {
   TOP_10: "Top 10",
-  STRONG_MARKET: "Strong Market",
+  STRONG_MARKET: "Strongest Market",
   LONGLIST: "Longlist",
   UNREVIEWED: "Unreviewed",
   EXCLUDED: "Excluded",
@@ -107,7 +107,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
       active: active.length,
       new: active.filter((v) => v.unread).length,
       needsResearch: active.filter((v) => v.qaStatus === "FAIL_RESEARCH_REQUIRED").length,
-      top10Ready: active.filter((v) => v.lifecycleStatus === "TOP_10_READY").length,
+      marketReady: active.filter((v) => v.candidateMapStatus === "READY").length,
     };
   }, [vacancies]);
 
@@ -229,7 +229,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
         <SummaryStat label="Active vacancies" value={counts.active} />
         <SummaryStat label="New" value={counts.new} accent />
         <SummaryStat label="Needs research" value={counts.needsResearch} warn />
-        <SummaryStat label="Top 10 ready" value={counts.top10Ready} />
+        <SummaryStat label="Candidate markets ready" value={counts.marketReady} />
         <div className="summary-spacer" />
         <button
           className={`focus-toggle ${candidateFocus ? "active" : ""}`}
@@ -328,7 +328,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
             </div>
 
             <div className="status-line">
-              <StatusPill text={selected.lifecycleStatus.replaceAll("_", " ")} />
+              <StatusPill text={lifecycleLabel(selected.lifecycleStatus)} />
               <QaPill status={selected.qaStatus} />
               <StatusPill text={`Employer: ${selected.employerStatus}`} subtle />
               <StatusPill text={`Map: ${selected.candidateMapStatus.replaceAll("_", " ")}`} subtle />
@@ -370,8 +370,8 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
             <>
               <div className="candidate-header">
                 <div>
-                  <div className="eyebrow">Relevant people</div>
-                  <h2>{selected.candidates.length} mapped candidates</h2>
+                  <div className="eyebrow">Candidate market</div>
+                  <h2>{selected.candidates.length} mapped candidates across the market</h2>
                   {candidateFocus && (
                     <div className="candidate-context">
                       {selected.title} · {selected.employerName}
@@ -379,6 +379,8 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
                   )}
                 </div>
                 <div className="candidate-counts">
+                  <span>{selected.candidates.length} credible market</span>
+                  <span>{selected.candidates.filter((c) => c.marketBucket === "STRONG_MARKET" || c.marketBucket === "TOP_10").length} strongest market</span>
                   <span>{selected.candidates.filter((c) => c.marketBucket === "TOP_10").length} Top 10</span>
                 </div>
               </div>
@@ -460,6 +462,10 @@ function VacancyCard({
   onSelect: () => void;
 }) {
   const top10 = vacancy.candidates.filter((c) => c.marketBucket === "TOP_10").length;
+  const strongest = vacancy.candidates.filter(
+    (c) => c.marketBucket === "STRONG_MARKET" || c.marketBucket === "TOP_10"
+  ).length;
+  const credible = vacancy.candidates.filter((c) => c.marketBucket !== "EXCLUDED").length;
   return (
     <button className={`vacancy-card ${selected ? "selected" : ""} ${density.toLowerCase()}`} onClick={onSelect}>
       <div className="vacancy-card-top">
@@ -483,7 +489,8 @@ function VacancyCard({
             </span>
           </div>
           <div className="vacancy-stats">
-            <span>{vacancy.candidates.length} mapped</span>
+            <span>{credible} credible</span>
+            <span>{strongest} strongest</span>
             <span>{top10} Top 10</span>
           </div>
         </>
@@ -492,7 +499,7 @@ function VacancyCard({
         <div className="vacancy-detail-line">
           <span>{vacancy.location}</span>
           <span>·</span>
-          <span>{vacancy.candidates.length} candidates</span>
+          <span>{credible} candidate market</span>
         </div>
       )}
     </button>
@@ -513,13 +520,29 @@ function Overview({ vacancy }: { vacancy: Vacancy }) {
           </div>
         ))}
       </div>
-      <div className="section-title">Market progress</div>
+      <div className="section-title">Candidate market progress</div>
+      <div className="market-funnel-note">
+        <div>
+          Research target: broad discovery → 50+ credible candidates where the market supports it → strongest market of roughly 20–25 → final Top 10.
+          These are depth targets, not quotas.
+        </div>
+        <div className="market-coverage-line">
+          <StatusPill text={`Coverage: ${vacancy.candidateMarketSummary.coverageStatus.replaceAll("_", " ")}`} subtle />
+          {vacancy.candidateMarketSummary.rawProfilesReviewed != null && (
+            <span>{vacancy.candidateMarketSummary.rawProfilesReviewed} raw profiles reviewed</span>
+          )}
+        </div>
+        {vacancy.candidateMarketSummary.coverageNote && (
+          <div className="market-coverage-note">{vacancy.candidateMarketSummary.coverageNote}</div>
+        )}
+      </div>
       <div className="progress-grid">
-        <MetricCard label="Sources" value={vacancy.sources.length} />
         <MetricCard label="Queries run" value={vacancy.researchQueries.filter((q) => q.executionStatus === "EXECUTED").length} />
-        <MetricCard label="Hiring team" value={vacancy.stakeholders.length} />
-        <MetricCard label="Candidates" value={vacancy.candidates.length} />
+        <MetricCard label="Credible market" value={vacancy.candidates.filter((c) => c.marketBucket !== "EXCLUDED").length} />
+        <MetricCard label="Longlist" value={vacancy.candidates.filter((c) => c.marketBucket === "LONGLIST").length} />
+        <MetricCard label="Strongest market" value={vacancy.candidates.filter((c) => c.marketBucket === "STRONG_MARKET" || c.marketBucket === "TOP_10").length} />
         <MetricCard label="Top 10" value={vacancy.candidates.filter((c) => c.marketBucket === "TOP_10").length} />
+        <MetricCard label="Hiring team" value={vacancy.stakeholders.length} />
       </div>
     </div>
   );
@@ -804,6 +827,10 @@ function QaPill({ status, compact }: { status: string; compact?: boolean }) {
 
 function EvidencePill({ status }: { status: string }) {
   return <span className={`evidence-pill ${status.toLowerCase()}`}>{status}</span>;
+}
+
+function lifecycleLabel(status: Vacancy["lifecycleStatus"]) {
+  return status.replaceAll("_", " ");
 }
 
 function formatDate(value: string) {

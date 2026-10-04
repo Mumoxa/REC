@@ -139,7 +139,7 @@ These modules must never be numbered or described as additional sourcing channel
 
 ### Candidate research-depth rule
 
-The system aims for at least 50 credible evidence-backed candidates where the market supports that depth.
+The system aims for at least 50 credible evidence-backed candidates where the market supports that depth, then narrows to a strongest-market layer normally around 20–25, and only then to the final Top 10 high-conviction subset.
 
 This is a research target, not a quota. It must never cause list padding, lowered evidence standards or invented people/claims.
 
@@ -168,7 +168,7 @@ For completion purposes, a client-submittable candidate must:
 - have an evidence-grounded `Why This Person / Why This Client` rationale;
 - preserve material evidence gaps and unknowns rather than hiding them.
 
-The system still targets up to 10 high-conviction profiles and at least 50 credible longlist candidates where the market supports that depth. The completion invariant does not require padding to reach either number.
+The system still targets at least 50 credible longlist candidates where the market supports that depth, a strongest-market layer normally around 20–25, and then up to 10 high-conviction profiles. Top 10 is a subset, not the market. The completion invariant does not require padding to reach either number.
 
 If discovery/coverage is finished but one or more qualifying vacancies do not yet have a client-submittable candidate set, the research run must remain `RUNNING` or be marked `PARTIAL`; it must not be labelled `COMPLETE`.
 

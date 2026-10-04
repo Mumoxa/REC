@@ -1,6 +1,6 @@
 export type EvidenceStatus = "CONFIRMED" | "PROBABLE" | "HYPOTHESIS" | "UNKNOWN";
 export type QaStatus = "PASS" | "PASS_WITH_UNKNOWNS" | "FAIL_RESEARCH_REQUIRED";
-export type VacancyLifecycle = "DISCOVERED" | "VERIFYING" | "QUALIFIED" | "EMPLOYER_RESOLVED" | "CANDIDATE_MAPPING" | "TOP_10_READY" | "CLIENT_ACTION" | "CLOSED";
+export type VacancyLifecycle = "DISCOVERED" | "VERIFYING" | "QUALIFIED" | "EMPLOYER_RESOLVED" | "CANDIDATE_MAPPING" | "MARKET_READY" | "CLIENT_ACTION" | "CLOSED";
 export type CandidateOperationalStatus = "SURFACED" | "RELEVANT" | "EARMARKED" | "TOP_10" | "APPROACH" | "ENGAGED" | "SUBMITTED" | "EXCLUDED";
 export type MarketBucket = "TOP_10" | "STRONG_MARKET" | "LONGLIST" | "UNREVIEWED" | "EXCLUDED";
 
@@ -82,6 +82,16 @@ export interface CompanyEmailIntelligence {
   lastVerified?: string | null;
 }
 
+export interface CandidateMarketSummary {
+  coverageStatus: "NOT_STARTED" | "IN_PROGRESS" | "COMPLETE" | "SCARCE_MARKET";
+  rawProfilesReviewed?: number | null;
+  credibleMarketCount: number;
+  strongestMarketCount: number;
+  top10Count: number;
+  executedQueryCount: number;
+  coverageNote?: string | null;
+}
+
 export interface CandidateClaim {
   name: string;
   value: string;
@@ -133,6 +143,7 @@ export interface Vacancy {
   lifecycleStatus: VacancyLifecycle;
   qaStatus: QaStatus;
   candidateMapStatus: "NOT_STARTED" | "IN_PROGRESS" | "READY";
+  candidateMarketSummary: CandidateMarketSummary;
   stakeholderMapStatus: StakeholderMapStatus;
   stakeholderMapNote?: string | null;
   firstSeen: string;

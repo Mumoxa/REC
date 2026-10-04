@@ -13,7 +13,9 @@
     "search_log",
     "credible_longlist",
     "qa_gate_d",
-    "top_10"
+    "top_10",
+    "strongest_market_set",
+    "coverage_summary"
   ],
   "properties": {
     "opportunity_id": {
@@ -169,13 +171,15 @@
       "type": "array",
       "items": {
         "$ref": "#/$defs/candidate"
-      }
+      },
+      "description": "Evidence-backed credible market. Target 50+ genuinely relevant candidates where the market supports it; never pad."
     },
     "strongest_market_set": {
       "type": "array",
       "items": {
         "$ref": "#/$defs/candidate"
-      }
+      },
+      "description": "The strongest evidence-backed market layer, normally about 20–25 candidates where the market supports it. This layer is broader than the final Top 10."
     },
     "qa_gate_d": {
       "$ref": "qa-review.schema.json"
@@ -185,10 +189,12 @@
       "maxItems": 10,
       "items": {
         "$ref": "#/$defs/candidate"
-      }
+      },
+      "description": "Final high-conviction client-facing subset. This is not the full candidate market and must never replace the credible longlist or strongest-market layer."
     },
     "coverage_summary": {
-      "type": "object"
+      "type": "object",
+      "description": "Evidence that the market was actually searched broadly enough to support the longlist, strongest-market set and final Top 10, including scarcity/access limitations where relevant."
     },
     "unknowns": {
       "type": "array",

@@ -250,6 +250,8 @@ Normally around 20–25 where the evidence-backed market supports it.
 
 ### Top 10 high-conviction profiles
 
+This is the final client-facing subset only. Do not present it as the entire candidate market.
+
 For each:
 
 - Why This Person / Why This Client;
@@ -283,6 +285,8 @@ Each canonical vacancy should be renderable with:
 - QA state;
 - candidate-map state;
 - mapped-candidate count;
+- credible market count;
+- strongest market count;
 - Top 10 count;
 - research-needed indicators.
 
