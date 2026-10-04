@@ -30,6 +30,22 @@ type Payload = {
     sourceLabel?: string | null;
     qaStatus?: "PASS" | "PASS_WITH_UNKNOWNS" | "FAIL_RESEARCH_REQUIRED";
     candidateMapStatus?: "NOT_STARTED" | "IN_PROGRESS" | "READY";
+    stakeholderMapStatus?: "NOT_STARTED" | "IN_PROGRESS" | "READY" | "BLOCKED_WITH_EVIDENCE";
+    stakeholderMapNote?: string | null;
+    companyEmailIntelligence?: {
+      websiteDomain?: string | null;
+      employeeEmailDomain?: string | null;
+      domainStatus?: "CONFIRMED" | "PROBABLE" | "CONFLICTING" | "UNKNOWN";
+      observedPatternExamplesCount?: number;
+      observedBusinessEmailExamples?: string[];
+      detectedPattern?: string | null;
+      patternStatus?: "CONFIRMED_PATTERN" | "PROBABLE_PATTERN" | "CONFLICTING_PATTERNS" | "UNKNOWN_PATTERN";
+      patternBasis?: string[];
+      alternatePatterns?: string[];
+      notes?: string | null;
+      lastVerified?: string | null;
+      metadata?: Record<string, unknown>;
+    };
     firstSeen?: string;
     lastSeen?: string | null;
     lastVerified?: string | null;
@@ -63,12 +79,17 @@ type Payload = {
       name: string;
       title?: string | null;
       relevance?: string | null;
+      reasonRelevant?: string | null;
       currentEmploymentStatus?: string | null;
       profileUrl?: string | null;
       businessEmail?: string | null;
+      observedBusinessEmail?: string | null;
+      probableBusinessEmail?: string | null;
       emailStatus?: string | null;
       emailPatternBasis?: string | null;
+      emailConfidenceNote?: string | null;
       evidenceStatus?: Evidence;
+      lastVerified?: string | null;
       metadata?: Record<string, unknown>;
     }>;
     targetCompanies?: Array<{
@@ -286,6 +307,8 @@ Deno.serve(async (request) => {
           source_label: item.sourceLabel || payload.run.channel,
           qa_status: item.qaStatus || "PASS_WITH_UNKNOWNS",
           candidate_map_status: item.candidateMapStatus || "NOT_STARTED",
+          stakeholder_map_status: item.stakeholderMapStatus || "NOT_STARTED",
+          stakeholder_map_note: item.stakeholderMapNote,
           first_seen: item.firstSeen || now,
           last_seen: item.lastSeen || now,
           last_verified: item.lastVerified,
@@ -367,16 +390,50 @@ Deno.serve(async (request) => {
           full_name: stakeholder.name,
           current_title: stakeholder.title,
           relevance: stakeholder.relevance,
+          reason_relevant: stakeholder.reasonRelevant,
           current_employment_status: stakeholder.currentEmploymentStatus,
           profile_url: stakeholder.profileUrl,
-          business_email: stakeholder.businessEmail,
+          business_email:
+            stakeholder.observedBusinessEmail ||
+            stakeholder.probableBusinessEmail ||
+            stakeholder.businessEmail,
+          observed_business_email: stakeholder.observedBusinessEmail,
+          probable_business_email: stakeholder.probableBusinessEmail,
           email_status: stakeholder.emailStatus,
           email_pattern_basis: stakeholder.emailPatternBasis,
+          email_confidence_note: stakeholder.emailConfidenceNote,
           evidence_status: stakeholder.evidenceStatus || "UNKNOWN",
+          last_verified: stakeholder.lastVerified,
           metadata: stakeholder.metadata || {},
           updated_at: now,
         },
         { onConflict: "workspace_id,vacancy_id,stakeholder_key" },
+      );
+      if (error) return response({ error: error.message }, 400);
+    }
+
+    if (item.companyEmailIntelligence) {
+      const emailIntel = item.companyEmailIntelligence;
+      const { error } = await supabase.from("company_email_intelligence").upsert(
+        {
+          workspace_id: workspaceId,
+          vacancy_id: vacancy.id,
+          company_id: companyId,
+          website_domain: emailIntel.websiteDomain,
+          employee_email_domain: emailIntel.employeeEmailDomain,
+          domain_status: emailIntel.domainStatus || "UNKNOWN",
+          observed_pattern_examples_count: emailIntel.observedPatternExamplesCount || 0,
+          observed_business_email_examples: emailIntel.observedBusinessEmailExamples || [],
+          detected_pattern: emailIntel.detectedPattern,
+          pattern_status: emailIntel.patternStatus || "UNKNOWN_PATTERN",
+          pattern_basis: emailIntel.patternBasis || [],
+          alternate_patterns: emailIntel.alternatePatterns || [],
+          notes: emailIntel.notes,
+          last_verified: emailIntel.lastVerified,
+          metadata: emailIntel.metadata || {},
+          updated_at: now,
+        },
+        { onConflict: "workspace_id,vacancy_id" },
       );
       if (error) return response({ error: error.message }, 400);
     }
@@ -558,17 +615,81 @@ Deno.serve(async (request) => {
   const submitReadyVacancyIds = new Set(
     submitReadyRows.map((row) => row.vacancy_id),
   );
+
+  const [
+    persistedVacancyStateResult,
+    persistedStakeholdersResult,
+    persistedEmailIntelResult,
+  ] = persistedVacancies.length > 0
+    ? await Promise.all([
+        supabase
+          .from("vacancies")
+          .select("id,stakeholder_map_status,stakeholder_map_note")
+          .in("id", persistedVacancies),
+        supabase
+          .from("stakeholders")
+          .select("id,vacancy_id")
+          .in("vacancy_id", persistedVacancies),
+        supabase
+          .from("company_email_intelligence")
+          .select("id,vacancy_id")
+          .in("vacancy_id", persistedVacancies),
+      ])
+    : [
+        { data: [], error: null },
+        { data: [], error: null },
+        { data: [], error: null },
+      ];
+
+  const stakeholderVerificationError =
+    persistedVacancyStateResult.error ||
+    persistedStakeholdersResult.error ||
+    persistedEmailIntelResult.error;
+
+  if (stakeholderVerificationError) {
+    return response(
+      {
+        error:
+          `Stakeholder persistence verification failed: ${stakeholderVerificationError.message}`,
+      },
+      500,
+    );
+  }
+
+  const stakeholderVacancyIds = new Set(
+    (persistedStakeholdersResult.data || []).map((row) => row.vacancy_id),
+  );
+  const emailIntelVacancyIds = new Set(
+    (persistedEmailIntelResult.data || []).map((row) => row.vacancy_id),
+  );
+  const hiringTeamReadyVacancyIds = new Set(
+    (persistedVacancyStateResult.data || [])
+      .filter((row) => {
+        if (!emailIntelVacancyIds.has(row.id)) return false;
+        if (row.stakeholder_map_status === "READY") {
+          return stakeholderVacancyIds.has(row.id);
+        }
+        if (row.stakeholder_map_status === "BLOCKED_WITH_EVIDENCE") {
+          return Boolean(row.stakeholder_map_note?.trim());
+        }
+        return false;
+      })
+      .map((row) => row.id),
+  );
+
   const completionContractSatisfied =
     persistedVacancies.length > 0 &&
-    persistedVacancies.every((vacancyId) =>
-      submitReadyVacancyIds.has(vacancyId),
+    persistedVacancies.every(
+      (vacancyId) =>
+        submitReadyVacancyIds.has(vacancyId) &&
+        hiringTeamReadyVacancyIds.has(vacancyId),
     );
 
   if (requestedRunStatus === "COMPLETE" && !completionContractSatisfied) {
     return response(
       {
         error:
-          "Persistence verification failed: COMPLETE requires at least one persisted QA-cleared TOP_10 candidate with a non-empty fit rationale for every vacancy.",
+          "Persistence verification failed: COMPLETE requires both (a) a persisted QA-cleared TOP_10 candidate with a non-empty fit rationale and (b) completed hiring-team/contact intelligence for every vacancy.",
       },
       500,
     );
@@ -590,6 +711,9 @@ Deno.serve(async (request) => {
       persistedCandidateCount: verifiedCandidateIds.size,
       persistedCandidateAssignmentCount: assignmentRows.length,
       persistedSubmitReadyTop10Count: submitReadyRows.length,
+      persistedStakeholderCount: (persistedStakeholdersResult.data || []).length,
+      persistedHiringTeamReadyVacancyCount: hiringTeamReadyVacancyIds.size,
+      persistedCompanyEmailIntelligenceCount: (persistedEmailIntelResult.data || []).length,
       completionContractSatisfied,
     },
   });
@@ -616,6 +740,32 @@ function validateCompletionContract(
 
     if (item.candidateMapStatus !== "READY") {
       return `Vacancy "${item.title}" cannot be COMPLETE because candidateMapStatus is not READY.`;
+    }
+
+    const stakeholderReady =
+      item.stakeholderMapStatus === "READY" ||
+      item.stakeholderMapStatus === "BLOCKED_WITH_EVIDENCE";
+
+    if (!stakeholderReady) {
+      return `Vacancy "${item.title}" cannot be COMPLETE because hiring-team/contact research is not READY or BLOCKED_WITH_EVIDENCE.`;
+    }
+
+    if (
+      item.stakeholderMapStatus === "READY" &&
+      (item.stakeholders || []).length === 0
+    ) {
+      return `Vacancy "${item.title}" cannot be COMPLETE because stakeholderMapStatus is READY but no hiring stakeholder is present.`;
+    }
+
+    if (
+      item.stakeholderMapStatus === "BLOCKED_WITH_EVIDENCE" &&
+      !item.stakeholderMapNote?.trim()
+    ) {
+      return `Vacancy "${item.title}" cannot be COMPLETE because blocked stakeholder research requires an evidence-grounded note.`;
+    }
+
+    if (!item.companyEmailIntelligence) {
+      return `Vacancy "${item.title}" cannot be COMPLETE because company email-domain/pattern intelligence was not recorded.`;
     }
 
     const submitReadyCandidates = (item.candidates || []).filter(

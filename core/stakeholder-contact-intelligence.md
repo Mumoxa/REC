@@ -275,6 +275,21 @@ Use:
 
 A guessed address with no pattern evidence is not allowed.
 
+## Required mapping depth
+
+For each qualifying resolved vacancy, target **2–10 named hiring stakeholders** where the public evidence and organisation size support it.
+
+The set should normally span the actual hiring architecture rather than ten generic HR names:
+
+- direct / functional hiring owner;
+- functional decision maker or business-unit leader;
+- executive sponsor where role seniority warrants it;
+- Talent Acquisition / recruitment owner;
+- HR Business Partner or People leader;
+- vacancy contact / post author / relevant referrer where evidenced.
+
+This is a research-depth target, not a quota. Do not pad the list with weakly relevant employees. If fewer than two credible people can be resolved, preserve the smaller set and record the research limitation explicitly.
+
 ## Consolidated stakeholder output
 
 For each resolved vacancy provide one consolidated stakeholder table/list with:
@@ -291,6 +306,15 @@ For each resolved vacancy provide one consolidated stakeholder table/list with:
 - email-pattern basis;
 - confidence / uncertainty;
 - evidence sources.
+
+The operational record must set `stakeholder_map_status` to one of:
+
+- `NOT_STARTED`
+- `IN_PROGRESS`
+- `READY`
+- `BLOCKED_WITH_EVIDENCE`
+
+`READY` requires at least one evidence-backed hiring stakeholder. `BLOCKED_WITH_EVIDENCE` requires a specific evidence-grounded blocker note; it may not be used as a shortcut to skip research.
 
 Also provide company-level email intelligence:
 

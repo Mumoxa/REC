@@ -89,9 +89,9 @@ Passing this coverage gate means discovery coverage is documented. It does **not
 
 For every qualifying verified agreed-client opportunity, continue immediately through the shared downstream pipeline:
 
-`QA A → fingerprint → QA B → target companies → QA C → executed candidate searches → credible longlist → candidate verification → QA D → strongest market → Top 10`.
+`QA A → hiring-team/contact mapping → company email-domain/pattern intelligence → fingerprint → QA B → target companies → QA C → executed candidate searches → credible longlist → candidate verification → QA D → strongest market → Top 10`.
 
-The agreed-client REC run may be marked `COMPLETE` only when every qualifying opportunity has at least one QA-cleared, client-submittable research `TOP_10` candidate with an evidence-grounded fit rationale and the resulting vacancy/candidate records have been successfully persisted and verified in REC.
+The agreed-client REC run may be marked `COMPLETE` only when every qualifying opportunity has completed hiring-team/contact intelligence (`READY` or evidence-grounded `BLOCKED_WITH_EVIDENCE`), company email-domain/pattern intelligence, at least one QA-cleared client-submittable research `TOP_10` candidate with an evidence-grounded fit rationale, and the resulting vacancy/stakeholder/candidate records have been successfully persisted and verified in REC.
 
 If discovery coverage is finished but candidate work is unfinished, or any qualifying vacancy has zero client-submittable candidates, the run is `RUNNING` or `PARTIAL`, never `COMPLETE`.
 

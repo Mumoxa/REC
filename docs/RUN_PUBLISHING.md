@@ -32,16 +32,18 @@ It does **not** mean the REC recruitment run is complete.
 A run may be marked `COMPLETE` only when every qualifying verified opportunity produced by the requested scope has:
 
 1. passed QA Gate A;
-2. completed the role/client environment fingerprint;
-3. passed QA Gate B;
-4. completed the Tier A/B/C/D target-company map;
-5. passed QA Gate C;
-6. generated and executed candidate searches with recorded coverage/yield;
-7. produced an evidence-backed candidate market;
-8. verified candidate identity and material claims;
-9. passed QA Gate D for the client-facing set;
-10. produced at least one genuinely client-submittable research `TOP_10` candidate; and
-11. been persisted into REC and post-write verification has confirmed the expected vacancy/candidate records exist.
+2. completed hiring-team/contact intelligence, targeting 2–10 relevant named stakeholders where the public market supports it;
+3. recorded company employee-email domain/pattern intelligence and kept observed addresses separate from probable pattern-inferred addresses;
+4. completed the role/client environment fingerprint;
+5. passed QA Gate B;
+6. completed the Tier A/B/C/D target-company map;
+7. passed QA Gate C;
+8. generated and executed candidate searches with recorded coverage/yield;
+9. produced an evidence-backed candidate market;
+10. verified candidate identity and material claims;
+11. passed QA Gate D for the client-facing set;
+12. produced at least one genuinely client-submittable research `TOP_10` candidate; and
+13. been persisted into REC and post-write verification has confirmed the expected vacancy/stakeholder/company-email/candidate records exist.
 
 If discovery is finished but candidate work remains, use `RUNNING` or `PARTIAL`.
 
@@ -179,6 +181,11 @@ Only after the completion contract is satisfied:
 
 The ingestion Edge Function rejects a payload that declares `run.status = COMPLETE` when any included qualifying vacancy:
 
+- leaves `stakeholderMapStatus` at `NOT_STARTED` or `IN_PROGRESS`;
+- declares `stakeholderMapStatus = READY` without at least one named stakeholder;
+- declares `BLOCKED_WITH_EVIDENCE` without a specific blocker note;
+- omits company email-domain/pattern intelligence;
+
 - is not `candidateMapStatus = READY`;
 - has no research `TOP_10` candidate;
 - has no Top-10 candidate with QA `PASS` or `PASS_WITH_UNKNOWNS`; or
@@ -212,6 +219,16 @@ This is a valid publication, but it is **not a completed run**:
       "clientStatus": "AGREED_CLIENT",
       "qaStatus": "PASS",
       "candidateMapStatus": "IN_PROGRESS",
+      "stakeholderMapStatus": "IN_PROGRESS",
+      "stakeholderMapNote": "Hiring-team and company email intelligence research is underway.",
+      "companyEmailIntelligence": {
+        "domainStatus": "UNKNOWN",
+        "observedPatternExamplesCount": 0,
+        "patternStatus": "UNKNOWN_PATTERN",
+        "patternBasis": [],
+        "alternatePatterns": []
+      },
+      "stakeholders": [],
       "sources": [],
       "requirements": [],
       "researchQueries": [],
@@ -247,6 +264,40 @@ A complete run must contain a submit-ready candidate set:
       "clientStatus": "AGREED_CLIENT",
       "qaStatus": "PASS",
       "candidateMapStatus": "READY",
+      "stakeholderMapStatus": "READY",
+      "companyEmailIntelligence": {
+        "websiteDomain": "example.com",
+        "employeeEmailDomain": "example.com",
+        "domainStatus": "CONFIRMED",
+        "observedPatternExamplesCount": 2,
+        "observedBusinessEmailExamples": [
+          "public.person@example.com",
+          "another.person@example.com"
+        ],
+        "detectedPattern": "firstname.lastname@example.com",
+        "patternStatus": "CONFIRMED_PATTERN",
+        "patternBasis": [
+          "Two public employee business-email examples use the same format."
+        ],
+        "alternatePatterns": []
+      },
+      "stakeholders": [
+        {
+          "key": "stakeholder-001",
+          "name": "Hiring Owner",
+          "title": "Finance Director",
+          "relevance": "PRIMARY_HIRING_OWNER",
+          "reasonRelevant": "Functional finance leader likely to own the appointment.",
+          "currentEmploymentStatus": "CURRENT_VERIFIED",
+          "profileUrl": "https://www.linkedin.com/in/example",
+          "observedBusinessEmail": null,
+          "probableBusinessEmail": "hiring.owner@example.com",
+          "emailStatus": "PATTERN_INFERRED",
+          "emailPatternBasis": "firstname.lastname@example.com",
+          "emailConfidenceNote": "Probable business email derived from the evidenced company pattern.",
+          "evidenceStatus": "CONFIRMED"
+        }
+      ],
       "candidates": [
         {
           "canonicalKey": "opaque-candidate-key",
@@ -273,6 +324,9 @@ A successful response must expose enough information to verify publication, incl
 - persisted candidate count;
 - persisted candidate-assignment count;
 - persisted submit-ready Top-10 count;
+- persisted stakeholder count;
+- persisted vacancies with completed hiring-team intelligence;
+- persisted company email-intelligence count;
 - whether the completion contract was satisfied.
 
 The caller must check these values before claiming publication.

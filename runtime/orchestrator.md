@@ -100,16 +100,17 @@ After any channel produces a consolidated opportunity:
 
 1. run QA Gate A using `runtime/qa-review-worker.md`;
 2. complete/verify enrichment required for role and employer resolution;
-3. when activation gates pass, dispatch `runtime/candidate-mapping-worker.md`;
-4. build role/client fingerprint;
-5. run QA Gate B;
-6. build target-company universe;
-7. run QA Gate C;
-8. generate and execute passive-candidate searches;
-9. build evidence-backed longlist, targeting 50+ without padding;
-10. verify candidate claims;
-11. run QA Gate D;
-12. form strongest market set and Top 10.
+3. complete hiring-team/contact intelligence, including company employee-email domain/pattern research, to `READY` or `BLOCKED_WITH_EVIDENCE`;
+4. when activation gates pass, dispatch `runtime/candidate-mapping-worker.md`;
+5. build role/client fingerprint;
+6. run QA Gate B;
+7. build target-company universe;
+8. run QA Gate C;
+9. generate and execute passive-candidate searches;
+10. build evidence-backed longlist, targeting 50+ without padding;
+11. verify candidate claims;
+12. run QA Gate D;
+13. form strongest market set and Top 10.
 
 This pipeline can start from output of **any single channel**. It never requires another sourcing channel to have completed.
 
@@ -123,13 +124,14 @@ Do not confuse source/channel coverage completion with REC research-run completi
 A run is `COMPLETE` only when every qualifying verified opportunity from the requested channel scope has:
 
 1. passed QA Gate A;
-2. completed the role/client fingerprint and passed QA Gate B;
-3. completed target-company mapping and passed QA Gate C;
-4. executed candidate searches with recorded coverage/yield;
-5. built and verified the credible candidate market;
-6. passed QA Gate D for the client-facing candidate set;
-7. produced at least one QA-cleared candidate in the research `TOP_10` bucket with an evidence-grounded fit rationale; and
-8. been persisted into REC with the vacancy, candidate assignment(s), evidence and QA records successfully verified in the canonical datastore.
+2. completed hiring-team/contact intelligence with named stakeholders plus company email-domain/pattern intelligence, or an evidence-grounded `BLOCKED_WITH_EVIDENCE` outcome;
+3. completed the role/client fingerprint and passed QA Gate B;
+4. completed target-company mapping and passed QA Gate C;
+5. executed candidate searches with recorded coverage/yield;
+6. built and verified the credible candidate market;
+7. passed QA Gate D for the client-facing candidate set;
+8. produced at least one QA-cleared candidate in the research `TOP_10` bucket with an evidence-grounded fit rationale; and
+9. been persisted into REC with the vacancy, candidate assignment(s), evidence and QA records successfully verified in the canonical datastore.
 
 The 50-person credible-longlist depth and Top-10 size remain research targets, not quotas. A scarce market may legitimately produce fewer candidates, but zero client-submittable candidates means the run is not complete.
 

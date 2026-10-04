@@ -10,7 +10,11 @@
     "evidence",
     "qa",
     "client_status",
-    "search_channel"
+    "search_channel",
+    "stakeholder_map_status",
+    "stakeholders",
+    "contact_enrichment_gate",
+    "company_email_intelligence"
   ],
   "properties": {
     "canonical_job_id": {
@@ -627,6 +631,44 @@
           ]
         }
       }
+    },
+    "stakeholder_map_status": {
+      "enum": [
+        "NOT_STARTED",
+        "IN_PROGRESS",
+        "READY",
+        "BLOCKED_WITH_EVIDENCE"
+      ],
+      "description": "Operational completion state for hiring-team/contact intelligence. COMPLETE opportunities may not leave this NOT_STARTED or IN_PROGRESS."
+    },
+    "stakeholder_map_note": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Required evidence-grounded blocker note when stakeholder_map_status is BLOCKED_WITH_EVIDENCE."
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "stakeholder_map_status": {
+            "const": "BLOCKED_WITH_EVIDENCE"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "stakeholder_map_note"
+        ],
+        "properties": {
+          "stakeholder_map_note": {
+            "type": "string",
+            "pattern": "\\S"
+          }
+        }
+      }
+    }
+  ]
 }
