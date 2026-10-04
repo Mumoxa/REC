@@ -41,6 +41,10 @@ principles:
   fifty_candidate_target_is_not_quota: true
   run_complete_requires_client_submittable_candidates: true
   published_requires_persistence_verification: true
+  research_is_write_through_to_rec: true
+  missing_local_env_is_not_publication_stop: true
+  canonical_publisher_command: npm run rec:publish -- <payload>
+  canonical_rec_ingest_url: https://rec-phi-weld.vercel.app/api/ingest/run
 
 architecture:
   guard: ARCHITECTURE_GUARD.md
@@ -122,6 +126,12 @@ execution:
       - schemas/workspace-view-state.schema.json
       - schemas/workspace-saved-view.schema.json
       - schemas/workspace-operational-state.schema.json
+  publication:
+    progressive_checkpoints_required: true
+    local_payload_is_not_publication: true
+    local_env_file_required: false
+    v1_repository_publisher: scripts/rec-publish.mjs
+    publication_auth_failure_must_not_stop_research: true
   run_completion:
     channel_coverage_is_not_run_completion: true
     every_qualifying_opportunity_requires_candidate_map_ready: true
