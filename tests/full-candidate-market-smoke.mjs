@@ -19,7 +19,7 @@ for (const field of ["credible_longlist", "strongest_market_set", "top_10", "cov
   assert(schema.required.includes(field), `Candidate-market schema must require ${field}.`);
 }
 
-assert(/50\+/.test(worker), "Candidate worker must retain the 50+ credible-market target.");
+assert(/50\+|at least 50/i.test(worker), "Candidate worker must retain the 50+ credible-market target.");
 assert(/20.?25/.test(worker), "Candidate worker must retain the ~20–25 strongest-market target.");
 assert(/Top 10.*not.*candidate-market|Top 10.*not.*candidate market|not the candidate-market deliverable/i.test(worker),
   "Candidate worker must state that Top 10 is not the full market.");
