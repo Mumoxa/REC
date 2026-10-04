@@ -522,8 +522,19 @@ function Overview({ vacancy }: { vacancy: Vacancy }) {
       </div>
       <div className="section-title">Candidate market progress</div>
       <div className="market-funnel-note">
-        Research target: broad discovery → 50+ credible candidates where the market supports it → strongest market of roughly 20–25 → final Top 10.
-        These are depth targets, not quotas.
+        <div>
+          Research target: broad discovery → 50+ credible candidates where the market supports it → strongest market of roughly 20–25 → final Top 10.
+          These are depth targets, not quotas.
+        </div>
+        <div className="market-coverage-line">
+          <StatusPill text={`Coverage: ${vacancy.candidateMarketSummary.coverageStatus.replaceAll("_", " ")}`} subtle />
+          {vacancy.candidateMarketSummary.rawProfilesReviewed != null && (
+            <span>{vacancy.candidateMarketSummary.rawProfilesReviewed} raw profiles reviewed</span>
+          )}
+        </div>
+        {vacancy.candidateMarketSummary.coverageNote && (
+          <div className="market-coverage-note">{vacancy.candidateMarketSummary.coverageNote}</div>
+        )}
       </div>
       <div className="progress-grid">
         <MetricCard label="Queries run" value={vacancy.researchQueries.filter((q) => q.executionStatus === "EXECUTED").length} />
