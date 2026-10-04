@@ -615,17 +615,81 @@ Deno.serve(async (request) => {
   const submitReadyVacancyIds = new Set(
     submitReadyRows.map((row) => row.vacancy_id),
   );
+
+  const [
+    persistedVacancyStateResult,
+    persistedStakeholdersResult,
+    persistedEmailIntelResult,
+  ] = persistedVacancies.length > 0
+    ? await Promise.all([
+        supabase
+          .from("vacancies")
+          .select("id,stakeholder_map_status,stakeholder_map_note")
+          .in("id", persistedVacancies),
+        supabase
+          .from("stakeholders")
+          .select("id,vacancy_id")
+          .in("vacancy_id", persistedVacancies),
+        supabase
+          .from("company_email_intelligence")
+          .select("id,vacancy_id")
+          .in("vacancy_id", persistedVacancies),
+      ])
+    : [
+        { data: [], error: null },
+        { data: [], error: null },
+        { data: [], error: null },
+      ];
+
+  const stakeholderVerificationError =
+    persistedVacancyStateResult.error ||
+    persistedStakeholdersResult.error ||
+    persistedEmailIntelResult.error;
+
+  if (stakeholderVerificationError) {
+    return response(
+      {
+        error:
+          `Stakeholder persistence verification failed: ${stakeholderVerificationError.message}`,
+      },
+      500,
+    );
+  }
+
+  const stakeholderVacancyIds = new Set(
+    (persistedStakeholdersResult.data || []).map((row) => row.vacancy_id),
+  );
+  const emailIntelVacancyIds = new Set(
+    (persistedEmailIntelResult.data || []).map((row) => row.vacancy_id),
+  );
+  const hiringTeamReadyVacancyIds = new Set(
+    (persistedVacancyStateResult.data || [])
+      .filter((row) => {
+        if (!emailIntelVacancyIds.has(row.id)) return false;
+        if (row.stakeholder_map_status === "READY") {
+          return stakeholderVacancyIds.has(row.id);
+        }
+        if (row.stakeholder_map_status === "BLOCKED_WITH_EVIDENCE") {
+          return Boolean(row.stakeholder_map_note?.trim());
+        }
+        return false;
+      })
+      .map((row) => row.id),
+  );
+
   const completionContractSatisfied =
     persistedVacancies.length > 0 &&
-    persistedVacancies.every((vacancyId) =>
-      submitReadyVacancyIds.has(vacancyId),
+    persistedVacancies.every(
+      (vacancyId) =>
+        submitReadyVacancyIds.has(vacancyId) &&
+        hiringTeamReadyVacancyIds.has(vacancyId),
     );
 
   if (requestedRunStatus === "COMPLETE" && !completionContractSatisfied) {
     return response(
       {
         error:
-          "Persistence verification failed: COMPLETE requires at least one persisted QA-cleared TOP_10 candidate with a non-empty fit rationale for every vacancy.",
+          "Persistence verification failed: COMPLETE requires both (a) a persisted QA-cleared TOP_10 candidate with a non-empty fit rationale and (b) completed hiring-team/contact intelligence for every vacancy.",
       },
       500,
     );
@@ -647,6 +711,9 @@ Deno.serve(async (request) => {
       persistedCandidateCount: verifiedCandidateIds.size,
       persistedCandidateAssignmentCount: assignmentRows.length,
       persistedSubmitReadyTop10Count: submitReadyRows.length,
+      persistedStakeholderCount: (persistedStakeholdersResult.data || []).length,
+      persistedHiringTeamReadyVacancyCount: hiringTeamReadyVacancyIds.size,
+      persistedCompanyEmailIntelligenceCount: (persistedEmailIntelResult.data || []).length,
       completionContractSatisfied,
     },
   });
@@ -673,6 +740,32 @@ function validateCompletionContract(
 
     if (item.candidateMapStatus !== "READY") {
       return `Vacancy "${item.title}" cannot be COMPLETE because candidateMapStatus is not READY.`;
+    }
+
+    const stakeholderReady =
+      item.stakeholderMapStatus === "READY" ||
+      item.stakeholderMapStatus === "BLOCKED_WITH_EVIDENCE";
+
+    if (!stakeholderReady) {
+      return `Vacancy "${item.title}" cannot be COMPLETE because hiring-team/contact research is not READY or BLOCKED_WITH_EVIDENCE.`;
+    }
+
+    if (
+      item.stakeholderMapStatus === "READY" &&
+      (item.stakeholders || []).length === 0
+    ) {
+      return `Vacancy "${item.title}" cannot be COMPLETE because stakeholderMapStatus is READY but no hiring stakeholder is present.`;
+    }
+
+    if (
+      item.stakeholderMapStatus === "BLOCKED_WITH_EVIDENCE" &&
+      !item.stakeholderMapNote?.trim()
+    ) {
+      return `Vacancy "${item.title}" cannot be COMPLETE because blocked stakeholder research requires an evidence-grounded note.`;
+    }
+
+    if (!item.companyEmailIntelligence) {
+      return `Vacancy "${item.title}" cannot be COMPLETE because company email-domain/pattern intelligence was not recorded.`;
     }
 
     const submitReadyCandidates = (item.candidates || []).filter(
