@@ -61,6 +61,7 @@ export async function getWorkspaceSnapshot(): Promise<WorkspaceSnapshot> {
     claimsResult,
     queriesResult,
     runsResult,
+    savedViewsResult,
   ] = await Promise.all([
     supabase.from("vacancies").select("*").eq("workspace_id", workspaceId),
     supabase.from("vacancy_operations").select("*").eq("workspace_id", workspaceId),
@@ -74,6 +75,7 @@ export async function getWorkspaceSnapshot(): Promise<WorkspaceSnapshot> {
     supabase.from("candidate_claims").select("*").eq("workspace_id", workspaceId),
     supabase.from("research_queries").select("*").eq("workspace_id", workspaceId),
     supabase.from("runs").select("*").eq("workspace_id", workspaceId).order("started_at", { ascending: false }),
+    supabase.from("saved_views").select("*").eq("workspace_id", workspaceId),
   ]);
 
   const errors = [
@@ -89,6 +91,7 @@ export async function getWorkspaceSnapshot(): Promise<WorkspaceSnapshot> {
     claimsResult.error,
     queriesResult.error,
     runsResult.error,
+    savedViewsResult.error,
   ].filter(Boolean);
 
   if (errors.length) throw errors[0];
@@ -139,12 +142,21 @@ export async function getWorkspaceSnapshot(): Promise<WorkspaceSnapshot> {
     metrics: row.metrics || {},
   }));
 
+  const savedViews = ((savedViewsResult.data || []) as Row[]).map((row) => ({
+    id: row.id,
+    name: row.name,
+    viewState: row.view_state || {},
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  }));
+
   return {
     workspaceName: workspace.name,
     demoMode: false,
     generatedAt: new Date().toISOString(),
     vacancies,
     runs,
+    savedViews,
   };
 }
 

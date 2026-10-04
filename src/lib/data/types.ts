@@ -169,10 +169,19 @@ export interface RunSummary {
   metrics: Record<string, number>;
 }
 
+export interface SavedView {
+  id: string;
+  name: string;
+  viewState: Record<string, unknown>;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export interface WorkspaceSnapshot {
   workspaceName: string;
   demoMode: boolean;
   generatedAt: string;
   vacancies: Vacancy[];
   runs: RunSummary[];
+  savedViews: SavedView[];
 }

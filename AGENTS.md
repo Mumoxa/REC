@@ -35,6 +35,8 @@ Do not wait until the end of a long run to make the first database write.
 
 Finishing source coverage, writing `discovered-jobs.json`, completing QA Gate A, or preparing `publication-payload.json` is not completion.
 
+Verification command: `npm run verify` (typecheck + contracts + regression + build).
+
 For every qualifying verified vacancy continue through:
 
 `Gate A -> hiring-team/contact intelligence -> fingerprint -> Gate B -> target companies -> Gate C -> broad candidate searches -> credible market (target 50+ where supported) -> candidate verification -> Gate D -> strongest market (normally ~20–25) -> final Top 10 subset -> client-submittable candidate(s) -> verified REC persistence`.

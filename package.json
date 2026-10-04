@@ -7,8 +7,10 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "test:contracts": "node tests/run-completion-contract-smoke.mjs && node tests/agent-publication-contract-smoke.mjs && node tests/hiring-team-intelligence-smoke.mjs && node tests/full-candidate-market-smoke.mjs",
-    "rec:publish": "node scripts/rec-publish.mjs"
+    "test:contracts": "node tests/run-completion-contract-smoke.mjs && node tests/agent-publication-contract-smoke.mjs && node tests/hiring-team-intelligence-smoke.mjs",
+    "test:regression": "node tests/rec-product-regression.mjs",
+    "rec:publish": "node scripts/rec-publish.mjs",
+    "verify": "npm run typecheck && npm run test:contracts && npm run test:regression && npm run build"
   },
   "engines": {
     "node": ">=22.0.0"

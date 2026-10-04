@@ -263,4 +263,5 @@ export const demoSnapshot: WorkspaceSnapshot = {
       candidates: [],
     },
   ],
+  savedViews: [],
 };
