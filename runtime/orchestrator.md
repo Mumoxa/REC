@@ -128,12 +128,12 @@ A run is `COMPLETE` only when every qualifying verified opportunity from the req
 3. completed the role/client fingerprint and passed QA Gate B;
 4. completed target-company mapping and passed QA Gate C;
 5. executed candidate searches with recorded coverage/yield;
-6. built and verified the credible candidate market;
+6. built and verified the full credible candidate market, including the longlist, strongest-market layer and final Top 10 subset;
 7. passed QA Gate D for the client-facing candidate set;
 8. produced at least one QA-cleared candidate in the research `TOP_10` bucket with an evidence-grounded fit rationale; and
 9. been persisted into REC with the vacancy, candidate assignment(s), evidence and QA records successfully verified in the canonical datastore.
 
-The 50-person credible-longlist depth and Top-10 size remain research targets, not quotas. A scarce market may legitimately produce fewer candidates, but zero client-submittable candidates means the run is not complete.
+The 50+ credible-longlist depth, roughly 20–25 strongest-market depth, and Top-10 size remain research targets, not quotas. The Top 10 is never a substitute for the broader market map. A scarce market may legitimately produce fewer candidates, but zero client-submittable candidates means the run is not complete.
 
 If channel discovery is exhausted while candidate work remains unfinished, use `RUNNING` or `PARTIAL` and report the remaining gap. Never return `COMPLETE` solely because vacancies were found and validated.
 
