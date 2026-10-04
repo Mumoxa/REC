@@ -24,7 +24,6 @@ export default function LoginPage() {
 
     if (pendingEmail && pendingAt && Date.now() - pendingAt < PENDING_TTL_MS) {
       setEmail(pendingEmail);
-      rememberPending(email.trim());
       setPhase("VERIFY");
       setMessage(
         "A Talent Tree sign-in email was already sent. Use the current email or current verification code below. No new code has been sent."
@@ -71,6 +70,7 @@ export default function LoginPage() {
 
       if (error) throw error;
 
+      rememberPending(email.trim());
       setPhase("VERIFY");
       setMessage(
         "Check your email. If it contains a Sign in link, click it. If it contains a verification code, enter the code below."
