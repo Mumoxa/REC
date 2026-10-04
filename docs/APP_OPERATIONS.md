@@ -40,6 +40,20 @@ REC instructions
 A source sweep ending does not make a REC run complete. `COMPLETE` requires QA-cleared client-submittable Top-10 candidate(s) for every qualifying vacancy. "Published" requires successful persistence verification.
 ```
 
+## Agent publication from a repository checkout
+
+Agents should not manually construct local production secrets.
+
+Use:
+
+```bash
+npm run rec:publish -- runs/<RUN-ID>/publication-payload.json
+```
+
+The command uses an existing `INGEST_API_KEY` when available. Otherwise it uses the authorised Vercel CLI environment for the canonical REC project and injects the production credential into the child process. The secret is never committed to the repository.
+
+The Vercel project must contain `INGEST_API_KEY`, and its SHA-256 hash must be active in Supabase `ingest_tokens`. Production has this server-side path configured.
+
 ## Write boundaries
 
 Browser:
