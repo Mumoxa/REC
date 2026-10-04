@@ -290,6 +290,7 @@ tests:
   golden_cases: tests/golden-cases.yaml
   candidate_market_mapping_golden_cases: tests/candidate-market-mapping-golden-cases.yaml
   workspace_ui_golden_cases: tests/workspace-ui-golden-cases.yaml
+  run_completion_publishing_golden_cases: tests/run-completion-publishing-golden-cases.yaml
 
 
 application:
