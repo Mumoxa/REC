@@ -30,7 +30,7 @@ assert(
 );
 
 assert(
-  /Missing local \\.env is NOT a publication stop condition/i.test(agents),
+  agents.includes("Missing local .env is NOT a publication stop condition"),
   "Agent contract must forbid stopping because a local env file is missing.",
 );
 
