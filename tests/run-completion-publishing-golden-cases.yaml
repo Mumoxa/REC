@@ -1,0 +1,114 @@
+version: "1.0.0"
+purpose: Regression protection for REC run-completion and publication semantics.
+
+cases:
+  - id: vacancy_validation_is_not_run_completion
+    given:
+      qualifying_verified_vacancies: 4
+      gate_a_passed: true
+      candidate_maps_ready: 0
+    expect:
+      run_status_not: COMPLETE
+      allowed_status:
+        - RUNNING
+        - PARTIAL
+
+  - id: completed_source_sweep_is_not_run_completion
+    given:
+      all_required_source_surfaces_searched: true
+      qualifying_verified_vacancies: 3
+      client_submittable_candidates: 0
+    expect:
+      source_coverage_complete: true
+      run_status_not: COMPLETE
+
+  - id: complete_requires_submit_ready_candidate_per_qualifying_vacancy
+    given:
+      qualifying_verified_vacancies: 3
+      submit_ready_candidate_counts_by_vacancy:
+        - 3
+        - 1
+        - 0
+    expect:
+      run_status_not: COMPLETE
+      unresolved_vacancies: 1
+
+  - id: complete_allows_small_credible_market_without_padding
+    given:
+      qualifying_verified_vacancies: 1
+      credible_longlist_count: 17
+      research_top10_count: 5
+      qa_cleared_submit_ready_count: 5
+      meaningful_search_coverage: true
+    expect:
+      completion_permitted: true
+      pad_to_50: false
+      pad_top10_to_10: false
+
+  - id: submit_ready_candidate_definition
+    given:
+      market_bucket: TOP_10
+      candidate_qa: PASS_WITH_UNKNOWNS
+      why_fit: evidence_grounded_non_empty
+      evidence_gaps_preserved: true
+    expect:
+      client_submittable: true
+
+  - id: unreviewed_top10_is_not_submit_ready
+    given:
+      market_bucket: TOP_10
+      candidate_qa: FAIL_RESEARCH_REQUIRED
+      why_fit: evidence_grounded_non_empty
+    expect:
+      client_submittable: false
+      run_status_not: COMPLETE
+
+  - id: empty_fit_rationale_is_not_submit_ready
+    given:
+      market_bucket: TOP_10
+      candidate_qa: PASS
+      why_fit: ""
+    expect:
+      client_submittable: false
+      run_status_not: COMPLETE
+
+  - id: zero_qualifying_opportunities_does_not_become_complete_by_default
+    given:
+      source_coverage_complete: true
+      qualifying_verified_vacancies: 0
+    expect:
+      run_status_not: COMPLETE
+      record_coverage_outcome: true
+
+  - id: chat_output_is_not_publication
+    given:
+      results_rendered_in_chat: true
+      datastore_write_succeeded: false
+    expect:
+      published: false
+      forbid_phrase:
+        - published_to_REC
+
+  - id: persistence_without_verification_is_not_publish_confirmation
+    given:
+      ingestion_request_sent: true
+      ingestion_http_success: true
+      post_write_counts_verified: false
+    expect:
+      publication_confirmed: false
+
+  - id: verified_persistence_allows_publish_confirmation
+    given:
+      ingestion_request_sent: true
+      datastore_write_succeeded: true
+      persisted_vacancies_verified: true
+      persisted_candidate_assignments_verified: true
+      persisted_submit_ready_top10_verified: true
+    expect:
+      publication_confirmed: true
+
+  - id: omitted_status_must_not_default_complete
+    given:
+      payload_run_status: null
+    expect:
+      persisted_default_status: RUNNING
