@@ -305,3 +305,23 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
   .secondary-content { padding:14px; overflow:auto; }
   .secondary-table { min-width:760px; }
 }
+
+
+.otp-email-row {
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  background:var(--surface-muted); border:1px solid var(--line); border-radius:8px;
+  padding:8px 10px; margin-bottom:4px; font-size:11px; color:#536272;
+}
+.link-button {
+  border:0 !important; background:transparent !important; color:#315a8b !important;
+  height:auto !important; padding:2px 0 !important; margin:0 !important;
+  font-size:10px !important; text-decoration:underline; cursor:pointer;
+}
+.otp-input {
+  text-align:center; letter-spacing:.36em; font-size:22px !important; font-weight:800;
+  font-variant-numeric:tabular-nums; padding-left:calc(11px + .36em) !important;
+}
+.secondary-login-button {
+  background:#fff !important; color:var(--navy) !important; border:1px solid var(--line-strong) !important;
+  margin-top:2px !important;
+}
