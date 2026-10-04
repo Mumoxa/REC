@@ -11,6 +11,8 @@
 
 ## 0.13.0 — Operational Recruitment Intelligence Application V1
 
+- Replaced production magic-link authentication with 6-digit email OTP to avoid email-security link-prefetch failures.
+
 - Moved privileged run ingestion from the Vercel app into a Supabase Edge Function; Vercel no longer needs a Supabase admin/service-role secret.
 
 - Built a production Next.js App Router application on top of the REC engine.
