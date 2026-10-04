@@ -41,6 +41,7 @@ export const demoSnapshot: WorkspaceSnapshot = {
       lifecycleStatus: "TOP_10_READY",
       qaStatus: "PASS_WITH_UNKNOWNS",
       candidateMapStatus: "READY",
+      stakeholderMapStatus: "READY",
       firstSeen: "2026-10-04T06:12:00+02:00",
       lastSeen: "2026-10-04T07:50:00+02:00",
       lastVerified: "2026-10-04T07:49:00+02:00",
@@ -63,6 +64,8 @@ export const demoSnapshot: WorkspaceSnapshot = {
         { id: "q-2", query: "site:linkedin.com/in \"Head of Finance\" FMCG \"Cape Town\"", source: "GOOGLE_XRAY", family: "DIRECT_TITLE", executionStatus: "EXECUTED", yieldCount: 42, candidatesSurfaced: 7 },
         { id: "q-3", query: "\"CA(SA)\" manufacturing finance \"Western Cape\"", source: "GOOGLE_WEB", family: "QUALIFICATION_FIRST", executionStatus: "EXECUTED", yieldCount: 55, candidatesSurfaced: 12 },
       ],
+      stakeholders: [],
+      companyEmailIntelligence: null,
       candidates: [
         {
           assignmentId: "a-1", candidateId: "c-1", name: "Alicia Daniels", currentTitle: "Financial Manager", currentEmployer: "Premier Foods", location: "Cape Town",
@@ -128,6 +131,7 @@ export const demoSnapshot: WorkspaceSnapshot = {
       lifecycleStatus: "CANDIDATE_MAPPING",
       qaStatus: "PASS",
       candidateMapStatus: "IN_PROGRESS",
+      stakeholderMapStatus: "IN_PROGRESS",
       firstSeen: "2026-10-04T05:30:00+02:00",
       lastVerified: "2026-10-04T07:40:00+02:00",
       unread: true,
@@ -141,6 +145,8 @@ export const demoSnapshot: WorkspaceSnapshot = {
       researchQueries: [
         { id: "q-21", query: "site:linkedin.com/in \"Sage 300\" accountant Durbanville", source: "GOOGLE_XRAY", family: "SYSTEM_ERP", executionStatus: "EXECUTED", yieldCount: 28, candidatesSurfaced: 6 },
       ],
+      stakeholders: [],
+      companyEmailIntelligence: null,
       candidates: [
         {
           assignmentId: "a-21", candidateId: "c-21", name: "Candidate A", currentTitle: "Assistant Financial Manager", currentEmployer: "Large Produce Group", location: "Durbanville",
@@ -171,6 +177,7 @@ export const demoSnapshot: WorkspaceSnapshot = {
       lifecycleStatus: "VERIFYING",
       qaStatus: "FAIL_RESEARCH_REQUIRED",
       candidateMapStatus: "NOT_STARTED",
+      stakeholderMapStatus: "NOT_STARTED",
       firstSeen: "2026-10-04T07:02:00+02:00",
       lastVerified: "2026-10-04T07:10:00+02:00",
       unread: true,
@@ -182,6 +189,8 @@ export const demoSnapshot: WorkspaceSnapshot = {
         { id: "src-31", name: "LinkedIn hiring post", type: "LINKEDIN_POST", evidenceStatus: "CONFIRMED", postedAt: "2026-10-04T06:50:00+02:00" },
       ],
       researchQueries: [],
+      stakeholders: [],
+      companyEmailIntelligence: null,
       candidates: [],
     },
     {
@@ -200,6 +209,7 @@ export const demoSnapshot: WorkspaceSnapshot = {
       lifecycleStatus: "QUALIFIED",
       qaStatus: "PASS_WITH_UNKNOWNS",
       candidateMapStatus: "NOT_STARTED",
+      stakeholderMapStatus: "NOT_STARTED",
       firstSeen: "2026-10-03T16:20:00+02:00",
       lastVerified: "2026-10-04T06:58:00+02:00",
       unread: false,
@@ -212,6 +222,8 @@ export const demoSnapshot: WorkspaceSnapshot = {
         { id: "src-41", name: "Communicate Recruitment", type: "AGENCY_ADVERT", evidenceStatus: "CONFIRMED", postedAt: "2026-10-03T15:35:00+02:00" },
       ],
       researchQueries: [],
+      stakeholders: [],
+      companyEmailIntelligence: null,
       candidates: [],
     },
   ],
