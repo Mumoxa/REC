@@ -22,7 +22,7 @@ const channelLabels: Record<string, string> = {
 
 const marketLabels: Record<MarketBucket, string> = {
   TOP_10: "Top 10",
-  STRONG_MARKET: "Strong Market",
+  STRONG_MARKET: "Strongest Market",
   LONGLIST: "Longlist",
   UNREVIEWED: "Unreviewed",
   EXCLUDED: "Excluded",
@@ -370,8 +370,8 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
             <>
               <div className="candidate-header">
                 <div>
-                  <div className="eyebrow">Relevant people</div>
-                  <h2>{selected.candidates.length} mapped candidates</h2>
+                  <div className="eyebrow">Candidate market</div>
+                  <h2>{selected.candidates.length} mapped candidates across the market</h2>
                   {candidateFocus && (
                     <div className="candidate-context">
                       {selected.title} · {selected.employerName}
