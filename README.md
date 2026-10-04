@@ -130,6 +130,25 @@ npm run rec:publish -- runs/<RUN-ID>/publication-payload.json
 
 A local `.env` is not required. If `INGEST_API_KEY` is absent from the current process, the publisher uses the authorised REC Vercel project environment. A one-time Vercel login may be required on a new machine, but agents must not weaken authentication or stop candidate research because a local environment file is missing.
 
+## Hiring-team intelligence
+
+Every qualifying vacancy carries first-class hiring-team intelligence in REC.
+
+The workspace separates:
+
+- the likely direct/functional hiring owner;
+- other decision-makers and executive sponsors;
+- Talent Acquisition / HR stakeholders;
+- vacancy contacts or relevant amplifiers;
+- **observed public business email**;
+- **probable pattern-inferred business email**;
+- employee email domain and detected company email format;
+- evidence/confidence and current-employment status.
+
+The research target is normally **2–10 genuinely relevant stakeholders** where the public market supports it. This is not a quota and must never be padded with generic HR names.
+
+A completed run may not silently skip this work. Each vacancy must reach stakeholder status `READY` or `BLOCKED_WITH_EVIDENCE`, and company email-pattern intelligence must be recorded.
+
 ## Completion and publication semantics
 
 A REC run is not complete when vacancy discovery or vacancy validation ends.
