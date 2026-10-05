@@ -10,6 +10,23 @@ import type {
   WorkspaceSnapshot,
 } from "@/lib/data/types";
 
+type Toast = { id: number; message: string; tone?: "error" | "info" };
+
+// P1: debounce helper — avoids O(n) filter on every keystroke (150 ms)
+// Clears immediately when value is empty so Clear-all / × feels instant
+function useDebouncedValue<T>(value: T, delayMs: number): T {
+  const [debounced, setDebounced] = useState(value);
+  useEffect(() => {
+    if (typeof value === "string" && (value as string).trim() === "") {
+      setDebounced(value);
+      return;
+    }
+    const id = setTimeout(() => setDebounced(value), delayMs);
+    return () => clearTimeout(id);
+  }, [value, delayMs]);
+  return debounced;
+}
+
 type Density = "EXPANDED" | "COMPACT" | "MINIMAL";
 type JobTab = "OVERVIEW" | "HIRING_TEAM" | "REQUIREMENTS" | "SOURCES" | "SEARCH_LOG" | "QA";
 type MobilePane = "VACANCIES" | "INTELLIGENCE" | "CANDIDATES";
@@ -53,6 +70,23 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
   const [closeConfirmOpen, setCloseConfirmOpen] = useState(false);
   const [closeReason, setCloseReason] = useState("FILLED");
   const [mobilePane, setMobilePane] = useState<MobilePane>("VACANCIES");
+  // P1: toast replaces alert() — announced via role=alert
+  const [toasts, setToasts] = useState<Toast[]>([]);
+  const toastSeqRef = useRef(0);
+  const showToast = (message: string, tone: Toast["tone"] = "error") => {
+    const id = ++toastSeqRef.current;
+    setToasts((p) => [...p, { id, message, tone }]);
+    setTimeout(() => setToasts((p) => p.filter((t) => t.id !== id)), 4500);
+  };
+  const dismissToast = (id: number) => setToasts((p) => p.filter((t) => t.id !== id));
+
+  // P1: debounced search (150 ms) — filters use debounced, inputs stay immediate
+  const debouncedGlobalSearch = useDebouncedValue(globalSearch, 150);
+  const debouncedCandidateSearch = useDebouncedValue(candidateSearch, 150);
+
+  // P1: virtualization state — active only when >80 vacancies
+  const [vacancyScrollTop, setVacancyScrollTop] = useState(0);
+  const [vacancyViewportH, setVacancyViewportH] = useState(0);
 
   const vacancyListRef = useRef<HTMLDivElement>(null);
   const candidateListRef = useRef<HTMLDivElement>(null);
@@ -62,7 +96,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
   const excludeDrawerRef = useRef<HTMLDivElement>(null);
 
   const filteredVacancies = useMemo(() => {
-    const q = globalSearch.trim().toLowerCase();
+    const q = debouncedGlobalSearch.trim().toLowerCase();
     return vacancies.filter((vacancy) => {
       const matchesQuery =
         !q ||
@@ -86,7 +120,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
         (archiveFilter === "ARCHIVED" && vacancy.lifecycleStatus === "CLOSED");
       return matchesQuery && matchesChannel && matchesRegion && matchesArchive;
     });
-  }, [vacancies, globalSearch, channelFilter, regionFilter, archiveFilter]);
+  }, [vacancies, debouncedGlobalSearch, channelFilter, regionFilter, archiveFilter]);
 
   const selected =
     vacancies.find((vacancy) => vacancy.id === selectedId) ??
@@ -95,7 +129,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
 
   const visibleCandidates = useMemo(() => {
     if (!selected) return [];
-    const q = candidateSearch.trim().toLowerCase();
+    const q = debouncedCandidateSearch.trim().toLowerCase();
     return selected.candidates
       .filter((candidate) => marketFilter === "ALL" || candidate.marketBucket === marketFilter)
       .filter((candidate) => {
@@ -113,7 +147,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
           .includes(q);
       })
       .sort((a, b) => (a.rank ?? 999) - (b.rank ?? 999));
-  }, [selected, candidateSearch, marketFilter]);
+  }, [selected, debouncedCandidateSearch, marketFilter]);
 
   const selectedCandidate =
     selected?.candidates.find((candidate) => candidate.candidateId === selectedCandidateId) ?? null;
@@ -132,6 +166,63 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
       marketReady: active.filter((v) => v.candidateMapStatus === "READY").length,
     };
   }, [vacancies]);
+
+  // P1: virtualization — estimate row height by density, activate >80
+  const estimatedRowHeight = density === "EXPANDED" ? 136 : density === "COMPACT" ? 88 : 56;
+  const shouldVirtualize = filteredVacancies.length > 80;
+
+  const virtualRange = useMemo(() => {
+    if (!shouldVirtualize) return null;
+    const overscan = 6;
+    const start = Math.max(0, Math.floor(vacancyScrollTop / estimatedRowHeight) - overscan);
+    const vp = vacancyViewportH || 480;
+    const visibleCount = Math.ceil(vp / estimatedRowHeight) + overscan * 2;
+    const end = Math.min(filteredVacancies.length, start + visibleCount);
+    return {
+      start,
+      end,
+      offsetY: start * estimatedRowHeight,
+      totalHeight: filteredVacancies.length * estimatedRowHeight,
+    };
+  }, [shouldVirtualize, vacancyScrollTop, vacancyViewportH, estimatedRowHeight, filteredVacancies.length]);
+
+  // Attach scroll + resize when virtualizing
+  useEffect(() => {
+    if (!shouldVirtualize) return;
+    const el = vacancyListRef.current;
+    if (!el) return;
+    const onScroll = () => setVacancyScrollTop(el.scrollTop);
+    const onResize = () => setVacancyViewportH(el.clientHeight);
+    onResize();
+    el.addEventListener("scroll", onScroll, { passive: true });
+    const ro = new ResizeObserver(onResize);
+    ro.observe(el);
+    return () => {
+      el.removeEventListener("scroll", onScroll);
+      ro.disconnect();
+    };
+  }, [shouldVirtualize]);
+
+  // Reset scroll when density or filter set changes height/count
+  useEffect(() => {
+    if (vacancyListRef.current) {
+      vacancyListRef.current.scrollTop = 0;
+      setVacancyScrollTop(0);
+      setVacancyViewportH(vacancyListRef.current.clientHeight);
+    }
+  }, [density, filteredVacancies.length]);
+
+  // Keep selected row visible for ArrowUp/Down when virtualized
+  useEffect(() => {
+    if (!shouldVirtualize || !vacancyListRef.current || !selected) return;
+    const idx = filteredVacancies.findIndex((v) => v.id === selected.id);
+    if (idx === -1) return;
+    const el = vacancyListRef.current;
+    const top = idx * estimatedRowHeight;
+    const bottom = top + estimatedRowHeight;
+    if (top < el.scrollTop) el.scrollTop = top;
+    else if (bottom > el.scrollTop + el.clientHeight) el.scrollTop = bottom - el.clientHeight;
+  }, [selected?.id, shouldVirtualize, filteredVacancies, estimatedRowHeight]);
 
   // Active filter chips — removable pills above vacancy list
   const activeFilters = useMemo(() => {
@@ -285,7 +376,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
                 }
           )
         );
-        alert("Failed to save candidate operation. Change was not saved.");
+        showToast("Failed to save candidate operation. Change was not saved.", "error");
         setSaving(null);
         return;
       }
@@ -349,7 +440,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
       }
       setSaveName("");
     } catch (e) {
-      alert("Failed to save view.");
+      showToast("Failed to save view.", "error");
     } finally {
       setSavingView(false);
     }
@@ -379,7 +470,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
             vacancy.id === selected.id ? { ...vacancy, lifecycleStatus: previousStatus } : vacancy
           )
         );
-        alert("Failed to close vacancy. Change was not saved.");
+        showToast("Failed to close vacancy. Change was not saved.", "error");
         setSaving(null);
         return;
       }
@@ -618,22 +709,49 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
             tabIndex={0}
             onKeyDown={handleVacancyKeyDown}
           >
-            {filteredVacancies.map((vacancy) => (
-              <VacancyCard
-                key={vacancy.id}
-                vacancy={vacancy}
-                density={density}
-                selected={selected?.id === vacancy.id}
-                onSelect={() => {
-                  setSelectedId(vacancy.id);
-                  setSelectedCandidateId(null);
-                  setJobTab("OVERVIEW");
-                  setMobilePane("INTELLIGENCE");
-                }}
-              />
-            ))}
-            {filteredVacancies.length === 0 && (
-              <div className="empty-state" role="status">No active vacancies match these filters. Try clearing filters or use Archive filter to see closed roles.</div>
+            {shouldVirtualize && virtualRange ? (
+              filteredVacancies.length === 0 ? (
+                <div className="empty-state" role="status">No active vacancies match these filters. Try clearing filters or use Archive filter to see closed roles.</div>
+              ) : (
+                <div className="vacancy-list-virtual-spacer" style={{ height: virtualRange.totalHeight }}>
+                  <div className="vacancy-list-virtual-window" style={{ transform: `translateY(${virtualRange.offsetY}px)` }}>
+                    {filteredVacancies.slice(virtualRange.start, virtualRange.end).map((vacancy) => (
+                      <VacancyCard
+                        key={vacancy.id}
+                        vacancy={vacancy}
+                        density={density}
+                        selected={selected?.id === vacancy.id}
+                        onSelect={() => {
+                          setSelectedId(vacancy.id);
+                          setSelectedCandidateId(null);
+                          setJobTab("OVERVIEW");
+                          setMobilePane("INTELLIGENCE");
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )
+            ) : (
+              <>
+                {filteredVacancies.map((vacancy) => (
+                  <VacancyCard
+                    key={vacancy.id}
+                    vacancy={vacancy}
+                    density={density}
+                    selected={selected?.id === vacancy.id}
+                    onSelect={() => {
+                      setSelectedId(vacancy.id);
+                      setSelectedCandidateId(null);
+                      setJobTab("OVERVIEW");
+                      setMobilePane("INTELLIGENCE");
+                    }}
+                  />
+                ))}
+                {filteredVacancies.length === 0 && (
+                  <div className="empty-state" role="status">No active vacancies match these filters. Try clearing filters or use Archive filter to see closed roles.</div>
+                )}
+              </>
             )}
           </div>
           </div>
@@ -924,6 +1042,19 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
           </div>
         </div>
       )}
+      {/* P1: toast stack — replaces alert(), role=alert live */}
+      <div className="toast-stack" aria-live="polite" aria-atomic="true">
+        {toasts.map((t) => (
+          <div key={t.id} role="alert" className={`toast ${t.tone === "error" ? "toast-error" : ""}`}>
+            <span>{t.message}</span>
+            <button onClick={() => dismissToast(t.id)} aria-label="Dismiss notification">×</button>
+          </div>
+        ))}
+      </div>
+      {/* global live region for screen readers (assertive for errors) */}
+      <div aria-live="assertive" aria-atomic="true" className="sr-only">
+        {toasts.filter((t) => t.tone === "error").map((t) => t.message).join(" ")}
+      </div>
     </main>
   );
 }
