@@ -37,26 +37,48 @@ No holographic chrome, sci-fi gradients, fabricated certainty or unexplained AI 
 
 ## Visual tokens
 
-The live token values are defined in `interface/prototype/styles.css` under `:root`.
+The live token values are defined in `src/app/tokens.css` (`@import`ed by `globals.css`) — extracted per P3 from the former `:root` in `globals.css`. Source-of-truth is `Mumoxa/tt-website` `src/styles.css` / `DESIGN.md`. The prototype `interface/prototype/styles.css` retains its own legacy tokens for reference only.
+
+### Talent Tree official palette (ink / paper / accent — monochrome discipline)
+
+| Token | Value | Use / Contrast |
+|---|---|---|
+| `--ink` | `#0e2a3a` | Primary text on light |
+| `--ink-deep` | `#071f2d` | Dark bands, header, primary button (14.6:1 on paper) |
+| `--ink-abyss` | `#041722` | Footer, deepest surface |
+| `--paper` | `#f4f1ea` | Warm paper — page canvas |
+| `--paper-soft` | `#fbf9f4` | Elevated paper |
+| `--white` | `#ffffff` | Card surface |
+| `--accent` | `#006da3` | **The one accent** — brand azure, drawn from logo (5.0:1 on white) |
+| `--accent-deep` | `#00567e` | Hover / pressed |
+| `--accent-bright` | `#5ab9e8` | Accent on dark (7.7:1 on ink) |
+| `--accent-soft` | `#d9eaf3` | Quiet wash |
+| `--muted` | `#4f6b7a` | Secondary text on light (5:1 on paper) |
+| `--muted-on-dark` | `#a9c4d2` | Secondary text on ink (9.3:1) |
+| `--line` | `rgba(14,42,58,0.16)` | Panel separation — 1px hairline |
+| `--line-strong` | `rgba(14,42,58,0.42)` | Strong divider |
+| `--line-invert` | `rgba(255,255,255,0.14)` | Line on dark |
+| `--amber` | `#d97706` | Semantic — `PROBABLE` evidence (requires amber distinction) |
+| `--amber-deep` / `--amber-soft` | `#92400e` / `#fef3c7` | Amber states |
+| `--red` / `--red-soft` | `#9d3636` / `#fee2e2` | `FAIL` / exclusion |
+
+### Spacing, radii & typography
 
 | Token | Value | Use |
 |---|---|---|
-| Deep ink | `#111a17` | Global application chrome and navigation. |
-| Primary text | `#17231e` | High-contrast labels and record content. |
-| Page canvas | `#edf2ed` | Surrounding workspace canvas. |
-| Primary surface | `#fbfcfa` / `#ffffff` | Queue, evidence and candidate work surfaces. |
-| Structural line | `#dce5dd` | Panel and table separation, not decoration. |
-| Signal mint | `#b7ef88` | Brand accent and active navigation cue; used sparingly. |
-| Evidence green | `#24745c` family | Confirmed evidence and positive QA states. |
-| Review amber | `#8b641e` family | Probable evidence, open questions and review states. |
-| Conflict red | `#a5453d` family | Research failure, exclusion and destructive actions. |
-| Display type | Aptos Display / Segoe UI Variable Display, with system fallback | Role titles and high-salience headings. |
-| Interface type | Inter / Segoe UI Variable, with system fallback | Dense but readable workflow and evidence text. |
-| Data type | SFMono-Regular / Consolas / Liberation Mono | IDs, timestamps, status keys and aligned counts. |
+| `--space-1` | `8px` | Interior padding, chip gap |
+| `--space-2` | `16px` | Section gap |
+| `--space-3` | `24px` | Pane padding |
+| `--hair` | `1px` | Hairline border |
+| `--hair-strong` | `3px` | Card separator, banner left border |
+| `--radius` / `--radius-sm` | `2px` | All cards, pills, inputs (monochrome discipline) |
+| `--radius-md` / `--radius-lg` | `8px` / `10px` | Legacy large radii — not used in workspace |
+| `--serif` | `Fraunces` (500) | Brand lockup, counts |
+| `--sans` | `Inter` | Workflow text |
+| Display / Interface type | `Fraunces` / `Inter` with system fallback | Role titles / dense workflow |
+| Data type | `ui-monospace` / SFMono / Consolas | IDs, timestamps, counts — `tabular-nums` |
 
-The prototype requests no remote font or asset provider; the system-first stack is private-by-default and remains usable offline.
-
-Use tabular figures for numerical counts. Keep status labels in text in addition to colour. Borders are quiet and shadows are reserved for workspace elevation and transient surfaces. Small status labels may be compact; primary buttons, important actions and record text must remain legible at normal zoom.
+The workspace uses `Fraunces` for the `Talent Tree` lockup (`brand-lockup` 500) and `Inter` for UI; the system-first stack remains private-by-default. Use `font-variant-numeric: tabular-nums` for counts. Keep status labels in text + dot + border, never colour alone. Borders are quiet (`--line`) and shadows are reserved for elevation (`--shadow-soft` / `--shadow-lift`). Small status labels may be compact; primary buttons, important actions and record text must remain legible at normal zoom.
 
 ## Layout and density
 
