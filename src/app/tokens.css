@@ -1,0 +1,103 @@
+/* Talent Tree Official Design Tokens — source-of-truth: Mumoxa/tt-website DESIGN.md + src/styles.css
+   Extracted per P3: design-token file separate from workspace layout
+   One ink, one paper, one accent (monochrome discipline)
+   ========================================================================== */
+
+:root {
+  /* — Talent Tree Official Tokens (github.com/Mumoxa/tt-website) — */
+  --ink: #0e2a3a;                 /* primary text on light */
+  --ink-deep: #071f2d;            /* dark bands, primary button on light */
+  --ink-abyss: #041722;           /* footer, deepest surface */
+  --paper: #f4f1ea;               /* warm paper */
+  --paper-soft: #fbf9f4;          /* elevated paper */
+  --white: #ffffff;
+  --accent: #006da3;              /* the one accent — brand azure, drawn from the logo */
+  --accent-deep: #00567e;
+  --accent-bright: #5ab9e8;       /* accent for dark surfaces (7.7:1 on ink) */
+  --accent-soft: #d9eaf3;         /* quiet accent wash */
+  --muted: #4f6b7a;               /* secondary text on light (5:1 on paper) */
+  --muted-on-dark: #a9c4d2;       /* secondary text on ink (9.3:1) */
+  --line: rgba(14, 42, 58, 0.16);
+  --line-strong: rgba(14, 42, 58, 0.42);
+  --line-invert: rgba(255, 255, 255, 0.14);
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --fast: 180ms;
+  --med: 320ms;
+  --slow: 640ms;
+  --serif: "Fraunces", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+  --sans: "Inter", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --fs-900: clamp(3.3rem, 6.6vw, 6.4rem);
+  --fs-800: clamp(2.25rem, 4.2vw, 3.8rem);
+  --fs-700: clamp(1.45rem, 2vw, 1.9rem);
+  --fs-600: clamp(1.28rem, 1.7vw, 1.55rem);
+  --section-y: clamp(88px, 10vw, 148px);
+  --gutter: clamp(20px, 4vw, 48px);
+  --shell: 1200px;
+  --radius: 2px;
+  --radius-pill: 999px;
+  --shadow-soft: 0 1px 2px rgba(4, 23, 34, 0.05);
+  --shadow-lift: 0 26px 52px -34px rgba(4, 23, 34, 0.42);
+  --shadow-header: 0 18px 40px -28px rgba(3, 15, 22, 0.65);
+  --header-h: 84px;
+  --header-h-scrolled: 64px;
+  --focus-ring: var(--accent);
+
+  /* — Workspace semantic mapping onto official tokens — */
+  --slate: var(--ink-deep);
+  --slate-800: var(--ink);
+  --slate-700: var(--ink);
+  --slate-600: #12303d;
+  --slate-500: var(--muted);
+  --ivory: var(--paper);
+  --ivory-card: var(--white);
+  --ivory-soft: var(--paper-soft);
+  --teal: var(--accent);
+  --teal-deep: var(--accent-deep);
+  --teal-ink: var(--accent-deep);
+  --teal-soft: var(--accent-soft);
+  --teal-wash: #f0f7fa;
+  --amber: #d97706;                /* semantic amber kept for PROBABLE evidence (evidence distinction requires it) */
+  --amber-deep: #92400e;
+  --amber-soft: #fef3c7;
+  --amber-wash: #fffbeb;
+  --stone: var(--ink);
+  --stone-700: var(--ink);
+  --stone-500: var(--muted);
+  --stone-300: #cbd5d8;
+  --stone-200: rgba(14,42,58,0.12);
+  --stone-100: var(--paper-soft);
+
+  /* Legacy mappings for existing workspace code */
+  --bg: var(--paper);
+  --surface: var(--white);
+  --surface-muted: var(--paper);
+  --surface-strong: var(--paper-soft);
+  --navy: var(--ink-deep);
+  --navy-2: var(--ink);
+  --blue-soft: var(--accent-soft);
+  --green: var(--accent);
+  --green-soft: var(--accent-soft);
+  --red: #9d3636;
+  --red-soft: #fee2e2;
+  --shadow: var(--shadow-soft);
+  --shadow-panel: var(--shadow-lift);
+  --radius-sm: 2px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --hair: 1px;
+  --hair-strong: 3px;
+  --focus: var(--accent);
+  color: var(--ink);
+  background: var(--paper);
+  font-family: var(--sans);
+  color-scheme: light;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-variant-numeric: tabular-nums;
+}

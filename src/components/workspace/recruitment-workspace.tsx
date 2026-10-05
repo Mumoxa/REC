@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type {
   CandidateAssignment,
   CandidateOperationalStatus,
@@ -10,8 +10,26 @@ import type {
   WorkspaceSnapshot,
 } from "@/lib/data/types";
 
+type Toast = { id: number; message: string; tone?: "error" | "info" };
+
+// P1: debounce helper — avoids O(n) filter on every keystroke (150 ms)
+// Clears immediately when value is empty so Clear-all / × feels instant
+function useDebouncedValue<T>(value: T, delayMs: number): T {
+  const [debounced, setDebounced] = useState(value);
+  useEffect(() => {
+    if (typeof value === "string" && (value as string).trim() === "") {
+      setDebounced(value);
+      return;
+    }
+    const id = setTimeout(() => setDebounced(value), delayMs);
+    return () => clearTimeout(id);
+  }, [value, delayMs]);
+  return debounced;
+}
+
 type Density = "EXPANDED" | "COMPACT" | "MINIMAL";
 type JobTab = "OVERVIEW" | "HIRING_TEAM" | "REQUIREMENTS" | "SOURCES" | "SEARCH_LOG" | "QA";
+type MobilePane = "VACANCIES" | "INTELLIGENCE" | "CANDIDATES";
 
 const channelLabels: Record<string, string> = {
   AGREED_CLIENTS: "Agreed Clients",
@@ -51,9 +69,34 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
   const [excludeReason, setExcludeReason] = useState<string>("NOT_SUBMITTED");
   const [closeConfirmOpen, setCloseConfirmOpen] = useState(false);
   const [closeReason, setCloseReason] = useState("FILLED");
+  const [mobilePane, setMobilePane] = useState<MobilePane>("VACANCIES");
+  // P1: toast replaces alert() — announced via role=alert
+  const [toasts, setToasts] = useState<Toast[]>([]);
+  const toastSeqRef = useRef(0);
+  const showToast = (message: string, tone: Toast["tone"] = "error") => {
+    const id = ++toastSeqRef.current;
+    setToasts((p) => [...p, { id, message, tone }]);
+    setTimeout(() => setToasts((p) => p.filter((t) => t.id !== id)), 4500);
+  };
+  const dismissToast = (id: number) => setToasts((p) => p.filter((t) => t.id !== id));
+
+  // P1: debounced search (150 ms) — filters use debounced, inputs stay immediate
+  const debouncedGlobalSearch = useDebouncedValue(globalSearch, 150);
+  const debouncedCandidateSearch = useDebouncedValue(candidateSearch, 150);
+
+  // P1: virtualization state — active only when >80 vacancies
+  const [vacancyScrollTop, setVacancyScrollTop] = useState(0);
+  const [vacancyViewportH, setVacancyViewportH] = useState(0);
+
+  const vacancyListRef = useRef<HTMLDivElement>(null);
+  const candidateListRef = useRef<HTMLDivElement>(null);
+  const closeConfirmRef = useRef<HTMLButtonElement>(null);
+  const excludeConfirmRef = useRef<HTMLButtonElement>(null);
+  const closeDrawerRef = useRef<HTMLDivElement>(null);
+  const excludeDrawerRef = useRef<HTMLDivElement>(null);
 
   const filteredVacancies = useMemo(() => {
-    const q = globalSearch.trim().toLowerCase();
+    const q = debouncedGlobalSearch.trim().toLowerCase();
     return vacancies.filter((vacancy) => {
       const matchesQuery =
         !q ||
@@ -69,8 +112,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
           .join(" ")
           .toLowerCase()
           .includes(q);
-      const matchesChannel =
-        channelFilter === "ALL" || vacancy.searchChannel === channelFilter;
+      const matchesChannel = channelFilter === "ALL" || vacancy.searchChannel === channelFilter;
       const matchesRegion = regionFilter === "ALL" || vacancy.region === regionFilter;
       const matchesArchive =
         archiveFilter === "ALL" ||
@@ -78,7 +120,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
         (archiveFilter === "ARCHIVED" && vacancy.lifecycleStatus === "CLOSED");
       return matchesQuery && matchesChannel && matchesRegion && matchesArchive;
     });
-  }, [vacancies, globalSearch, channelFilter, regionFilter]);
+  }, [vacancies, debouncedGlobalSearch, channelFilter, regionFilter, archiveFilter]);
 
   const selected =
     vacancies.find((vacancy) => vacancy.id === selectedId) ??
@@ -87,7 +129,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
 
   const visibleCandidates = useMemo(() => {
     if (!selected) return [];
-    const q = candidateSearch.trim().toLowerCase();
+    const q = debouncedCandidateSearch.trim().toLowerCase();
     return selected.candidates
       .filter((candidate) => marketFilter === "ALL" || candidate.marketBucket === marketFilter)
       .filter((candidate) => {
@@ -105,7 +147,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
           .includes(q);
       })
       .sort((a, b) => (a.rank ?? 999) - (b.rank ?? 999));
-  }, [selected, candidateSearch, marketFilter]);
+  }, [selected, debouncedCandidateSearch, marketFilter]);
 
   const selectedCandidate =
     selected?.candidates.find((candidate) => candidate.candidateId === selectedCandidateId) ?? null;
@@ -125,9 +167,165 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
     };
   }, [vacancies]);
 
+  // P1: virtualization — estimate row height by density, activate >80
+  const estimatedRowHeight = density === "EXPANDED" ? 136 : density === "COMPACT" ? 88 : 56;
+  const shouldVirtualize = filteredVacancies.length > 80;
+
+  const virtualRange = useMemo(() => {
+    if (!shouldVirtualize) return null;
+    const overscan = 6;
+    const start = Math.max(0, Math.floor(vacancyScrollTop / estimatedRowHeight) - overscan);
+    const vp = vacancyViewportH || 480;
+    const visibleCount = Math.ceil(vp / estimatedRowHeight) + overscan * 2;
+    const end = Math.min(filteredVacancies.length, start + visibleCount);
+    return {
+      start,
+      end,
+      offsetY: start * estimatedRowHeight,
+      totalHeight: filteredVacancies.length * estimatedRowHeight,
+    };
+  }, [shouldVirtualize, vacancyScrollTop, vacancyViewportH, estimatedRowHeight, filteredVacancies.length]);
+
+  // Attach scroll + resize when virtualizing
+  useEffect(() => {
+    if (!shouldVirtualize) return;
+    const el = vacancyListRef.current;
+    if (!el) return;
+    const onScroll = () => setVacancyScrollTop(el.scrollTop);
+    const onResize = () => setVacancyViewportH(el.clientHeight);
+    onResize();
+    el.addEventListener("scroll", onScroll, { passive: true });
+    const ro = new ResizeObserver(onResize);
+    ro.observe(el);
+    return () => {
+      el.removeEventListener("scroll", onScroll);
+      ro.disconnect();
+    };
+  }, [shouldVirtualize]);
+
+  // Reset scroll when density or filter set changes height/count
+  useEffect(() => {
+    if (vacancyListRef.current) {
+      vacancyListRef.current.scrollTop = 0;
+      setVacancyScrollTop(0);
+      setVacancyViewportH(vacancyListRef.current.clientHeight);
+    }
+  }, [density, filteredVacancies.length]);
+
+  // Keep selected row visible for ArrowUp/Down when virtualized
+  useEffect(() => {
+    if (!shouldVirtualize || !vacancyListRef.current || !selected) return;
+    const idx = filteredVacancies.findIndex((v) => v.id === selected.id);
+    if (idx === -1) return;
+    const el = vacancyListRef.current;
+    const top = idx * estimatedRowHeight;
+    const bottom = top + estimatedRowHeight;
+    if (top < el.scrollTop) el.scrollTop = top;
+    else if (bottom > el.scrollTop + el.clientHeight) el.scrollTop = bottom - el.clientHeight;
+  }, [selected?.id, shouldVirtualize, filteredVacancies, estimatedRowHeight]);
+
+  // Active filter chips — removable pills above vacancy list
+  const activeFilters = useMemo(() => {
+    const chips: Array<{ key: string; label: string; onClear: () => void }> = [];
+    if (channelFilter !== "ALL") {
+      chips.push({ key: "channel", label: channelLabels[channelFilter] ?? channelFilter, onClear: () => setChannelFilter("ALL") });
+    }
+    if (regionFilter !== "ALL") {
+      chips.push({ key: "region", label: regionFilter, onClear: () => setRegionFilter("ALL") });
+    }
+    if (archiveFilter !== "ACTIVE") {
+      const label = archiveFilter === "ARCHIVED" ? "Archived" : "All statuses";
+      chips.push({ key: "archive", label, onClear: () => setArchiveFilter("ACTIVE") });
+    }
+    if (globalSearch.trim()) {
+      chips.push({ key: "search", label: `Search: "${globalSearch.trim()}"`, onClear: () => setGlobalSearch("") });
+    }
+    if (candidateSearch.trim()) {
+      chips.push({ key: "csearch", label: `Candidates: "${candidateSearch.trim()}"`, onClear: () => setCandidateSearch("") });
+    }
+    return chips;
+  }, [channelFilter, regionFilter, archiveFilter, globalSearch, candidateSearch]);
+
+  const clearAllFilters = () => {
+    setChannelFilter("ALL");
+    setRegionFilter("ALL");
+    setArchiveFilter("ACTIVE");
+    setGlobalSearch("");
+    setCandidateSearch("");
+    setMarketFilter("ALL");
+    setLoadedViewName("");
+  };
+
+  // Focus management for drawers — explicit focus on Confirm
+  useEffect(() => {
+    if (closeConfirmOpen && closeConfirmRef.current) {
+      closeConfirmRef.current.focus();
+    }
+  }, [closeConfirmOpen]);
+
+  useEffect(() => {
+    if (exclusionTarget && excludeConfirmRef.current) {
+      excludeConfirmRef.current.focus();
+    }
+  }, [exclusionTarget]);
+
+  // Escape closes drawers; focus trap via overlay click
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        if (exclusionTarget) {
+          setExclusionTarget(null);
+          setExcludeReason("NOT_SUBMITTED");
+          return;
+        }
+        if (closeConfirmOpen) {
+          setCloseConfirmOpen(false);
+          return;
+        }
+        if (selectedCandidateId) {
+          setSelectedCandidateId(null);
+        }
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [exclusionTarget, closeConfirmOpen, selectedCandidateId]);
+
+  // Keyboard navigation for vacancy list: Arrow keys + Enter
+  const handleVacancyKeyDown = (e: React.KeyboardEvent) => {
+    if (!filteredVacancies.length) return;
+    const idx = filteredVacancies.findIndex((v) => v.id === selectedId);
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      const next = filteredVacancies[Math.min(idx + 1, filteredVacancies.length - 1)];
+      if (next) { setSelectedId(next.id); setSelectedCandidateId(null); setJobTab("OVERVIEW"); }
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      const prev = filteredVacancies[Math.max(idx - 1, 0)];
+      if (prev) { setSelectedId(prev.id); setSelectedCandidateId(null); setJobTab("OVERVIEW"); }
+    } else if (e.key === "Enter") {
+      // Enter already selects via click; ensure focus
+      (e.target as HTMLElement)?.click();
+    }
+  };
+
+  // Keyboard navigation for candidate list: Arrow keys navigate, Enter toggles, Escape closes
+  const handleCandidateKeyDown = (e: React.KeyboardEvent) => {
+    if (!visibleCandidates.length) return;
+    const idx = visibleCandidates.findIndex((c) => c.candidateId === selectedCandidateId);
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      const next = visibleCandidates[Math.min(idx + 1 >= 0 ? idx + 1 : 0, visibleCandidates.length - 1)];
+      if (next) setSelectedCandidateId(next.candidateId);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      const prev = visibleCandidates[Math.max(idx - 1, 0)];
+      if (prev) setSelectedCandidateId(prev.candidateId);
+    }
+  };
+
   async function updateCandidateStatus(candidate: CandidateAssignment, status: CandidateOperationalStatus, reason?: string) {
     if (!selected) return;
-    // Preserve evidence-backed market bucket; do not let recruiter action rewrite research.
     const previousStatus = candidate.operationalStatus;
     setSaving(`candidate:${candidate.candidateId}`);
     setVacancies((current) =>
@@ -141,7 +339,6 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
                   ? {
                       ...item,
                       operationalStatus: status,
-                      // marketBucket intentionally preserved from research
                     }
                   : item
               ),
@@ -165,7 +362,6 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
           throw new Error(await res.text());
         }
       } catch (err) {
-        // Roll back optimistic change so failed mutation never lies to user.
         setVacancies((current) =>
           current.map((vacancy) =>
             vacancy.id !== selected.id
@@ -180,19 +376,17 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
                 }
           )
         );
-        alert("Failed to save candidate operation. Change was not saved.");
+        showToast("Failed to save candidate operation. Change was not saved.", "error");
         setSaving(null);
         return;
       }
     }
     setSaving(null);
-    // Clear exclusion confirmation if this was an exclusion with reason
     if (status === "EXCLUDED" && exclusionTarget) {
       setExclusionTarget(null);
       setExcludeReason("NOT_SUBMITTED");
     }
   }
-
 
   function restoreSavedView(view: typeof savedViews[0]) {
     if (!view) return;
@@ -246,17 +440,12 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
       }
       setSaveName("");
     } catch (e) {
-      alert("Failed to save view.");
+      showToast("Failed to save view.", "error");
     } finally {
       setSavingView(false);
     }
   }
-  async function closeVacancy() {
-    if (!selected) return;
-    // Accessibility repair: replacement for window.prompt is handled by an inline control below.
-    // This keeps the old entry point but avoids the inaccessible browser prompt.
-    // The UI control below will call confirmCloseVacancy directly.
-  }
+
   async function confirmCloseVacancy(reason: string) {
     if (!selected) return;
     setSaving(`vacancy:${selected.id}`);
@@ -276,13 +465,12 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
         });
         if (!res.ok) throw new Error(await res.text());
       } catch (err) {
-        // Roll back so a failed mutation never appears saved.
         setVacancies((current) =>
           current.map((vacancy) =>
             vacancy.id === selected.id ? { ...vacancy, lifecycleStatus: previousStatus } : vacancy
           )
         );
-        alert("Failed to close vacancy. Change was not saved.");
+        showToast("Failed to close vacancy. Change was not saved.", "error");
         setSaving(null);
         return;
       }
@@ -295,21 +483,35 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
       setJobTab("OVERVIEW");
     }
     setSaving(null);
+    setCloseConfirmOpen(false);
   }
+
+  const exclusionCandidate = exclusionTarget ? selected?.candidates.find((c) => c.candidateId === exclusionTarget.candidateId) ?? null : null;
 
   return (
     <main className="app-shell">
-      <header className="topbar">
+      <a href="#vacancy-list" className="skip-link">Skip to vacancies</a>
+      <header className="topbar" role="banner">
         <div className="brand-block">
-          <div className="brand-mark">TT</div>
-          <div>
-            <div className="brand-name">Talent Tree</div>
-            <div className="brand-subtitle">Recruitment Intelligence</div>
-          </div>
+          <a href="https://talenttree.co.za" className="brand-logo-link" aria-label="Talent Tree home">
+            {/* Official high-res logo from Mumoxa/tt-website — Talent Tree Logo 2026 (1).png (132×108) */}
+            <img
+              src="/talent-tree-logo.png"
+              alt="Talent Tree"
+              className="brand-logo-img"
+              width={132}
+              height={108}
+              loading="eager"
+            />
+            <span className="brand-lockup">
+              <span className="brand-name">Talent Tree</span>
+              <span className="brand-subtitle">Recruitment Intelligence</span>
+            </span>
+          </a>
         </div>
 
         <div className="global-search-wrap">
-          <span className="search-glyph">⌕</span>
+          <span className="search-glyph" aria-hidden="true">⌕</span>
           <input
             aria-label="Global vacancy search"
             className="global-search"
@@ -318,14 +520,14 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
             placeholder="Search vacancies, employers, systems, requirements…"
           />
           {globalSearch && (
-            <button className="clear-search" onClick={() => setGlobalSearch("")}>
+            <button className="clear-search" onClick={() => setGlobalSearch("")} aria-label="Clear search">
               ×
             </button>
           )}
         </div>
 
         <div className="topbar-meta">
-          <nav className="workspace-nav">
+          <nav className="workspace-nav" aria-label="Workspace sections">
             <Link href="/">Vacancies</Link>
             <Link href="/companies">Companies</Link>
             <Link href="/runs">Runs</Link>
@@ -342,7 +544,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
         </div>
       </header>
 
-      <section className="summary-strip">
+      <section className="summary-strip" aria-label="Workspace summary">
         <SummaryStat label="Active vacancies" value={counts.active} />
         <SummaryStat label="New" value={counts.new} accent />
         <SummaryStat label="Needs research" value={counts.needsResearch} warn />
@@ -351,30 +553,78 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
         <button
           className={`focus-toggle ${candidateFocus ? "active" : ""}`}
           onClick={() => setCandidateFocus((value) => !value)}
+          aria-pressed={candidateFocus}
+          aria-label={candidateFocus ? "Exit candidate focus" : "Enter candidate focus"}
         >
-          {candidateFocus ? "Exit candidate focus" : "Candidate focus"}
+          <span aria-hidden="true">{candidateFocus ? "◧" : "◫"}</span>
+          {candidateFocus ? "Exit focus" : "Candidate focus"}
         </button>
       </section>
 
-      <section className={`workspace-grid ${candidateFocus ? "candidate-focus" : ""}`}>
-        <aside className="vacancy-pane">
+      {/* Mobile pane switcher — visible only at 768px and below */}
+      <nav className="mobile-pane-switch" aria-label="Mobile workspace panes">
+        <button className={mobilePane === "VACANCIES" ? "active" : ""} onClick={() => setMobilePane("VACANCIES")} aria-pressed={mobilePane === "VACANCIES"}>
+          Vacancies
+        </button>
+        <button className={mobilePane === "INTELLIGENCE" ? "active" : ""} onClick={() => setMobilePane("INTELLIGENCE")} aria-pressed={mobilePane === "INTELLIGENCE"}>
+          Intelligence
+        </button>
+        <button className={mobilePane === "CANDIDATES" ? "active" : ""} onClick={() => setMobilePane("CANDIDATES")} aria-pressed={mobilePane === "CANDIDATES"}>
+          Candidates
+        </button>
+      </nav>
+
+      {selected && (
+        <div className="mobile-breadcrumb" aria-label="Selected vacancy breadcrumb">
+          <span>{selected.title}</span>
+          <span aria-hidden="true">·</span>
+          <span>{selected.employerName}</span>
+          <button onClick={() => setMobilePane("VACANCIES")} aria-label="Back to vacancy list">Change</button>
+        </div>
+      )}
+
+      <section
+        className={`workspace-grid ${candidateFocus ? "candidate-focus" : ""}`}
+        data-mobile-pane={mobilePane}
+        aria-label="Three-pane workspace"
+      >
+        {/* Pane 1 — Vacancy */}
+        <aside className="vacancy-pane" aria-label="Vacancy inbox">
+          {/* collapsed edge bar for candidate focus */}
+          {candidateFocus && (
+            <div className="candidate-focus-edge" aria-hidden="true">
+              <span>Vacancies</span>
+              <span>·</span>
+              <span>{filteredVacancies.length}</span>
+              <button
+                onClick={() => setCandidateFocus(false)}
+                style={{ writingMode: "horizontal-tb", transform: "rotate(90deg)", marginTop:12, border:"1px solid var(--line)", background:"#fff", borderRadius:6, padding:"4px 8px", fontSize:10, fontWeight:800, cursor:"pointer" }}
+                aria-label="Exit candidate focus"
+              >
+                Exit focus
+              </button>
+            </div>
+          )}
+          <div className="vacancy-pane-inner" style={{ display:"flex", flexDirection:"column", flex:1, minHeight:0, width:"100%" }}>
           <div className="pane-header">
             <div>
               <div className="eyebrow">Vacancies</div>
               <h1>Intelligence Inbox</h1>
             </div>
-            <span className="count-pill">{filteredVacancies.length}</span>
+            <span className="count-pill" aria-label={`${filteredVacancies.length} vacancies`}>{filteredVacancies.length}</span>
           </div>
 
-          <div className="filter-row">
-            <select value={channelFilter} onChange={(event) => setChannelFilter(event.target.value)}>
+          <div className="filter-row" role="group" aria-label="Vacancy filters">
+            <label className="sr-only" htmlFor="channel-filter">Channel filter</label>
+            <select id="channel-filter" value={channelFilter} onChange={(event) => setChannelFilter(event.target.value)} aria-label="Filter by channel">
               <option value="ALL">All channels</option>
               <option value="AGREED_CLIENTS">Agreed Clients</option>
               <option value="AGENCY_SITES">Agencies</option>
               <option value="LINKEDIN">LinkedIn</option>
               <option value="JOB_BOARDS">Job Boards</option>
             </select>
-            <select value={regionFilter} onChange={(event) => setRegionFilter(event.target.value)}>
+            <label className="sr-only" htmlFor="region-filter">Region filter</label>
+            <select id="region-filter" value={regionFilter} onChange={(event) => setRegionFilter(event.target.value)} aria-label="Filter by region">
               <option value="ALL">All regions</option>
               {regions.map((region) => (
                 <option key={region} value={region}>
@@ -382,7 +632,8 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
                 </option>
               ))}
             </select>
-            <select value={loadedViewName} onChange={(e) => {
+            <label className="sr-only" htmlFor="saved-view-select">Saved view</label>
+            <select id="saved-view-select" value={loadedViewName} onChange={(e) => {
               const view = savedViews.find((v) => v.name === e.target.value);
               if (view) restoreSavedView(view);
               else setLoadedViewName("");
@@ -392,51 +643,123 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
                 <option key={v.id} value={v.name}>{v.name}</option>
               ))}
             </select>
-            <div className="save-view-row" style={{ display: "inline-flex", gap: "4px", alignItems: "center" }}>
-              <input aria-label="Saved view name" value={saveName} onChange={(e) => setSaveName(e.target.value)} placeholder="View name" style={{ width: "120px" }} />
-              <button disabled={savingView || !saveName.trim()} onClick={saveCurrentView} aria-label="Save current view">Save</button>
+            <div className="save-view-row">
+              <label className="sr-only" htmlFor="save-view-input">Saved view name</label>
+              <input id="save-view-input" aria-label="Saved view name" value={saveName} onChange={(e) => setSaveName(e.target.value)} placeholder="View name" />
+              <button className="btn-primary" disabled={savingView || !saveName.trim()} onClick={saveCurrentView} aria-label="Save current view">Save</button>
             </div>
-            <select value={archiveFilter} onChange={(event) => setArchiveFilter(event.target.value as typeof archiveFilter)} aria-label="Archive filter">
+            <label className="sr-only" htmlFor="archive-filter">Archive filter</label>
+            <select id="archive-filter" value={archiveFilter} onChange={(event) => setArchiveFilter(event.target.value as typeof archiveFilter)} aria-label="Archive filter">
               <option value="ACTIVE">Active</option>
               <option value="ARCHIVED">Archived</option>
               <option value="ALL">All</option>
             </select>
+            <span style={{ display:"flex", alignItems:"center", fontSize:10, color:"var(--stone-500)", fontWeight:700, paddingLeft:4 }} aria-live="polite">
+              {loadedViewName ? `Viewing: ${loadedViewName}` : ""}
+            </span>
           </div>
 
-          <div className="density-control">
-            {(["EXPANDED", "COMPACT", "MINIMAL"] as Density[]).map((item) => (
+          {/* Filter chips — removable pills above list */}
+          {activeFilters.length > 0 && (
+            <div className="filter-chips" role="group" aria-label="Active filters">
+              {activeFilters.map((chip) => (
+                <span key={chip.key} className="chip">
+                  {chip.label}
+                  <button onClick={chip.onClear} aria-label={`Remove filter ${chip.label}`}>×</button>
+                </span>
+              ))}
+              <button className="chip clear-all" onClick={clearAllFilters} aria-label="Clear all filters">Clear all ×</button>
+            </div>
+          )}
+
+          {/* Saved view banner — persistent state indicator */}
+          {loadedViewName && (
+            <div className="saved-view-banner" role="status" aria-live="polite">
+              <span>Viewing: <strong>{loadedViewName}</strong> — filters and density restored from saved view.</span>
+              <button onClick={() => setLoadedViewName("")} aria-label="Clear saved view">Clear</button>
+            </div>
+          )}
+
+          <div className="density-control" role="group" aria-label="Vacancy card density">
+            {([
+              { id:"EXPANDED", label:"Full", icon:"◫" },
+              { id:"COMPACT", label:"Compact", icon:"◧" },
+              { id:"MINIMAL", label:"Titles", icon:"≡" },
+            ] as const).map((item) => (
               <button
-                key={item}
-                onClick={() => setDensity(item)}
-                className={density === item ? "active" : ""}
+                key={item.id}
+                onClick={() => setDensity(item.id as Density)}
+                className={density === item.id ? "active" : ""}
+                aria-pressed={density === item.id}
+                aria-label={`Density ${item.label}`}
               >
-                {item === "EXPANDED" ? "Full" : item === "COMPACT" ? "Compact" : "Titles"}
+                <span className="density-icon" aria-hidden="true">{item.icon}</span>
+                {item.label}
               </button>
             ))}
           </div>
 
-          <div className="vacancy-list">
-            {filteredVacancies.map((vacancy) => (
-              <VacancyCard
-                key={vacancy.id}
-                vacancy={vacancy}
-                density={density}
-                selected={selected?.id === vacancy.id}
-                onSelect={() => {
-                  setSelectedId(vacancy.id);
-                  setSelectedCandidateId(null);
-                  setJobTab("OVERVIEW");
-                }}
-              />
-            ))}
-            {filteredVacancies.length === 0 && (
-              <div className="empty-state">No active vacancies match these filters.</div>
+          <div
+            className="vacancy-list"
+            id="vacancy-list"
+            ref={vacancyListRef}
+            role="listbox"
+            aria-label="Vacancy list"
+            aria-activedescendant={selected ? `vacancy-${selected.id}` : undefined}
+            tabIndex={0}
+            onKeyDown={handleVacancyKeyDown}
+          >
+            {shouldVirtualize && virtualRange ? (
+              filteredVacancies.length === 0 ? (
+                <div className="empty-state" role="status">No active vacancies match these filters. Try clearing filters or use Archive filter to see closed roles.</div>
+              ) : (
+                <div className="vacancy-list-virtual-spacer" style={{ height: virtualRange.totalHeight }}>
+                  <div className="vacancy-list-virtual-window" style={{ transform: `translateY(${virtualRange.offsetY}px)` }}>
+                    {filteredVacancies.slice(virtualRange.start, virtualRange.end).map((vacancy) => (
+                      <VacancyCard
+                        key={vacancy.id}
+                        vacancy={vacancy}
+                        density={density}
+                        selected={selected?.id === vacancy.id}
+                        onSelect={() => {
+                          setSelectedId(vacancy.id);
+                          setSelectedCandidateId(null);
+                          setJobTab("OVERVIEW");
+                          setMobilePane("INTELLIGENCE");
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )
+            ) : (
+              <>
+                {filteredVacancies.map((vacancy) => (
+                  <VacancyCard
+                    key={vacancy.id}
+                    vacancy={vacancy}
+                    density={density}
+                    selected={selected?.id === vacancy.id}
+                    onSelect={() => {
+                      setSelectedId(vacancy.id);
+                      setSelectedCandidateId(null);
+                      setJobTab("OVERVIEW");
+                      setMobilePane("INTELLIGENCE");
+                    }}
+                  />
+                ))}
+                {filteredVacancies.length === 0 && (
+                  <div className="empty-state" role="status">No active vacancies match these filters. Try clearing filters or use Archive filter to see closed roles.</div>
+                )}
+              </>
             )}
+          </div>
           </div>
         </aside>
 
-        {!candidateFocus && selected && (
-          <section className="job-pane">
+        {/* Pane 2 — Job (always visible, even in candidate focus per brief) */}
+        {selected && (
+          <section className="job-pane" aria-label="Vacancy intelligence">
             <div className="job-header">
               <div>
                 <div className="job-title-row">
@@ -448,40 +771,24 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
                 <div className="job-employer">{selected.employerName}</div>
                 <div className="job-meta">
                   <span>{selected.location}</span>
-                  <span>•</span>
+                  <span aria-hidden="true">•</span>
                   <span>{channelLabels[selected.searchChannel]}</span>
-                  <span>•</span>
+                  <span aria-hidden="true">•</span>
                   <span>{selected.sourceLabel}</span>
                 </div>
               </div>
-              {!closeConfirmOpen ? (
-                <button
-                  className="close-job-button"
-                  onClick={() => setCloseConfirmOpen(true)}
-                  disabled={saving === `vacancy:${selected.id}`}
-                  aria-label="Close vacancy"
-                >
-                  Close job
-                </button>
-              ) : (
-                <div className="close-confirm" role="region" aria-label="Close vacancy confirmation">
-                  <label htmlFor="close-reason">Reason</label>
-                  <select id="close-reason" value={closeReason} onChange={(e) => setCloseReason(e.target.value)}>
-                    <option value="FILLED">FILLED</option>
-                    <option value="EXPIRED">EXPIRED</option>
-                    <option value="CLIENT_NO_LONGER_HIRING">CLIENT_NO_LONGER_HIRING</option>
-                    <option value="NOT_COMMERCIALLY_RELEVANT">NOT_COMMERCIALLY_RELEVANT</option>
-                    <option value="DUPLICATE">DUPLICATE</option>
-                    <option value="CANCELLED">CANCELLED</option>
-                    <option value="OTHER">OTHER</option>
-                  </select>
-                  <button onClick={() => { confirmCloseVacancy(closeReason); setCloseConfirmOpen(false); }} disabled={saving === `vacancy:${selected.id}`} aria-label="Confirm close">Confirm</button>
-                  <button onClick={() => setCloseConfirmOpen(false)} aria-label="Cancel close">Cancel</button>
-                </div>
-              )}
+              <button
+                className="close-job-button"
+                onClick={() => setCloseConfirmOpen(true)}
+                disabled={saving === `vacancy:${selected.id}`}
+                aria-label="Close vacancy"
+                aria-haspopup="dialog"
+              >
+                Close job
+              </button>
             </div>
 
-            <div className="status-line">
+            <div className="status-line" role="group" aria-label="Vacancy status">
               <StatusPill text={lifecycleLabel(selected.lifecycleStatus)} />
               <QaPill status={selected.qaStatus} />
               <StatusPill text={`Employer: ${selected.employerStatus}`} subtle />
@@ -494,11 +801,14 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
               <span>{selected.sources.length} source{selected.sources.length === 1 ? "" : "s"}</span>
             </div>
 
-            <nav className="job-tabs">
+            <nav className="job-tabs" role="tablist" aria-label="Vacancy details">
               {(["OVERVIEW", "HIRING_TEAM", "REQUIREMENTS", "SOURCES", "SEARCH_LOG", "QA"] as JobTab[]).map(
                 (tab) => (
                   <button
                     key={tab}
+                    role="tab"
+                    aria-selected={jobTab === tab}
+                    aria-controls={`panel-${tab}`}
                     className={jobTab === tab ? "active" : ""}
                     onClick={() => setJobTab(tab)}
                   >
@@ -508,7 +818,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
               )}
             </nav>
 
-            <div className="job-content">
+            <div className="job-content" id={`panel-${jobTab}`} role="tabpanel">
               {jobTab === "OVERVIEW" && <Overview vacancy={selected} />}
               {jobTab === "HIRING_TEAM" && <HiringTeam vacancy={selected} />}
               {jobTab === "REQUIREMENTS" && <Requirements vacancy={selected} />}
@@ -519,33 +829,51 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
           </section>
         )}
 
-        <section className="candidate-pane">
+        {/* Pane 3 — Candidate */}
+        <section className="candidate-pane" aria-label="Candidate market">
           {selected ? (
             <>
               <div className="candidate-header">
                 <div>
                   <div className="eyebrow">Candidate market</div>
                   <h2>{selected.candidates.length} mapped candidates across the market</h2>
+                  {/* Context label stays visible at top of candidate pane in focus mode */}
+                  <div className="candidate-context" aria-live="polite">
+                    {candidateFocus ? (
+                      <><strong>{selected.title}</strong> · {selected.employerName} — candidate focus</>
+                    ) : (
+                      <>{selected.title} · {selected.employerName}</>
+                    )}
+                  </div>
                   {candidateFocus && (
-                    <div className="candidate-context">
-                      {selected.title} · {selected.employerName}
-                    </div>
+                    <button
+                      onClick={() => setCandidateFocus(false)}
+                      className="btn-subtle"
+                      style={{ marginTop:8, height:28, fontSize:11 }}
+                      aria-label="Exit candidate focus"
+                    >
+                      ← Exit focus
+                    </button>
                   )}
                 </div>
-                <div className="candidate-counts">
+                <div className="candidate-counts" aria-label="Market counts">
                   <span>{selected.candidates.length} credible market</span>
                   <span>{selected.candidates.filter((c) => c.marketBucket === "STRONG_MARKET" || c.marketBucket === "TOP_10").length} strongest market</span>
                   <span>{selected.candidates.filter((c) => c.marketBucket === "TOP_10").length} Top 10</span>
                 </div>
               </div>
 
-              <div className="candidate-search-row">
+              <div className="candidate-search-row" role="search" aria-label="Candidate market search">
+                <label className="sr-only" htmlFor="candidate-search">Search candidate market</label>
                 <input
+                  id="candidate-search"
                   value={candidateSearch}
                   onChange={(event) => setCandidateSearch(event.target.value)}
                   placeholder="Search this candidate market…"
+                  aria-label="Search candidate market"
                 />
-                <select value={marketFilter} onChange={(event) => setMarketFilter(event.target.value as MarketBucket | "ALL")}>
+                <label className="sr-only" htmlFor="market-filter">Market bucket filter</label>
+                <select id="market-filter" value={marketFilter} onChange={(event) => setMarketFilter(event.target.value as MarketBucket | "ALL")} aria-label="Filter by market bucket">
                   <option value="ALL">All buckets</option>
                   {(Object.keys(marketLabels) as MarketBucket[]).map((bucket) => (
                     <option key={bucket} value={bucket}>
@@ -555,23 +883,30 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
                 </select>
               </div>
 
-              <div className="market-tabs">
-                <button className={marketFilter === "ALL" ? "active" : ""} onClick={() => setMarketFilter("ALL")}>
-                  All
+              <div className="market-tabs" role="group" aria-label="Market buckets">
+                <button className={marketFilter === "ALL" ? "active" : ""} onClick={() => setMarketFilter("ALL")} aria-pressed={marketFilter === "ALL"}>
+                  All <span>{selected.candidates.length}</span>
                 </button>
                 {(Object.keys(marketLabels) as MarketBucket[]).map((bucket) => (
                   <button
                     key={bucket}
                     className={marketFilter === bucket ? "active" : ""}
                     onClick={() => setMarketFilter(bucket)}
+                    aria-pressed={marketFilter === bucket}
                   >
-                    {marketLabels[bucket]}{" "}
-                    <span>{selected.candidates.filter((c) => c.marketBucket === bucket).length}</span>
+                    {marketLabels[bucket]} <span>{selected.candidates.filter((c) => c.marketBucket === bucket).length}</span>
                   </button>
                 ))}
               </div>
 
-              <div className="candidate-list">
+              <div
+                className="candidate-list"
+                ref={candidateListRef}
+                role="list"
+                aria-label="Candidate list"
+                tabIndex={0}
+                onKeyDown={handleCandidateKeyDown}
+              >
                 {visibleCandidates.map((candidate) => (
                   <CandidateCard
                     key={candidate.assignmentId}
@@ -584,16 +919,11 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
                       )
                     }
                     onStatus={(status, reason) => updateCandidateStatus(candidate, status, reason)}
-                    exclusionTarget={exclusionTarget}
                     onExcludeStart={(id, name) => { setExclusionTarget({ candidateId: id, name }); setExcludeReason("NOT_SUBMITTED"); }}
-                    excludeReason={excludeReason}
-                    onExcludeReasonChange={setExcludeReason}
-                    onExcludeConfirm={() => { if (exclusionTarget) updateCandidateStatus(candidate, "EXCLUDED", excludeReason); }}
-                    onExcludeCancel={() => { setExclusionTarget(null); setExcludeReason("NOT_SUBMITTED"); }}
                   />
                 ))}
                 {visibleCandidates.length === 0 && (
-                  <div className="empty-state">
+                  <div className="empty-state" role="status">
                     {selected.candidates.length === 0
                       ? "Candidate market mapping has not started for this vacancy."
                       : "No candidates match this filter."}
@@ -602,10 +932,129 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
               </div>
             </>
           ) : (
-            <div className="empty-state">Select a vacancy to open its candidate market.</div>
+            <div className="empty-state" role="status">Select a vacancy to open its candidate market.</div>
           )}
         </section>
       </section>
+
+      {/* Close vacancy drawer — intentional workflow step with preview + reason */}
+      {closeConfirmOpen && selected && (
+        <div
+          className="drawer-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Close vacancy confirmation"
+          onClick={(e) => { if (e.target === e.currentTarget) setCloseConfirmOpen(false); }}
+        >
+          <div className="drawer" ref={closeDrawerRef} role="document">
+            <div className="drawer-header">
+              <div>
+                <h3>Close vacancy</h3>
+                <p>Closing removes this role from the active inbox. Intelligence, candidates and QA history are preserved and remain searchable.</p>
+              </div>
+              <button className="drawer-close-x" onClick={() => setCloseConfirmOpen(false)} aria-label="Close dialog">×</button>
+            </div>
+            <div className="drawer-body">
+              <div className="drawer-preview" aria-label="Vacancy preview">
+                <strong>{selected.title}</strong>
+                <span>{selected.employerName} · {selected.location} · {channelLabels[selected.searchChannel]}</span>
+                <span>QA: {selected.qaStatus} · Map: {selected.candidateMapStatus.replaceAll("_"," ")} · {selected.candidates.length} candidates</span>
+              </div>
+              <div className="drawer-field">
+                <label htmlFor="close-reason-drawer">Reason for closing <span aria-hidden="true" style={{ color:"var(--red)"}}>*</span></label>
+                <select id="close-reason-drawer" value={closeReason} onChange={(e) => setCloseReason(e.target.value)}>
+                  <option value="FILLED">FILLED — role filled</option>
+                  <option value="EXPIRED">EXPIRED — advert expired</option>
+                  <option value="CLIENT_NO_LONGER_HIRING">CLIENT_NO_LONGER_HIRING</option>
+                  <option value="NOT_COMMERCIALLY_RELEVANT">NOT_COMMERCIALLY_RELEVANT</option>
+                  <option value="DUPLICATE">DUPLICATE</option>
+                  <option value="CANCELLED">CANCELLED</option>
+                  <option value="OTHER">OTHER</option>
+                </select>
+              </div>
+              {archiveFilter !== "ARCHIVED" && archiveFilter !== "ALL" && (
+                <div className="drawer-note" role="note">
+                  This vacancy will move to archived. Use Archive filter (Archived / All) to retrieve it.
+                </div>
+              )}
+            </div>
+            <div className="drawer-footer">
+              <button className="btn-cancel" onClick={() => setCloseConfirmOpen(false)} aria-label="Cancel close">Cancel</button>
+              <button ref={closeConfirmRef} className="btn-confirm" onClick={() => confirmCloseVacancy(closeReason)} disabled={saving === `vacancy:${selected.id}`} aria-label="Confirm close vacancy">
+                {saving === `vacancy:${selected.id}` ? "Closing…" : "Confirm close"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Exclusion drawer — asks for reason with preview */}
+      {exclusionTarget && selected && (
+        <div
+          className="drawer-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Exclude candidate confirmation"
+          onClick={(e) => { if (e.target === e.currentTarget) { setExclusionTarget(null); setExcludeReason("NOT_SUBMITTED"); } }}
+        >
+          <div className="drawer" ref={excludeDrawerRef} role="document">
+            <div className="drawer-header">
+              <div>
+                <h3>Exclude candidate</h3>
+                <p>Exclusion is vacancy-specific and does not alter the person&apos;s evidence. A reason is required.</p>
+              </div>
+              <button className="drawer-close-x" onClick={() => { setExclusionTarget(null); setExcludeReason("NOT_SUBMITTED"); }} aria-label="Close dialog">×</button>
+            </div>
+            <div className="drawer-body">
+              <div className="drawer-preview" aria-label="Exclusion preview">
+                <strong>{exclusionCandidate?.name ?? exclusionTarget.name}</strong>
+                <span>{exclusionCandidate?.currentTitle ?? ""} {exclusionCandidate?.currentEmployer ? `· ${exclusionCandidate.currentEmployer}` : ""}</span>
+                <span>Vacancy: <strong style={{ color:"var(--slate)" }}>{selected.title}</strong> · {selected.employerName}</span>
+                {exclusionCandidate && (
+                  <span>Bucket: {marketLabels[exclusionCandidate.marketBucket]} · QA: {exclusionCandidate.qaStatus}</span>
+                )}
+              </div>
+              <div className="drawer-field">
+                <label htmlFor="exclude-reason-drawer">Reason for exclusion <span aria-hidden="true" style={{ color:"var(--red)"}}>*</span></label>
+                <select id="exclude-reason-drawer" value={excludeReason} onChange={(e) => setExcludeReason(e.target.value)}>
+                  <option value="NOT_SUBMITTED">NOT_SUBMITTED</option>
+                  <option value="NO_LONGER_RELEVANT">NO_LONGER_RELEVANT</option>
+                  <option value="COMPETITOR_EXCLUSIVE">COMPETITOR_EXCLUSIVE</option>
+                  <option value="CLIENT_INSTRUCTED">CLIENT_INSTRUCTED</option>
+                  <option value="OTHER">OTHER</option>
+                </select>
+              </div>
+              <div className="drawer-note" role="note">
+                The candidate will move to the Excluded bucket for this vacancy only. Other vacancy assignments are unchanged.
+              </div>
+            </div>
+            <div className="drawer-footer">
+              <button className="btn-cancel" onClick={() => { setExclusionTarget(null); setExcludeReason("NOT_SUBMITTED"); }} aria-label="Cancel exclusion">Cancel</button>
+              <button
+                ref={excludeConfirmRef}
+                className="btn-confirm danger"
+                onClick={() => { if (exclusionTarget && exclusionCandidate) updateCandidateStatus(exclusionCandidate, "EXCLUDED", excludeReason); else if (exclusionTarget && selected) { const cand = selected.candidates.find(c=>c.candidateId===exclusionTarget.candidateId); if(cand) updateCandidateStatus(cand,"EXCLUDED", excludeReason); } }}
+                aria-label="Confirm exclusion"
+              >
+                Confirm exclusion
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* P1: toast stack — replaces alert(), role=alert live */}
+      <div className="toast-stack" aria-live="polite" aria-atomic="true">
+        {toasts.map((t) => (
+          <div key={t.id} role="alert" className={`toast ${t.tone === "error" ? "toast-error" : ""}`}>
+            <span>{t.message}</span>
+            <button onClick={() => dismissToast(t.id)} aria-label="Dismiss notification">×</button>
+          </div>
+        ))}
+      </div>
+      {/* global live region for screen readers (assertive for errors) */}
+      <div aria-live="assertive" aria-atomic="true" className="sr-only">
+        {toasts.filter((t) => t.tone === "error").map((t) => t.message).join(" ")}
+      </div>
     </main>
   );
 }
@@ -627,28 +1076,38 @@ function VacancyCard({
   ).length;
   const credible = vacancy.candidates.filter((c) => c.marketBucket !== "EXCLUDED").length;
   return (
-    <button className={`vacancy-card ${selected ? "selected" : ""} ${density.toLowerCase()}`} onClick={onSelect}>
+    <button
+      id={`vacancy-${vacancy.id}`}
+      role="option"
+      aria-selected={selected}
+      className={`vacancy-card ${selected ? "selected" : ""} ${density.toLowerCase()}`}
+      onClick={onSelect}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onSelect(); } }}
+    >
       <div className="vacancy-card-top">
         <div className="vacancy-title">{vacancy.title}</div>
-        {vacancy.unread && <span className="new-dot" title="New" />}
+        {vacancy.unread && <span className="new-dot" title="New" aria-label="New vacancy" />}
       </div>
       {density !== "MINIMAL" && (
         <div className="vacancy-employer">{vacancy.employerName}</div>
       )}
       {density === "EXPANDED" && (
         <>
-          <div className="vacancy-detail-line">
+          <div className="vacancy-detail-line" aria-label="Location and source">
             <span>{vacancy.location}</span>
-            <span>·</span>
+            <span aria-hidden="true">·</span>
             <span>{vacancy.sourceLabel}</span>
+            <span aria-hidden="true">·</span>
+            <span>{channelLabels[vacancy.searchChannel]}</span>
           </div>
           <div className="vacancy-badges">
             {vacancy.clientStatus === "AGREED_CLIENT" && <span className="mini-badge client">Agreed</span>}
+            {vacancy.unread && <span className="mini-badge unread" aria-label="Unread">New</span>}
             <span className={`mini-badge qa ${vacancy.qaStatus === "FAIL_RESEARCH_REQUIRED" ? "fail" : ""}`}>
-              {vacancy.qaStatus === "FAIL_RESEARCH_REQUIRED" ? "Research" : "QA ✓"}
+              {vacancy.qaStatus === "FAIL_RESEARCH_REQUIRED" ? "Research required" : "QA ✓"}
             </span>
           </div>
-          <div className="vacancy-stats">
+          <div className="vacancy-stats" aria-label="Candidate market stats">
             <span>{credible} credible</span>
             <span>{strongest} strongest</span>
             <span>{top10} Top 10</span>
@@ -656,10 +1115,27 @@ function VacancyCard({
         </>
       )}
       {density === "COMPACT" && (
-        <div className="vacancy-detail-line">
+        <>
+          <div className="vacancy-detail-line">
+            <span>{vacancy.location}</span>
+            <span aria-hidden="true">·</span>
+            <span>{credible} market</span>
+            <span aria-hidden="true">·</span>
+            <span>{channelLabels[vacancy.searchChannel]}</span>
+          </div>
+          <div className="vacancy-badges" style={{ marginTop:6 }}>
+            {vacancy.clientStatus === "AGREED_CLIENT" && <span className="mini-badge client" style={{ fontSize:9, padding:"2px 5px" }}>Agreed</span>}
+            <span className={`mini-badge qa ${vacancy.qaStatus === "FAIL_RESEARCH_REQUIRED" ? "fail" : ""}`} style={{ fontSize:9, padding:"2px 5px" }}>
+              {vacancy.qaStatus === "FAIL_RESEARCH_REQUIRED" ? "Research" : "QA ✓"}
+            </span>
+          </div>
+        </>
+      )}
+      {density === "MINIMAL" && (
+        <div className="vacancy-detail-line" style={{ marginTop:4, fontSize:10 }}>
           <span>{vacancy.location}</span>
-          <span>·</span>
-          <span>{credible} candidate market</span>
+          <span aria-hidden="true">·</span>
+          <span>{channelLabels[vacancy.searchChannel]}</span>
         </div>
       )}
     </button>
@@ -734,6 +1210,7 @@ function HiringTeam({ vacancy }: { vacancy: Vacancy }) {
         <div className="email-intel-card">
           <span>Website domain</span>
           <strong>{intel?.websiteDomain || "Unknown"}</strong>
+          <small style={{ opacity:.7 }}>Company website</small>
         </div>
         <div className="email-intel-card">
           <span>Employee email domain</span>
@@ -771,11 +1248,16 @@ function HiringTeam({ vacancy }: { vacancy: Vacancy }) {
       ) : (
         <div className="stakeholder-list">
           {vacancy.stakeholders.map((person) => (
-            <article className="stakeholder-card" key={person.id}>
+            <article className="stakeholder-card" key={person.id} aria-label={`${person.name} stakeholder card`}>
               <div className="stakeholder-head">
-                <div>
-                  <strong>{person.name}</strong>
-                  <div className="muted">{person.title || "Title unresolved"}</div>
+                <div className="stakeholder-identity">
+                  <div className="stakeholder-avatar" aria-hidden="true">
+                    {initials(person.name)}
+                  </div>
+                  <div>
+                    <strong>{person.name}</strong>
+                    <div className="muted">{person.title || "Title unresolved"}</div>
+                  </div>
                 </div>
                 <div className="stakeholder-pills">
                   {person.relevance && <StatusPill text={person.relevance.replaceAll("_", " ")} subtle />}
@@ -790,13 +1272,14 @@ function HiringTeam({ vacancy }: { vacancy: Vacancy }) {
                   <span>Employment</span>
                   <strong>{person.currentEmploymentStatus?.replaceAll("_", " ") || "Unknown"}</strong>
                 </div>
-                <div>
-                  <span>Observed business email</span>
+                <div className="observed">
+                  <span><span className="icon" aria-hidden="true">✓</span> Observed business email</span>
                   <strong>{person.observedBusinessEmail || "—"}</strong>
                 </div>
-                <div>
-                  <span>Probable business email</span>
+                <div className="probable">
+                  <span><span className="icon" aria-hidden="true">◐</span> Probable business email</span>
                   <strong>{person.probableBusinessEmail || "—"}</strong>
+                  {person.probableBusinessEmail && <small style={{ fontSize:9, color:"var(--stone-500)", marginTop:2 }}>Pattern-inferred · requires verification</small>}
                 </div>
                 <div>
                   <span>Email status</span>
@@ -813,7 +1296,7 @@ function HiringTeam({ vacancy }: { vacancy: Vacancy }) {
 
               <div className="stakeholder-links">
                 {person.profileUrl && (
-                  <a href={person.profileUrl} target="_blank" rel="noreferrer">Profile</a>
+                  <a href={person.profileUrl} target="_blank" rel="noreferrer" aria-label={`Open profile for ${person.name}`}>Profile ↗</a>
                 )}
                 {person.lastVerified && <span>Verified {formatDate(person.lastVerified)}</span>}
               </div>
@@ -827,13 +1310,13 @@ function HiringTeam({ vacancy }: { vacancy: Vacancy }) {
 
 function Requirements({ vacancy }: { vacancy: Vacancy }) {
   return (
-    <div className="data-table">
-      <div className="data-row header">
-        <span>Requirement</span><span>Value</span><span>Type</span><span>Evidence</span>
+    <div className="data-table" role="table" aria-label="Requirements">
+      <div className="data-row header" role="row">
+        <span role="columnheader">Requirement</span><span role="columnheader">Value</span><span role="columnheader">Type</span><span role="columnheader">Evidence</span>
       </div>
       {vacancy.requirements.map((r) => (
-        <div className="data-row" key={r.id}>
-          <strong>{r.label}</strong><span>{r.value}</span><span>{r.type}</span><EvidencePill status={r.status} />
+        <div className="data-row" key={r.id} role="row">
+          <strong role="cell">{r.label}</strong><span role="cell">{r.value}</span><span role="cell">{r.type}</span><span role="cell"><EvidencePill status={r.status} /></span>
         </div>
       ))}
     </div>
@@ -915,29 +1398,35 @@ function CandidateCard({
   saving,
   onOpen,
   onStatus,
-  exclusionTarget,
   onExcludeStart,
-  excludeReason,
-  onExcludeReasonChange,
-  onExcludeConfirm,
-  onExcludeCancel,
 }: {
   candidate: CandidateAssignment;
   selected: boolean;
   saving: boolean;
   onOpen: () => void;
   onStatus: (status: CandidateOperationalStatus, reason?: string) => void;
-  exclusionTarget?: { candidateId: string; name: string } | null;
   onExcludeStart?: (candidateId: string, name: string) => void;
-  excludeReason?: string;
-  onExcludeReasonChange?: (reason: string) => void;
-  onExcludeConfirm?: () => void;
-  onExcludeCancel?: () => void;
 }) {
+  const rankLabel = candidate.rank ? `#${candidate.rank}` : candidate.comparableTier ? `T${candidate.comparableTier}` : "•";
   return (
-    <article className={`candidate-card ${selected ? "open" : ""}`}>
-      <button className="candidate-main" onClick={onOpen}>
-        <div className="candidate-rank">{candidate.rank ? `#${candidate.rank}` : candidate.comparableTier ? `T${candidate.comparableTier}` : "•"}</div>
+    <article className={`candidate-card ${selected ? "open" : ""}`} aria-label={`Candidate ${candidate.name}`}>
+      <button
+        className="candidate-main"
+        onClick={onOpen}
+        aria-expanded={selected}
+        aria-label={`${candidate.name}, ${candidate.currentTitle} at ${candidate.currentEmployer}. Press Enter to ${selected ? "collapse" : "expand"} details.`}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            onOpen();
+          }
+          if (e.key === "Escape" && selected) {
+            e.preventDefault();
+            onOpen();
+          }
+        }}
+      >
+        <div className="candidate-rank" aria-hidden="true">{rankLabel}</div>
         <div className="candidate-identity">
           <div className="candidate-name">{candidate.name}</div>
           <div className="candidate-role">{candidate.currentTitle}</div>
@@ -949,35 +1438,28 @@ function CandidateCard({
         </div>
       </button>
 
-      <div className="candidate-actions">
-        <button disabled={saving} onClick={() => onStatus("EARMARKED")} className={candidate.operationalStatus === "EARMARKED" ? "active" : ""}>Earmark</button>
-        <button disabled={saving} onClick={() => onStatus("TOP_10")} className={candidate.operationalStatus === "TOP_10" ? "active" : ""}>Top 10</button>
-        <button disabled={saving} onClick={() => onStatus("APPROACH")} className={candidate.operationalStatus === "APPROACH" ? "active" : ""}>Approach</button>
-        {exclusionTarget?.candidateId === candidate.candidateId ? (
-          <div className="exclusion-confirm" role="region" aria-label="Confirm exclusion">
-            <label htmlFor={`exclude-reason-${candidate.candidateId}`}>Reason</label>
-            <select id={`exclude-reason-${candidate.candidateId}`} value={excludeReason ?? "NOT_SUBMITTED"} onChange={(e) => onExcludeReasonChange?.(e.target.value)}>
-              <option value="NOT_SUBMITTED">NOT_SUBMITTED</option>
-              <option value="NO_LONGER_RELEVANT">NO_LONGER_RELEVANT</option>
-              <option value="COMPETITOR_EXCLUSIVE">COMPETITOR_EXCLUSIVE</option>
-              <option value="CLIENT_INSTRUCTED">CLIENT_INSTRUCTED</option>
-              <option value="OTHER">OTHER</option>
-            </select>
-            <button onClick={() => onExcludeConfirm?.()} aria-label="Confirm exclusion">Confirm</button>
-            <button onClick={() => onExcludeCancel?.()} aria-label="Cancel exclusion">Cancel</button>
-          </div>
-        ) : (
-          <button disabled={saving} onClick={() => onExcludeStart?.(candidate.candidateId, candidate.name)} className="danger-lite">Exclude</button>
-        )}
+      <div className="candidate-actions" role="group" aria-label={`Actions for ${candidate.name}`}>
+        <button disabled={saving} onClick={() => onStatus("EARMARKED")} className={candidate.operationalStatus === "EARMARKED" ? "active" : ""} aria-pressed={candidate.operationalStatus === "EARMARKED"} aria-label="Earmark candidate">
+          Earmark
+        </button>
+        <button disabled={saving} onClick={() => onStatus("TOP_10")} className={candidate.operationalStatus === "TOP_10" ? "active" : ""} aria-pressed={candidate.operationalStatus === "TOP_10"} aria-label="Add to Top 10">
+          Top 10
+        </button>
+        <button disabled={saving} onClick={() => onStatus("APPROACH")} className={candidate.operationalStatus === "APPROACH" ? "active" : ""} aria-pressed={candidate.operationalStatus === "APPROACH"} aria-label="Mark for approach">
+          Approach
+        </button>
+        <button disabled={saving} onClick={() => onExcludeStart?.(candidate.candidateId, candidate.name)} className="danger-lite" aria-label="Exclude candidate" aria-haspopup="dialog">
+          Exclude
+        </button>
       </div>
 
       {selected && (
         <div className="candidate-detail">
           <p className="why-fit">{candidate.whyFit}</p>
-          <div className="claim-grid">
+          <div className="claim-grid" role="table" aria-label="Evidence claims">
             {candidate.claims.map((claim) => (
-              <div className="claim-row" key={`${claim.name}-${claim.value}`}>
-                <span>{claim.name}</span><strong>{claim.value}</strong><EvidencePill status={claim.status} />
+              <div className="claim-row" key={`${claim.name}-${claim.value}`} role="row">
+                <span role="cell">{claim.name}</span><strong role="cell">{claim.value}</strong><span role="cell"><EvidencePill status={claim.status} /></span>
               </div>
             ))}
           </div>
@@ -1009,15 +1491,26 @@ function StatusPill({ text, subtle }: { text: string; subtle?: boolean }) {
 function QaPill({ status, compact }: { status: string; compact?: boolean }) {
   const className = status === "PASS" ? "pass" : status === "FAIL_RESEARCH_REQUIRED" ? "fail" : "unknowns";
   const label = status === "PASS_WITH_UNKNOWNS" ? "PASS + unknowns" : status === "FAIL_RESEARCH_REQUIRED" ? "Research required" : "QA passed";
-  return <span className={`qa-pill ${className} ${compact ? "compact" : ""}`}>{label}</span>;
+  return <span className={`qa-pill ${className} ${compact ? "compact" : ""}`} aria-label={`QA status ${label}`}>{label}</span>;
 }
 
 function EvidencePill({ status }: { status: string }) {
-  return <span className={`evidence-pill ${status.toLowerCase()}`}>{status}</span>;
+  // Larger, color-coded with text + dot, never color alone
+  const normalized = status.toUpperCase();
+  const className = normalized.toLowerCase();
+  // Keep original label visible plus dot; color via CSS class
+  return <span className={`evidence-pill ${className}`} aria-label={`Evidence ${normalized}`}>{normalized}</span>;
 }
 
 function lifecycleLabel(status: Vacancy["lifecycleStatus"]) {
   return status.replaceAll("_", " ");
+}
+
+function initials(name: string) {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "?";
+  if (parts.length === 1) return parts[0].slice(0,2).toUpperCase();
+  return (parts[0][0] + parts[parts.length-1][0]).toUpperCase();
 }
 
 function formatDate(value: string) {

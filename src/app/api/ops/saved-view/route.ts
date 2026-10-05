@@ -4,8 +4,20 @@ import { createClient } from "@/lib/supabase/server";
 export async function POST(request: Request) {
   const body = await request.json();
   const { name, viewState } = body ?? {};
-  if (!name || typeof viewState !== "object") {
+  if (!name || typeof viewState !== "object" || viewState === null || Array.isArray(viewState)) {
     return NextResponse.json({ error: "Invalid saved view payload." }, { status: 400 });
+  }
+  if (typeof name !== "string" || name.trim().length === 0 || name.trim().length > 80) {
+    return NextResponse.json({ error: "Invalid view name." }, { status: 400 });
+  }
+  // P2: guard against oversized viewState (DoS via large JSON)
+  try {
+    const serialized = JSON.stringify(viewState);
+    if (serialized.length > 20_000) {
+      return NextResponse.json({ error: "viewState too large (max 20KB)." }, { status: 413 });
+    }
+  } catch {
+    return NextResponse.json({ error: "Invalid viewState." }, { status: 400 });
   }
 
   const supabase = await createClient();
