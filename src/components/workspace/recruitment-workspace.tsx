@@ -402,11 +402,21 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
       <a href="#vacancy-list" className="skip-link">Skip to vacancies</a>
       <header className="topbar" role="banner">
         <div className="brand-block">
-          <div className="brand-mark" aria-hidden="true">TT</div>
-          <div>
-            <div className="brand-name">Talent Tree</div>
-            <div className="brand-subtitle">Recruitment Intelligence</div>
-          </div>
+          <a href="https://talenttree.co.za" className="brand-logo-link" aria-label="Talent Tree home">
+            {/* Official high-res logo from Mumoxa/tt-website — Talent Tree Logo 2026 (1).png (132×108) */}
+            <img
+              src="/talent-tree-logo.png"
+              alt="Talent Tree"
+              className="brand-logo-img"
+              width={132}
+              height={108}
+              loading="eager"
+            />
+            <span className="brand-lockup">
+              <span className="brand-name">Talent Tree</span>
+              <span className="brand-subtitle">Recruitment Intelligence</span>
+            </span>
+          </a>
         </div>
 
         <div className="global-search-wrap">
