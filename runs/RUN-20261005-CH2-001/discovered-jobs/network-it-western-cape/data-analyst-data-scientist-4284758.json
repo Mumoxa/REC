@@ -1,0 +1,119 @@
+{
+  "record_id": "DISCOVERY:network-it:data-analyst-data-scientist-4284758",
+  "parent_signal_id": null,
+  "discovered_at": "2026-10-06",
+  "posted_at": null,
+  "classification": "AGENCY_ADVERT",
+  "role": {
+    "raw_title": "Data Analyst | Data Scientist",
+    "normalized_title": "Data Analyst / Data Scientist",
+    "function": "Data Analytics / Data Science",
+    "seniority": "Experienced professional",
+    "location": "Cape Winelands: Boland"
+  },
+  "source": {
+    "channel": "agency",
+    "source_name": "Network IT (PNet fallback profile)",
+    "url": "https://www.pnet.co.za/jobs--Data-Analyst-Data-Scientist-Cape-Winelands-Boland-Network-IT--4284758-inline.html",
+    "author": null,
+    "advertiser": "Network IT",
+    "advertiser_type": "THIRD_PARTY"
+  },
+  "employer": {
+    "name": null,
+    "status": "UNKNOWN",
+    "existing_client": null
+  },
+  "qualification": {
+    "functional_scope": "INCLUDE",
+    "salary_gate": "INCLUDE",
+    "freshness": "PROBABLY_ACTIVE"
+  },
+  "evidence": [
+    {
+      "claim": "A Network IT-branded PNet listing with this title, location and ID was visible in the 33-result Western Cape profile snapshot.",
+      "status": "CONFIRMED",
+      "basis": "Direct PNet detail page and profile listing; advertiser is Network IT, not the end employer.",
+      "url": "https://www.pnet.co.za/jobs--Data-Analyst-Data-Scientist-Cape-Winelands-Boland-Network-IT--4284758-inline.html"
+    },
+    {
+      "claim": "Direct detail page lists a Data Analyst / Data Scientist role (3–6 years) with SQL, Power BI/Tableau, Python, ETL/data pipelines, data modelling/warehousing, dashboards and analysis.",
+      "status": "CONFIRMED",
+      "basis": "Direct PNet detail page; role wording and duties transcribed without employer inference.",
+      "url": "https://www.pnet.co.za/jobs--Data-Analyst-Data-Scientist-Cape-Winelands-Boland-Network-IT--4284758-inline.html"
+    },
+    {
+      "claim": "PNet lists R45,000–R57,000 monthly. Multiplying the directly displayed monthly range by 12 gives R540,000–R684,000 annualized, above R420,000 p.a.; the compensation basis is not stated.",
+      "status": "CONFIRMED",
+      "basis": "Direct Package & Remuneration section says R45,000–R57,000 monthly. Annualized calculation is monthly ×12 only; CTC/base/variable components not specified.",
+      "url": "https://www.pnet.co.za/jobs--Data-Analyst-Data-Scientist-Cape-Winelands-Boland-Network-IT--4284758-inline.html"
+    },
+    {
+      "claim": "The end employer is not identified in the retrieved direct advert.",
+      "status": "UNKNOWN",
+      "basis": "The page names Network IT as advertiser and uses an anonymous client/sector description; no hiring-company name is displayed.",
+      "url": "https://www.pnet.co.za/jobs--Data-Analyst-Data-Scientist-Cape-Winelands-Boland-Network-IT--4284758-inline.html"
+    },
+    {
+      "claim": "Employer-side vacancy acceptance is not verified.",
+      "status": "PROBABLE",
+      "basis": "The PNet detail page was retrievable and shows a recent relative publication age, but no employer confirmation or closing date is shown.",
+      "url": "https://www.pnet.co.za/jobs--Data-Analyst-Data-Scientist-Cape-Winelands-Boland-Network-IT--4284758-inline.html"
+    },
+    {
+      "claim": "The end employer is not evidenced as Boschendal Group or Laurium Capital.",
+      "status": "UNKNOWN",
+      "basis": "No employer name or agreed-client link appears in the listing.",
+      "url": "https://www.pnet.co.za/jobs--Data-Analyst-Data-Scientist-Cape-Winelands-Boland-Network-IT--4284758-inline.html"
+    }
+  ],
+  "possible_duplicate_of": null,
+  "next_action": "Identify the end employer from a reliable agency/employer source and confirm employer-side vacancy status; verify package basis before any downstream company or candidate work.",
+  "geography": {
+    "raw": "Cape Winelands: Boland",
+    "country": "South Africa",
+    "province": "Western Cape",
+    "city": null,
+    "node": "Cape Winelands: Boland",
+    "region_priority": "P1",
+    "cluster_id": "WC_WINELANDS",
+    "cluster_label": "Stellenbosch / Cape Winelands",
+    "search_term_matched": "Network IT PNet Western Cape profile"
+  },
+  "taxonomy": {
+    "node_id": 240,
+    "node_name": "Data Analytics",
+    "group_code": "AF",
+    "group_name": "BI, Analytics & Decision Intelligence",
+    "classification_confidence": "PROBABLE",
+    "boundary_rule_applied": "Combined Data Analyst/Data Scientist title; described work centres on SQL/BI dashboards, analysis and ETL, with data-science scope also present. Classify under Data Analytics as the primary observed remit; preserve Data Science as a secondary role-family signal.",
+    "exclusion_status": "IN_SCOPE",
+    "exclusion_reason": null
+  },
+  "seniority": {
+    "band": "TIER_7_EXPERIENCED_PROFESSIONAL",
+    "matched_terms": [
+      "3–6 years"
+    ],
+    "board_level": false,
+    "executive_director": false,
+    "fractional_or_interim": false,
+    "consulting_track": false,
+    "specialist_track": true,
+    "people_management_required": false,
+    "confidence": "CONFIRMED"
+  },
+  "client_status": "UNKNOWN",
+  "source_priority_stage": "STAGE_2_STRATEGIC_AGENCIES",
+  "client_relationship": {
+    "matched_client_canonical": null,
+    "matched_entity": null,
+    "agreement_scope_status": "UNKNOWN",
+    "identity_status": "UNKNOWN",
+    "promotion_to_stage_1": false,
+    "basis": "End employer is not identified; no agreed-client identity or relationship is evidenced.",
+    "promote_to_agreed_client_priority": false
+  },
+  "search_channel": "AGENCY_SITES",
+  "pay_evidence": "R45,000–R57,000 monthly; R540,000–R684,000 annualized by ×12"
+}

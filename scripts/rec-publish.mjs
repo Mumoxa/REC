@@ -1,5 +1,142 @@
-import fs from "node:fs";\nimport path from "node:path";\nimport { spawnSync } from "node:child_process";\n\nconst DEFAULT_INGEST_URL = "https://rec-phi-weld.vercel.app/api/ingest/run";\nconst VERCEL_PROJECT = {\n  orgId: "team_CyTmZDiFFzeUtLGjne1r5bnR",\n  projectId: "prj_UuLx9PsSqd58jKPlCRBHldehqSw6",\n};\n\nfunction fail(message, details) {\n  console.error(`REC publish failed: ${message}`);\n  if (details) console.error(details);\n  process.exit(1);\n}\n\nfunction ensureProjectLink() {\n  const dir = path.resolve(".vercel");\n  const file = path.join(dir, "project.json");\n  if (fs.existsSync(file)) return;\n\n  fs.mkdirSync(dir, { recursive: true });\n  fs.writeFileSync(\n    file,\n    JSON.stringify({ orgId: VERCEL_PROJECT.orgId, projectId: VERCEL_PROJECT.projectId }, null, 2) + "\n",\n    { mode: 0o600 },\n  );\n}\n\nfunction bootstrapThroughVercel(payloadPath) {\n  ensureProjectLink();\n  const child = spawnSync(\n    process.platform === "win32" ? "npx.cmd" : "npx",\n    [\n      "--yes",\n      "vercel",\n      "env",\n      "run",\n      "--environment=production",\n      "--",\n      process.execPath,\n      path.resolve("scripts/rec-publish.mjs"),\n      "--from-vercel",\n      path.resolve(payloadPath),\n    ],\n    { stdio: "inherit", env: process.env },\n  );\n\n  if (child.error) {\n    fail("Could not start the Vercel-backed publisher.", child.error.message);\n  }\n  process.exit(child.status ?? 1);\n}\n\nfunction parseArgs() {\n  const args = process.argv.slice(2);\n  const fromVercel = args[0] === "--from-vercel";\n  const payloadPath = fromVercel ? args[1] : args[0];\n  if (!payloadPath) {\n    fail("Usage: npm run rec:publish -- runs/<RUN-ID>/publication-payload.json");\n  }\n  return { fromVercel, payloadPath };\n}\n\nfunction readPayload(payloadPath) {\n  const resolved = path.resolve(payloadPath);\n  if (!fs.existsSync(resolved)) fail(`Payload file not found: ${resolved}`);\n\n  let payload;\n  try {\n    payload = JSON.parse(fs.readFileSync(resolved, "utf8"));\n  } catch (error) {\n    fail("Publication payload is not valid JSON.", error.message);\n  }\n\n  if (!payload?.run?.externalRunId || !payload?.run?.channel) {\n    fail("Payload must contain run.externalRunId and run.channel before publication.");\n  }\n  if (!Array.isArray(payload.vacancies)) fail("Payload.vacancies must be an array.");\n  return payload;\n}\n\nasync function publish(payload) {\n  const key = process.env.INGEST_API_KEY?.trim();\n  if (!key) {\n    fail("INGEST_API_KEY is still unavailable after Vercel bootstrap. Authenticate the Vercel CLI for the REC project and retry.");\n  }\n\n  const ingestUrl = process.env.REC_INGEST_URL?.trim() || DEFAULT_INGEST_URL;\n  let response;\n  try {\n    response = await fetch(ingestUrl, {\n      method: "POST",\n      headers: { "content-type": "application/json", authorization: `Bearer ${key}` },\n      body: JSON.stringify(payload),\n    });\n  } catch (error) {\n    fail(`Unable to reach REC ingestion endpoint ${ingestUrl}.`, error.message);\n  }\n\n  const raw = await response.text();\n  let body;\n  try { body = raw ? JSON.parse(raw) : {}; } catch { body = { raw }; }\n  if (!response.ok || body?.ok !== true) {\n    fail(`REC ingestion returned HTTP ${response.status}.`, JSON.stringify(body, null, 2));\n  }\n\n  const verification = body.verification || {};\n  const expectedVacancies = payload.vacancies.length;\n  const persistedVacancies = Number(verification.persistedVacancyCount ?? body.persistedVacancies?.length ?? 0);\n  if (persistedVacancies < expectedVacancies) {\n    fail(\n      "Post-write verification found fewer persisted vacancies than the payload contained.",\n      JSON.stringify({ expectedVacancies, persistedVacancies, externalRunId: payload.run.externalRunId }, null, 2),\n    );\n  }\n\n  if (payload.run.status === "COMPLETE" && verification.completionContractSatisfied !== true) {\n    fail("Server accepted the request but the COMPLETE run did not satisfy the REC completion contract.", JSON.stringify(verification, null, 2));\n  }\n\n  console.log(JSON.stringify({\n    ok: true,\n    published: true,\n    externalRunId: body.externalRunId || payload.run.externalRunId,\n    runStatus: body.runStatus || payload.run.status || "RUNNING",\n    persistedVacancyCount: persistedVacancies,\n    persistedCandidateCount: Number(verification.persistedCandidateCount ?? 0),\n    persistedCandidateAssignmentCount: Number(verification.persistedCandidateAssignmentCount ?? 0),\n    persistedSubmitReadyTop10Count: Number(verification.persistedSubmitReadyTop10Count ?? 0),\n    persistedFullMarketReadyVacancyCount: Number(verification.persistedFullMarketReadyVacancyCount ?? 0),
+import fs from "node:fs";
+import path from "node:path";
+import { spawnSync } from "node:child_process";
+
+const DEFAULT_INGEST_URL = "https://rec-phi-weld.vercel.app/api/ingest/run";
+const VERCEL_PROJECT = {
+  orgId: "team_CyTmZDiFFzeUtLGjne1r5bnR",
+  projectId: "prj_UuLx9PsSqd58jKPlCRBHldehqSw6",
+};
+
+function fail(message, details) {
+  console.error(`REC publish failed: ${message}`);
+  if (details) console.error(details);
+  process.exit(1);
+}
+
+function ensureProjectLink() {
+  const dir = path.resolve(".vercel");
+  const file = path.join(dir, "project.json");
+  if (fs.existsSync(file)) return;
+
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(
+    file,
+    JSON.stringify({ orgId: VERCEL_PROJECT.orgId, projectId: VERCEL_PROJECT.projectId }, null, 2) + "\n",
+    { mode: 0o600 },
+  );
+}
+
+function bootstrapThroughVercel(payloadPath) {
+  ensureProjectLink();
+  const child = spawnSync(
+    process.platform === "win32" ? "npx.cmd" : "npx",
+    [
+      "--yes",
+      "vercel",
+      "env",
+      "run",
+      "--environment=production",
+      "--",
+      process.execPath,
+      path.resolve("scripts/rec-publish.mjs"),
+      "--from-vercel",
+      path.resolve(payloadPath),
+    ],
+    { stdio: "inherit", env: process.env },
+  );
+
+  if (child.error) {
+    fail("Could not start the Vercel-backed publisher.", child.error.message);
+  }
+  process.exit(child.status ?? 1);
+}
+
+function parseArgs() {
+  const args = process.argv.slice(2);
+  const fromVercel = args[0] === "--from-vercel";
+  const payloadPath = fromVercel ? args[1] : args[0];
+  if (!payloadPath) {
+    fail("Usage: npm run rec:publish -- runs/<RUN-ID>/publication-payload.json");
+  }
+  return { fromVercel, payloadPath };
+}
+
+function readPayload(payloadPath) {
+  const resolved = path.resolve(payloadPath);
+  if (!fs.existsSync(resolved)) fail(`Payload file not found: ${resolved}`);
+
+  let payload;
+  try {
+    payload = JSON.parse(fs.readFileSync(resolved, "utf8"));
+  } catch (error) {
+    fail("Publication payload is not valid JSON.", error.message);
+  }
+
+  if (!payload?.run?.externalRunId || !payload?.run?.channel) {
+    fail("Payload must contain run.externalRunId and run.channel before publication.");
+  }
+  if (!Array.isArray(payload.vacancies)) fail("Payload.vacancies must be an array.");
+  return payload;
+}
+
+async function publish(payload) {
+  const key = process.env.INGEST_API_KEY?.trim();
+  if (!key) {
+    fail("INGEST_API_KEY is still unavailable after Vercel bootstrap. Authenticate the Vercel CLI for the REC project and retry.");
+  }
+
+  const ingestUrl = process.env.REC_INGEST_URL?.trim() || DEFAULT_INGEST_URL;
+  let response;
+  try {
+    response = await fetch(ingestUrl, {
+      method: "POST",
+      headers: { "content-type": "application/json", authorization: `Bearer ${key}` },
+      body: JSON.stringify(payload),
+    });
+  } catch (error) {
+    fail(`Unable to reach REC ingestion endpoint ${ingestUrl}.`, error.message);
+  }
+
+  const raw = await response.text();
+  let body;
+  try { body = raw ? JSON.parse(raw) : {}; } catch { body = { raw }; }
+  if (!response.ok || body?.ok !== true) {
+    fail(`REC ingestion returned HTTP ${response.status}.`, JSON.stringify(body, null, 2));
+  }
+
+  const verification = body.verification || {};
+  const expectedVacancies = payload.vacancies.length;
+  const persistedVacancies = Number(verification.persistedVacancyCount ?? body.persistedVacancies?.length ?? 0);
+  if (persistedVacancies < expectedVacancies) {
+    fail(
+      "Post-write verification found fewer persisted vacancies than the payload contained.",
+      JSON.stringify({ expectedVacancies, persistedVacancies, externalRunId: payload.run.externalRunId }, null, 2),
+    );
+  }
+
+  if (payload.run.status === "COMPLETE" && verification.completionContractSatisfied !== true) {
+    fail("Server accepted the request but the COMPLETE run did not satisfy the REC completion contract.", JSON.stringify(verification, null, 2));
+  }
+
+  console.log(JSON.stringify({
+    ok: true,
+    published: true,
+    externalRunId: body.externalRunId || payload.run.externalRunId,
+    runStatus: body.runStatus || payload.run.status || "RUNNING",
+    persistedVacancyCount: persistedVacancies,
+    persistedCandidateCount: Number(verification.persistedCandidateCount ?? 0),
+    persistedCandidateAssignmentCount: Number(verification.persistedCandidateAssignmentCount ?? 0),
+    persistedSubmitReadyTop10Count: Number(verification.persistedSubmitReadyTop10Count ?? 0),
+    persistedFullMarketReadyVacancyCount: Number(verification.persistedFullMarketReadyVacancyCount ?? 0),
     persistedStakeholderCount: Number(verification.persistedStakeholderCount ?? 0),
     persistedHiringTeamReadyVacancyCount: Number(verification.persistedHiringTeamReadyVacancyCount ?? 0),
     persistedCompanyEmailIntelligenceCount: Number(verification.persistedCompanyEmailIntelligenceCount ?? 0),
-    completionContractSatisfied: verification.completionContractSatisfied === true,\n  }, null, 2));\n}\n\nconst { fromVercel, payloadPath } = parseArgs();\nconst payload = readPayload(payloadPath);\nif (!process.env.INGEST_API_KEY && !fromVercel) bootstrapThroughVercel(payloadPath);\nawait publish(payload);\n
+    completionContractSatisfied: verification.completionContractSatisfied === true,
+  }, null, 2));
+}
+
+const { fromVercel, payloadPath } = parseArgs();
+const payload = readPayload(payloadPath);
+if (!process.env.INGEST_API_KEY && !fromVercel) bootstrapThroughVercel(payloadPath);
+await publish(payload);

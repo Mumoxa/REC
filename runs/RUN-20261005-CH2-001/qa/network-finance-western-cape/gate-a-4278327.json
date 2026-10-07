@@ -1,0 +1,83 @@
+{
+  "gate": "A_DISCOVERY",
+  "record_id": "DISCOVERY:network-finance-51189:regional-finance-business-partner-4278327",
+  "reviewed_at": "2026-10-07",
+  "sources_checked": [
+    "https://www.pnet.co.za/jobs--Regional-Finance-Business-Partner-Cape-Town-Northern-Suburbs-Network-Finance--4278327-inline.html",
+    "https://www.pnet.co.za/cmp/en/network-finance-51189/jobs/in-western-cape",
+    "https://www.networkrecruitmentinternational.com/finance-jobs",
+    "runs/RUN-20261005-CH2-001/network-finance-western-cape-review.md"
+  ],
+  "claims_reviewed": [
+    {
+      "claim": "A Network Finance-branded PNet advert for Regional Finance Business Partner (ID 4278327; ref NPr004465-EHo-1) was retrievable in the Western Cape profile 51189 snapshot.",
+      "evidence": "Direct PNet detail page displays the title/reference and Network Finance advertiser; profile page reports the 74-result Western Cape snapshot. Network Finance is the advertiser, not the verified hiring employer.",
+      "status": "CONFIRMED",
+      "decision": "Uphold as an agency advert only; do not assert an employer identity."
+    },
+    {
+      "claim": "The raw role title, location and core functional scope are as transcribed.",
+      "evidence": "The direct page describes month-end accounting across operations, reconciliations, internal controls, stock management, operational partnering, AI/automation and travel to branches; 3+ years' experience and BCom are stated.",
+      "status": "CONFIRMED",
+      "decision": "Uphold direct-page wording only; preserve the taxonomy boundary note."
+    },
+    {
+      "claim": "The R420,000 p.a. economic salary screen is cleared by R540,000–R650,000 annually.",
+      "evidence": "The direct Package & Remuneration section states R540,000–R650,000 annually; the lower bound exceeds R420,000 p.a.",
+      "status": "CONFIRMED",
+      "decision": "Uphold the displayed pay evidence for screening only; do not infer package composition or employer acceptance."
+    },
+    {
+      "claim": "The hiring employer is identified.",
+      "evidence": "The direct advert names Network Finance as the advertiser and uses an anonymous client/sector description; no end-employer name is displayed.",
+      "status": "UNKNOWN",
+      "decision": "Reject any employer-name inference; keep employer and agreed-client status unknown."
+    },
+    {
+      "claim": "The employer-side vacancy is confirmed to remain open.",
+      "evidence": "PNet direct detail page was retrievable and displayed a relative age of 1 week ago at retrieval; no employer confirmation or closing date was shown.",
+      "status": "PROBABLE",
+      "decision": "Downgrade to listed on PNet at retrieval; employer-side acceptance remains unknown."
+    },
+    {
+      "claim": "This is a Boschendal or Laurium agreed-client opportunity.",
+      "evidence": "No end-employer name or agreed-client relationship appears in the direct listing.",
+      "status": "UNKNOWN",
+      "decision": "Do not promote to agreed-client priority."
+    },
+    {
+      "claim": "The noted similar/related advert is the same requisition.",
+      "evidence": "Possible duplicate/re-title with 4277022: same anonymized listed-services-group description, same Northern Suburbs location, same recruiter and nearly word-for-word duties; reference, title and annual range differ. Retain both IDs and count once provisionally pending confirmation.",
+      "status": "HYPOTHESIS",
+      "decision": "Retain all source IDs separately and count once provisionally only for aggregate triage where the description indicates likely overlap; obtain recruiter/employer confirmation before merging."
+    }
+  ],
+  "claims_upheld": [
+    "A retrievable Network Finance PNet agency advert for Regional Finance Business Partner was observed on 2026-10-07.",
+    "The direct page's displayed role, location, relative age and remuneration are preserved without inferring an end employer.",
+    "The salary screen uses direct pay evidence only; any annualization or uncertainty is explicitly disclosed."
+  ],
+  "claims_downgraded": [
+    "PNet visibility and a recent relative listing age do not prove the end employer still accepts applications.",
+    "Network Finance is the agency advertiser, not a confirmed hiring-company identity.",
+    "No Boschendal or Laurium relationship is established."
+  ],
+  "claims_removed": [
+    "No employer, candidate, hiring owner, direct employer email or personal contact detail is inferred from anonymous sector/location language."
+  ],
+  "contradictions": [
+    "Two same-recruiter ads use near-identical wording for the same anonymous listed-services-group description but have different references, titles and pay ranges; common requisition is probable but unconfirmed."
+  ],
+  "unknowns": [
+    "End-employer identity and employer-side vacancy acceptance are unresolved.",
+    "The role is not evidenced as a Boschendal or Laurium agreed-client opportunity.",
+    "Package composition (base, CTC, bonus or variable pay) is unstated unless expressly noted above.",
+    "No employer stakeholder, company email pattern, target-company map or candidate map is activated while the employer remains unknown.",
+    "Potential duplicate/repost status requires recruiter or employer confirmation; keep source IDs distinct until resolved."
+  ],
+  "next_research_actions": [
+    "Confirm whether the similarly worded Finance Operations Accountant ad is the same requisition; identify the listed-services-group employer and verify employer-side vacancy status and salary/package basis.",
+    "Do not begin stakeholder/company-email, target-company or candidate mapping until the hiring employer is confirmed or high-confidence."
+  ],
+  "reviewer_conclusion": "PASS_WITH_UNKNOWNS"
+}

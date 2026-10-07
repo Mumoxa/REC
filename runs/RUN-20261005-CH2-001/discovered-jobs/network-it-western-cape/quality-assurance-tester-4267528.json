@@ -1,0 +1,120 @@
+{
+  "record_id": "DISCOVERY:network-it:quality-assurance-tester-4267528",
+  "parent_signal_id": null,
+  "discovered_at": "2026-10-06",
+  "posted_at": null,
+  "classification": "AGENCY_ADVERT",
+  "role": {
+    "raw_title": "Quality Assurance Tester",
+    "normalized_title": "Quality Assurance Tester",
+    "function": "Software Quality Assurance",
+    "seniority": "Experienced professional",
+    "location": "Cape Town: Northern Suburbs"
+  },
+  "source": {
+    "channel": "agency",
+    "source_name": "Network IT (PNet fallback profile)",
+    "url": "https://www.pnet.co.za/jobs--Quality-Assurance-Tester-Cape-Town-Northern-Suburbs-Network-IT--4267528-inline.html",
+    "author": null,
+    "advertiser": "Network IT",
+    "advertiser_type": "THIRD_PARTY"
+  },
+  "employer": {
+    "name": null,
+    "status": "UNKNOWN",
+    "existing_client": null
+  },
+  "qualification": {
+    "functional_scope": "INCLUDE",
+    "salary_gate": "INCLUDE",
+    "freshness": "PROBABLY_ACTIVE"
+  },
+  "evidence": [
+    {
+      "claim": "A Network IT-branded PNet listing with this title, location and ID was visible in the 33-result Western Cape profile snapshot.",
+      "status": "CONFIRMED",
+      "basis": "Direct PNet detail page and profile listing; advertiser is Network IT, not the end employer.",
+      "url": "https://www.pnet.co.za/jobs--Quality-Assurance-Tester-Cape-Town-Northern-Suburbs-Network-IT--4267528-inline.html"
+    },
+    {
+      "claim": "Direct detail page describes comprehensive software QA for web/mobile apps: test plans, manual and automated testing, regression, functional/non-functional/exploratory testing and defect tracking.",
+      "status": "CONFIRMED",
+      "basis": "Direct PNet detail page; role wording and duties transcribed without employer inference.",
+      "url": "https://www.pnet.co.za/jobs--Quality-Assurance-Tester-Cape-Town-Northern-Suburbs-Network-IT--4267528-inline.html"
+    },
+    {
+      "claim": "PNet lists R500,000–R600,000 annually, directly above the R420,000 p.a. floor.",
+      "status": "CONFIRMED",
+      "basis": "Direct Package & Remuneration section says R500,000–R600,000 annually. Whether this is base pay or CTC is not stated.",
+      "url": "https://www.pnet.co.za/jobs--Quality-Assurance-Tester-Cape-Town-Northern-Suburbs-Network-IT--4267528-inline.html"
+    },
+    {
+      "claim": "The end employer is not identified in the retrieved direct advert.",
+      "status": "UNKNOWN",
+      "basis": "The page names Network IT as advertiser and uses an anonymous client/sector description; no hiring-company name is displayed.",
+      "url": "https://www.pnet.co.za/jobs--Quality-Assurance-Tester-Cape-Town-Northern-Suburbs-Network-IT--4267528-inline.html"
+    },
+    {
+      "claim": "Employer-side vacancy acceptance is not verified.",
+      "status": "PROBABLE",
+      "basis": "The PNet detail page was retrievable and shows a recent relative publication age, but no employer confirmation or closing date is shown.",
+      "url": "https://www.pnet.co.za/jobs--Quality-Assurance-Tester-Cape-Town-Northern-Suburbs-Network-IT--4267528-inline.html"
+    },
+    {
+      "claim": "The end employer is not evidenced as Boschendal Group or Laurium Capital.",
+      "status": "UNKNOWN",
+      "basis": "No employer name or agreed-client link appears in the listing.",
+      "url": "https://www.pnet.co.za/jobs--Quality-Assurance-Tester-Cape-Town-Northern-Suburbs-Network-IT--4267528-inline.html"
+    }
+  ],
+  "possible_duplicate_of": null,
+  "next_action": "Identify the health-technology employer from a reliable source and confirm current requisition status; then begin employer-side contact/company-email and target-company work if identity is confirmed.",
+  "geography": {
+    "raw": "Cape Town: Northern Suburbs",
+    "country": "South Africa",
+    "province": "Western Cape",
+    "city": "Cape Town",
+    "node": "Cape Town / Northern Suburbs",
+    "region_priority": "P1",
+    "cluster_id": "WC_NORTHERN_SUBURBS_N1",
+    "cluster_label": "Northern Suburbs / N1 corridor",
+    "search_term_matched": "Network IT PNet Western Cape profile"
+  },
+  "taxonomy": {
+    "node_id": 183,
+    "node_name": "Quality Assurance",
+    "group_code": "W",
+    "group_name": "QA, Testing & Quality Engineering",
+    "classification_confidence": "CONFIRMED",
+    "boundary_rule_applied": "Primary duties are software QA and manual/automated testing across web/mobile applications; not customer support or security leadership.",
+    "exclusion_status": "IN_SCOPE",
+    "exclusion_reason": null
+  },
+  "seniority": {
+    "band": "TIER_7_EXPERIENCED_PROFESSIONAL",
+    "matched_terms": [
+      "Experienced QA Tester",
+      "Software Test Analyst"
+    ],
+    "board_level": false,
+    "executive_director": false,
+    "fractional_or_interim": false,
+    "consulting_track": false,
+    "specialist_track": true,
+    "people_management_required": false,
+    "confidence": "CONFIRMED"
+  },
+  "client_status": "UNKNOWN",
+  "source_priority_stage": "STAGE_2_STRATEGIC_AGENCIES",
+  "client_relationship": {
+    "matched_client_canonical": null,
+    "matched_entity": null,
+    "agreement_scope_status": "UNKNOWN",
+    "identity_status": "UNKNOWN",
+    "promotion_to_stage_1": false,
+    "basis": "End employer is not identified; no agreed-client identity or relationship is evidenced.",
+    "promote_to_agreed_client_priority": false
+  },
+  "search_channel": "AGENCY_SITES",
+  "pay_evidence": "R500,000–R600,000 annually"
+}

@@ -1,0 +1,798 @@
+{
+  "run_id": "RUN-20261005-CH2-001",
+  "updated_at": "2026-10-07",
+  "run_status": "RUNNING",
+  "active_channel": "AGENCY_SITES",
+  "active_geography": "Western Cape",
+  "geography_order": [
+    "Western Cape",
+    "Gauteng",
+    "KwaZulu-Natal",
+    "broader South Africa"
+  ],
+  "channel_3_full_scan_status": "NOT_STARTED",
+  "candidate_market_searches_reported_before_this_checkpoint": 131,
+  "agency_role_validation_queries_logged_2026_10_06": 72,
+  "agency_source_surface_queries_logged_2026_10_06": 21,
+  "total_agency_web_searches_logged_2026_10_06": 93,
+  "agency_role_validation_queries_are_candidate_searches": false,
+  "agency_source_surface_queries_are_candidate_searches": false,
+  "sources": [
+    {
+      "source_id": "PRN_STAFFING_NATIVE",
+      "agency": "PRN Staffing",
+      "channel": "AGENCY_SITES",
+      "inventory_url": "https://prnstaffing.co.za/career-opportunities/",
+      "geography": "Western Cape",
+      "method": "Full visible native inventory review; open/attempt every reference-coded detail URL.",
+      "coverage_status": "INVENTORY_REVIEWED",
+      "coverage_summary": "29 reference-numbered cards plus one evergreen CA(SA)–Cape Town card (30 visible entries). All 29 reference detail URLs were opened or attempted; KK681 returns HTTP 404. The evergreen card is not a role-specific vacancy.",
+      "freshness_limitations": [
+        "PRN detail pages do not state posting/closing dates; visible inventory presence is not proof that an end employer is still accepting applications.",
+        "KK681 is still on the inventory but its detail page returned 404; currentness/existence is unresolved and it is not treated as active."
+      ],
+      "role_review_artifact": "runs/RUN-20261005-CH2-001/agency-prn-western-cape-review.md",
+      "gate_a_status": "NOT_RUN_FOR_AGENCY_LEADS",
+      "geography_completion": "WESTERN_CAPE_INVENTORY_REVIEWED; OTHER_GEOGRAPHIES_NOT_YET_CHECKED"
+    },
+    {
+      "source_id": "COMMUNICATE_NATIVE",
+      "agency": "Communicate Recruitment",
+      "channel": "AGENCY_SITES",
+      "inventory_urls": [
+        "https://www.communicate.co.za/find-jobs",
+        "https://www.communicate.co.za/job-regions",
+        "https://www.communicate.co.za/finance/find-a-job",
+        "https://www.communicate.co.za/engineering/find-a-job",
+        "https://www.communicate.co.za/IT/find-a-job-old"
+      ],
+      "geography": "Western Cape",
+      "method": "Official vacancies, regional filters and finance category opened; page parser did not return live job cards.",
+      "coverage_status": "ACCESS_LIMITATION_WITH_FALLBACK_IN_PROGRESS",
+      "coverage_summary": "Official find-jobs/region and finance/engineering filters expose location and expertise controls but did not render live job cards in retrieved text. The legacy IT page shows 51 total ads but a reCAPTCHA-gated card area, so it is not an independently reviewed vacancy inventory. This is an access/rendering limitation, not evidence of zero vacancies. PNet Communicate-branded profiles are a secondary fallback, not a substitute for the unresolved native feed.",
+      "secondary_fallback_surfaces": [
+        {
+          "url": "https://www.pnet.co.za/cmp/en/communicate-finance-51185/jobs/in-western-cape",
+          "snapshot_count": 63,
+          "pnet_radius": "20 miles / 30 km",
+          "new_jobs_facet": 6,
+          "last_week_facet": 25,
+          "subregion_checks": {
+            "Cape Town": 46,
+            "Stellenbosch": 35,
+            "Paarl": 35,
+            "Somerset West": 35,
+            "George": 0,
+            "Worcester": 0
+          }
+        },
+        {
+          "url": "https://www.pnet.co.za/cmp/en/communicate-it-51186/jobs/in-western-cape",
+          "snapshot_count": 72,
+          "pnet_radius": "20 miles / 30 km",
+          "new_jobs_facet": 21,
+          "last_week_facet": 49,
+          "subregion_checks": {
+            "Cape Town": 70,
+            "Stellenbosch": 23,
+            "Paarl": 23,
+            "Somerset West": 23,
+            "George": 0,
+            "Worcester": 0
+          }
+        },
+        {
+          "url": "https://www.pnet.co.za/cmp/en/communicate-engineering-51188/jobs/in-western-cape",
+          "snapshot_count": 53,
+          "pnet_radius": "20 miles / 30 km",
+          "new_jobs_facet": 2,
+          "last_week_facet": 26,
+          "subregion_checks": {
+            "Cape Town": 51,
+            "Stellenbosch": 40,
+            "Paarl": 40,
+            "Somerset West": 40,
+            "George": 0,
+            "Worcester": 0
+          },
+          "off_radius_roles_surfaced": [
+            "Sales Engineer, Cape Winelands: Boland (likely sales-related; excluded from general pipeline pending taxonomy review)",
+            "Maintenance Supervisor, Cape Winelands: Boland (junior/supervisory scope; salary/qualification pending)"
+          ]
+        }
+      ],
+      "profile_search_limitations": [
+        "PNet counts overlap across 30 km subregion filters and include agency reposts; do not sum the counts as unique vacancies.",
+        "Only the Communicate Finance profile's Cape Town, Stellenbosch, Paarl, Somerset West, George and Worcester filters have so far been checked; the full Western Cape cluster sweep and role-level detail review remain in progress."
+      ],
+      "geography_completion": "WESTERN_CAPE_FALLBACK_REVIEW_IN_PROGRESS; OTHER_GEOGRAPHIES_NOT_YET_CHECKED"
+    },
+    {
+      "source_id": "NETWORK_NATIVE",
+      "agency": "Network Recruitment",
+      "channel": "AGENCY_SITES",
+      "inventory_urls": [
+        "https://www.networkrecruitmentinternational.com/jobs-in-south-africa",
+        "https://www.networkrecruitmentinternational.com/job-regions",
+        "https://www.networkrecruitmentinternational.com/find-jobs",
+        "https://www.networkrecruitmentinternational.com/finance-jobs",
+        "https://www.networkrecruitmentinternational.com/it-jobs",
+        "https://www.networkrecruitmentinternational.com/engineering-jobs",
+        "https://www.networkrecruitmentinternational.com/supply-chain-jobs",
+        "https://www.networkrecruitmentinternational.com/engineering",
+        "https://www.networkrecruitmentinternational.com/south-africa-engineering",
+        "https://www.networkrecruitmentinternational.com/it",
+        "https://www.networkrecruitmentinternational.com/south-africa-it",
+        "https://www.networkrecruitmentinternational.com/south-africa-supply-chain"
+      ],
+      "geography": "Western Cape",
+      "method": "Official division, service, job-search and regional surfaces checked; dynamic native job widgets/cards were inaccessible through page retrieval, so explicitly labelled PNet profile fallbacks were used for discovery and direct detail checks.",
+      "coverage_status": "ACCESS_LIMITATION_WITH_FALLBACK_IN_PROGRESS",
+      "coverage_summary": "Official Network pages identify Network Engineering and Network IT as divisions and provide job-search routes; the South Africa Engineering form exposes regional/expertise filters including Western Cape but reCAPTCHA/no vacancy cards prevent native inventory review. The Network IT service page confirms the division but its linked vacancy widget remains inaccessible. Previously checked Network general/finance/IT/engineering feed pages report errors/no-matching messages, and guessed South Africa IT/Supply Chain routes return not-found pages; none is treated as zero vacancies. PNet fallback profiles include Network Finance (51189), Network IT (51190), Network Engineering (51192), a separate unmerged Network Finance. profile (51191), Finance Corporate (11131) and Menlyn Engineering (11128). PNet is a secondary fallback, not proof of complete native coverage. Network IT profile 51190 has 33 reviewed direct pages and four salary-above-floor clusters, with end employers unnamed. Network Finance. profile 51191 reports 9 Western Cape results; 8 card details were reviewed, including one R550k–R650k p.a. Financial Accountant lead with Gate A; one count discrepancy remains. Network Finance profile 51189 reports 74 Western Cape results and remains partially reviewed. It has five initial qualifying clusters, 42 further direct-page checks in three batches (14 additional salary-gate INCLUDE records and one VERIFY), and 20 Gate A/discovery pairs in total (19 INCLUDE, one VERIFY). The latest ads 4269935 and 4281572 pass the explicit annual floor but remain separate records with possible, unconfirmed overlaps; the last reconciled count remains 15 and neither new record is merged or counted as a distinct vacancy pending resolution. The eventual count may be 15–17. End employers remain unidentified and the 74-card profile is not complete.",
+      "secondary_fallback_surfaces": [
+        {
+          "url": "https://www.pnet.co.za/cmp/en/network-finance-51189/jobs/in-western-cape",
+          "snapshot_count": 74,
+          "pnet_radius": "20 miles / 30 km",
+          "new_jobs_facet": 4,
+          "last_week_facet": 38,
+          "subregion_checks": {
+            "Cape Town": 64,
+            "Stellenbosch": 35,
+            "Paarl": 35,
+            "Somerset West": 35,
+            "George": 0,
+            "Worcester": 0
+          },
+          "profile_label": "Network Finance",
+          "profile_id": "51189",
+          "last_week_facet_previous_snapshot_2026_10_06": 38,
+          "new_jobs_facet_previous_snapshot_2026_10_06": 4,
+          "last_week_facet_current_2026_10_07": 32,
+          "new_jobs_facet_current_2026_10_07": null,
+          "new_jobs_facet_current_note": "No separate New jobs facet was rendered in the 2026-10-07 page retrieval.",
+          "selected_direct_detail_pages_opened_2026_10_07": 9,
+          "older_search_result_detail_attempts_2026_10_07": 7,
+          "current_salary_above_floor_clusters": [
+            "4285172 / 4282561 (probable repost/duplicate lineage; count once provisionally)",
+            "4284743",
+            "4283450",
+            "4283195",
+            "4283187",
+            "4273048 / 4271433 (possible duplicate/re-title; count once provisionally)",
+            "4271281 (possible same contract role as 4272034, which remains salary-gate VERIFY)",
+            "4278327 / 4277022 (possible duplicate/re-title; count once provisionally)",
+            "4269944",
+            "4267832",
+            "4271647",
+            "4279144",
+            "4282554",
+            "4282952",
+            "4273960 (possible relation to 4273977 not confirmed; count separately provisionally)"
+          ],
+          "provisional_duplicate_pairs": [
+            [
+              "4285172",
+              "4282561"
+            ]
+          ],
+          "role_review_status": "PARTIAL: 74-result profile; initial five salary-qualified clusters, 11 earlier non-qualifying direct checks, three further direct-page batches of 12/15/15 (14 INCLUDE, one VERIFY), plus separate Costing Analyst 4268931 below the salary floor. Twenty Gate A/discovery pairs are saved (19 salary INCLUDE; one VERIFY). The last reconciled distinct-vacancy count remains 15; latest INCLUDE records 4269935 and 4281572 stay separate and are neither merged nor added to the distinct count pending overlap resolution. The eventual count may be 15–17 depending on evidence; remaining cards and employer attribution/currentness checks remain open.",
+          "role_review_artifact": "runs/RUN-20261005-CH2-001/network-finance-western-cape-review.md",
+          "gate_a_artifacts": "runs/RUN-20261005-CH2-001/qa/network-finance-western-cape/",
+          "discovered_job_artifact_directory": "runs/RUN-20261005-CH2-001/discovered-jobs/network-finance-western-cape/",
+          "notes": "PNet count is a 30 km snapshot, not unique vacancies; the 74-card profile is not fully triaged. Nine selected details were reviewed in the initial batch, 11 additional non-qualifying direct checks were completed, and three later batches of 12/15/15 pages yielded 14 further salary-gate INCLUDE records and one VERIFY. Costing Analyst 4268931 states R400,000–R500,000 annually (below the strict lower-bound screen). The newest 15-page batch adds Finance Director 4269935 (R1.3m–R1.5m annually) and Regional Finance Operations Analyst 4281572 (R540k–R600k annually); both have Gate A/discovery records, unknown end employers and inconclusive attribution searches. Possible overlaps with 4269944 and with 4278327/4277022 remain hypotheses; keep 4269935 and 4281572 as separate source records, do not merge them or count either as a distinct vacancy before reconciliation. The last reconciled count remains 15; the eventual count may be 15–17 depending on whether one or both new ads prove distinct. Other latest-batch cards do not qualify because the pay period is missing, only an upper bound is stated, the annual lower bound is below R420,000, pay is absent, or 4273010 is a talent-pipeline ad rather than a specific vacancy. Employer identity and employer-side acceptance remain unknown.",
+          "additional_direct_detail_pages_opened_2026_10_07": [
+            "4273048",
+            "4271433",
+            "4271281",
+            "4272034",
+            "4278327",
+            "4277022",
+            "4269944",
+            "4267832",
+            "4271647",
+            "4279144",
+            "4282554",
+            "4282952"
+          ],
+          "additional_salary_gate_include_ids_2026_10_07": [
+            "4267832",
+            "4269944",
+            "4271281",
+            "4271433",
+            "4271647",
+            "4273048",
+            "4273960",
+            "4277022",
+            "4278327",
+            "4279144",
+            "4282554",
+            "4282952"
+          ],
+          "additional_salary_gate_verify_ids_2026_10_07": [
+            "4272034"
+          ],
+          "additional_possible_duplicate_pairs_2026_10_07": [
+            [
+              "4273048",
+              "4271433"
+            ],
+            [
+              "4271281",
+              "4272034"
+            ],
+            [
+              "4278327",
+              "4277022"
+            ]
+          ],
+          "provisional_qualifying_cluster_count_after_triage": 15,
+          "latest_direct_detail_pages_opened_2026_10_07": [
+            "4269935",
+            "4271757",
+            "4270526",
+            "4277509",
+            "4277208",
+            "4273010",
+            "4274051",
+            "4271765",
+            "4281361",
+            "4280966",
+            "4280969",
+            "4281531",
+            "4281572",
+            "4269846",
+            "4269839"
+          ],
+          "latest_batch_salary_gate_include_ids_2026_10_07": [
+            "4269935",
+            "4281572"
+          ],
+          "latest_batch_salary_gate_unknown_or_not_qualified_ids_2026_10_07": [
+            "4271757",
+            "4270526",
+            "4277509",
+            "4277208",
+            "4273010",
+            "4274051",
+            "4271765",
+            "4281361",
+            "4280969",
+            "4281531",
+            "4269846",
+            "4269839"
+          ],
+          "last_week_facet_initial_current_2026_10_07": 34,
+          "last_week_facet_current_recheck_note": "The refreshed pagination retrieval showed 32 Last week results; an earlier same-day retrieval showed 34. Facet counts vary and are not unique-role counts.",
+          "initial_and_latest_direct_detail_batches_2026_10_07": {
+            "prior_professional_senior_batch": 12,
+            "later_professional_senior_batch": 15,
+            "later_batch_salary_gate_include_ids": [
+              "4273960"
+            ],
+            "latest_professional_senior_batch": 15,
+            "latest_batch_salary_gate_include_ids": [
+              "4269935",
+              "4281572"
+            ],
+            "latest_batch_salary_gate_verify_ids": [
+              "4280966"
+            ],
+            "latest_batch_other_dispositions": [
+              "No numeric pay",
+              "Pay period not disclosed",
+              "Upper bound only",
+              "Annual lower bound below R420,000",
+              "Talent-pipeline rather than specific vacancy"
+            ],
+            "further_page_checks_total": 42,
+            "further_salary_gate_include_count": 14,
+            "further_salary_gate_verify_count": 1,
+            "provisional_qualifying_cluster_count_after_all_batches": 15,
+            "possible_distinct_cluster_range_after_latest_overlap_review": [
+              15,
+              17
+            ]
+          },
+          "prior_15_page_batch_direct_detail_pages_opened_2026_10_07": [
+            "4283112",
+            "4274410",
+            "4274291",
+            "4282569",
+            "4273960",
+            "4273977",
+            "4283033",
+            "4283482",
+            "4275921",
+            "4279836",
+            "4279143",
+            "4269972",
+            "4268621",
+            "4268818",
+            "4277497"
+          ],
+          "prior_15_page_batch_salary_gate_include_ids_2026_10_07": [
+            "4273960"
+          ],
+          "prior_15_page_batch_salary_gate_unknown_or_not_qualified_ids_2026_10_07": [
+            "4283112",
+            "4274410",
+            "4274291",
+            "4282569",
+            "4273977",
+            "4283033",
+            "4283482",
+            "4275921",
+            "4279836",
+            "4279143",
+            "4269972",
+            "4268621",
+            "4268818",
+            "4277497"
+          ],
+          "latest_batch_salary_gate_verify_ids_2026_10_07": [
+            "4280966"
+          ],
+          "latest_batch_below_floor_annual_ids_2026_10_07": [
+            "4280969",
+            "4281531",
+            "4269839"
+          ],
+          "latest_batch_upper_bound_only_ids_2026_10_07": [
+            "4281361"
+          ],
+          "latest_batch_specific_vacancy_status": {
+            "4273010": "TALENT_PIPELINE_NOT_SPECIFIC_VACANCY"
+          },
+          "latest_overlap_hypotheses_2026_10_07": [
+            {
+              "ids": [
+                "4269935",
+                "4269944"
+              ],
+              "status": "HYPOTHESIS",
+              "basis": "Adjacent Network Finance reference family and similar manufacturing/distribution finance remit; no employer/requisition confirmation.",
+              "counting": "KEEP_SEPARATE; DO_NOT_ADD_TO_DISTINCT_COUNT_PENDING_RESOLUTION."
+            },
+            {
+              "ids": [
+                "4281572",
+                "4278327",
+                "4277022"
+              ],
+              "status": "HYPOTHESIS",
+              "basis": "Similar anonymous listed-services group wording, regional operational-finance scope and recruiter context; no employer/requisition confirmation.",
+              "counting": "KEEP_SEPARATE; DO_NOT_ADD_TO_DISTINCT_COUNT_PENDING_RESOLUTION."
+            }
+          ],
+          "latest_page_batch_2026_10_07": {
+            "direct_detail_pages_opened": [
+              "4269935",
+              "4271757",
+              "4270526",
+              "4277509",
+              "4277208",
+              "4273010",
+              "4274051",
+              "4271765",
+              "4281361",
+              "4280966",
+              "4280969",
+              "4281531",
+              "4281572",
+              "4269846",
+              "4269839"
+            ],
+            "salary_gate_include_ids": [
+              "4269935",
+              "4281572"
+            ],
+            "salary_gate_verify_ids": [
+              "4280966"
+            ],
+            "below_floor_annual_ids": [
+              "4280969",
+              "4281531",
+              "4269839"
+            ],
+            "upper_bound_only_ids": [
+              "4281361"
+            ],
+            "no_pay_period_ids": [
+              "4280966"
+            ],
+            "specific_vacancy_exclusion_ids": [
+              "4273010"
+            ],
+            "no_numeric_pay_ids": [
+              "4271757",
+              "4270526",
+              "4277509",
+              "4277208",
+              "4274051",
+              "4271765",
+              "4269846"
+            ],
+            "gate_a_discovery_pairs_created": 2,
+            "end_employer_attribution": "UNRESOLVED_FOR_BOTH_QUALIFYING_ADS",
+            "cluster_count_effect": "NO_CHANGE_TO_LAST_RECONCILED_COUNT_OF_15; NEW_ADS_KEPT_SEPARATE_AND_UNCOUNTED_AS_DISTINCT_PENDING_OVERLAP_EVIDENCE; EVENTUAL_COUNT_SCENARIO_15_TO_17"
+          },
+          "new_gate_a_salary_include_ids_2026_10_07": [
+            "4269935",
+            "4281572"
+          ],
+          "new_gate_a_pairs_2026_10_07": [
+            {
+              "pnet_id": "4269935",
+              "qa": "runs/RUN-20261005-CH2-001/qa/network-finance-western-cape/gate-a-4269935.json",
+              "discovery": "runs/RUN-20261005-CH2-001/discovered-jobs/network-finance-western-cape/finance-director-manufacturing-distribution-4269935.json",
+              "employer": "UNKNOWN",
+              "attribution_search_result": "NO_EMPLOYER_IDENTIFIED"
+            },
+            {
+              "pnet_id": "4281572",
+              "qa": "runs/RUN-20261005-CH2-001/qa/network-finance-western-cape/gate-a-4281572.json",
+              "discovery": "runs/RUN-20261005-CH2-001/discovered-jobs/network-finance-western-cape/regional-finance-operations-analyst-4281572.json",
+              "employer": "UNKNOWN",
+              "attribution_search_result": "NO_EMPLOYER_IDENTIFIED"
+            }
+          ],
+          "latest_unreconciled_salary_include_leads_2026_10_07": [
+            {
+              "pnet_id": "4269935",
+              "record_status": "SEPARATE_SOURCE_RECORD; NOT_MERGED; NOT_ADDED_TO_DISTINCT_VACANCY_COUNT",
+              "possible_overlap_ids": [
+                "4269944"
+              ]
+            },
+            {
+              "pnet_id": "4281572",
+              "record_status": "SEPARATE_SOURCE_RECORD; NOT_MERGED; NOT_ADDED_TO_DISTINCT_VACANCY_COUNT",
+              "possible_overlap_ids": [
+                "4278327",
+                "4277022"
+              ]
+            }
+          ]
+        },
+        {
+          "url": "https://www.pnet.co.za/cmp/en/network-recruitment-finance-corporate-11131/jobs/in-western-cape",
+          "snapshot_count": 1,
+          "pnet_radius": "20 miles / 30 km",
+          "result_summary": "Business Analyst, Cape Winelands: Stellenbosch, listed 1 day ago"
+        },
+        {
+          "url": "https://www.pnet.co.za/cmp/en/network-recruitment-menlyn-engineering-11128/jobs/in-western-cape",
+          "snapshot_count": 0,
+          "result_summary": "No PNet jobs matched this Western Cape filter at retrieval"
+        },
+        {
+          "url": "https://www.pnet.co.za/cmp/en/network-it-51190/jobs/in-western-cape",
+          "profile_label": "Network IT",
+          "profile_id": "51190",
+          "official_division_confirmed": true,
+          "attribution_basis": "Official Network Recruitment IT service page identifies Network IT; the separate PNet brand/profile is observed under the Network Recruitment advertiser family.",
+          "snapshot_count": 33,
+          "pnet_radius": "20 miles / 30 km",
+          "new_jobs_facet": 1,
+          "last_week_facet": 22,
+          "subregion_checks": {
+            "Cape Town": 19,
+            "Stellenbosch": 19,
+            "Paarl": 19,
+            "Somerset West": 19,
+            "George": 0,
+            "Worcester": 0,
+            "Ceres": 1
+          },
+          "additional_exact_matches_outside_radius": {
+            "Worcester": 14,
+            "Ceres": 13
+          },
+          "role_review_status": "ALL_33_CARDS_AND_DETAIL_PAGES_REVIEWED; FOUR_SALARY_ABOVE_FLOOR_CLUSTERS; END_EMPLOYERS_UNRESOLVED",
+          "notes": "PNet profile locations include Cape Town, Northern Suburbs, Stellenbosch, Brackenfell, Southern Suburbs, Claremont and Ceres. Subregion views overlap; counts are not unique vacancies. First page showed 25 cards; ?page=2 showed eight. All direct detail pages were reviewed; four salary-above-floor clusters have A_DISCOVERY QA and local discovery records, each still blocked downstream by unnamed end employer and unconfirmed employer-side status.",
+          "detail_pages_opened": 33,
+          "profile_page_cards": 25,
+          "page_2_cards": 8,
+          "role_review_artifact": "runs/RUN-20261005-CH2-001/network-it-western-cape-review.md",
+          "qa_artifact_directory": "runs/RUN-20261005-CH2-001/qa/network-it-western-cape/",
+          "discovery_record_directory": "runs/RUN-20261005-CH2-001/discovered-jobs/network-it-western-cape/",
+          "salary_above_floor_clusters": [
+            "Data Analyst | Data Scientist (PNet 4284758; R45,000–R57,000 monthly, annualized ×12)",
+            "DevOps Engineer probable near-duplicate/re-advertisement cluster (PNet 4275941 and 4271360; R600,000–R630,000 annually; do not count twice pending confirmation)",
+            "Quality Assurance Tester (PNet 4267528; R500,000–R600,000 annually)",
+            "Solutions Expert (PNet 4277397; R50,000–R75,000 monthly, annualized ×12)"
+          ],
+          "at_or_below_salary_floor": [
+            "Data Professional (PNet 4280278; R25,000–R35,000 monthly, annualized R300,000–R420,000)"
+          ],
+          "employer_attribution_status": "UNRESOLVED_FOR_ALL_33; NO_END_EMPLOYER_NAMED_IN_DIRECT_DETAIL_PAGES"
+        },
+        {
+          "url": "https://www.pnet.co.za/cmp/en/network-engineering-51192/jobs/in-western-cape",
+          "profile_label": "Network Engineering",
+          "profile_id": "51192",
+          "official_division_confirmed": true,
+          "attribution_basis": "Official Network Recruitment Engineering service page identifies Network Engineering as its division; PNet profile is a secondary advertiser feed.",
+          "snapshot_count": 15,
+          "pnet_radius": "20 miles / 30 km",
+          "last_week_facet": 6,
+          "subregion_checks": {
+            "Cape Town": 12,
+            "Stellenbosch": 13,
+            "Paarl": 13,
+            "Somerset West": 13,
+            "George": 0,
+            "Worcester": 0,
+            "Ceres": 1
+          },
+          "additional_exact_matches_outside_radius": {
+            "Worcester": 3,
+            "Ceres": 2
+          },
+          "details_opened": 12,
+          "card_level_exclusions": 3,
+          "role_review_artifact": "runs/RUN-20261005-CH2-001/network-engineering-western-cape-review.md",
+          "gate_a_artifacts": "runs/RUN-20261005-CH2-001/qa/network-engineering-western-cape/",
+          "role_review_status": "15-card snapshot accounted for; 12 technical detail pages reviewed; three sales-labelled cards excluded at card level",
+          "notes": "No end employer was named in the 12 reviewed technical detail pages. PNet subregion views overlap; do not sum them."
+        },
+        {
+          "url": "https://www.pnet.co.za/cmp/en/network-finance-51191/jobs/in-western-cape",
+          "profile_label": "Network Finance.",
+          "profile_id": "51191",
+          "official_division_confirmed": false,
+          "attribution_basis": "PNet display name/logo/location resemble the Network family, but profile 51191 remains separate; no exact official linkage or cross-profile employer overlap is verified.",
+          "snapshot_count": 9,
+          "pnet_radius": "20 miles / 30 km",
+          "new_jobs_facet": 1,
+          "last_week_facet": 4,
+          "role_review_status": "PARTIAL: 8 surfaced cards/8 direct pages reviewed; one 9-versus-8 profile-count discrepancy remains open; one salary-qualified lead has Gate A; employer attribution and profile overlap unresolved",
+          "notes": "Do not merge counts or records with Network Finance profile 51189 until official linkage/deduplication is verified. Profile header says 9 results; retrieved rendered text exposed 8 cards. One Network Finance. Financial Accountant ID 4277667 explicitly lists R550,000–R650,000 annually and has local Gate A/discovery records; end employer and employer-side currentness remain unknown.",
+          "cards_surfaced_in_retrieved_text": 8,
+          "direct_detail_pages_reviewed": 8,
+          "unreconciled_profile_count_difference": 1,
+          "salary_above_floor_leads": [
+            "4277667"
+          ],
+          "provisional_duplicate_pairs": [
+            [
+              "4276715",
+              "4274443"
+            ],
+            [
+              "4273970",
+              "4271844"
+            ],
+            [
+              "4268194",
+              "4267541"
+            ]
+          ],
+          "profile_review_status": "PARTIAL: 8 surfaced cards/8 direct pages reviewed; one profile-count discrepancy remains open; employer attribution and cross-profile overlap unresolved",
+          "role_review_artifact": "runs/RUN-20261005-CH2-001/network-finance-dot-western-cape-review.md",
+          "gate_a_artifacts": "runs/RUN-20261005-CH2-001/qa/network-finance-dot-western-cape/",
+          "discovered_job_artifact": "runs/RUN-20261005-CH2-001/discovered-jobs/network-finance-dot-western-cape/financial-accountant-4277667.json"
+        }
+      ],
+      "profile_search_limitations": [
+        "PNet profiles are third-party/advertiser surfaces, radius-limited, overlapping and potentially duplicated; subregion totals must not be summed or treated as unique vacancy counts.",
+        "Network Finance profile 51189, Network IT 51190 and Network Engineering 51192 are distinct profiles. Network Finance. 51191 remains separate/unmerged pending official linkage and overlap verification; its profile header reported 9 results while only 8 card details surfaced, and the discrepancy remains open.",
+        "Network Engineering profile snapshot is reviewed at 15 cards, with 12 technical detail pages checked and three direct-sales cards excluded at profile-card level; role end employers remain unknown.",
+        "Network IT profile 51190 has 33 Western Cape cards and all 33 direct detail pages were reviewed; end-employer attribution and employer-side currentness remain unresolved for every card.",
+        "No live Network South Africa Engineering/IT vacancy cards were exposed by official page retrieval. This is an access limitation, not proof of zero vacancies.",
+        "The Network International profile discovered through the PNet path `network-supply-chain-51193` is a different/unaligned advertiser and is not attributed to Network Recruitment.",
+        "No end-employer stakeholder or company-email research may proceed for these PNet roles until employer resolution is CONFIRMED or HIGH_CONFIDENCE."
+      ],
+      "geography_completion": "WESTERN_CAPE_FALLBACK_ROLE_REVIEWED; NATIVE_FEED_INACCESSIBLE; OTHER_GEOGRAPHIES_NOT_YET_CHECKED",
+      "role_review_artifact": "runs/RUN-20261005-CH2-001/network-engineering-western-cape-review.md",
+      "role_review_artifacts": [
+        "runs/RUN-20261005-CH2-001/network-engineering-western-cape-review.md",
+        "runs/RUN-20261005-CH2-001/network-it-western-cape-review.md",
+        "runs/RUN-20261005-CH2-001/network-finance-dot-western-cape-review.md",
+        "runs/RUN-20261005-CH2-001/qa/network-finance-dot-western-cape/",
+        "runs/RUN-20261005-CH2-001/discovered-jobs/network-finance-dot-western-cape/financial-accountant-4277667.json",
+        "runs/RUN-20261005-CH2-001/network-finance-western-cape-review.md",
+        "runs/RUN-20261005-CH2-001/qa/network-finance-western-cape/",
+        "runs/RUN-20261005-CH2-001/discovered-jobs/network-finance-western-cape/"
+      ],
+      "private_contact_artifacts": [
+        "private-runs/RUN-20261005-CH2-001/network-finance-dot-western-cape-contact-notes.json"
+      ]
+    }
+  ],
+  "activity": [
+    {
+      "date": "2026-10-06",
+      "channel": "AGENCY_SITES",
+      "geography": "Western Cape",
+      "source_id": "PRN_STAFFING_NATIVE",
+      "action": "Reviewed all visible PRN reference cards and attempted all 29 detail URLs; documented the role-by-role triage, external comparisons and uncertainty.",
+      "result_artifact": "runs/RUN-20261005-CH2-001/agency-prn-western-cape-review.md"
+    },
+    {
+      "date": "2026-10-06",
+      "channel": "AGENCY_SITES",
+      "geography": "Western Cape",
+      "source_id": "PRN_STAFFING_NATIVE",
+      "action": "Executed 41 exact agency-role validation, attribution and duplicate/currentness searches. These were not candidate-market searches.",
+      "result_artifact": "runs/RUN-20261005-CH2-001/search-activity-2026-10-06.md"
+    },
+    {
+      "date": "2026-10-06",
+      "channel": "AGENCY_SITES",
+      "geography": "Western Cape",
+      "source_id": "COMMUNICATE_NATIVE",
+      "action": "Opened official find-jobs, job-regions and finance-find-a-job pages. Live inventory cards were not rendered in retrieved text; began PNet company-profile fallback review.",
+      "status": "FALLBACK_IN_PROGRESS"
+    },
+    {
+      "date": "2026-10-06",
+      "channel": "AGENCY_SITES",
+      "geography": "Western Cape",
+      "source_id": "NETWORK_NATIVE",
+      "action": "Opened official South Africa jobs, job-regions, general find-jobs and finance-jobs pages. The dynamic jobs widget failed; began PNet company-profile fallback review.",
+      "status": "FALLBACK_IN_PROGRESS"
+    },
+    {
+      "date": "2026-10-06",
+      "channel": "AGENCY_SITES",
+      "geography": "Western Cape",
+      "source_id": "NETWORK_NATIVE",
+      "action": "Checked official Network Engineering/IT division and job-search pages; discovered/reviewed PNet Western Cape profiles for Network Engineering (15-card snapshot, 12 technical detail pages opened, three sales cards excluded) and discovered Network IT (33-result snapshot) plus a separate Network Finance. profile (9-result snapshot). Executed 12 exact employer-attribution/repost searches; no technical-role end employer was identified.",
+      "result_artifacts": [
+        "runs/RUN-20261005-CH2-001/network-engineering-western-cape-review.md",
+        "runs/RUN-20261005-CH2-001/qa/network-engineering-western-cape/",
+        "runs/RUN-20261005-CH2-001/search-activity-2026-10-06.md"
+      ],
+      "private_contact_artifact": "private-runs/RUN-20261005-CH2-001/network-engineering-western-cape-contact-notes.json",
+      "status": "WESTERN_CAPE_NETWORK_FALLBACK_IN_PROGRESS; NO_END_EMPLOYER_CONFIRMED; NO_CHANNEL_2_COMPLETION"
+    },
+    {
+      "date": "2026-10-07",
+      "channel": "AGENCY_SITES",
+      "geography": "Western Cape",
+      "source_id": "NETWORK_NATIVE",
+      "action": "Re-opened PNet fallback profile Network Finance. 51191; retrieved the profile and eight surfaced direct details, created a role review and local Gate A/discovery record for salary-qualified Financial Accountant 4277667, and retained the unresolved 9-versus-8 result discrepancy and cross-profile attribution gap.",
+      "result_artifacts": [
+        "runs/RUN-20261005-CH2-001/network-finance-dot-western-cape-review.md",
+        "runs/RUN-20261005-CH2-001/qa/network-finance-western-cape/gate-a-4277667.json",
+        "runs/RUN-20261005-CH2-001/discovered-jobs/network-finance-western-cape/financial-accountant-4277667.json"
+      ],
+      "private_contact_artifact": "private-runs/RUN-20261005-CH2-001/network-finance-dot-western-cape-contact-notes.json",
+      "status": "WESTERN_CAPE_FALLBACK_PARTIAL; ONE_SALARY_QUALIFIED_LEAD_WITH_GATE_A; END_EMPLOYER_UNKNOWN; PROFILE_COUNT_DISCREPANCY_OPEN"
+    },
+    {
+      "date": "2026-10-07",
+      "channel": "AGENCY_SITES",
+      "geography": "Western Cape",
+      "source_id": "NETWORK_NATIVE",
+      "action": "Executed four exact profile/role searches to reconcile Network Finance. profile 51191 and seek its unresolved ninth card; none established a ninth current card, end employer, or cross-profile linkage.",
+      "result_artifact": "runs/RUN-20261005-CH2-001/search-activity-2026-10-06.md",
+      "status": "PROFILE_COUNT_DISCREPANCY_OPEN; NO_EMPLOYER_ATTRIBUTION"
+    },
+    {
+      "date": "2026-10-07",
+      "channel": "AGENCY_SITES",
+      "geography": "Western Cape",
+      "source_id": "NETWORK_NATIVE",
+      "action": "Re-opened Network Finance profile 51189 (74 Western Cape results); reviewed nine selected direct PNet details and created local Gate A/discovery records for five explicitly salary-above-floor clusters. The 74-card profile remains partially triaged; Senior Cost Accountant 4285172/4282561 is a probable duplicate/repost cluster counted once provisionally.",
+      "result_artifacts": [
+        "runs/RUN-20261005-CH2-001/network-finance-western-cape-review.md",
+        "runs/RUN-20261005-CH2-001/qa/network-finance-western-cape/",
+        "runs/RUN-20261005-CH2-001/discovered-jobs/network-finance-western-cape/"
+      ],
+      "status": "PARTIAL_PROFILE_REVIEW; FIVE_SALARY_QUALIFIED_CLUSTERS_WITH_GATE_A; END_EMPLOYERS_UNKNOWN"
+    },
+    {
+      "date": "2026-10-07",
+      "channel": "AGENCY_SITES",
+      "geography": "Western Cape",
+      "source_id": "NETWORK_NATIVE",
+      "action": "Executed four exact salary-screening searches for Network Finance PNet leads; direct-page checks showed the surfaced older IDs were 404/expired, so no additional current lead was added.",
+      "result_artifact": "runs/RUN-20261005-CH2-001/search-activity-2026-10-06.md",
+      "status": "SEARCH_RESULTS_STALE_OR_OFFLINE; DIRECT_DETAIL_STATUS_CONTROLS"
+    },
+    {
+      "date": "2026-10-07",
+      "channel": "AGENCY_SITES",
+      "geography": "Western Cape",
+      "source_id": "NETWORK_NATIVE",
+      "action": "Opened the 11 remaining selected direct PNet detail pages from Network Finance profile 51189: 4284666, 4284266, 4282634, 4274872, 4272807, 4281495, 4280067, 4281460, 4281481, 4270661 and 4278495. Four showed annual amounts below R420,000; four were broad talent-pipeline adverts; two further talent-pipeline adverts showed a numeric amount without a pay period; and one medical-coding role showed below-floor annual remuneration. No new qualifying vacancy was created.",
+      "result_artifacts": [
+        "runs/RUN-20261005-CH2-001/network-finance-western-cape-review.md",
+        "runs/RUN-20261005-CH2-001/coverage-status.md"
+      ],
+      "status": "11_DIRECT_DETAIL_CHECKS_COMPLETE; NO_NEW_QUALIFYING_VACANCY; 74_CARD_PROFILE_REVIEW_STILL_OPEN"
+    },
+    {
+      "date": "2026-10-07",
+      "channel": "AGENCY_SITES",
+      "geography": "Western Cape",
+      "source_id": "NETWORK_NATIVE",
+      "action": "Opened 12 further PNet Network Finance profile 51189 direct pages (4273048, 4271433, 4271281, 4272034, 4278327, 4277022, 4269944, 4267832, 4271647, 4279144, 4282554, 4282952); created 12 Gate A/discovery record pairs, with 11 salary-gate INCLUDE and 4272034 VERIFY. Ran 12 exact-reference attribution searches without establishing the end employers. Three possible duplicate/re-title pairings remain unconfirmed; the working count is 14 provisional salary-qualified clusters, and the 74-card review remains incomplete.",
+      "result_artifacts": [
+        "runs/RUN-20261005-CH2-001/network-finance-western-cape-review.md",
+        "runs/RUN-20261005-CH2-001/qa/network-finance-western-cape/",
+        "runs/RUN-20261005-CH2-001/discovered-jobs/network-finance-western-cape/",
+        "runs/RUN-20261005-CH2-001/search-activity-2026-10-06.md"
+      ],
+      "status": "PARTIAL_PROFILE_REVIEW; 14_PROVISIONAL_QUALIFYING_CLUSTERS; END_EMPLOYERS_UNKNOWN; DOWNSTREAM_MAPPING_BLOCKED"
+    },
+    {
+      "date": "2026-10-07",
+      "channel": "AGENCY_SITES",
+      "geography": "Western Cape",
+      "source_id": "NETWORK_NATIVE",
+      "action": "Opened a further 15 direct Network Finance 51189 profile cards. One advert (Senior Accountant 4273960; R540,000–R650,000 annually) cleared the conservative salary floor and received Gate A/discovery records. The other 14 did not clear the floor because pay was absent, pay period was unstated, only an upper bound was stated, or an annual lower bound was below R420,000. Two exact-reference web searches for 4273960/4273977 did not establish an employer; 4273960 was kept separate from possible related 4273977. The working count is now 15 provisional qualifying clusters; the 74-card review remains incomplete.",
+      "result_artifacts": [
+        "runs/RUN-20261005-CH2-001/network-finance-western-cape-review.md",
+        "runs/RUN-20261005-CH2-001/qa/network-finance-western-cape/gate-a-4273960.json",
+        "runs/RUN-20261005-CH2-001/discovered-jobs/network-finance-western-cape/senior-accountant-century-city-4273960.json",
+        "runs/RUN-20261005-CH2-001/search-activity-2026-10-06.md"
+      ],
+      "status": "PARTIAL_PROFILE_REVIEW; 15_PROVISIONAL_QUALIFYING_CLUSTERS; 1_NEW_GATE_A_INCLUDE; END_EMPLOYERS_UNKNOWN; DOWNSTREAM_MAPPING_BLOCKED"
+    },
+    {
+      "date": "2026-10-07",
+      "channel": "AGENCY_SITES",
+      "geography": "Western Cape",
+      "source_id": "NETWORK_NATIVE",
+      "action": "Ran two phrase-level cross-source queries for Senior Accountant 4273960 and opened a returned ExecutivePlacements page. Results were unrelated/noisy; a secondary snippet described an unnamed Century City Senior Accountant but lacked the PNet reference and employer name, while the opened page was a different Stellenbosch accountant-practice role. Employer attribution remains unresolved.",
+      "result_artifacts": [
+        "runs/RUN-20261005-CH2-001/network-finance-western-cape-review.md",
+        "runs/RUN-20261005-CH2-001/search-activity-2026-10-06.md"
+      ],
+      "status": "NO_EMPLOYER_ATTRIBUTION; DO_NOT_MERGE; ALTERNATIVE_SOURCE_LEAD_UNVERIFIED"
+    },
+    {
+      "action": "Opened 15 further direct PNet detail pages from Network Finance profile 51189 (4269935, 4271757, 4270526, 4277509, 4277208, 4273010, 4274051, 4271765, 4281361, 4280966, 4280969, 4281531, 4281572, 4269846, 4269839). Two ads (4269935 and 4281572) show explicit annual ranges above the salary floor and received new Gate A/discovery pairs; the remaining 13 are below-floor, salary-unknown/period-unknown, upper-bound-only, or not a specific vacancy. Two possible overlap hypotheses are retained without merging. The last reconciled distinct-vacancy count remains 15; the two new ads are separate records and are not added as distinct vacancies pending evidence. The eventual total may be 15–17.",
+      "channel": "AGENCY_SITES",
+      "date": "2026-10-07",
+      "geography": "Western Cape",
+      "result_artifacts": [
+        "runs/RUN-20261005-CH2-001/network-finance-western-cape-review.md",
+        "runs/RUN-20261005-CH2-001/qa/network-finance-western-cape/gate-a-4269935.json",
+        "runs/RUN-20261005-CH2-001/qa/network-finance-western-cape/gate-a-4281572.json",
+        "runs/RUN-20261005-CH2-001/discovered-jobs/network-finance-western-cape/finance-director-manufacturing-distribution-4269935.json",
+        "runs/RUN-20261005-CH2-001/discovered-jobs/network-finance-western-cape/regional-finance-operations-analyst-4281572.json",
+        "runs/RUN-20261005-CH2-001/coverage-status.md"
+      ],
+      "source_id": "NETWORK_NATIVE",
+      "status": "15_DIRECT_PAGE_CHECKS; 2_NEW_GATE_A_INCLUDE; EMPLOYERS_UNKNOWN; TWO_OVERLAP_HYPOTHESES_UNCONFIRMED; 74_CARD_REVIEW_OPEN"
+    },
+    {
+      "action": "Ran four exact reference/phrase-level web searches for the two newly salary-qualified Network Finance 51189 ads. The result set did not identify a reliable hiring employer for either; an Adzuna snippet repeated the 4269935 title/pay but was secondary copy and named no client. The new ads remain distinct source records, with possible overlaps kept as hypotheses only.",
+      "channel": "AGENCY_SITES",
+      "date": "2026-10-07",
+      "geography": "Western Cape",
+      "result_artifact": "runs/RUN-20261005-CH2-001/search-activity-2026-10-06.md",
+      "source_id": "NETWORK_NATIVE",
+      "status": "4_EXACT_QUERIES_LOGGED; NO_END_EMPLOYER_ATTRIBUTION; DO_NOT_MERGE"
+    }
+  ],
+  "limitations": [
+    "Communicate Recruitment and Network Recruitment official live vacancy feeds were not available through retrieved page text; use explicit secondary fallback evidence and continue to seek an accessible native/agency-owned inventory.",
+    "PNet profiles are third-party mirrors and may be radius-limited, stale, duplicated, or grouped under multiple agency brand profiles; retain source labels and verify each actionable role against detail pages and agency evidence.",
+    "The exact query text from earlier candidate-market searches is unavailable; the prior reported count of 131 is preserved without reconstructing queries.",
+    "Eight agency-related web-search calls reported by a preceding continuation had exact query text unavailable; their subjects/outcomes are recorded without reconstructing strings. As of 2026-10-07, 121 exact agency-related strings and 129 known calls total are preserved; none are candidate-market searches.",
+    "Network Engineering PNet Western Cape detail pages support agency-ad facts and three explicit salary amounts but name no end employer; the agency-side contact details are private, and no end-employer stakeholder/company-email intelligence was started.",
+    "Network IT PNet Western Cape has a 33-result profile snapshot with all 33 direct pages reviewed and four salary-above-floor clusters; Network Finance. profile 51191 reports 9 results but only 8 cards were surfaced/reviewed, including one salary-qualified Financial Accountant lead; Network Finance profile 51189 reports 74 results and remains partially triaged, with the last reconciled distinct-vacancy count still 15; two new INCLUDE ads remain separate and uncounted pending overlap resolution (eventual scenario 15–17). End-employer identities, employer-side status and profile linkage remain unresolved.",
+    "The 11 selected remaining Network Finance profile 51189 direct-detail checks were completed on 2026-10-07; none yielded a new qualifying vacancy. The full 74-card profile review and all other Channel 2 coverage remain incomplete."
+  ],
+  "completion_gates": {
+    "channel_2_complete": false,
+    "channel_3_full_scan_started": false,
+    "all_qualifying_agency_roles_have_gate_a": false,
+    "datastore_persistence_verified": false,
+    "publication_claim_permitted": false
+  },
+  "agency_web_search_calls_with_query_text_unavailable_2026_10_06": 8,
+  "total_agency_web_search_calls_known_2026_10_06": 101,
+  "search_call_accounting_note": "121 exact agency-related web-search strings are preserved through 2026-10-07 (97 role-validation/attribution + 24 source-discovery); eight additional calls from a preceding continuation are known by subject/outcome but exact strings were unavailable and were not reconstructed. All 129 known agency-related calls are Channel 2 inventory/role research, not candidate-market searches. The previously reported 131 preliminary candidate-market searches remain unchanged; the full Channel 3 scan has not started.",
+  "agency_role_validation_queries_logged_2026_10_07": 25,
+  "agency_source_surface_queries_logged_2026_10_07": 3,
+  "total_agency_web_searches_logged_run_to_2026_10_07": 121,
+  "total_agency_web_search_calls_known_run_to_2026_10_07": 129,
+  "total_agency_web_searches_logged_2026_10_07": 28
+}

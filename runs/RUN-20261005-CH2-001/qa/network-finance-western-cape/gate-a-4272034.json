@@ -1,0 +1,86 @@
+{
+  "gate": "A_DISCOVERY",
+  "record_id": "DISCOVERY:network-finance-51189:financial-controller-six-month-contract-4272034",
+  "reviewed_at": "2026-10-07",
+  "sources_checked": [
+    "https://www.pnet.co.za/jobs--Financial-Controller-Contract-Cape-Town-Northern-Suburbs-Network-Finance--4272034-inline.html",
+    "https://www.pnet.co.za/cmp/en/network-finance-51189/jobs/in-western-cape",
+    "https://www.networkrecruitmentinternational.com/finance-jobs",
+    "runs/RUN-20261005-CH2-001/network-finance-western-cape-review.md"
+  ],
+  "claims_reviewed": [
+    {
+      "claim": "A Network Finance-branded PNet advert for Financial Controller (Contract) (ID 4272034; ref NFR011208-LEA-1) was retrievable in the Western Cape profile 51189 snapshot.",
+      "evidence": "Direct PNet detail page displays the title/reference and Network Finance advertiser; profile page reports the 74-result Western Cape snapshot. Network Finance is the advertiser, not the verified hiring employer.",
+      "status": "CONFIRMED",
+      "decision": "Uphold as an agency advert only; do not assert an employer identity."
+    },
+    {
+      "claim": "The raw role title, location and core functional scope are as transcribed.",
+      "evidence": "The direct page describes a six-month operational Financial Controller contract in Thornton, with cashbook, international payments, FX, cash flow, VAT/PAYE, reconciliations, audit, Sage 300/Accpac and import/export duties.",
+      "status": "CONFIRMED",
+      "decision": "Uphold direct-page wording only; preserve the taxonomy boundary note."
+    },
+    {
+      "claim": "The R420,000 p.a. economic salary screen is cleared by Approx. R50,000 per month (approx. R600,000 annualized run rate; flexible; not a guaranteed minimum).",
+      "evidence": "The body states “market-related remuneration – benchmark approximately R50,000 per month, flexible for the right candidate.” Multiplication by 12 gives an approximate R600,000 annualized run rate, above the R420,000 p.a. screen; the rate is not guaranteed and the six-month contract total would be approximately R300,000 at that benchmark.",
+      "status": "PROBABLE",
+      "decision": "Uphold the displayed pay evidence for screening only; do not infer package composition or employer acceptance."
+    },
+    {
+      "claim": "The hiring employer is identified.",
+      "evidence": "The direct advert names Network Finance as the advertiser and uses an anonymous client/sector description; no end-employer name is displayed.",
+      "status": "UNKNOWN",
+      "decision": "Reject any employer-name inference; keep employer and agreed-client status unknown."
+    },
+    {
+      "claim": "The employer-side vacancy is confirmed to remain open.",
+      "evidence": "PNet direct detail page was retrievable and displayed a relative age of 1 week ago at retrieval; no employer confirmation or closing date was shown.",
+      "status": "PROBABLE",
+      "decision": "Downgrade to listed on PNet at retrieval; employer-side acceptance remains unknown."
+    },
+    {
+      "claim": "This is a Boschendal or Laurium agreed-client opportunity.",
+      "evidence": "No end-employer name or agreed-client relationship appears in the direct listing.",
+      "status": "UNKNOWN",
+      "decision": "Do not promote to agreed-client priority."
+    },
+    {
+      "claim": "The noted similar/related advert is the same requisition.",
+      "evidence": "Possible duplicate/repost with 4271281: both are 6-month Financial Controller ads in Cape Town's Northern Suburbs with near-identical international/product-focused accounting, cashbook, foreign-currency, import/export and Sage 300 scope. Recruiter, reference and pay expression differ; do not merge as confirmed.",
+      "status": "HYPOTHESIS",
+      "decision": "Retain all source IDs separately and count once provisionally only for aggregate triage where the description indicates likely overlap; obtain recruiter/employer confirmation before merging."
+    }
+  ],
+  "claims_upheld": [
+    "A retrievable Network Finance PNet agency advert for Financial Controller (Contract) was observed on 2026-10-07.",
+    "The direct page's displayed role, location, relative age and remuneration are preserved without inferring an end employer.",
+    "The salary screen uses direct pay evidence only; any annualization or uncertainty is explicitly disclosed."
+  ],
+  "claims_downgraded": [
+    "PNet visibility and a recent relative listing age do not prove the end employer still accepts applications.",
+    "Network Finance is the agency advertiser, not a confirmed hiring-company identity.",
+    "No Boschendal or Laurium relationship is established."
+  ],
+  "claims_removed": [
+    "No employer, candidate, hiring owner, direct employer email or personal contact detail is inferred from anonymous sector/location language."
+  ],
+  "contradictions": [
+    "Direct page header/metadata says Permanent / Full Time, while the advert body says a six-month contract.",
+    "The monthly amount is an approximate, flexible benchmark and not a guaranteed lower bound; the annualized run-rate calculation is provisional. A six-month total at the approximate benchmark would be about R300,000."
+  ],
+  "unknowns": [
+    "End-employer identity and employer-side vacancy acceptance are unresolved.",
+    "The role is not evidenced as a Boschendal or Laurium agreed-client opportunity.",
+    "Package composition (base, CTC, bonus or variable pay) is unstated unless expressly noted above.",
+    "No employer stakeholder, company email pattern, target-company map or candidate map is activated while the employer remains unknown.",
+    "Potential duplicate/repost status requires recruiter or employer confirmation; keep source IDs distinct until resolved.",
+    "Contract duration and annual salary basis must be confirmed; six-month total value is not the same as annualized salary.",
+    "The approximate R50,000/month benchmark is flexible, not a guaranteed minimum; the salary gate is included only as a provisional annualized-rate screen."
+  ],
+  "next_research_actions": [
+    "Confirm whether the two contract-controller references are the same requisition, resolve the body-versus-metadata contract conflict and approximate salary floor, identify the end employer, and verify current acceptance.",
+    "Do not begin stakeholder/company-email, target-company or candidate mapping until the hiring employer is confirmed or high-confidence."
+  ],
+  "reviewer_conclusion": "PASS_WITH_UNKNOWNS"
+}

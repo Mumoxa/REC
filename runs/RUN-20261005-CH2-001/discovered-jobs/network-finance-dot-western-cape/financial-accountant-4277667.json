@@ -1,0 +1,119 @@
+{
+  "record_id": "DISCOVERY:network-finance-dot-51191:financial-accountant-4277667",
+  "parent_signal_id": null,
+  "discovered_at": "2026-10-07",
+  "posted_at": null,
+  "classification": "AGENCY_ADVERT",
+  "role": {
+    "raw_title": "Financial Accountant",
+    "normalized_title": "Financial Accountant (management / operational finance emphasis)",
+    "function": "Management Accounting / Operational Finance / Finance Business Partnering",
+    "seniority": "Experienced professional",
+    "location": "Cape Town: Northern Suburbs"
+  },
+  "source": {
+    "channel": "agency",
+    "source_name": "Network Finance. (PNet fallback profile 51191)",
+    "url": "https://www.pnet.co.za/jobs--Financial-Accountant-Cape-Town-Northern-Suburbs-Network-Finance--4277667-inline.html",
+    "author": null,
+    "advertiser": "Network Finance.",
+    "advertiser_type": "THIRD_PARTY"
+  },
+  "employer": {
+    "name": null,
+    "status": "UNKNOWN",
+    "existing_client": null
+  },
+  "qualification": {
+    "functional_scope": "INCLUDE",
+    "salary_gate": "INCLUDE",
+    "freshness": "PROBABLY_ACTIVE"
+  },
+  "evidence": [
+    {
+      "claim": "A Network Finance.-branded PNet Financial Accountant listing (ID 4277667; ref NFU017258-Camy-1) was visible in the separate Network Finance. profile 51191.",
+      "status": "CONFIRMED",
+      "basis": "Direct PNet detail page and PNet profile page; the advertiser is Network Finance., not a verified end employer.",
+      "url": "https://www.pnet.co.za/jobs--Financial-Accountant-Cape-Town-Northern-Suburbs-Network-Finance--4277667-inline.html"
+    },
+    {
+      "claim": "The role requires 3–5 years in management accounting, operational finance or finance business partnering and focuses on multi-branch operational performance, analysis and corrective actions.",
+      "status": "CONFIRMED",
+      "basis": "Direct PNet detail page duties and experience requirements. The title is Financial Accountant, while the described functional scope is management/operational finance and business partnering.",
+      "url": "https://www.pnet.co.za/jobs--Financial-Accountant-Cape-Town-Northern-Suburbs-Network-Finance--4277667-inline.html"
+    },
+    {
+      "claim": "PNet displays R550,000–R650,000 annually, above the R420,000 p.a. screening floor.",
+      "status": "CONFIRMED",
+      "basis": "Direct Package & Remuneration section states “R 550000 - R 650000 - Annually”; no monthly conversion is involved.",
+      "url": "https://www.pnet.co.za/jobs--Financial-Accountant-Cape-Town-Northern-Suburbs-Network-Finance--4277667-inline.html"
+    },
+    {
+      "claim": "The end employer is not identified in the retrieved direct advert.",
+      "status": "UNKNOWN",
+      "basis": "The page describes a “leading national services business” without naming it; Network Finance. is the advertiser.",
+      "url": "https://www.pnet.co.za/jobs--Financial-Accountant-Cape-Town-Northern-Suburbs-Network-Finance--4277667-inline.html"
+    },
+    {
+      "claim": "The PNet listing was visible at retrieval, but employer-side vacancy acceptance is unverified.",
+      "status": "PROBABLE",
+      "basis": "The direct page displayed a relative publication age of one week and remained retrievable; no employer confirmation or closing date was shown.",
+      "url": "https://www.pnet.co.za/jobs--Financial-Accountant-Cape-Town-Northern-Suburbs-Network-Finance--4277667-inline.html"
+    },
+    {
+      "claim": "The hiring employer is not evidenced as Boschendal Group or Laurium Capital, and client status remains unknown.",
+      "status": "UNKNOWN",
+      "basis": "No employer identity or agreed-client relationship appears in the listing.",
+      "url": "https://www.pnet.co.za/jobs--Financial-Accountant-Cape-Town-Northern-Suburbs-Network-Finance--4277667-inline.html"
+    }
+  ],
+  "possible_duplicate_of": null,
+  "next_action": "Identify the end employer from a reliable agency/employer source, verify employer-side vacancy status and confirm package composition. Reconcile the Network Finance. profile 51191 count discrepancy. Do not begin employer contacts, target-company mapping or candidate mapping until identity is confirmed or high-confidence.",
+  "geography": {
+    "raw": "Cape Town: Northern Suburbs",
+    "country": "South Africa",
+    "province": "Western Cape",
+    "city": null,
+    "node": "Cape Town: Northern Suburbs",
+    "region_priority": "P1",
+    "cluster_id": "WC_NORTHERN_SUBURBS_N1",
+    "cluster_label": "Northern Suburbs / N1 corridor",
+    "search_term_matched": "Network Finance. PNet Western Cape profile 51191"
+  },
+  "taxonomy": {
+    "node_id": 9,
+    "node_name": "Management Accounting & Costing",
+    "group_code": "B",
+    "group_name": "Finance & Accounting",
+    "classification_confidence": "PROBABLE",
+    "boundary_rule_applied": "Raw title is Financial Accountant, but the direct advert emphasizes multi-branch operational-finance analysis, management accounting and business partnering (3–5 years in those disciplines). Use node 9 as the primary observed remit; retain the title and provisional boundary classification.",
+    "exclusion_status": "IN_SCOPE",
+    "exclusion_reason": null
+  },
+  "seniority": {
+    "band": "TIER_7_EXPERIENCED_PROFESSIONAL",
+    "matched_terms": [
+      "3–5 years’ experience in Management Accounting, Operational Finance or Finance Business Partnering"
+    ],
+    "board_level": false,
+    "executive_director": false,
+    "fractional_or_interim": false,
+    "consulting_track": false,
+    "specialist_track": false,
+    "people_management_required": false,
+    "confidence": "CONFIRMED"
+  },
+  "client_status": "UNKNOWN",
+  "source_priority_stage": "STAGE_2_STRATEGIC_AGENCIES",
+  "client_relationship": {
+    "matched_client_canonical": null,
+    "matched_entity": null,
+    "agreement_scope_status": "UNKNOWN",
+    "identity_status": "UNKNOWN",
+    "promotion_to_stage_1": false,
+    "basis": "End employer is not identified; no agreed-client identity or relationship is evidenced.",
+    "promote_to_agreed_client_priority": false
+  },
+  "search_channel": "AGENCY_SITES",
+  "pay_evidence": "R550,000–R650,000 annually as shown in the direct Package & Remuneration section; exceeds R420,000 p.a. floor; base/CTC/variable composition unstated."
+}
