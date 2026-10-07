@@ -1,0 +1,122 @@
+{
+  "record_id": "DISCOVERY:network-finance-51189:finance-treasury-specialist-4267832",
+  "parent_signal_id": null,
+  "discovered_at": "2026-10-07",
+  "posted_at": null,
+  "classification": "AGENCY_ADVERT",
+  "role": {
+    "raw_title": "Finance & Treasury Specialist",
+    "normalized_title": "Finance & Treasury Specialist (trade finance / FX)",
+    "function": "Treasury / Trade Finance",
+    "seniority": "Specialist",
+    "location": "Cape Town: Helderberg"
+  },
+  "source": {
+    "channel": "agency",
+    "source_name": "Network Finance (PNet fallback profile 51189)",
+    "url": "https://www.pnet.co.za/jobs--Finance-Treasury-Specialist-Cape-Town-Helderberg-Network-Finance--4267832-inline.html",
+    "author": null,
+    "advertiser": "Network Finance",
+    "advertiser_type": "THIRD_PARTY"
+  },
+  "employer": {
+    "name": null,
+    "status": "UNKNOWN",
+    "existing_client": null
+  },
+  "qualification": {
+    "functional_scope": "INCLUDE",
+    "salary_gate": "INCLUDE",
+    "freshness": "PROBABLY_ACTIVE"
+  },
+  "evidence": [
+    {
+      "claim": "A Network Finance-branded PNet advert for Finance & Treasury Specialist (ID 4267832; ref NFC025109-Chan-1) was visible in the profile 51189 snapshot.",
+      "status": "CONFIRMED",
+      "basis": "Direct PNet detail page and profile snapshot; Network Finance is the advertiser, not a verified hiring employer.",
+      "url": "https://www.pnet.co.za/jobs--Finance-Treasury-Specialist-Cape-Town-Helderberg-Network-Finance--4267832-inline.html"
+    },
+    {
+      "claim": "The direct page describes trade finance, FX/hedging, exchange control, cross-border invoicing and international trade; BCom/relevant qualification and 10+ years' Corporate Treasury, Trade Finance or Corporate Banking experience are stated.",
+      "status": "CONFIRMED",
+      "basis": "Direct PNet detail-page description and stated requirements.",
+      "url": "https://www.pnet.co.za/jobs--Finance-Treasury-Specialist-Cape-Town-Helderberg-Network-Finance--4267832-inline.html"
+    },
+    {
+      "claim": "The direct Package & Remuneration section states R800,000–R900,000 annually; the lower bound exceeds R420,000 p.a.",
+      "status": "CONFIRMED",
+      "basis": "Direct Package & Remuneration block or, for 4272034, approximate monthly benchmark in the advert body. Annualization is arithmetic only and the 4272034 amount is not guaranteed.",
+      "url": "https://www.pnet.co.za/jobs--Finance-Treasury-Specialist-Cape-Town-Helderberg-Network-Finance--4267832-inline.html"
+    },
+    {
+      "claim": "The end employer is not identified in the retrieved direct advert.",
+      "status": "UNKNOWN",
+      "basis": "The page names Network Finance as advertiser and uses anonymous client/sector wording; no employer name is displayed.",
+      "url": "https://www.pnet.co.za/jobs--Finance-Treasury-Specialist-Cape-Town-Helderberg-Network-Finance--4267832-inline.html"
+    },
+    {
+      "claim": "PNet showed the page as published 2 weeks ago at retrieval; employer-side acceptance remains unverified.",
+      "status": "PROBABLE",
+      "basis": "Direct page was retrievable on 2026-10-07; no closing date or employer confirmation was shown.",
+      "url": "https://www.pnet.co.za/jobs--Finance-Treasury-Specialist-Cape-Town-Helderberg-Network-Finance--4267832-inline.html"
+    },
+    {
+      "claim": "The end employer is not evidenced as Boschendal or Laurium; client status remains unknown.",
+      "status": "UNKNOWN",
+      "basis": "No employer name or agreed-client relationship appears in the listing.",
+      "url": "https://www.pnet.co.za/jobs--Finance-Treasury-Specialist-Cape-Town-Helderberg-Network-Finance--4267832-inline.html"
+    }
+  ],
+  "possible_duplicate_of": null,
+  "next_action": "Identify the hiring employer from reliable agency/employer-origin evidence; verify the requisition remains open and confirm package composition. Do not infer employer identity from international/trade-finance wording.",
+  "geography": {
+    "raw": "Cape Town: Helderberg",
+    "country": "South Africa",
+    "province": "Western Cape",
+    "city": "Cape Town",
+    "node": "Cape Town: Helderberg",
+    "region_priority": "P1",
+    "cluster_id": "WC_HELDERBERG",
+    "cluster_label": "Somerset West / Helderberg",
+    "search_term_matched": "Network Finance PNet Western Cape profile 51189"
+  },
+  "taxonomy": {
+    "node_id": 15,
+    "node_name": "Treasury",
+    "group_code": "B",
+    "group_name": "Finance & Accounting",
+    "classification_confidence": "CONFIRMED",
+    "boundary_rule_applied": "Primary duties are treasury, FX, cash management, trade finance and exchange control; taxonomy node 15 explicitly includes Treasury and FX. Do not reclassify as generic finance leadership.",
+    "exclusion_status": "IN_SCOPE",
+    "exclusion_reason": null
+  },
+  "seniority": {
+    "band": "TIER_5_SPECIALIST",
+    "matched_terms": [
+      "Finance & Treasury Specialist",
+      "10+ years Corporate Treasury / Trade Finance / Corporate Banking",
+      "FX / exchange control"
+    ],
+    "board_level": false,
+    "executive_director": false,
+    "fractional_or_interim": false,
+    "consulting_track": false,
+    "specialist_track": true,
+    "people_management_required": false,
+    "confidence": "CONFIRMED"
+  },
+  "client_status": "UNKNOWN",
+  "source_priority_stage": "STAGE_2_STRATEGIC_AGENCIES",
+  "client_relationship": {
+    "matched_client_canonical": null,
+    "matched_entity": null,
+    "agreement_scope_status": "UNKNOWN",
+    "identity_status": "UNKNOWN",
+    "promotion_to_stage_1": false,
+    "basis": "End employer is not identified; no agreed-client identity or relationship is evidenced.",
+    "promote_to_agreed_client_priority": false
+  },
+  "search_channel": "AGENCY_SITES",
+  "pay_evidence": "R800,000–R900,000 annually; package composition is unstated.",
+  "triage_duplicate_group": null
+}

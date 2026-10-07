@@ -1,0 +1,94 @@
+{
+  "gate": "A_DISCOVERY",
+  "record_id": "RUN-20261005-CH2-001-NETIT-WC-4284758",
+  "reviewed_at": "2026-10-06",
+  "sources_checked": [
+    "https://www.pnet.co.za/jobs--Data-Analyst-Data-Scientist-Cape-Winelands-Boland-Network-IT--4284758-inline.html",
+    "https://www.pnet.co.za/cmp/en/network-it-51190/jobs/in-western-cape",
+    "https://www.networkrecruitmentinternational.com/it",
+    "runs/RUN-20261005-CH2-001/network-it-western-cape-review.md",
+    "runs/RUN-20261005-CH2-001/search-activity-2026-10-06.md"
+  ],
+  "claims_reviewed": [
+    {
+      "claim": "A Network IT-branded PNet advert for Data Analyst | Data Scientist (Cape Winelands: Boland, ID 4284758; ref ITA006404-Mel-1) was retrievable.",
+      "evidence": "Direct PNet detail page https://www.pnet.co.za/jobs--Data-Analyst-Data-Scientist-Cape-Winelands-Boland-Network-IT--4284758-inline.html displays the title, location, Network IT advertiser and the listed role; PNet Western Cape profile https://www.pnet.co.za/cmp/en/network-it-51190/jobs/in-western-cape includes it in the 33-result snapshot.",
+      "status": "CONFIRMED",
+      "decision": "Uphold as a PNet agency advert only, not as proof of the hiring employer."
+    },
+    {
+      "claim": "Network IT is a Network Recruitment division.",
+      "evidence": "Official Network Recruitment IT service page https://www.networkrecruitmentinternational.com/it identifies Network IT and links to its IT vacancy route.",
+      "status": "CONFIRMED",
+      "decision": "Uphold the agency-division attribution only; official dynamic vacancy cards were not available in page retrieval."
+    },
+    {
+      "claim": "The detail page describes a 3–6-year Data Analyst / Data Scientist role with SQL, BI, Python, ETL/data pipelines and modelling/warehousing work.",
+      "evidence": "Direct PNet detail page; see role requirements and responsibilities transcribed in the run review artifact.",
+      "status": "CONFIRMED",
+      "decision": "Uphold only the role text present on the direct page."
+    },
+    {
+      "claim": "The direct PNet detail page states R45,000–R57,000 monthly.",
+      "evidence": "Direct page shows “R 45000 - R 57000 - Monthly.” Multiplying the displayed monthly range by 12 gives R540,000–R684,000 annualized; the page does not say whether the package is base, CTC, or includes variable pay.",
+      "status": "CONFIRMED",
+      "decision": "Confirm the displayed monthly range and annualized arithmetic for screening; preserve the unknown compensation basis and do not label it base salary."
+    },
+    {
+      "claim": "The R420,000 p.a. economic salary gate is cleared on the displayed package range.",
+      "evidence": "The displayed lower bound is R45,000 monthly; ×12 = R540,000 annualized, above R420,000 p.a.",
+      "status": "CONFIRMED",
+      "decision": "Uphold the economic salary screen on the stated annual package or explicit monthly amount ×12; do not infer package basis or total rewards."
+    },
+    {
+      "claim": "The end employer is identified.",
+      "evidence": "The direct PNet page identifies Network IT as advertiser but uses an anonymous client description and does not name the hiring employer.",
+      "status": "UNKNOWN",
+      "decision": "Reject any employer inference from sector, role wording, location or recruiter identity."
+    },
+    {
+      "claim": "The employer-side vacancy is confirmed to remain open.",
+      "evidence": "A PNet detail page and relative publication age were visible at retrieval; no employer confirmation or closing date is shown.",
+      "status": "PROBABLE",
+      "decision": "Downgrade to “listed on PNet at retrieval”; employer-side acceptance remains unknown."
+    },
+    {
+      "claim": "This is an agreed-client opportunity.",
+      "evidence": "The end employer is not identified; no Boschendal or Laurium match is evidenced.",
+      "status": "UNKNOWN",
+      "decision": "Do not promote to agreed-client priority."
+    },
+    {
+      "claim": "Whether the displayed monthly package is base pay or CTC, and whether it includes variable compensation, is not stated.",
+      "evidence": "Direct PNet source comparison recorded in the role review artifact; no employer confirmation is available.",
+      "status": "UNKNOWN",
+      "decision": "Retain the relationship only as an unresolved research hypothesis."
+    }
+  ],
+  "claims_upheld": [
+    "A direct PNet Network IT listing for Data Analyst | Data Scientist (4284758) existed at retrieval.",
+    "Network IT is an official Network Recruitment IT division.",
+    "Role requirements and pay evidence were transcribed from the direct PNet detail page; annualization of monthly pay is explicitly ×12."
+  ],
+  "claims_downgraded": [
+    "A live PNet detail page does not confirm that the end employer is still accepting applications.",
+    "Network IT is the agency advertiser, not the identified end employer.",
+    "No employer name, agreed-client status, stakeholder or company-email pattern is established."
+  ],
+  "claims_removed": [],
+  "contradictions": [
+    "The official Network IT vacancy feed did not expose job cards through page retrieval; this PNet profile is a third-party fallback, not complete native-source coverage."
+  ],
+  "unknowns": [
+    "End-employer name and employer-side requisition status are unresolved.",
+    "Client/agreed-client status is unresolved; no Boschendal or Laurium match is evidenced.",
+    "No end-employer stakeholder/contact or company-email intelligence can be grounded until the employer is identified.",
+    "Whether the displayed monthly package is base pay or CTC, and whether it includes variable compensation, is not stated."
+  ],
+  "next_research_actions": [
+    "Seek an agency-origin or employer-origin source that identifies the hiring employer and confirms the requisition is still open; do not infer from generic sector wording.",
+    "Confirm compensation basis/CTC components where material to the economic gate.",
+    "Do not begin end-employer stakeholder/company-email research, target-company mapping or candidate mapping until employer identity is confirmed or high-confidence."
+  ],
+  "reviewer_conclusion": "PASS_WITH_UNKNOWNS"
+}

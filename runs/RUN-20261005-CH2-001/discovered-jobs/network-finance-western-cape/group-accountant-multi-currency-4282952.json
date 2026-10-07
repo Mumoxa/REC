@@ -1,0 +1,123 @@
+{
+  "record_id": "DISCOVERY:network-finance-51189:group-accountant-multi-currency-4282952",
+  "parent_signal_id": null,
+  "discovered_at": "2026-10-07",
+  "posted_at": null,
+  "classification": "AGENCY_ADVERT",
+  "role": {
+    "raw_title": "Group Accountant",
+    "normalized_title": "Group Accountant (multi-currency full-function accounting)",
+    "function": "Financial Accounting & Reporting",
+    "seniority": "Experienced professional",
+    "location": "Cape Town: City Bowl"
+  },
+  "source": {
+    "channel": "agency",
+    "source_name": "Network Finance (PNet fallback profile 51189)",
+    "url": "https://www.pnet.co.za/jobs--Group-Accountant-Cape-Town-City-Bowl-Network-Finance--4282952-inline.html",
+    "author": null,
+    "advertiser": "Network Finance",
+    "advertiser_type": "THIRD_PARTY"
+  },
+  "employer": {
+    "name": null,
+    "status": "UNKNOWN",
+    "existing_client": null
+  },
+  "qualification": {
+    "functional_scope": "INCLUDE",
+    "salary_gate": "INCLUDE",
+    "freshness": "PROBABLY_ACTIVE"
+  },
+  "evidence": [
+    {
+      "claim": "A Network Finance-branded PNet advert for Group Accountant (ID 4282952; ref NFR011417-Sim-1) was visible in the profile 51189 snapshot.",
+      "status": "CONFIRMED",
+      "basis": "Direct PNet detail page and profile snapshot; Network Finance is the advertiser, not a verified hiring employer.",
+      "url": "https://www.pnet.co.za/jobs--Group-Accountant-Cape-Town-City-Bowl-Network-Finance--4282952-inline.html"
+    },
+    {
+      "claim": "The direct page describes AP/AR, cashbook and multi-currency reconciliations, fixed assets, month-end, VAT/statutory submissions and process improvement; B.Com and 3–5 years' experience are stated.",
+      "status": "CONFIRMED",
+      "basis": "Direct PNet detail-page description and stated requirements.",
+      "url": "https://www.pnet.co.za/jobs--Group-Accountant-Cape-Town-City-Bowl-Network-Finance--4282952-inline.html"
+    },
+    {
+      "claim": "The direct Package & Remuneration section states R700,000–R800,000 annually; the lower bound exceeds R420,000 p.a.",
+      "status": "CONFIRMED",
+      "basis": "Direct Package & Remuneration block or, for 4272034, approximate monthly benchmark in the advert body. Annualization is arithmetic only and the 4272034 amount is not guaranteed.",
+      "url": "https://www.pnet.co.za/jobs--Group-Accountant-Cape-Town-City-Bowl-Network-Finance--4282952-inline.html"
+    },
+    {
+      "claim": "The end employer is not identified in the retrieved direct advert.",
+      "status": "UNKNOWN",
+      "basis": "The page names Network Finance as advertiser and uses anonymous client/sector wording; no employer name is displayed.",
+      "url": "https://www.pnet.co.za/jobs--Group-Accountant-Cape-Town-City-Bowl-Network-Finance--4282952-inline.html"
+    },
+    {
+      "claim": "PNet showed the page as published 4 days ago at retrieval; employer-side acceptance remains unverified.",
+      "status": "PROBABLE",
+      "basis": "Direct page was retrievable on 2026-10-07; no closing date or employer confirmation was shown.",
+      "url": "https://www.pnet.co.za/jobs--Group-Accountant-Cape-Town-City-Bowl-Network-Finance--4282952-inline.html"
+    },
+    {
+      "claim": "The end employer is not evidenced as Boschendal or Laurium; client status remains unknown.",
+      "status": "UNKNOWN",
+      "basis": "No employer name or agreed-client relationship appears in the listing.",
+      "url": "https://www.pnet.co.za/jobs--Group-Accountant-Cape-Town-City-Bowl-Network-Finance--4282952-inline.html"
+    }
+  ],
+  "possible_duplicate_of": null,
+  "next_action": "Identify the hiring employer via exact reference and a reliable agency/employer-origin source; verify vacancy and package composition.",
+  "geography": {
+    "raw": "Cape Town: City Bowl",
+    "country": "South Africa",
+    "province": "Western Cape",
+    "city": "Cape Town",
+    "node": "Cape Town: City Bowl",
+    "region_priority": "P1",
+    "cluster_id": "WC_CAPE_TOWN_METRO",
+    "cluster_label": "Cape Town Metro",
+    "search_term_matched": "Network Finance PNet Western Cape profile 51189"
+  },
+  "taxonomy": {
+    "node_id": 8,
+    "node_name": "Financial Accounting & Reporting",
+    "group_code": "B",
+    "group_name": "Finance & Accounting",
+    "classification_confidence": "CONFIRMED",
+    "boundary_rule_applied": "Raw title Group Accountant and primary accounting/reporting duties map to node 8. No group finance leadership or team-management remit is stated.",
+    "exclusion_status": "IN_SCOPE",
+    "exclusion_reason": null
+  },
+  "seniority": {
+    "band": "TIER_7_EXPERIENCED_PROFESSIONAL",
+    "matched_terms": [
+      "Group Accountant",
+      "B.Com",
+      "3–5 years' experience",
+      "multi-currency environment"
+    ],
+    "board_level": false,
+    "executive_director": false,
+    "fractional_or_interim": false,
+    "consulting_track": false,
+    "specialist_track": false,
+    "people_management_required": false,
+    "confidence": "CONFIRMED"
+  },
+  "client_status": "UNKNOWN",
+  "source_priority_stage": "STAGE_2_STRATEGIC_AGENCIES",
+  "client_relationship": {
+    "matched_client_canonical": null,
+    "matched_entity": null,
+    "agreement_scope_status": "UNKNOWN",
+    "identity_status": "UNKNOWN",
+    "promotion_to_stage_1": false,
+    "basis": "End employer is not identified; no agreed-client identity or relationship is evidenced.",
+    "promote_to_agreed_client_priority": false
+  },
+  "search_channel": "AGENCY_SITES",
+  "pay_evidence": "R700,000–R800,000 annually; package composition is unstated.",
+  "triage_duplicate_group": null
+}

@@ -1,0 +1,127 @@
+{
+  "record_id": "DISCOVERY:network-finance-51189:senior-accountant-century-city-4273960",
+  "parent_signal_id": null,
+  "discovered_at": "2026-10-07",
+  "posted_at": null,
+  "classification": "AGENCY_ADVERT",
+  "role": {
+    "raw_title": "Senior Accountant | Century City, Cape Town",
+    "normalized_title": "Senior Accountant (financial accounting and management reporting)",
+    "function": "Financial Accounting & Reporting",
+    "seniority": "Experienced professional",
+    "location": "PNet metadata: Cape Town: City Bowl; title/body: Century City (discrepancy preserved)"
+  },
+  "source": {
+    "channel": "agency",
+    "source_name": "Network Finance (PNet fallback profile 51189)",
+    "url": "https://www.pnet.co.za/jobs--Senior-Accountant-Century-City-Cape-Town-Cape-Town-City-Bowl-Network-Finance--4273960-inline.html",
+    "author": null,
+    "advertiser": "Network Finance",
+    "advertiser_type": "THIRD_PARTY"
+  },
+  "employer": {
+    "name": null,
+    "status": "UNKNOWN",
+    "existing_client": null
+  },
+  "qualification": {
+    "functional_scope": "INCLUDE",
+    "salary_gate": "INCLUDE",
+    "freshness": "PROBABLY_ACTIVE"
+  },
+  "evidence": [
+    {
+      "claim": "The direct PNet page identifies a Network Finance-advertised Senior Accountant, ID 4273960, ref NFR011254-MoD-1.",
+      "status": "CONFIRMED",
+      "basis": "Direct detail page and Network Finance profile 51189; advertiser is not the hiring employer.",
+      "url": "https://www.pnet.co.za/jobs--Senior-Accountant-Century-City-Cape-Town-Cape-Town-City-Bowl-Network-Finance--4273960-inline.html"
+    },
+    {
+      "claim": "The direct page states 3–5 years experience and duties across management accounts, reconciliations, cash flow, budgeting/forecasting, compliance, audit and internal controls.",
+      "status": "CONFIRMED",
+      "basis": "Direct PNet detail-page role description and requirements.",
+      "url": "https://www.pnet.co.za/jobs--Senior-Accountant-Century-City-Cape-Town-Cape-Town-City-Bowl-Network-Finance--4273960-inline.html"
+    },
+    {
+      "claim": "The direct Package & Remuneration block states R540,000–R650,000 annually; its lower bound exceeds the R420,000 p.a. screen.",
+      "status": "CONFIRMED",
+      "basis": "Direct annual range in the Package & Remuneration section; package composition is not specified.",
+      "url": "https://www.pnet.co.za/jobs--Senior-Accountant-Century-City-Cape-Town-Cape-Town-City-Bowl-Network-Finance--4273960-inline.html"
+    },
+    {
+      "claim": "The end employer is not identified.",
+      "status": "UNKNOWN",
+      "basis": "The body describes an unnamed Century City organisation; Network Finance is the advertiser.",
+      "url": "https://www.pnet.co.za/jobs--Senior-Accountant-Century-City-Cape-Town-Cape-Town-City-Bowl-Network-Finance--4273960-inline.html"
+    },
+    {
+      "claim": "PNet showed Published: 5 days ago at retrieval on 2026-10-07; employer-side acceptance remains unverified.",
+      "status": "PROBABLE",
+      "basis": "Relative publication age and page retrieval do not prove the employer continues to accept applications.",
+      "url": "https://www.pnet.co.za/jobs--Senior-Accountant-Century-City-Cape-Town-Cape-Town-City-Bowl-Network-Finance--4273960-inline.html"
+    },
+    {
+      "claim": "PNet role/location wording conflicts: structured metadata says Cape Town: City Bowl while the title/body mention Century City.",
+      "status": "CONFIRMED",
+      "basis": "Direct PNet page title/body and location metadata.",
+      "url": "https://www.pnet.co.za/jobs--Senior-Accountant-Century-City-Cape-Town-Cape-Town-City-Bowl-Network-Finance--4273960-inline.html"
+    },
+    {
+      "claim": "Advert 4273977 (CA(SA), NFR011255-MoD-1) could be related but is not confirmed as the same employer or requisition.",
+      "status": "HYPOTHESIS",
+      "basis": "Both ads name Network Finance and same agency-side recruiter, with Century City/Cape Town language; no employer/requisition linkage appears.",
+      "url": "https://www.pnet.co.za/jobs--Senior-Accountant-Century-City-Cape-Town-Cape-Town-City-Bowl-Network-Finance--4273960-inline.html"
+    }
+  ],
+  "possible_duplicate_of": null,
+  "next_action": "Identify the hiring employer via reliable agency/employer-origin evidence; verify vacancy status/package and resolve possible relationship to 4273977 and the location discrepancy.",
+  "geography": {
+    "raw": "Cape Town: City Bowl in metadata; Century City in title/body",
+    "country": "South Africa",
+    "province": "Western Cape",
+    "city": "Cape Town",
+    "node": "Cape Town Metro (City Bowl metadata; Century City in body)",
+    "region_priority": "P1",
+    "cluster_id": "WC_CAPE_TOWN_METRO",
+    "cluster_label": "Cape Town Metro",
+    "search_term_matched": "Network Finance PNet Western Cape profile 51189"
+  },
+  "taxonomy": {
+    "node_id": 8,
+    "node_name": "Financial Accounting & Reporting",
+    "group_code": "B",
+    "group_name": "Finance & Accounting",
+    "classification_confidence": "CONFIRMED",
+    "boundary_rule_applied": "Raw title is Senior Accountant; duties are primarily financial accounting and reporting with management accounting, budgeting and compliance responsibilities. Location conflict retained separately.",
+    "exclusion_status": "IN_SCOPE",
+    "exclusion_reason": null
+  },
+  "seniority": {
+    "band": "TIER_7_EXPERIENCED_PROFESSIONAL",
+    "matched_terms": [
+      "Senior Accountant",
+      "3–5 years relevant accounting experience"
+    ],
+    "board_level": false,
+    "executive_director": false,
+    "fractional_or_interim": false,
+    "consulting_track": false,
+    "specialist_track": false,
+    "people_management_required": false,
+    "confidence": "CONFIRMED"
+  },
+  "client_status": "UNKNOWN",
+  "source_priority_stage": "STAGE_2_STRATEGIC_AGENCIES",
+  "client_relationship": {
+    "matched_client_canonical": null,
+    "matched_entity": null,
+    "agreement_scope_status": "UNKNOWN",
+    "identity_status": "UNKNOWN",
+    "promotion_to_stage_1": false,
+    "basis": "End employer is not identified; no agreed-client identity or relationship is evidenced.",
+    "promote_to_agreed_client_priority": false
+  },
+  "search_channel": "AGENCY_SITES",
+  "pay_evidence": "R540,000–R650,000 annually; package composition and employer acceptance are unknown.",
+  "triage_duplicate_group": null
+}

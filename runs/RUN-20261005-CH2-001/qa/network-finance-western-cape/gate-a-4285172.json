@@ -1,0 +1,98 @@
+{
+  "gate": "A_DISCOVERY",
+  "record_id": "RUN-20261005-CH2-001-NETFIN-WC-4285172",
+  "reviewed_at": "2026-10-07",
+  "sources_checked": [
+    "https://www.pnet.co.za/jobs--Senior-Cost-Accountant-Cape-Town-City-Bowl-Network-Finance--4285172-inline.html",
+    "https://www.pnet.co.za/cmp/en/network-finance-51189/jobs/in-western-cape",
+    "https://www.networkrecruitmentinternational.com/finance-jobs",
+    "runs/RUN-20261005-CH2-001/network-finance-western-cape-review.md",
+    "runs/RUN-20261005-CH2-001/search-activity-2026-10-06.md",
+    "https://www.pnet.co.za/jobs--Senior-Cost-Accountant-Cape-Town-City-Bowl-Network-Finance--4282561-inline.html"
+  ],
+  "claims_reviewed": [
+    {
+      "claim": "A Network Finance-branded PNet advert for Senior Cost Accountant (Western Cape, ID 4285172; ref NFR011468-Sim-1) was retrievable.",
+      "evidence": "Direct PNet detail page displays the title, location, Network Finance advertiser and reference; profile 51189 includes it in the 74-result Western Cape fallback snapshot.",
+      "status": "CONFIRMED",
+      "decision": "Uphold the existence of the agency advert only; Network Finance is the advertiser, not the identified hiring employer."
+    },
+    {
+      "claim": "The advertised role scope supports taxonomy node 9 (Management Accounting & Costing).",
+      "evidence": "The advert explicitly describes a senior manufacturing Cost Accountant, costing-function ownership, standard/product costing, inventory valuation, variance analysis, FP&A and operational/commercial decision support; taxonomy node 9 is the primary remit.",
+      "status": "CONFIRMED",
+      "decision": "Uphold the direct-page role wording; retain the taxonomy boundary and do not infer an employer from sector/location."
+    },
+    {
+      "claim": "The direct PNet advert displays R700,000–R800,000 annually.",
+      "evidence": "Direct Package & Remuneration section states R700,000–R800,000 annually. A closely matching older Network Finance ad ID 4282561 displays R600,000–R700,000 annually; likely repost/re-advertisement, not confirmed.",
+      "status": "CONFIRMED",
+      "decision": "Uphold the displayed annual salary evidence for economic screening; do not infer package composition."
+    },
+    {
+      "claim": "The economic R420,000 p.a. salary screen is cleared.",
+      "evidence": "The stated annual lower bound/annual amount is above R420,000 p.a.: R700,000–R800,000 annually.",
+      "status": "CONFIRMED",
+      "decision": "Uphold as a salary-above-floor lead using the explicit annual figure; do not relabel as base salary or total rewards."
+    },
+    {
+      "claim": "A closely matching PNet Network Finance Senior Cost Accountant advert ID 4282561 lists R600,000–R700,000 annually and the same city, recruiter and substantially matching duties.",
+      "evidence": "Direct older PNet detail page https://www.pnet.co.za/jobs--Senior-Cost-Accountant-Cape-Town-City-Bowl-Network-Finance--4282561-inline.html has ref NFR011387-Sim-1, same recruiter and similar scope; it is a likely repost/re-advertisement, not a confirmed requisition merge.",
+      "status": "PROBABLE",
+      "decision": "Treat the pair as a probable repost/duplicate lineage and count once provisionally; preserve both source IDs and do not merge definitively without confirmation."
+    },
+    {
+      "claim": "The end employer is identified.",
+      "evidence": "The direct PNet page identifies Network Finance as advertiser and uses an anonymous client/sector description; no hiring-company name is displayed.",
+      "status": "UNKNOWN",
+      "decision": "Reject any employer inference from generic sector wording, location, title, recruiter, neighbouring cards or profile branding."
+    },
+    {
+      "claim": "The employer-side requisition is confirmed to remain open.",
+      "evidence": "The direct PNet page was retrievable and showed 10 hours ago at retrieval; no employer confirmation or closing date was displayed.",
+      "status": "PROBABLE",
+      "decision": "Downgrade to “listed on PNet at retrieval”; employer-side acceptance remains unknown."
+    },
+    {
+      "claim": "The hiring employer is an agreed client (Boschendal Group or Laurium Capital).",
+      "evidence": "No hiring-company name or agreed-client link appears in the direct advert.",
+      "status": "UNKNOWN",
+      "decision": "Do not assign an agreed-client status or promote this lead to agreed-client priority."
+    },
+    {
+      "claim": "Whether the stated annual remuneration is base salary, CTC or includes variable compensation is known.",
+      "evidence": "The direct advert gives annual remuneration but does not define package composition.",
+      "status": "UNKNOWN",
+      "decision": "Retain the uncertainty; do not relabel the package as base salary."
+    }
+  ],
+  "claims_upheld": [
+    "A direct PNet Network Finance listing for Senior Cost Accountant (4285172) existed at retrieval.",
+    "The direct PNet page displays R700,000–R800,000 annually.",
+    "The stated annual remuneration exceeds the R420,000 p.a. screening floor."
+  ],
+  "claims_downgraded": [
+    "A live PNet page does not confirm that the end employer is still accepting applications.",
+    "Network Finance is the agency advertiser, not the identified hiring employer.",
+    "No employer identity, agreed-client status, target-company map, candidate map, employer stakeholder or company-email pattern is established.",
+    "PNet IDs 4285172 and 4282561 are a likely repost/duplicate lineage but have not been confirmed as the same requisition."
+  ],
+  "claims_removed": [],
+  "contradictions": [
+    "Official Network Recruitment Finance job widget returned an error/no cards at retrieval; this is an access/rendering limitation, not evidence of no vacancies."
+  ],
+  "unknowns": [
+    "The end-employer name and employer-side requisition status are unresolved.",
+    "Client/agreed-client status is unknown; no Boschendal or Laurium match is evidenced.",
+    "No employer-side stakeholder/contact or company-email intelligence can be grounded until the employer is identified.",
+    "Package composition (base/CTC/variable) is unstated.",
+    "Whether PNet IDs 4285172 and 4282561 are the same requisition/repost is not confirmed."
+  ],
+  "next_research_actions": [
+    "Seek an agency-origin or employer-origin source that names the hiring employer and confirms employer-side requisition status; do not infer from sector/location wording.",
+    "Confirm package composition if material to the salary screen.",
+    "Do not begin employer stakeholder/company-email research, target-company mapping or candidate mapping until employer identity is confirmed or high-confidence.",
+    "Verify whether PNet IDs 4285172 and 4282561 are one requisition/repost; retain both pay disclosures meanwhile."
+  ],
+  "reviewer_conclusion": "PASS_WITH_UNKNOWNS"
+}

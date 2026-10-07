@@ -1,0 +1,88 @@
+{
+  "gate": "A_DISCOVERY",
+  "record_id": "RUN-20261005-CH2-001-NETENG-WC-4279774",
+  "reviewed_at": "2026-10-06",
+  "sources_checked": [
+    "https://www.pnet.co.za/jobs--PrEng-Fire-Wet-Services-Mechanical-Engineer-Cape-Town-Northern-Suburbs-Network-Engineering--4279774-inline.html",
+    "https://www.pnet.co.za/cmp/en/network-engineering-51192/jobs/in-western-cape",
+    "https://www.networkrecruitmentinternational.com/engineering",
+    "https://www.networkrecruitmentinternational.com/south-africa-engineering",
+    "runs/RUN-20261005-CH2-001/search-activity-2026-10-06.md"
+  ],
+  "claims_reviewed": [
+    {
+      "claim": "A Network Engineering-branded agency advert with this exact title, location and PNet ID exists.",
+      "evidence": "Direct PNet detail page https://www.pnet.co.za/jobs--PrEng-Fire-Wet-Services-Mechanical-Engineer-Cape-Town-Northern-Suburbs-Network-Engineering--4279774-inline.html displays the title/location and Network Engineering advertiser; the profile page https://www.pnet.co.za/cmp/en/network-engineering-51192/jobs/in-western-cape includes the role in the 15-result Western Cape snapshot.",
+      "status": "CONFIRMED",
+      "decision": "Uphold as an agency listing, not as proof of the hiring employer."
+    },
+    {
+      "claim": "Network Engineering is a Network Recruitment division.",
+      "evidence": "Official Network Recruitment Engineering service page https://www.networkrecruitmentinternational.com/engineering identifies Network Engineering; official South Africa search form https://www.networkrecruitmentinternational.com/south-africa-engineering exposes engineering expertise and Western Cape region filters.",
+      "status": "CONFIRMED",
+      "decision": "Uphold the agency-division attribution only."
+    },
+    {
+      "claim": "The detailed role requirements and relative listing age are as recorded in the review artifact.",
+      "evidence": "The direct PNet detail page https://www.pnet.co.za/jobs--PrEng-Fire-Wet-Services-Mechanical-Engineer-Cape-Town-Northern-Suburbs-Network-Engineering--4279774-inline.html displays the job description and Published 1 week before retrieval.",
+      "status": "CONFIRMED",
+      "decision": "Uphold only the text present on the retrieved PNet page."
+    },
+    {
+      "claim": "The end employer is identified.",
+      "evidence": "Unnamed consulting engineering team/company.",
+      "status": "UNKNOWN",
+      "decision": "Reject any employer-name inference; the direct page does not name the end employer."
+    },
+    {
+      "claim": "The employer-side vacancy is confirmed to remain open.",
+      "evidence": "A live PNet detail page and relative publication age were visible at retrieval; no employer confirmation or closing date is shown.",
+      "status": "PROBABLE",
+      "decision": "Downgrade to “listed on PNet at retrieval”; employer-side acceptance remains unknown."
+    },
+    {
+      "claim": "The R420,000 p.a. economic salary gate is cleared.",
+      "evidence": "The listing gives no numeric salary amount or does not state enough to compare with the annual threshold.",
+      "status": "UNKNOWN",
+      "decision": "Do not mark the annual salary gate as passed; verify pay period/amount before economic qualification."
+    },
+    {
+      "claim": "This is an agreed-client opportunity.",
+      "evidence": "No end employer is identified; neither Boschendal nor Laurium is named or evidenced in the listing.",
+      "status": "UNKNOWN",
+      "decision": "Do not promote to agreed-client priority."
+    },
+    {
+      "claim": "An earlier same-title PNet listing is a second currently open vacancy.",
+      "evidence": "Direct retrieval of PNet ID 4243950 displays “This listing went offline”; it has the same base agency reference with suffix -1, while current PNet ID 4279774 carries suffix -2.",
+      "status": "CONTRADICTED",
+      "decision": "Do not count the expired predecessor as a separate current vacancy; retain current ID 4279774 as the surfaced iteration."
+    }
+  ],
+  "claims_upheld": [
+    "A live PNet Network Engineering agency advert for the recorded title/location/reference was retrievable on 2026-10-06.",
+    "Network Engineering is an official Network Recruitment engineering division.",
+    "The role requirements and any displayed pay were transcribed from the direct listing, not inferred from company characteristics."
+  ],
+  "claims_downgraded": [
+    "A live PNet page does not confirm the end employer still accepts applications.",
+    "Agency advertiser identity is not end-employer identity.",
+    "Older PNet ID 4243950 uses same base ref with suffix -1 and now directly says listing expired; current ID 4279774 is the surfaced iteration. A different old result, ID 4188842, now returns 404."
+  ],
+  "claims_removed": [],
+  "contradictions": [
+    "The official Network South Africa engineering job-search form did not render vacancy cards through the retrieved page parser; PNet remains a secondary fallback, not a complete native-feed substitute."
+  ],
+  "unknowns": [
+    "End-employer name and employer-side requisition status are unresolved.",
+    "Client/agreed-client status is unresolved; no Boschendal or Laurium match is evidenced.",
+    "Duplicate lineage beyond the explicitly noted expired predecessor/common-client hypothesis is not confirmed.",
+    "Salary threshold is unresolved where the direct listing gives no numeric amount."
+  ],
+  "next_research_actions": [
+    "Seek an agency-origin or employer-origin source that identifies the hiring employer and confirms the requisition is still open; do not infer from generic industry wording.",
+    "Resolve salary against the R420,000 p.a. floor before treating a salary-unknown role as economically qualified.",
+    "Do not begin end-employer stakeholder/company-email research or candidate mapping until employer resolution is CONFIRMED or HIGH_CONFIDENCE."
+  ],
+  "reviewer_conclusion": "PASS_WITH_UNKNOWNS"
+}

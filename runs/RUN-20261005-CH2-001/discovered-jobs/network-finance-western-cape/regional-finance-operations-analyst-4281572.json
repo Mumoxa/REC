@@ -1,0 +1,122 @@
+{
+  "record_id": "DISCOVERY:network-finance-51189:regional-finance-operations-analyst-4281572",
+  "parent_signal_id": null,
+  "discovered_at": "2026-10-07",
+  "posted_at": null,
+  "classification": "AGENCY_ADVERT",
+  "role": {
+    "raw_title": "Regional Finance Operations Analyst",
+    "normalized_title": "Regional Finance Operations Analyst (operational finance, controls and business partnering)",
+    "function": "Commercial Finance",
+    "seniority": "Experienced professional",
+    "location": "Cape Town: Northern Suburbs"
+  },
+  "source": {
+    "channel": "agency",
+    "source_name": "Network Finance (PNet fallback profile 51189)",
+    "url": "https://www.pnet.co.za/jobs--Regional-Finance-Operations-Analyst-Cape-Town-Northern-Suburbs-Network-Finance--4281572-inline.html",
+    "author": null,
+    "advertiser": "Network Finance",
+    "advertiser_type": "THIRD_PARTY"
+  },
+  "employer": {
+    "name": null,
+    "status": "UNKNOWN",
+    "existing_client": null
+  },
+  "qualification": {
+    "functional_scope": "INCLUDE",
+    "salary_gate": "INCLUDE",
+    "freshness": "PROBABLY_ACTIVE"
+  },
+  "evidence": [
+    {
+      "claim": "The direct PNet page identifies a Network Finance-advertised Regional Finance Operations Analyst role, ID 4281572, ref NPr004490-EHo-1.",
+      "status": "CONFIRMED",
+      "basis": "Direct PNet detail page and profile 51189; Network Finance is the advertiser, not the verified hiring employer.",
+      "url": "https://www.pnet.co.za/jobs--Regional-Finance-Operations-Analyst-Cape-Town-Northern-Suburbs-Network-Finance--4281572-inline.html"
+    },
+    {
+      "claim": "Listed-services conglomerate description; regional operational finance bridging central finance and frontline operations, month-end accounting, reconciliations, internal controls/compliance, stock management, branch visits, AI/automation and business partnering. BCom, 3+ years, operational-finance and finance-business-partnering experience are stated.",
+      "status": "CONFIRMED",
+      "basis": "Direct PNet detail-page description and stated requirements.",
+      "url": "https://www.pnet.co.za/jobs--Regional-Finance-Operations-Analyst-Cape-Town-Northern-Suburbs-Network-Finance--4281572-inline.html"
+    },
+    {
+      "claim": "The direct Package & Remuneration section states R540,000–R600,000 annually; the annual lower bound exceeds R420,000 p.a.",
+      "status": "CONFIRMED",
+      "basis": "Explicit annual amount/range on the direct PNet page; package composition is not specified.",
+      "url": "https://www.pnet.co.za/jobs--Regional-Finance-Operations-Analyst-Cape-Town-Northern-Suburbs-Network-Finance--4281572-inline.html"
+    },
+    {
+      "claim": "The end employer is not identified in the advert.",
+      "status": "UNKNOWN",
+      "basis": "The listing describes an anonymous client/sector and names Network Finance as the advertiser.",
+      "url": "https://www.pnet.co.za/jobs--Regional-Finance-Operations-Analyst-Cape-Town-Northern-Suburbs-Network-Finance--4281572-inline.html"
+    },
+    {
+      "claim": "PNet displayed Published: 6 days ago at retrieval on 2026-10-07; employer-side acceptance remains unverified.",
+      "status": "PROBABLE",
+      "basis": "Relative publication age and page retrieval do not prove the employer continues to accept applications.",
+      "url": "https://www.pnet.co.za/jobs--Regional-Finance-Operations-Analyst-Cape-Town-Northern-Suburbs-Network-Finance--4281572-inline.html"
+    },
+    {
+      "claim": "Possible related/re-title lineage with listed-services-group ads 4278327, 4277022, 4282569 and 4277497 (similar anonymised employer wording, operational scope and, for some, the same recruiter). None is confirmed as the same employer or requisition; retain all source IDs and do not merge.",
+      "status": "HYPOTHESIS",
+      "basis": "Cross-page comparison of direct PNet titles, references, recruiter/advertiser and described duties; no recruiter confirmation.",
+      "url": "https://www.pnet.co.za/jobs--Regional-Finance-Operations-Analyst-Cape-Town-Northern-Suburbs-Network-Finance--4281572-inline.html"
+    }
+  ],
+  "possible_duplicate_of": null,
+  "next_action": "Identify the end employer via reliable agency/employer-origin evidence; verify vacancy status/package and assess possible related ads without merging on circumstantial similarity.",
+  "geography": {
+    "raw": "Cape Town: Northern Suburbs",
+    "country": "South Africa",
+    "province": "Western Cape",
+    "city": "Cape Town",
+    "node": "Cape Town: Northern Suburbs",
+    "region_priority": "P1",
+    "cluster_id": "WC_NORTHERN_SUBURBS_N1",
+    "cluster_label": "Northern Suburbs / N1 corridor",
+    "search_term_matched": "Network Finance PNet Western Cape profile 51189"
+  },
+  "taxonomy": {
+    "node_id": 11,
+    "node_name": "Commercial Finance",
+    "group_code": "B",
+    "group_name": "Finance & Accounting",
+    "classification_confidence": "CONFIRMED",
+    "boundary_rule_applied": "Operational-finance duties emphasize branch/site partnering, stock/control governance, business insight and process efficiency; node 11 / Group B is applied rather than classifying solely from the word Operations.",
+    "exclusion_status": "IN_SCOPE",
+    "exclusion_reason": null
+  },
+  "seniority": {
+    "band": "TIER_7_EXPERIENCED_PROFESSIONAL",
+    "matched_terms": [
+      "Regional Finance Operations Analyst",
+      "3+ years experience",
+      "Finance Business Partnering"
+    ],
+    "board_level": false,
+    "executive_director": false,
+    "fractional_or_interim": false,
+    "consulting_track": false,
+    "specialist_track": false,
+    "people_management_required": false,
+    "confidence": "CONFIRMED"
+  },
+  "client_status": "UNKNOWN",
+  "source_priority_stage": "STAGE_2_STRATEGIC_AGENCIES",
+  "client_relationship": {
+    "matched_client_canonical": null,
+    "matched_entity": null,
+    "agreement_scope_status": "UNKNOWN",
+    "identity_status": "UNKNOWN",
+    "promotion_to_stage_1": false,
+    "basis": "End employer is not identified; no agreed-client identity or relationship is evidenced.",
+    "promote_to_agreed_client_priority": false
+  },
+  "search_channel": "AGENCY_SITES",
+  "pay_evidence": "R540,000–R600,000 annually; package composition and employer acceptance are unknown.",
+  "triage_duplicate_group": null
+}

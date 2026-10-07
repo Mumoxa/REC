@@ -8,3 +8,7 @@ coverage/
 *.log
 .DS_Store
 tsconfig.tsbuildinfo
+
+# Private operational run outputs — do not publish personal candidate/contact data.
+private-runs/
+runs/*/publication-payload.json

@@ -1,0 +1,122 @@
+{
+  "record_id": "DISCOVERY:network-finance-51189:financial-manager-manufacturing-fmcg-4269944",
+  "parent_signal_id": null,
+  "discovered_at": "2026-10-07",
+  "posted_at": null,
+  "classification": "AGENCY_ADVERT",
+  "role": {
+    "raw_title": "Financial Manager: Manufacturing FMCG",
+    "normalized_title": "Financial Manager (manufacturing / plant finance)",
+    "function": "Financial Management / Manufacturing Finance",
+    "seniority": "Senior management",
+    "location": "Cape Town: Northern Suburbs"
+  },
+  "source": {
+    "channel": "agency",
+    "source_name": "Network Finance (PNet fallback profile 51189)",
+    "url": "https://www.pnet.co.za/jobs--Financial-Manager-Manufacturing-FMCG-Cape-Town-Northern-Suburbs-Network-Finance--4269944-inline.html",
+    "author": null,
+    "advertiser": "Network Finance",
+    "advertiser_type": "THIRD_PARTY"
+  },
+  "employer": {
+    "name": null,
+    "status": "UNKNOWN",
+    "existing_client": null
+  },
+  "qualification": {
+    "functional_scope": "INCLUDE",
+    "salary_gate": "INCLUDE",
+    "freshness": "PROBABLY_ACTIVE"
+  },
+  "evidence": [
+    {
+      "claim": "A Network Finance-branded PNet advert for Financial Manager: Manufacturing FMCG (ID 4269944; ref NFR011176-MoD-1) was visible in the profile 51189 snapshot.",
+      "status": "CONFIRMED",
+      "basis": "Direct PNet detail page and profile snapshot; Network Finance is the advertiser, not a verified hiring employer.",
+      "url": "https://www.pnet.co.za/jobs--Financial-Manager-Manufacturing-FMCG-Cape-Town-Northern-Suburbs-Network-Finance--4269944-inline.html"
+    },
+    {
+      "claim": "The direct page describes manufacturing/plant finance, cost and inventory control, monthly reporting, variance analysis, capex, budgeting and business partnering; minimum five years' manufacturing experience, BCom Honours and CA(SA)/CIMA preferred.",
+      "status": "CONFIRMED",
+      "basis": "Direct PNet detail-page description and stated requirements.",
+      "url": "https://www.pnet.co.za/jobs--Financial-Manager-Manufacturing-FMCG-Cape-Town-Northern-Suburbs-Network-Finance--4269944-inline.html"
+    },
+    {
+      "claim": "The direct Package & Remuneration section states R1,100,000–R1,300,000 annually; the lower bound exceeds R420,000 p.a.",
+      "status": "CONFIRMED",
+      "basis": "Direct Package & Remuneration block or, for 4272034, approximate monthly benchmark in the advert body. Annualization is arithmetic only and the 4272034 amount is not guaranteed.",
+      "url": "https://www.pnet.co.za/jobs--Financial-Manager-Manufacturing-FMCG-Cape-Town-Northern-Suburbs-Network-Finance--4269944-inline.html"
+    },
+    {
+      "claim": "The end employer is not identified in the retrieved direct advert.",
+      "status": "UNKNOWN",
+      "basis": "The page names Network Finance as advertiser and uses anonymous client/sector wording; no employer name is displayed.",
+      "url": "https://www.pnet.co.za/jobs--Financial-Manager-Manufacturing-FMCG-Cape-Town-Northern-Suburbs-Network-Finance--4269944-inline.html"
+    },
+    {
+      "claim": "PNet showed the page as published 1 week ago at retrieval; employer-side acceptance remains unverified.",
+      "status": "PROBABLE",
+      "basis": "Direct page was retrievable on 2026-10-07; no closing date or employer confirmation was shown.",
+      "url": "https://www.pnet.co.za/jobs--Financial-Manager-Manufacturing-FMCG-Cape-Town-Northern-Suburbs-Network-Finance--4269944-inline.html"
+    },
+    {
+      "claim": "The end employer is not evidenced as Boschendal or Laurium; client status remains unknown.",
+      "status": "UNKNOWN",
+      "basis": "No employer name or agreed-client relationship appears in the listing.",
+      "url": "https://www.pnet.co.za/jobs--Financial-Manager-Manufacturing-FMCG-Cape-Town-Northern-Suburbs-Network-Finance--4269944-inline.html"
+    }
+  ],
+  "possible_duplicate_of": null,
+  "next_action": "Identify the hiring employer from reliable agency/employer-origin evidence; verify the requisition remains open and confirm package composition. Do not infer employer identity from FMCG/manufacturing wording.",
+  "geography": {
+    "raw": "Cape Town: Northern Suburbs",
+    "country": "South Africa",
+    "province": "Western Cape",
+    "city": "Cape Town",
+    "node": "Cape Town: Northern Suburbs",
+    "region_priority": "P1",
+    "cluster_id": "WC_NORTHERN_SUBURBS_N1",
+    "cluster_label": "Northern Suburbs / N1 corridor",
+    "search_term_matched": "Network Finance PNet Western Cape profile 51189"
+  },
+  "taxonomy": {
+    "node_id": 7,
+    "node_name": "Financial Management",
+    "group_code": "B",
+    "group_name": "Finance & Accounting",
+    "classification_confidence": "PROBABLE",
+    "boundary_rule_applied": "Raw title Financial Manager maps to node 7. Manufacturing costing and operational partnering are retained as adjacent duties, not used to change the primary node. Direct reports are not specified.",
+    "exclusion_status": "IN_SCOPE",
+    "exclusion_reason": null
+  },
+  "seniority": {
+    "band": "TIER_3_SENIOR_MANAGEMENT",
+    "matched_terms": [
+      "Financial Manager",
+      "minimum 5 years' manufacturing experience",
+      "BCom Honours; CA(SA)/CIMA preferred"
+    ],
+    "board_level": false,
+    "executive_director": false,
+    "fractional_or_interim": false,
+    "consulting_track": false,
+    "specialist_track": false,
+    "people_management_required": false,
+    "confidence": "PROBABLE"
+  },
+  "client_status": "UNKNOWN",
+  "source_priority_stage": "STAGE_2_STRATEGIC_AGENCIES",
+  "client_relationship": {
+    "matched_client_canonical": null,
+    "matched_entity": null,
+    "agreement_scope_status": "UNKNOWN",
+    "identity_status": "UNKNOWN",
+    "promotion_to_stage_1": false,
+    "basis": "End employer is not identified; no agreed-client identity or relationship is evidenced.",
+    "promote_to_agreed_client_priority": false
+  },
+  "search_channel": "AGENCY_SITES",
+  "pay_evidence": "R1,100,000–R1,300,000 annually; package composition is unstated.",
+  "triage_duplicate_group": null
+}

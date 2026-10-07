@@ -1,0 +1,85 @@
+{
+  "gate": "A_DISCOVERY",
+  "record_id": "DISCOVERY:network-finance-51189:senior-accountant-century-city-4273960",
+  "reviewed_at": "2026-10-07",
+  "sources_checked": [
+    "https://www.pnet.co.za/jobs--Senior-Accountant-Century-City-Cape-Town-Cape-Town-City-Bowl-Network-Finance--4273960-inline.html",
+    "https://www.pnet.co.za/cmp/en/network-finance-51189/jobs/in-western-cape",
+    "https://www.networkrecruitmentinternational.com/finance-jobs",
+    "runs/RUN-20261005-CH2-001/network-finance-western-cape-review.md"
+  ],
+  "claims_reviewed": [
+    {
+      "claim": "A Network Finance-advertised Senior Accountant role (PNet 4273960; ref NFR011254-MoD-1) was retrievable on 2026-10-07.",
+      "evidence": "The direct detail page identifies the advertiser as Network Finance, reference NFR011254-MoD-1, title Senior Accountant | Century City, and PNet publication age as 5 days. Network Finance is the advertiser, not a verified hiring employer.",
+      "status": "CONFIRMED",
+      "decision": "Uphold the agency advert and source facts only."
+    },
+    {
+      "claim": "The direct page describes an experienced financial-accounting and management-accounting role.",
+      "evidence": "It lists monthly management accounts, balance-sheet reconciliations, cash-flow reporting, budgeting/forecasting, compliance, audit, financial analysis, internal controls and finance improvement; stated experience is 3–5 years.",
+      "status": "CONFIRMED",
+      "decision": "Classify to Financial Accounting & Reporting, node 8 / Group B; preserve the raw title."
+    },
+    {
+      "claim": "The role clears the R420,000 p.a. salary screen.",
+      "evidence": "The direct Package & Remuneration block states R540,000–R650,000 annually; the lower bound is above R420,000 p.a.",
+      "status": "CONFIRMED",
+      "decision": "Uphold for provisional salary screening only; package composition is unstated."
+    },
+    {
+      "claim": "The hiring employer is identified.",
+      "evidence": "The ad describes a well-established/growing organisation based in Century City but does not name the employer. Network Finance is the advertiser.",
+      "status": "UNKNOWN",
+      "decision": "Keep employer and client status unknown; do not infer an employer from location or generic description."
+    },
+    {
+      "claim": "The PNet advert is still accepted by the employer.",
+      "evidence": "The PNet page was retrievable and showed Published: 5 days ago on 2026-10-07; no employer-side confirmation or closing date was found.",
+      "status": "PROBABLE",
+      "decision": "Record as listed at retrieval only; employer-side acceptance remains unknown."
+    },
+    {
+      "claim": "PNet card 4273977 (CA(SA), ref NFR011255-MoD-1) is the same requisition or employer.",
+      "evidence": "Both cards identify Network Finance, same agency-side recruiter, Century City/Cape Town, and similar publication age; 4273977 states 1–2 years post-articles and an unnamed Century City organisation, while 4273960 is a Senior Accountant with 3–5 years and an annual range. No employer or requisition linkage is provided.",
+      "status": "HYPOTHESIS",
+      "decision": "Keep separate; do not merge without recruiter/employer confirmation."
+    },
+    {
+      "claim": "This is a Boschendal or Laurium agreed-client opportunity.",
+      "evidence": "No end-employer name or agreed-client relationship appears in the ad.",
+      "status": "UNKNOWN",
+      "decision": "Do not promote to agreed-client priority."
+    }
+  ],
+  "claims_upheld": [
+    "A retrievable Network Finance PNet advert for Senior Accountant was observed on 2026-10-07.",
+    "The direct page displays R540,000–R650,000 annually, whose lower bound clears the R420,000 p.a. screen.",
+    "The page describes 3–5 years of experience and core financial-accounting/reporting responsibilities."
+  ],
+  "claims_downgraded": [
+    "A recent PNet publication age does not prove the employer remains accepting applications.",
+    "Network Finance is the agency advertiser, not a verified end employer.",
+    "The same-location CA(SA) card 4273977 is only a possible related opportunity; no merge is supported."
+  ],
+  "claims_removed": [
+    "No employer, hiring owner, company email, candidate or personal contact detail is inferred from anonymous employer language."
+  ],
+  "contradictions": [
+    "The PNet heading/title and body place the role in Century City, while the structured location metadata says Cape Town: City Bowl; preserve the discrepancy pending confirmation."
+  ],
+  "unknowns": [
+    "End-employer identity and employer-side vacancy acceptance are unresolved.",
+    "Package composition (base, CTC, bonus or variable pay) is unstated.",
+    "PNet location metadata (City Bowl) conflicts with the Century City title/body wording.",
+    "Potential relationship to CA(SA) advert 4273977 is unconfirmed.",
+    "No employer stakeholder, company-email pattern, target-company map or candidate map is activated while the end employer remains unknown.",
+    "The role is not evidenced as a Boschendal or Laurium agreed-client opportunity."
+  ],
+  "next_research_actions": [
+    "Identify the hiring employer through reliable agency/employer-origin evidence and verify employer-side vacancy status and package composition.",
+    "Resolve the location and possible 4273977 relationship with the recruiter before deduplication.",
+    "Do not begin stakeholder/company-email, target-company or candidate mapping until the hiring employer is confirmed or high-confidence."
+  ],
+  "reviewer_conclusion": "PASS_WITH_UNKNOWNS"
+}

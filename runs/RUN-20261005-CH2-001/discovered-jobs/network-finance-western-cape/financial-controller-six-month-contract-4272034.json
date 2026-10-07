@@ -1,0 +1,128 @@
+{
+  "record_id": "DISCOVERY:network-finance-51189:financial-controller-six-month-contract-4272034",
+  "parent_signal_id": null,
+  "discovered_at": "2026-10-07",
+  "posted_at": null,
+  "classification": "AGENCY_ADVERT",
+  "role": {
+    "raw_title": "Financial Controller (Contract)",
+    "normalized_title": "Financial Controller (six-month contract; approximate monthly benchmark)",
+    "function": "Financial Management / Financial Control",
+    "seniority": "Experienced professional",
+    "location": "Cape Town: Northern Suburbs"
+  },
+  "source": {
+    "channel": "agency",
+    "source_name": "Network Finance (PNet fallback profile 51189)",
+    "url": "https://www.pnet.co.za/jobs--Financial-Controller-Contract-Cape-Town-Northern-Suburbs-Network-Finance--4272034-inline.html",
+    "author": null,
+    "advertiser": "Network Finance",
+    "advertiser_type": "THIRD_PARTY"
+  },
+  "employer": {
+    "name": null,
+    "status": "UNKNOWN",
+    "existing_client": null
+  },
+  "qualification": {
+    "functional_scope": "INCLUDE",
+    "salary_gate": "VERIFY",
+    "freshness": "PROBABLY_ACTIVE"
+  },
+  "evidence": [
+    {
+      "claim": "A Network Finance-branded PNet advert for Financial Controller (Contract) (ID 4272034; ref NFR011208-LEA-1) was visible in the profile 51189 snapshot.",
+      "status": "CONFIRMED",
+      "basis": "Direct PNet detail page and profile snapshot; Network Finance is the advertiser, not a verified hiring employer.",
+      "url": "https://www.pnet.co.za/jobs--Financial-Controller-Contract-Cape-Town-Northern-Suburbs-Network-Finance--4272034-inline.html"
+    },
+    {
+      "claim": "The direct page describes a six-month operational Financial Controller contract in Thornton, with cashbook, international payments, FX, cash flow, VAT/PAYE, reconciliations, audit, Sage 300/Accpac and import/export duties.",
+      "status": "CONFIRMED",
+      "basis": "Direct PNet detail-page description and stated requirements.",
+      "url": "https://www.pnet.co.za/jobs--Financial-Controller-Contract-Cape-Town-Northern-Suburbs-Network-Finance--4272034-inline.html"
+    },
+    {
+      "claim": "The body states “market-related remuneration – benchmark approximately R50,000 per month, flexible for the right candidate.” Multiplication by 12 gives an approximate R600,000 annualized run rate, above the R420,000 p.a. screen; the rate is not guaranteed and the six-month contract total would be approximately R300,000 at that benchmark.",
+      "status": "PROBABLE",
+      "basis": "Direct Package & Remuneration block or, for 4272034, approximate monthly benchmark in the advert body. Annualization is arithmetic only and the 4272034 amount is not guaranteed.",
+      "url": "https://www.pnet.co.za/jobs--Financial-Controller-Contract-Cape-Town-Northern-Suburbs-Network-Finance--4272034-inline.html"
+    },
+    {
+      "claim": "The end employer is not identified in the retrieved direct advert.",
+      "status": "UNKNOWN",
+      "basis": "The page names Network Finance as advertiser and uses anonymous client/sector wording; no employer name is displayed.",
+      "url": "https://www.pnet.co.za/jobs--Financial-Controller-Contract-Cape-Town-Northern-Suburbs-Network-Finance--4272034-inline.html"
+    },
+    {
+      "claim": "PNet showed the page as published 1 week ago at retrieval; employer-side acceptance remains unverified.",
+      "status": "PROBABLE",
+      "basis": "Direct page was retrievable on 2026-10-07; no closing date or employer confirmation was shown.",
+      "url": "https://www.pnet.co.za/jobs--Financial-Controller-Contract-Cape-Town-Northern-Suburbs-Network-Finance--4272034-inline.html"
+    },
+    {
+      "claim": "The end employer is not evidenced as Boschendal or Laurium; client status remains unknown.",
+      "status": "UNKNOWN",
+      "basis": "No employer name or agreed-client relationship appears in the listing.",
+      "url": "https://www.pnet.co.za/jobs--Financial-Controller-Contract-Cape-Town-Northern-Suburbs-Network-Finance--4272034-inline.html"
+    },
+    {
+      "claim": "Possible duplicate/repost with 4271281: both are 6-month Financial Controller ads in Cape Town's Northern Suburbs with near-identical international/product-focused accounting, cashbook, foreign-currency, import/export and Sage 300 scope. Recruiter, reference and pay expression differ; do not merge as confirmed.",
+      "status": "HYPOTHESIS",
+      "basis": "Cross-page comparison of direct PNet source IDs/references and descriptions; no recruiter confirmation.",
+      "url": "https://www.pnet.co.za/jobs--Financial-Controller-Contract-Cape-Town-Northern-Suburbs-Network-Finance--4272034-inline.html"
+    }
+  ],
+  "possible_duplicate_of": "DISCOVERY:network-finance-51189:financial-controller-contract-4271281",
+  "next_action": "Confirm whether the two contract-controller references are the same requisition, resolve the body-versus-metadata contract conflict and approximate salary floor, identify the end employer, and verify current acceptance.",
+  "geography": {
+    "raw": "Cape Town: Northern Suburbs",
+    "country": "South Africa",
+    "province": "Western Cape",
+    "city": "Cape Town",
+    "node": "Cape Town: Northern Suburbs",
+    "region_priority": "P1",
+    "cluster_id": "WC_NORTHERN_SUBURBS_N1",
+    "cluster_label": "Northern Suburbs / N1 corridor",
+    "search_term_matched": "Network Finance PNet Western Cape profile 51189"
+  },
+  "taxonomy": {
+    "node_id": 7,
+    "node_name": "Financial Management",
+    "group_code": "B",
+    "group_name": "Finance & Accounting",
+    "classification_confidence": "CONFIRMED",
+    "boundary_rule_applied": "Raw title Financial Controller maps to node 7. The direct body says urgent six-month contract; PNet header says Permanent / Full Time. Annualized benchmark clears the annual-rate screen only approximately; do not represent the amount as guaranteed or the total six-month engagement value as R600,000.",
+    "exclusion_status": "IN_SCOPE",
+    "exclusion_reason": null
+  },
+  "seniority": {
+    "band": "TIER_7_EXPERIENCED_PROFESSIONAL",
+    "matched_terms": [
+      "Financial Controller",
+      "six-month contract",
+      "market-related remuneration benchmark approx. R50,000/month"
+    ],
+    "board_level": false,
+    "executive_director": false,
+    "fractional_or_interim": false,
+    "consulting_track": false,
+    "specialist_track": false,
+    "people_management_required": false,
+    "confidence": "PROBABLE"
+  },
+  "client_status": "UNKNOWN",
+  "source_priority_stage": "STAGE_2_STRATEGIC_AGENCIES",
+  "client_relationship": {
+    "matched_client_canonical": null,
+    "matched_entity": null,
+    "agreement_scope_status": "UNKNOWN",
+    "identity_status": "UNKNOWN",
+    "promotion_to_stage_1": false,
+    "basis": "End employer is not identified; no agreed-client identity or relationship is evidenced.",
+    "promote_to_agreed_client_priority": false
+  },
+  "search_channel": "AGENCY_SITES",
+  "pay_evidence": "Approx. R50,000/month benchmark (annualized approx. R600,000; flexible, not guaranteed); six-month contract means approximate total at that benchmark is R300,000. Page metadata says Permanent / Full Time while body says six-month contract.",
+  "triage_duplicate_group": "DISCOVERY:network-finance-51189:financial-controller-contract-4271281"
+}

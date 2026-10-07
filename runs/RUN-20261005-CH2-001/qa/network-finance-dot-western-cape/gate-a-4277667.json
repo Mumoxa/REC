@@ -1,0 +1,99 @@
+{
+  "gate": "A_DISCOVERY",
+  "record_id": "RUN-20261005-CH2-001-NETFIN-DOT-WC-4277667",
+  "reviewed_at": "2026-10-07",
+  "sources_checked": [
+    "https://www.pnet.co.za/jobs--Financial-Accountant-Cape-Town-Northern-Suburbs-Network-Finance--4277667-inline.html",
+    "https://www.pnet.co.za/cmp/en/network-finance-51191/jobs/in-western-cape",
+    "https://www.networkrecruitmentinternational.com/finance-jobs",
+    "runs/RUN-20261005-CH2-001/network-finance-dot-western-cape-review.md",
+    "runs/RUN-20261005-CH2-001/search-activity-2026-10-06.md"
+  ],
+  "claims_reviewed": [
+    {
+      "claim": "A Network Finance.-branded PNet advert for Financial Accountant (Cape Town: Northern Suburbs, ID 4277667; ref NFU017258-Camy-1) was retrievable.",
+      "evidence": "Direct PNet detail page displays the title, location, Network Finance. advertiser and reference; the separate PNet Western Cape profile 51191 includes the listing in its visible results.",
+      "status": "CONFIRMED",
+      "decision": "Uphold the existence of the agency advert only; Network Finance. is not evidenced as the hiring employer."
+    },
+    {
+      "claim": "The role is primarily management/operational finance and business partnering despite the raw Financial Accountant title.",
+      "evidence": "The direct page describes multi-branch business partnering, performance and variance analysis, operational finance, root-cause work and corrective actions; required experience is 3–5 years in management accounting, operational finance or finance business partnering.",
+      "status": "CONFIRMED",
+      "decision": "Uphold the observed duties and classify provisionally under taxonomy node 9, Management Accounting & Costing; retain the raw title and role-boundary uncertainty."
+    },
+    {
+      "claim": "The direct page displays R550,000–R650,000 annually.",
+      "evidence": "The Package & Remuneration section states “R 550000 - R 650000 - Annually.” The displayed range is not annualized from a monthly figure.",
+      "status": "CONFIRMED",
+      "decision": "Uphold the displayed annual range and the R420,000 p.a. screening result; do not infer whether it is base salary, CTC or includes variable pay."
+    },
+    {
+      "claim": "The economic R420,000 p.a. salary screen is cleared.",
+      "evidence": "The published lower bound is R550,000 annually, which exceeds R420,000 p.a.",
+      "status": "CONFIRMED",
+      "decision": "Uphold as a salary-above-floor lead; compensation composition remains unresolved."
+    },
+    {
+      "claim": "The end employer is identified.",
+      "evidence": "The page describes a “leading national services business” but does not provide a hiring-company name; Network Finance. is the advertiser.",
+      "status": "UNKNOWN",
+      "decision": "Reject any employer inference from generic sector wording, location, title, recruiter, profile branding or adjacent PNet recommendations."
+    },
+    {
+      "claim": "The employer-side requisition is confirmed to remain open.",
+      "evidence": "The direct PNet page was retrievable and showed a relative publication age of one week, but no employer confirmation or closing date was displayed. The official Network Recruitment Finance jobs widget returned an error/no cards.",
+      "status": "PROBABLE",
+      "decision": "Downgrade to “listed on PNet at retrieval”; employer-side acceptance remains unknown. The official-page rendering failure is not proof of vacancy closure."
+    },
+    {
+      "claim": "The hiring employer is Boschendal Group, Laurium Capital, or another agreed client.",
+      "evidence": "No end-employer name or agreed-client link appears in the direct advert.",
+      "status": "UNKNOWN",
+      "decision": "Do not assign an agreed-client status or promote to agreed-client priority."
+    },
+    {
+      "claim": "Network Finance. profile 51191 is the same employer or duplicate source as Network Finance profile 51189.",
+      "evidence": "The PNet profiles use distinct IDs and display names. “Popular jobs” cross-links include other advertisers but do not identify the end employer or establish a duplicate requisition.",
+      "status": "UNKNOWN",
+      "decision": "Keep profile 51191 separate and unmerged pending an official linkage/overlap check."
+    },
+    {
+      "claim": "Whether the annual package is base salary, CTC, or includes variable compensation is known.",
+      "evidence": "The direct page gives an annual range but does not define package composition.",
+      "status": "UNKNOWN",
+      "decision": "Retain the uncertainty; do not relabel the package as base salary."
+    }
+  ],
+  "claims_upheld": [
+    "A direct PNet Network Finance. advert for Financial Accountant 4277667 existed at retrieval.",
+    "The advert displays R550,000–R650,000 annually and describes 3–5-year management/operational finance and business-partnering work.",
+    "The displayed annual pay range exceeds the R420,000 p.a. screening floor."
+  ],
+  "claims_downgraded": [
+    "The role title is retained as Financial Accountant, but the described remit is more specifically management/operational finance and business partnering; taxonomy assignment remains probable.",
+    "A live PNet page does not confirm that the end employer is still accepting applications.",
+    "Network Finance. is the agency advertiser, not the identified hiring employer.",
+    "No employer identity, agreed-client status, target-company map, candidate map, employer stakeholder or company-email pattern is established."
+  ],
+  "claims_removed": [],
+  "contradictions": [
+    "The PNet profile header reports 9 Western Cape results, while the retrieved rendered profile text exposes 8 cards; one result/count discrepancy remains unresolved.",
+    "The official Network Recruitment Finance vacancy widget returned an error/no cards; this is an access/rendering limitation, not evidence of no vacancies."
+  ],
+  "unknowns": [
+    "End-employer name and employer-side requisition status are unresolved.",
+    "Client/agreed-client status is unknown; no Boschendal or Laurium match is evidenced.",
+    "No employer-side stakeholder/contact or company-email intelligence can be grounded until the employer is identified.",
+    "Whether the displayed annual package is base salary, CTC or includes variable compensation is unstated.",
+    "Profile 51191 advertises 9 Western Cape results but only 8 cards were surfaced in retrieved text; the profile inventory discrepancy remains open.",
+    "The relationship between the Network Finance. profile 51191 and Network Finance profile 51189 is not verified."
+  ],
+  "next_research_actions": [
+    "Seek an agency-origin or employer-origin source that names the hiring employer and confirms employer-side requisition status; do not infer from generic company/sector wording.",
+    "Confirm package composition if material to the salary screen.",
+    "Reconcile the 9-result profile count with the 8 surfaced direct cards and complete the separate profile overlap review.",
+    "Do not begin employer stakeholder/company-email research, target-company mapping or candidate mapping until employer identity is confirmed or high-confidence."
+  ],
+  "reviewer_conclusion": "PASS_WITH_UNKNOWNS"
+}

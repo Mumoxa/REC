@@ -1,0 +1,81 @@
+{
+  "gate": "A_DISCOVERY",
+  "record_id": "DISCOVERY:network-finance-51189:finance-director-ca-sa-distribution-retail-manufacturing-4269935",
+  "reviewed_at": "2026-10-07",
+  "sources_checked": [
+    "https://www.pnet.co.za/jobs--Finance-Director-CA-SA-Distribution-Retail-and-Manufacturing-Cape-Town-Northern-Suburbs-Network-Finance--4269935-inline.html",
+    "https://www.pnet.co.za/cmp/en/network-finance-51189/jobs/in-western-cape",
+    "https://www.networkrecruitmentinternational.com/finance-jobs",
+    "runs/RUN-20261005-CH2-001/network-finance-western-cape-review.md"
+  ],
+  "claims_reviewed": [
+    {
+      "claim": "A Network Finance-advertised Finance Director CA (SA) | Distribution, Retail and Manufacturing role (PNet 4269935; ref NFR011175-MoD-1) was retrievable on 2026-10-07.",
+      "evidence": "Direct PNet detail page identifies the role, reference and Network Finance advertiser, and displays Published: 1 week ago. Network Finance is the advertiser, not a verified hiring employer.",
+      "status": "CONFIRMED",
+      "decision": "Uphold the agency-ad/source facts only."
+    },
+    {
+      "claim": "The role stated scope is within the finance taxonomy and matches the preserved functional classification.",
+      "evidence": "Finance Director reporting to the CEO; strategic finance, profitability, cash flow, FX/trade finance, imports/supply chain, manufacturing costing and inventory, financial controls and team leadership. CA(SA), 8–10 years in senior financial leadership, manufacturing/distribution/import-export, Syspro and treasury/trade-finance experience are stated.",
+      "status": "CONFIRMED",
+      "decision": "Classify as Finance Leadership, taxonomy node 6 / Group B; preserve the raw title and source wording."
+    },
+    {
+      "claim": "The role clears the R420,000 p.a. salary screen.",
+      "evidence": "The direct Package & Remuneration section states R1,300,000–R1,500,000 annually; the annual lower bound is above R420,000 p.a.",
+      "status": "CONFIRMED",
+      "decision": "Uphold for provisional salary screening only; do not infer package composition."
+    },
+    {
+      "claim": "The hiring employer is identified.",
+      "evidence": "The direct advert uses an anonymous client/sector description and names Network Finance as the advertiser; no end-employer name appears.",
+      "status": "UNKNOWN",
+      "decision": "Keep employer and client status unknown; do not infer from sector, title or location."
+    },
+    {
+      "claim": "The PNet advert is still accepted by the employer.",
+      "evidence": "The page was retrievable and displayed Published: 1 week ago at retrieval on 2026-10-07; no employer-side confirmation or closing date was shown.",
+      "status": "PROBABLE",
+      "decision": "Record as listed on PNet at retrieval only; employer-side acceptance remains unknown."
+    },
+    {
+      "claim": "The possible related listing/re-title is the same requisition.",
+      "evidence": "Financial Manager: Manufacturing FMCG 4269944 (ref NFR011176-MoD-1) has similar manufacturing/finance scope, same agency and adjacent reference; possible related or re-title signal only. Different titles, pay ranges and duties do not confirm a common employer or requisition; keep separate.",
+      "status": "HYPOTHESIS",
+      "decision": "Keep all IDs separate; do not merge or identify a shared employer without recruiter/employer confirmation."
+    },
+    {
+      "claim": "This is a Boschendal or Laurium agreed-client opportunity.",
+      "evidence": "No end-employer name or agreed-client relationship appears in the direct listing.",
+      "status": "UNKNOWN",
+      "decision": "Do not promote to agreed-client priority."
+    }
+  ],
+  "claims_upheld": [
+    "A retrievable Network Finance PNet advert for Finance Director CA (SA) | Distribution, Retail and Manufacturing was observed on 2026-10-07.",
+    "The direct page displays R1,300,000–R1,500,000 annually, whose lower bound clears R420,000 p.a.",
+    "The page stated duties and requirements support the preserved finance-function classification."
+  ],
+  "claims_downgraded": [
+    "PNet visibility and a recent relative publication age do not prove employer-side acceptance.",
+    "Network Finance is the agency advertiser, not a confirmed end employer.",
+    "Any relationship to other anonymous Network Finance ads remains a hypothesis, not a confirmed duplicate."
+  ],
+  "claims_removed": [
+    "No end employer, hiring owner, company email, candidate, or personal contact detail is inferred from anonymous client language."
+  ],
+  "contradictions": [],
+  "unknowns": [
+    "End-employer identity, employer-side vacancy acceptance and client/agreed-client status are unresolved.",
+    "Package composition (base, CTC, bonus or variable pay) is unstated.",
+    "Potential related/re-title status requires recruiter or employer confirmation; retain distinct source IDs.",
+    "No employer stakeholder/company-email, target-company or candidate mapping is activated while the end employer remains unknown."
+  ],
+  "next_research_actions": [
+    "Identify the hiring employer via reliable agency/employer-origin evidence and verify employer-side vacancy status and package composition.",
+    "Investigate the possible related/re-title ads without merging on title, sector, recruiter or location alone.",
+    "Do not begin stakeholder/company-email, target-company or candidate mapping until the employer is confirmed or high-confidence."
+  ],
+  "reviewer_conclusion": "PASS_WITH_UNKNOWNS"
+}

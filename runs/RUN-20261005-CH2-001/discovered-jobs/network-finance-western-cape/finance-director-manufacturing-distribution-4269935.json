@@ -1,0 +1,122 @@
+{
+  "record_id": "DISCOVERY:network-finance-51189:finance-director-ca-sa-distribution-retail-manufacturing-4269935",
+  "parent_signal_id": null,
+  "discovered_at": "2026-10-07",
+  "posted_at": null,
+  "classification": "AGENCY_ADVERT",
+  "role": {
+    "raw_title": "Finance Director CA (SA) | Distribution, Retail and Manufacturing",
+    "normalized_title": "Finance Director (manufacturing, distribution, treasury and operational finance)",
+    "function": "Finance Leadership",
+    "seniority": "Director / Head",
+    "location": "Cape Town: Northern Suburbs"
+  },
+  "source": {
+    "channel": "agency",
+    "source_name": "Network Finance (PNet fallback profile 51189)",
+    "url": "https://www.pnet.co.za/jobs--Finance-Director-CA-SA-Distribution-Retail-and-Manufacturing-Cape-Town-Northern-Suburbs-Network-Finance--4269935-inline.html",
+    "author": null,
+    "advertiser": "Network Finance",
+    "advertiser_type": "THIRD_PARTY"
+  },
+  "employer": {
+    "name": null,
+    "status": "UNKNOWN",
+    "existing_client": null
+  },
+  "qualification": {
+    "functional_scope": "INCLUDE",
+    "salary_gate": "INCLUDE",
+    "freshness": "PROBABLY_ACTIVE"
+  },
+  "evidence": [
+    {
+      "claim": "The direct PNet page identifies a Network Finance-advertised Finance Director CA (SA) | Distribution, Retail and Manufacturing role, ID 4269935, ref NFR011175-MoD-1.",
+      "status": "CONFIRMED",
+      "basis": "Direct PNet detail page and profile 51189; Network Finance is the advertiser, not the verified hiring employer.",
+      "url": "https://www.pnet.co.za/jobs--Finance-Director-CA-SA-Distribution-Retail-and-Manufacturing-Cape-Town-Northern-Suburbs-Network-Finance--4269935-inline.html"
+    },
+    {
+      "claim": "Finance Director reporting to the CEO; strategic finance, profitability, cash flow, FX/trade finance, imports/supply chain, manufacturing costing and inventory, financial controls and team leadership. CA(SA), 8–10 years in senior financial leadership, manufacturing/distribution/import-export, Syspro and treasury/trade-finance experience are stated.",
+      "status": "CONFIRMED",
+      "basis": "Direct PNet detail-page description and stated requirements.",
+      "url": "https://www.pnet.co.za/jobs--Finance-Director-CA-SA-Distribution-Retail-and-Manufacturing-Cape-Town-Northern-Suburbs-Network-Finance--4269935-inline.html"
+    },
+    {
+      "claim": "The direct Package & Remuneration section states R1,300,000–R1,500,000 annually; the annual lower bound exceeds R420,000 p.a.",
+      "status": "CONFIRMED",
+      "basis": "Explicit annual amount/range on the direct PNet page; package composition is not specified.",
+      "url": "https://www.pnet.co.za/jobs--Finance-Director-CA-SA-Distribution-Retail-and-Manufacturing-Cape-Town-Northern-Suburbs-Network-Finance--4269935-inline.html"
+    },
+    {
+      "claim": "The end employer is not identified in the advert.",
+      "status": "UNKNOWN",
+      "basis": "The listing describes an anonymous client/sector and names Network Finance as the advertiser.",
+      "url": "https://www.pnet.co.za/jobs--Finance-Director-CA-SA-Distribution-Retail-and-Manufacturing-Cape-Town-Northern-Suburbs-Network-Finance--4269935-inline.html"
+    },
+    {
+      "claim": "PNet displayed Published: 1 week ago at retrieval on 2026-10-07; employer-side acceptance remains unverified.",
+      "status": "PROBABLE",
+      "basis": "Relative publication age and page retrieval do not prove the employer continues to accept applications.",
+      "url": "https://www.pnet.co.za/jobs--Finance-Director-CA-SA-Distribution-Retail-and-Manufacturing-Cape-Town-Northern-Suburbs-Network-Finance--4269935-inline.html"
+    },
+    {
+      "claim": "Financial Manager: Manufacturing FMCG 4269944 (ref NFR011176-MoD-1) has similar manufacturing/finance scope, same agency and adjacent reference; possible related or re-title signal only. Different titles, pay ranges and duties do not confirm a common employer or requisition; keep separate.",
+      "status": "HYPOTHESIS",
+      "basis": "Cross-page comparison of direct PNet titles, references, recruiter/advertiser and described duties; no recruiter confirmation.",
+      "url": "https://www.pnet.co.za/jobs--Finance-Director-CA-SA-Distribution-Retail-and-Manufacturing-Cape-Town-Northern-Suburbs-Network-Finance--4269935-inline.html"
+    }
+  ],
+  "possible_duplicate_of": null,
+  "next_action": "Identify the end employer via reliable agency/employer-origin evidence; verify vacancy status/package and assess possible related ads without merging on circumstantial similarity.",
+  "geography": {
+    "raw": "Cape Town: Northern Suburbs",
+    "country": "South Africa",
+    "province": "Western Cape",
+    "city": "Cape Town",
+    "node": "Cape Town: Northern Suburbs",
+    "region_priority": "P1",
+    "cluster_id": "WC_NORTHERN_SUBURBS_N1",
+    "cluster_label": "Northern Suburbs / N1 corridor",
+    "search_term_matched": "Network Finance PNet Western Cape profile 51189"
+  },
+  "taxonomy": {
+    "node_id": 6,
+    "node_name": "Finance Leadership",
+    "group_code": "B",
+    "group_name": "Finance & Accounting",
+    "classification_confidence": "CONFIRMED",
+    "boundary_rule_applied": "Raw title is Finance Director; role combines executive finance leadership with hands-on operational, treasury, costing and import/export responsibilities. Node 6 / Group B follows the stated director-level finance remit.",
+    "exclusion_status": "IN_SCOPE",
+    "exclusion_reason": null
+  },
+  "seniority": {
+    "band": "TIER_2_DIRECTOR_HEAD",
+    "matched_terms": [
+      "Finance Director",
+      "CA(SA)",
+      "8–10 years in a senior financial leadership role"
+    ],
+    "board_level": false,
+    "executive_director": false,
+    "fractional_or_interim": false,
+    "consulting_track": false,
+    "specialist_track": false,
+    "people_management_required": true,
+    "confidence": "CONFIRMED"
+  },
+  "client_status": "UNKNOWN",
+  "source_priority_stage": "STAGE_2_STRATEGIC_AGENCIES",
+  "client_relationship": {
+    "matched_client_canonical": null,
+    "matched_entity": null,
+    "agreement_scope_status": "UNKNOWN",
+    "identity_status": "UNKNOWN",
+    "promotion_to_stage_1": false,
+    "basis": "End employer is not identified; no agreed-client identity or relationship is evidenced.",
+    "promote_to_agreed_client_priority": false
+  },
+  "search_channel": "AGENCY_SITES",
+  "pay_evidence": "R1,300,000–R1,500,000 annually; package composition and employer acceptance are unknown.",
+  "triage_duplicate_group": null
+}
