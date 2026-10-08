@@ -17,6 +17,13 @@ export default function LoginPage() {
   const demo = isDemoMode();
 
   useEffect(() => {
+    const authError = new URLSearchParams(window.location.search).get("error");
+    if (authError === "missing_code") {
+      setMessage("The sign-in link was incomplete. Request a new email and use the newest link or code.");
+    } else if (authError === "auth_exchange") {
+      setMessage("That sign-in link could not be verified. It may have expired. Request a new email.");
+    }
+
     if (demo) return;
 
     const pendingEmail = window.localStorage.getItem(PENDING_EMAIL_KEY);

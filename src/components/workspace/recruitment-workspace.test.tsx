@@ -92,7 +92,7 @@ describe("RecruitmentWorkspace — P2 RTL suite (chip / banner / drawer / arrow)
     const viewSelect = screen.getByLabelText("Load saved view");
     await user.selectOptions(viewSelect, "My Filter");
 
-    const banner = await screen.findByRole("status");
+    const banner = await screen.findByRole("status", { name: "Loaded saved view" });
     expect(banner).toBeInTheDocument();
     expect(within(banner).getByText("My Filter")).toBeInTheDocument();
     expect(banner.textContent).toMatch(/Viewing:/);
@@ -163,5 +163,40 @@ describe("RecruitmentWorkspace — P2 RTL suite (chip / banner / drawer / arrow)
     expect(within(dialog).getByText(/The candidate will move to the Excluded bucket/i)).toBeInTheDocument();
     await user.click(within(dialog).getByRole("button", { name: "Cancel exclusion" }));
     expect(screen.queryByRole("dialog", { name: /Exclude candidate confirmation/i })).not.toBeInTheDocument();
+  });
+
+  it("does not confirm an exclusion until a reason is chosen", async () => {
+    const user = userEvent.setup();
+    renderWorkspace();
+
+    await user.click(screen.getAllByRole("button", { name: "Exclude candidate" })[0]);
+    const dialog = await screen.findByRole("dialog", { name: /Exclude candidate confirmation/i });
+    expect(within(dialog).getByRole("button", { name: "Confirm exclusion" })).toBeDisabled();
+
+    await user.selectOptions(within(dialog).getByLabelText(/Reason for exclusion/i), "CLIENT_INSTRUCTED");
+    expect(within(dialog).getByRole("button", { name: "Confirm exclusion" })).toBeEnabled();
+  });
+
+  it("requires an explanation before closing a vacancy as OTHER", async () => {
+    const user = userEvent.setup();
+    renderWorkspace();
+
+    await user.click(screen.getByRole("button", { name: "Close vacancy" }));
+    const dialog = await screen.findByRole("dialog", { name: /Close vacancy confirmation/i });
+    await user.selectOptions(within(dialog).getByLabelText(/Reason for closing/i), "OTHER");
+
+    const confirm = within(dialog).getByRole("button", { name: "Confirm close vacancy" });
+    expect(confirm).toBeDisabled();
+    await user.type(within(dialog).getByLabelText(/Explanation for OTHER/i), "Mandate withdrawn");
+    expect(confirm).toBeEnabled();
+  });
+
+  it("keeps research Top 10 visible when the recruiter workflow is only earmarked", async () => {
+    const user = userEvent.setup();
+    renderWorkspace();
+    await user.click(screen.getByRole("option", { name: /Group Accountant/i }));
+    const card = screen.getByRole("article", { name: /Candidate A/i });
+    expect(card.querySelector(".bucket-badge.top_10")).toHaveTextContent("Top 10");
+    expect(within(card).getByText("Recruiter · Earmarked")).toBeInTheDocument();
   });
 });

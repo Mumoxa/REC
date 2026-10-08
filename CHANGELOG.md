@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-10-07 — Operational contract, publication idempotency, and workspace QA
+
+- Candidate exclusion now requires a non-blank reason and persists `excluded_reason`. Recruiter exclusion no longer depends on the research market bucket.
+- Closing a vacancy as OTHER requires an explanation, stored as `closed_reason_detail`. Migration `008_operational_reason_contract.sql` enforces both rules for new writes.
+- Research Top 10 and recruiter workflow are labelled separately. Workflow actions no longer roll backwards, and an excluded candidate can be restored without touching evidence.
+- Saved views restore only validated view state. Demo mode saves views locally instead of calling an unconfigured API.
+- Ingestion checkpoints no longer freeze lifecycle, erase an agreed-client status, reset first-seen, overwrite channel provenance, or insert a duplicate QA review.
+- Workspace reads page past the PostgREST 1,000-row cap. Market counts use the credible-market definition and the persisted coverage summary.
+- Auth callback `next` is origin-checked, including backslash and encoded-control open redirects. API auth failures return 401 JSON. Malformed ops payloads return 400 instead of 500.
+- ESLint now type-checks TypeScript sources. Regression checks read the implementation instead of asserting local constants.
+
 ## 2026-10-05 — Full candidate market restored as the core deliverable
 
 - Reframed the live workspace from Top-10-first to full candidate-market visibility.
