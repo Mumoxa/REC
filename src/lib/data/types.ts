@@ -108,6 +108,8 @@ export interface CandidateAssignment {
   profileUrl?: string | null;
   marketBucket: MarketBucket;
   operationalStatus: CandidateOperationalStatus;
+  /** Set only when operationalStatus is EXCLUDED; never research evidence. */
+  excludedReason?: string | null;
   rank?: number | null;
   comparableTier?: "A" | "B" | "C" | "D" | null;
   qaStatus: QaStatus;
@@ -141,6 +143,10 @@ export interface Vacancy {
   searchChannel: "AGREED_CLIENTS" | "AGENCY_SITES" | "LINKEDIN" | "JOB_BOARDS";
   sourceLabel: string;
   lifecycleStatus: VacancyLifecycle;
+  /** Recruiter close reason. Null until the vacancy is closed. */
+  closedReason?: string | null;
+  /** Required when lifecycleStatus is CLOSED with reason OTHER. */
+  closeReasonDetail?: string | null;
   qaStatus: QaStatus;
   candidateMapStatus: "NOT_STARTED" | "IN_PROGRESS" | "READY";
   candidateMarketSummary: CandidateMarketSummary;

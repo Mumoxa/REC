@@ -15,7 +15,7 @@ export default async function CompaniesPage() {
         locations: new Set<string>(),
       };
       current.roles += vacancy.lifecycleStatus === "CLOSED" ? 0 : 1;
-      current.newRoles += vacancy.unread ? 1 : 0;
+      current.newRoles += vacancy.unread && vacancy.lifecycleStatus !== "CLOSED" ? 1 : 0;
       current.locations.add(vacancy.location);
       if (vacancy.clientStatus === "AGREED_CLIENT") current.clientStatus = vacancy.clientStatus;
       map.set(vacancy.employerName, current);

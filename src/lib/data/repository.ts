@@ -50,6 +50,8 @@ export interface VacancyOperationRow extends BaseRow {
   workspace_id: string;
   vacancy_id: string;
   lifecycle_status: string | null;
+  closed_reason: string | null;
+  closed_reason_detail: string | null;
   unread: boolean | null;
 }
 
@@ -131,6 +133,7 @@ export interface CandidateOperationRow extends BaseRow {
   vacancy_id: string;
   candidate_id: string;
   operational_status: string | null;
+  excluded_reason: string | null;
 }
 
 export interface CandidateRow extends BaseRow {
@@ -213,6 +216,8 @@ export async function getWorkspaceSnapshot(): Promise<WorkspaceSnapshot> {
 
   const workspaceId = workspace.id as string;
 
+  // PostgREST silently caps an unordered select at 1,000 rows. A researched
+  // market is larger than that, so every table is paged on a stable key.
   const [
     vacanciesResult,
     operationsResult,
@@ -228,19 +233,51 @@ export async function getWorkspaceSnapshot(): Promise<WorkspaceSnapshot> {
     runsResult,
     savedViewsResult,
   ] = await Promise.all([
-    supabase.from("vacancies").select("*").eq("workspace_id", workspaceId),
-    supabase.from("vacancy_operations").select("*").eq("workspace_id", workspaceId),
-    supabase.from("vacancy_sources").select("*").eq("workspace_id", workspaceId),
-    supabase.from("vacancy_requirements").select("*").eq("workspace_id", workspaceId),
-    supabase.from("stakeholders").select("*").eq("workspace_id", workspaceId),
-    supabase.from("company_email_intelligence").select("*").eq("workspace_id", workspaceId),
-    supabase.from("candidate_assignments").select("*").eq("workspace_id", workspaceId),
-    supabase.from("candidate_operations").select("*").eq("workspace_id", workspaceId),
-    supabase.from("candidates").select("*").eq("workspace_id", workspaceId),
-    supabase.from("candidate_claims").select("*").eq("workspace_id", workspaceId),
-    supabase.from("research_queries").select("*").eq("workspace_id", workspaceId),
-    supabase.from("runs").select("*").eq("workspace_id", workspaceId).order("started_at", { ascending: false }),
-    supabase.from("saved_views").select("*").eq("workspace_id", workspaceId),
+    fetchAllRows((from, to) =>
+      supabase.from("vacancies").select("*").eq("workspace_id", workspaceId).order("id").range(from, to)
+    ),
+    fetchAllRows((from, to) =>
+      supabase.from("vacancy_operations").select("*").eq("workspace_id", workspaceId).order("id").range(from, to)
+    ),
+    fetchAllRows((from, to) =>
+      supabase.from("vacancy_sources").select("*").eq("workspace_id", workspaceId).order("id").range(from, to)
+    ),
+    fetchAllRows((from, to) =>
+      supabase.from("vacancy_requirements").select("*").eq("workspace_id", workspaceId).order("id").range(from, to)
+    ),
+    fetchAllRows((from, to) =>
+      supabase.from("stakeholders").select("*").eq("workspace_id", workspaceId).order("id").range(from, to)
+    ),
+    fetchAllRows((from, to) =>
+      supabase.from("company_email_intelligence").select("*").eq("workspace_id", workspaceId).order("id").range(from, to)
+    ),
+    fetchAllRows((from, to) =>
+      supabase.from("candidate_assignments").select("*").eq("workspace_id", workspaceId).order("id").range(from, to)
+    ),
+    fetchAllRows((from, to) =>
+      supabase.from("candidate_operations").select("*").eq("workspace_id", workspaceId).order("id").range(from, to)
+    ),
+    fetchAllRows((from, to) =>
+      supabase.from("candidates").select("*").eq("workspace_id", workspaceId).order("id").range(from, to)
+    ),
+    fetchAllRows((from, to) =>
+      supabase.from("candidate_claims").select("*").eq("workspace_id", workspaceId).order("id").range(from, to)
+    ),
+    fetchAllRows((from, to) =>
+      supabase.from("research_queries").select("*").eq("workspace_id", workspaceId).order("id").range(from, to)
+    ),
+    fetchAllRows((from, to) =>
+      supabase
+        .from("runs")
+        .select("*")
+        .eq("workspace_id", workspaceId)
+        .order("started_at", { ascending: false })
+        .order("id")
+        .range(from, to)
+    ),
+    fetchAllRows((from, to) =>
+      supabase.from("saved_views").select("*").eq("workspace_id", workspaceId).order("id").range(from, to)
+    ),
   ]);
 
   const errors = [
@@ -367,6 +404,8 @@ function toVacancy(
     searchChannel: row.search_channel as Vacancy["searchChannel"],
     sourceLabel: row.source_label || row.search_channel,
     lifecycleStatus: (operation?.lifecycle_status as Vacancy["lifecycleStatus"]) || "DISCOVERED",
+    closedReason: operation?.closed_reason ?? null,
+    closeReasonDetail: operation?.closed_reason_detail ?? null,
     qaStatus: (row.qa_status as Vacancy["qaStatus"]) || "PASS_WITH_UNKNOWNS",
     candidateMapStatus: (row.candidate_map_status as Vacancy["candidateMapStatus"]) || "NOT_STARTED",
     candidateMarketSummary: toCandidateMarketSummary(
@@ -477,6 +516,7 @@ function toCandidate(
     profileUrl: candidate.profile_url,
     marketBucket: (assignment.market_bucket as CandidateAssignment["marketBucket"]) || "UNREVIEWED",
     operationalStatus: (operation?.operational_status as CandidateAssignment["operationalStatus"]) || "SURFACED",
+    excludedReason: operation?.excluded_reason ?? null,
     rank: assignment.rank,
     comparableTier: assignment.comparable_tier as CandidateAssignment["comparableTier"],
     qaStatus: (assignment.qa_status as QaStatus) || "PASS_WITH_UNKNOWNS",
@@ -544,6 +584,32 @@ function toResearchQuery(row: ResearchQueryRow): ResearchQuery {
     executionStatus: row.execution_status as ResearchQuery["executionStatus"],
     yieldCount: row.observed_yield,
     candidatesSurfaced: row.candidates_surfaced,
+  };
+}
+
+const PAGE_SIZE = 1000;
+const MAX_ROWS = 20_000;
+
+type PageResult<T> = { data: T[] | null; error: { message: string } | null };
+
+/**
+ * Reads past the PostgREST default page. Range without a stable order can
+ * skip or repeat rows, so every caller must order before calling this.
+ */
+export async function fetchAllRows<T>(
+  loadPage: (from: number, to: number) => PromiseLike<PageResult<T>>
+): Promise<PageResult<T>> {
+  const rows: T[] = [];
+  for (let from = 0; from < MAX_ROWS; from += PAGE_SIZE) {
+    const { data, error } = await loadPage(from, from + PAGE_SIZE - 1);
+    if (error) return { data: [], error };
+    const batch = data ?? [];
+    rows.push(...batch);
+    if (batch.length < PAGE_SIZE) return { data: rows, error: null };
+  }
+  return {
+    data: [],
+    error: { message: "Workspace query exceeded the safety row cap." },
   };
 }
 

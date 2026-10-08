@@ -5,9 +5,14 @@ export const dynamic = "force-dynamic";
 
 export default async function QaPage() {
   const snapshot = await getWorkspaceSnapshot();
+  const qaRank = (status: string) =>
+    status === "FAIL_RESEARCH_REQUIRED" ? 0 : status === "PASS_WITH_UNKNOWNS" ? 1 : 2;
   const rows = snapshot.vacancies
     .filter((v) => v.qaStatus !== "PASS" || v.employerStatus !== "CONFIRMED")
-    .sort((a,b) => (a.qaStatus === "FAIL_RESEARCH_REQUIRED" ? -1 : 1));
+    .sort(
+      (a, b) =>
+        qaRank(a.qaStatus) - qaRank(b.qaStatus) || a.title.localeCompare(b.title)
+    );
 
   return (
     <main className="secondary-shell">

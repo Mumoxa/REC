@@ -1,5 +1,11 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.4";
+import {
+  nextResearchLifecycle,
+  preserveClientStatus,
+  preserveFirstSeen,
+  preserveProvenance,
+} from "./preservation.ts";
 
 type Evidence = "CONFIRMED" | "PROBABLE" | "HYPOTHESIS" | "UNKNOWN";
 type Channel = "AGREED_CLIENTS" | "AGENCY_SITES" | "LINKEDIN" | "JOB_BOARDS";
@@ -280,13 +286,25 @@ Deno.serve(async (request) => {
 
     let companyId: string | null = null;
     if (item.employerName && item.employerName !== "Employer unresolved") {
+      const { data: existingCompany, error: existingCompanyError } = await supabase
+        .from("companies")
+        .select("client_status")
+        .eq("workspace_id", workspaceId)
+        .eq("canonical_name", item.employerName)
+        .maybeSingle();
+      if (existingCompanyError) return response({ error: existingCompanyError.message }, 400);
+
       const { data: company, error } = await supabase
         .from("companies")
         .upsert(
           {
             workspace_id: workspaceId,
             canonical_name: item.employerName,
-            client_status: item.clientStatus || "UNKNOWN",
+            // A later UNKNOWN/weaker checkpoint must not erase AGREED_CLIENT.
+            client_status: preserveClientStatus(
+              existingCompany?.client_status,
+              item.clientStatus,
+            ),
             updated_at: now,
           },
           { onConflict: "workspace_id,canonical_name" },
@@ -297,32 +315,54 @@ Deno.serve(async (request) => {
       companyId = company?.id || null;
     }
 
+    const { data: existingVacancy, error: existingVacancyError } = await supabase
+      .from("vacancies")
+      .select(
+        "company_id, first_seen, client_status, search_channel, source_label, employer_name, employer_status, location, region, role_family, seniority, qa_status, candidate_map_status, stakeholder_map_status, stakeholder_map_note, summary, candidate_market_summary",
+      )
+      .eq("workspace_id", workspaceId)
+      .eq("canonical_key", item.canonicalKey)
+      .maybeSingle();
+    if (existingVacancyError) return response({ error: existingVacancyError.message }, 400);
+
+    const resolvedCompanyId = companyId ?? existingVacancy?.company_id ?? null;
+
     const { data: vacancy, error: vacancyError } = await supabase
       .from("vacancies")
       .upsert(
         {
           workspace_id: workspaceId,
-          company_id: companyId,
+          company_id: resolvedCompanyId,
           canonical_key: item.canonicalKey,
           title: item.title,
-          employer_name: item.employerName || "Employer unresolved",
-          employer_status: item.employerStatus || "UNKNOWN",
-          location: item.location,
-          region: item.region,
-          role_family: item.roleFamily,
-          seniority: item.seniority,
-          client_status: item.clientStatus || "UNKNOWN",
-          search_channel: item.searchChannel || payload.run.channel,
-          source_label: item.sourceLabel || payload.run.channel,
-          qa_status: item.qaStatus || "PASS_WITH_UNKNOWNS",
-          candidate_map_status: item.candidateMapStatus || "NOT_STARTED",
-          candidate_market_summary: item.candidateMarketSummary || {},
-          stakeholder_map_status: item.stakeholderMapStatus || "NOT_STARTED",
-          stakeholder_map_note: item.stakeholderMapNote,
-          first_seen: item.firstSeen || now,
+          employer_name: item.employerName || existingVacancy?.employer_name || "Employer unresolved",
+          employer_status: item.employerStatus || existingVacancy?.employer_status || "UNKNOWN",
+          location: item.location ?? existingVacancy?.location,
+          region: item.region ?? existingVacancy?.region,
+          role_family: item.roleFamily ?? existingVacancy?.role_family,
+          seniority: item.seniority ?? existingVacancy?.seniority,
+          client_status: preserveClientStatus(existingVacancy?.client_status, item.clientStatus),
+          search_channel: preserveProvenance(
+            existingVacancy?.search_channel,
+            item.searchChannel || payload.run.channel,
+            payload.run.channel,
+          ),
+          source_label: preserveProvenance(
+            existingVacancy?.source_label,
+            item.sourceLabel || payload.run.channel,
+            payload.run.channel,
+          ),
+          qa_status: item.qaStatus || existingVacancy?.qa_status || "PASS_WITH_UNKNOWNS",
+          candidate_map_status: item.candidateMapStatus || existingVacancy?.candidate_map_status || "NOT_STARTED",
+          candidate_market_summary:
+            item.candidateMarketSummary ?? existingVacancy?.candidate_market_summary ?? {},
+          stakeholder_map_status:
+            item.stakeholderMapStatus || existingVacancy?.stakeholder_map_status || "NOT_STARTED",
+          stakeholder_map_note: item.stakeholderMapNote ?? existingVacancy?.stakeholder_map_note,
+          first_seen: preserveFirstSeen(existingVacancy?.first_seen, item.firstSeen, now),
           last_seen: item.lastSeen || now,
           last_verified: item.lastVerified,
-          summary: item.summary,
+          summary: item.summary ?? existingVacancy?.summary,
           updated_at: now,
           last_changed: now,
         },
@@ -336,20 +376,25 @@ Deno.serve(async (request) => {
     }
     persistedVacancies.push(vacancy.id);
 
-    const { error: operationError } = await supabase
-      .from("vacancy_operations")
-      .upsert(
-        {
-          workspace_id: workspaceId,
-          vacancy_id: vacancy.id,
-          lifecycle_status: item.lifecycleStatus || inferLifecycle(item),
-          unread: true,
-        },
-        { onConflict: "workspace_id,vacancy_id", ignoreDuplicates: true },
-      );
-    if (operationError) return response({ error: operationError.message }, 400);
+    const operationError = await persistResearchLifecycle(
+      supabase,
+      workspaceId,
+      vacancy.id,
+      item,
+      now,
+    );
+    if (operationError) return response({ error: operationError }, 400);
 
     for (const source of item.sources || []) {
+      const { data: existingSource, error: existingSourceError } = await supabase
+        .from("vacancy_sources")
+        .select("first_seen")
+        .eq("workspace_id", workspaceId)
+        .eq("vacancy_id", vacancy.id)
+        .eq("source_key", source.sourceKey)
+        .maybeSingle();
+      if (existingSourceError) return response({ error: existingSourceError.message }, 400);
+
       const { error } = await supabase.from("vacancy_sources").upsert(
         {
           workspace_id: workspaceId,
@@ -361,7 +406,11 @@ Deno.serve(async (request) => {
           source_url: source.url,
           evidence_status: source.evidenceStatus || "UNKNOWN",
           posted_at: source.postedAt,
-          first_seen: source.firstSeen || item.firstSeen || now,
+          first_seen: preserveFirstSeen(
+            existingSource?.first_seen,
+            source.firstSeen || item.firstSeen,
+            now,
+          ),
           last_seen: source.lastSeen || now,
           raw_title: source.rawTitle,
           raw_employer: source.rawEmployer,
@@ -428,7 +477,7 @@ Deno.serve(async (request) => {
         {
           workspace_id: workspaceId,
           vacancy_id: vacancy.id,
-          company_id: companyId,
+          company_id: resolvedCompanyId,
           website_domain: emailIntel.websiteDomain,
           employee_email_domain: emailIntel.employeeEmailDomain,
           domain_status: emailIntel.domainStatus || "UNKNOWN",
@@ -579,12 +628,25 @@ Deno.serve(async (request) => {
         }
       }
 
-      const { error } = await supabase.from("qa_reviews").insert({
-        workspace_id: workspaceId,
-        vacancy_id: vacancy.id,
-        candidate_id: candidateId,
-        run_id: run.id,
-        gate: review.gate,
+      // Republishing a checkpoint must enrich the same gate review, not append
+      // a duplicate row. qa_reviews has no natural unique key, so match on
+      // run + vacancy + gate + candidate.
+      let existingReviewQuery = supabase
+        .from("qa_reviews")
+        .select("id")
+        .eq("workspace_id", workspaceId)
+        .eq("vacancy_id", vacancy.id)
+        .eq("run_id", run.id)
+        .eq("gate", review.gate)
+        .limit(1);
+      existingReviewQuery = candidateId
+        ? existingReviewQuery.eq("candidate_id", candidateId)
+        : existingReviewQuery.is("candidate_id", null);
+
+      const { data: existingReviews, error: existingReviewError } = await existingReviewQuery;
+      if (existingReviewError) return response({ error: existingReviewError.message }, 400);
+
+      const reviewRow = {
         reviewer_conclusion: review.conclusion,
         reviewed_at: review.reviewedAt || now,
         summary: review.summary,
@@ -595,7 +657,19 @@ Deno.serve(async (request) => {
         unknowns: review.unknowns || [],
         next_research_actions: review.nextActions || [],
         sources_checked: review.sourcesChecked || [],
-      });
+      };
+
+      const existingReviewId = existingReviews?.[0]?.id;
+      const { error } = existingReviewId
+        ? await supabase.from("qa_reviews").update(reviewRow).eq("id", existingReviewId)
+        : await supabase.from("qa_reviews").insert({
+            ...reviewRow,
+            workspace_id: workspaceId,
+            vacancy_id: vacancy.id,
+            candidate_id: candidateId,
+            run_id: run.id,
+            gate: review.gate,
+          });
       if (error) return response({ error: error.message }, 400);
     }
   }
@@ -938,6 +1012,47 @@ function isPersistedClientSubmittableCandidate(candidate: {
     qaPassed &&
     Boolean(candidate.why_fit?.trim())
   );
+}
+
+async function persistResearchLifecycle(
+  supabase: ReturnType<typeof createClient>,
+  workspaceId: string,
+  vacancyId: string,
+  item: NonNullable<Payload["vacancies"]>[number],
+  now: string,
+): Promise<string | undefined> {
+  const incoming = item.lifecycleStatus || inferLifecycle(item);
+  const { data: existing, error: readError } = await supabase
+    .from("vacancy_operations")
+    .select("lifecycle_status")
+    .eq("workspace_id", workspaceId)
+    .eq("vacancy_id", vacancyId)
+    .maybeSingle();
+  if (readError) return readError.message;
+
+  if (!existing) {
+    const { error } = await supabase.from("vacancy_operations").insert({
+      workspace_id: workspaceId,
+      vacancy_id: vacancyId,
+      lifecycle_status: incoming === "CLOSED" ? inferLifecycle(item) : incoming,
+      unread: true,
+    });
+    return error?.message;
+  }
+
+  const next = nextResearchLifecycle(
+    existing.lifecycle_status,
+    incoming,
+    Boolean(item.lifecycleStatus) && item.lifecycleStatus !== "CLOSED",
+  );
+  if (!next) return undefined;
+
+  const { error } = await supabase
+    .from("vacancy_operations")
+    .update({ lifecycle_status: next, updated_at: now })
+    .eq("workspace_id", workspaceId)
+    .eq("vacancy_id", vacancyId);
+  return error?.message;
 }
 
 function inferLifecycle(

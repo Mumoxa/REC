@@ -1,95 +1,115 @@
 /**
  * REC Product Regression — Critical Semantic Boundaries
- * Verified against authoritative sources (manifest.yaml, ARCHITECTURE_GUARD.md,
- * interface/vacancy-intelligence-workspace.md, core/candidate-market-mapping.md).
+ *
+ * These checks read the implementation. They are not tautologies over local
+ * variables: a recruiter click that overwrites marketBucket, a close path that
+ * drops the reason, or a fifth sourcing channel will fail here.
  */
 
-import assert from "node:assert";
+import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-// Boundary 1: Research Top 10 (marketBucket) must not be overwritten by recruiter operational status.
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
+
+const workspace = read("src/components/workspace/recruitment-workspace.tsx");
+const candidateRoute = read("src/app/api/ops/candidate/route.ts");
+const vacancyRoute = read("src/app/api/ops/vacancy/route.ts");
+const validation = read("src/lib/ops/validation.ts");
+const types = read("src/lib/data/types.ts");
+const guard = read("ARCHITECTURE_GUARD.md");
+const operationalSchema = read("schemas/workspace-operational-state.schema.json");
+const migration = read("supabase/migrations/008_operational_reason_contract.sql");
+
 function testResearchVsRecruiterSeparation() {
-  const marketBucket = "TOP_10"; // evidence-backed research classification
-  const operationalStatus = "EARMARKED"; // recruiter operational action
-  // The correct model keeps them separate; operational change must NOT rewrite marketBucket.
-  assert.strictEqual(
-    marketBucket,
-    "TOP_10",
-    "Market bucket must remain evidence-backed after recruiter action."
+  assert.match(workspace, /marketBucket/, "Research market bucket must still be rendered.");
+  assert.match(workspace, /Recruiter · /, "Recruiter workflow must be labelled separately from research.");
+  assert.doesNotMatch(
+    candidateRoute,
+    /market_bucket/,
+    "Candidate operations must not write the research market bucket."
   );
-  assert.notStrictEqual(
-    operationalStatus,
-    marketBucket,
-    "Operational status and market bucket are separate concepts."
-  );
+  assert.match(candidateRoute, /operational_status: operationalStatus/);
+  assert.match(types, /marketBucket: MarketBucket/);
+  assert.match(types, /operationalStatus: CandidateOperationalStatus/);
   console.log("PASS: Research vs Recruiter separation preserved.");
 }
 
-// Boundary 2: Evidence states are independent of operational workflow.
 function testEvidenceNotCollapsed() {
-  const evidenceStates = ["CONFIRMED", "PROBABLE", "HYPOTHESIS", "UNKNOWN"];
-  const workflowStates = ["EARMARKED", "TOP_10", "APPROACH", "ENGAGED", "SUBMITTED", "EXCLUDED"];
-  for (const e of evidenceStates) {
-    assert.ok(evidenceStates.includes(e), "Evidence state must be retained.");
+  for (const state of ["CONFIRMED", "PROBABLE", "HYPOTHESIS", "UNKNOWN"]) {
+    assert.match(types, new RegExp(`"${state}"`));
   }
-  for (const w of workflowStates) {
-    assert.ok(workflowStates.includes(w), "Recruiter workflow state must be distinct from evidence.");
-  }
+  assert.match(workspace, /EvidencePill/);
+  assert.doesNotMatch(candidateRoute, /evidence_status/);
   console.log("PASS: Evidence and workflow concepts are not collapsed.");
 }
 
-// Boundary 3: Vacancy close requires a valid reason and must preserve source lineage.
 function testCloseRequiresReasonAndPreservesLineage() {
-  const validReasons = new Set([
-    "FILLED", "EXPIRED", "CLIENT_NO_LONGER_HIRING",
-    "NOT_COMMERCIALLY_RELEVANT", "DUPLICATE", "CANCELLED", "OTHER",
-  ]);
-  assert.ok(validReasons.has("FILLED"), "Close reason must be from authoritative set.");
-  assert.ok(validReasons.has("OTHER"), "OTHER must be permitted.");
+  for (const reason of [
+    "FILLED",
+    "EXPIRED",
+    "CLIENT_NO_LONGER_HIRING",
+    "NOT_COMMERCIALLY_RELEVANT",
+    "DUPLICATE",
+    "CANCELLED",
+    "OTHER",
+  ]) {
+    assert.match(validation, new RegExp(`"${reason}"`));
+    assert.match(operationalSchema, new RegExp(`"${reason}"`));
+  }
+  assert.match(vacancyRoute, /closed_reason: reason/);
+  assert.match(vacancyRoute, /closed_at: now/);
+  assert.match(validation, /OTHER requires an explanation/);
+  assert.match(migration, /closed_reason_detail/);
   console.log("PASS: Close semantics valid.");
 }
 
-// Boundary 4: Failed mutation must not remain visually committed (rollback required).
 function testFailedMutationRollback() {
-  const previousStatus = "SURFACED";
-  const attemptedStatus = "TOP_10";
-  // If server fails, previousStatus must be restored — never leave attemptedStatus.
-  assert.notStrictEqual(previousStatus, attemptedStatus, "Rollback distinguishes previous and attempted.");
+  assert.match(workspace, /operationalStatus: previousStatus/);
+  assert.match(workspace, /lifecycleStatus: previousStatus/);
+  assert.match(workspace, /Failed to save candidate operation/);
+  assert.match(workspace, /Failed to close vacancy/);
   console.log("PASS: Failed mutation rollback semantics verified.");
 }
 
-// Boundary 5: Hiring-team intelligence must preserve observed vs probable email distinction.
 function testHiringTeamEmailDistinction() {
-  const observed = "john@company.co.za";
-  const probable = "john.smith@company.co.za";
-  assert.notStrictEqual(observed, probable, "Observed and probable emails must stay separate.");
+  assert.match(workspace, /Observed business email/);
+  assert.match(workspace, /Probable business email/);
+  assert.match(types, /observedBusinessEmail\?: string \| null/);
+  assert.match(types, /probableBusinessEmail\?: string \| null/);
   console.log("PASS: Email distinction preserved.");
 }
 
-// Boundary 6: Four sourcing channels only; no fifth channel introduced.
 function testFourChannelsOnly() {
-  const channels = new Set(["AGREED_CLIENTS", "AGENCY_SITES", "LINKEDIN", "JOB_BOARDS"]);
-  assert.strictEqual(channels.size, 4, "Exactly four sourcing channels permitted.");
+  for (const channel of ["AGREED_CLIENTS", "AGENCY_SITES", "LINKEDIN", "JOB_BOARDS"]) {
+    assert.match(guard, new RegExp(channel));
+    assert.match(workspace, new RegExp(`value="${channel}"`));
+  }
+  assert.match(guard, /Exactly four sourcing channels/);
+  assert.doesNotMatch(workspace, /FIFTH_CHANNEL|value="OTHER_CHANNEL"/);
   console.log("PASS: Four-channel invariant held.");
 }
 
-// Boundary 7: Candidate exclusion requires a reason (not silent).
 function testExclusionRequiresReason() {
-  const exclusionReasons = new Set([
-    "NOT_SUBMITTED", "NO_LONGER_RELEVANT", "COMPETITOR_EXCLUSIVE",
-    "CLIENT_INSTRUCTED", "OTHER",
-  ]);
-  assert.ok(exclusionReasons.size >= 1, "Exclusion must carry a reason.");
+  assert.match(validation, /Candidate exclusion requires a reason/);
+  assert.match(candidateRoute, /excluded_reason: excludedReason/);
+  assert.match(workspace, /Reason for exclusion/);
+  assert.match(migration, /candidate_operations_excluded_reason_required/);
+  assert.match(operationalSchema, /excluded_reason/);
   console.log("PASS: Exclusion reason required.");
 }
 
-// Boundary 8: Archive / closed retrieval must be possible.
 function testArchiveRetrieval() {
-  const lifecycleStates = new Set(["DISCOVERED", "VERIFYING", "QUALIFIED", "EMPLOYER_RESOLVED", "CANDIDATE_MAPPING", "TOP_10_READY", "CLIENT_ACTION", "CLOSED"]);
-  assert.ok(lifecycleStates.has("CLOSED"), "Closed state must exist and be retrievable.");
+  assert.match(types, /"MARKET_READY"/);
+  assert.doesNotMatch(types, /TOP_10_READY/);
+  assert.match(workspace, /value="ARCHIVED"/);
+  assert.match(workspace, /value="ALL"/);
+  assert.match(types, /"CLOSED"/);
   console.log("PASS: Archive state exists.");
 }
 
-// Run all
 try {
   testResearchVsRecruiterSeparation();
   testEvidenceNotCollapsed();
@@ -100,7 +120,7 @@ try {
   testExclusionRequiresReason();
   testArchiveRetrieval();
   console.log("\nAll REC product regression checks passed.");
-} catch (e) {
-  console.error("REGRESSION FAILURE:", e);
+} catch (error) {
+  console.error("REGRESSION FAILURE:", error);
   process.exit(1);
 }

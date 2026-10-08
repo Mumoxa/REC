@@ -9,6 +9,19 @@ import type {
   Vacancy,
   WorkspaceSnapshot,
 } from "@/lib/data/types";
+import {
+  EXCLUSION_REASONS,
+  MAX_REASON_DETAIL_LENGTH,
+  VACANCY_CLOSE_REASONS,
+  hasMeaningfulText,
+} from "@/lib/ops/validation";
+import {
+  sanitizeViewState,
+  type JobTab,
+  type WorkspaceArchiveFilter,
+  type WorkspaceDensity,
+} from "@/lib/workspace/view-state";
+import { displayMarketCounts, marketFilterCount } from "@/lib/workspace/market-stats";
 
 type Toast = { id: number; message: string; tone?: "error" | "info" };
 
@@ -27,8 +40,6 @@ function useDebouncedValue<T>(value: T, delayMs: number): T {
   return debounced;
 }
 
-type Density = "EXPANDED" | "COMPACT" | "MINIMAL";
-type JobTab = "OVERVIEW" | "HIRING_TEAM" | "REQUIREMENTS" | "SOURCES" | "SEARCH_LOG" | "QA";
 type MobilePane = "VACANCIES" | "INTELLIGENCE" | "CANDIDATES";
 
 const channelLabels: Record<string, string> = {
@@ -38,12 +49,69 @@ const channelLabels: Record<string, string> = {
   JOB_BOARDS: "Job Boards",
 };
 
+/** Research buckets — evidence, never changed by a recruiter click. */
 const marketLabels: Record<MarketBucket, string> = {
   TOP_10: "Top 10",
   STRONG_MARKET: "Strongest Market",
   LONGLIST: "Longlist",
   UNREVIEWED: "Unreviewed",
   EXCLUDED: "Excluded",
+};
+
+/**
+ * Filter labels make the research/recruiter split explicit. `TOP_10` is the
+ * evidence-backed research bucket; the Excluded grouping follows the recruiter
+ * workflow status, exactly as the prototype does.
+ */
+const marketFilterLabels: Record<MarketBucket | "ALL", string> = {
+  ALL: "All buckets",
+  TOP_10: "Research Top 10",
+  STRONG_MARKET: "Strongest Market",
+  LONGLIST: "Longlist",
+  UNREVIEWED: "Unreviewed",
+  EXCLUDED: "Excluded",
+};
+
+/**
+ * Recruiter workflow progression. Actions never roll the workflow backwards:
+ * earlier actions are disabled once the assignment has progressed past them,
+ * and un-toggling returns exactly one step (golden case
+ * recruiter_workflow_actions_do_not_regress_lifecycle).
+ */
+const WORKFLOW_ORDER: CandidateOperationalStatus[] = [
+  "SURFACED",
+  "RELEVANT",
+  "EARMARKED",
+  "TOP_10",
+  "APPROACH",
+  "ENGAGED",
+  "SUBMITTED",
+];
+
+const workflowLabels: Record<CandidateOperationalStatus, string> = {
+  SURFACED: "Surfaced",
+  RELEVANT: "Relevant",
+  EARMARKED: "Earmarked",
+  TOP_10: "Recruiter Top 10",
+  APPROACH: "Approach",
+  ENGAGED: "Engaged",
+  SUBMITTED: "Submitted",
+  EXCLUDED: "Excluded",
+};
+
+function workflowPosition(status: CandidateOperationalStatus) {
+  if (status === "EXCLUDED") return -1;
+  return WORKFLOW_ORDER.indexOf(status);
+}
+
+const closeReasonLabels: Record<string, string> = {
+  FILLED: "FILLED — role filled",
+  EXPIRED: "EXPIRED — advert expired",
+  CLIENT_NO_LONGER_HIRING: "CLIENT_NO_LONGER_HIRING",
+  NOT_COMMERCIALLY_RELEVANT: "NOT_COMMERCIALLY_RELEVANT",
+  DUPLICATE: "DUPLICATE",
+  CANCELLED: "CANCELLED",
+  OTHER: "OTHER",
 };
 
 export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: WorkspaceSnapshot }) {
@@ -54,31 +122,47 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
   const [candidateSearch, setCandidateSearch] = useState("");
   const [channelFilter, setChannelFilter] = useState<string>("ALL");
   const [regionFilter, setRegionFilter] = useState<string>("ALL");
-  const [density, setDensity] = useState<Density>("EXPANDED");
+  const [density, setDensity] = useState<WorkspaceDensity>("EXPANDED");
   const [candidateFocus, setCandidateFocus] = useState(false);
   const [jobTab, setJobTab] = useState<JobTab>("OVERVIEW");
   const [marketFilter, setMarketFilter] = useState<MarketBucket | "ALL">("ALL");
   const [selectedCandidateId, setSelectedCandidateId] = useState<string | null>(null);
   const [saving, setSaving] = useState<string | null>(null);
-  const [archiveFilter, setArchiveFilter] = useState<"ACTIVE" | "ARCHIVED" | "ALL">("ACTIVE");
+  const [archiveFilter, setArchiveFilter] = useState<WorkspaceArchiveFilter>("ACTIVE");
   const [savedViews, setSavedViews] = useState(initialSavedViews);
   const [loadedViewName, setLoadedViewName] = useState<string>("");
   const [saveName, setSaveName] = useState<string>("");
   const [savingView, setSavingView] = useState(false);
   const [exclusionTarget, setExclusionTarget] = useState<{ candidateId: string; name: string } | null>(null);
-  const [excludeReason, setExcludeReason] = useState<string>("NOT_SUBMITTED");
+  // No default reason: an exclusion reason must be an explicit recruiter choice.
+  const [excludeReason, setExcludeReason] = useState<string>("");
   const [closeConfirmOpen, setCloseConfirmOpen] = useState(false);
   const [closeReason, setCloseReason] = useState("FILLED");
+  const [closeReasonDetail, setCloseReasonDetail] = useState("");
   const [mobilePane, setMobilePane] = useState<MobilePane>("VACANCIES");
   // P1: toast replaces alert() — announced via role=alert
   const [toasts, setToasts] = useState<Toast[]>([]);
   const toastSeqRef = useRef(0);
+  const toastTimersRef = useRef<number[]>([]);
   const showToast = (message: string, tone: Toast["tone"] = "error") => {
     const id = ++toastSeqRef.current;
     setToasts((p) => [...p, { id, message, tone }]);
-    setTimeout(() => setToasts((p) => p.filter((t) => t.id !== id)), 4500);
+    const timer = window.setTimeout(
+      () => setToasts((p) => p.filter((t) => t.id !== id)),
+      4500
+    );
+    toastTimersRef.current.push(timer);
   };
   const dismissToast = (id: number) => setToasts((p) => p.filter((t) => t.id !== id));
+
+  // Never let a queued toast timer fire after unmount.
+  useEffect(
+    () => () => {
+      toastTimersRef.current.forEach((timer) => window.clearTimeout(timer));
+      toastTimersRef.current = [];
+    },
+    []
+  );
 
   // P1: debounced search (150 ms) — filters use debounced, inputs stay immediate
   const debouncedGlobalSearch = useDebouncedValue(globalSearch, 150);
@@ -122,16 +206,42 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
     });
   }, [vacancies, debouncedGlobalSearch, channelFilter, regionFilter, archiveFilter]);
 
-  const selected =
-    vacancies.find((vacancy) => vacancy.id === selectedId) ??
-    filteredVacancies[0] ??
-    vacancies[0];
+  // The selected vacancy must always be the one the recruiter can actually see:
+  // prefer the visible inbox, then fall back to the first visible row.
+  const selectedVacancyId = useMemo(() => {
+    if (filteredVacancies.some((vacancy) => vacancy.id === selectedId)) return selectedId;
+    return filteredVacancies[0]?.id ?? "";
+  }, [filteredVacancies, selectedId]);
+
+  const selected = selectedVacancyId
+    ? vacancies.find((vacancy) => vacancy.id === selectedVacancyId)
+    : undefined;
+
+  // If filters hide the previously selected vacancy, follow the visible inbox
+  // so keyboard navigation and the detail pane cannot disagree.
+  useEffect(() => {
+    if (selectedVacancyId && selectedVacancyId !== selectedId) {
+      setSelectedId(selectedVacancyId);
+    }
+  }, [selectedVacancyId, selectedId]);
 
   const visibleCandidates = useMemo(() => {
     if (!selected) return [];
     const q = debouncedCandidateSearch.trim().toLowerCase();
     return selected.candidates
-      .filter((candidate) => marketFilter === "ALL" || candidate.marketBucket === marketFilter)
+      .filter((candidate) => {
+        if (marketFilter === "ALL") return true;
+        // The Excluded grouping unions the recruiter workflow exclusion with the
+        // research bucket so nothing is silently hidden; every other grouping
+        // follows the research market bucket only.
+        if (marketFilter === "EXCLUDED") {
+          return (
+            candidate.operationalStatus === "EXCLUDED" ||
+            candidate.marketBucket === "EXCLUDED"
+          );
+        }
+        return candidate.marketBucket === marketFilter;
+      })
       .filter((candidate) => {
         if (!q) return true;
         return [
@@ -151,6 +261,32 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
 
   const selectedCandidate =
     selected?.candidates.find((candidate) => candidate.candidateId === selectedCandidateId) ?? null;
+
+  /**
+   * Research buckets count research evidence. The Excluded grouping unions the
+   * recruiter workflow exclusion with the research bucket so nothing is hidden.
+   */
+  const bucketCounts = useMemo(() => {
+    const candidates = selected?.candidates ?? [];
+    return {
+      ALL: marketFilterCount(candidates, "ALL"),
+      TOP_10: marketFilterCount(candidates, "TOP_10"),
+      STRONG_MARKET: marketFilterCount(candidates, "STRONG_MARKET"),
+      LONGLIST: marketFilterCount(candidates, "LONGLIST"),
+      UNREVIEWED: marketFilterCount(candidates, "UNREVIEWED"),
+      EXCLUDED: marketFilterCount(candidates, "EXCLUDED"),
+    };
+  }, [selected]);
+
+  const selectedMarket = useMemo(
+    () =>
+      displayMarketCounts(
+        selected?.candidates ?? [],
+        selected?.candidateMarketSummary,
+        selected?.researchQueries.filter((query) => query.executionStatus === "EXECUTED").length
+      ),
+    [selected]
+  );
 
   const regions = useMemo(
     () => Array.from(new Set(vacancies.map((v) => v.region))).filter(Boolean),
@@ -225,6 +361,15 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
   }, [selected?.id, shouldVirtualize, filteredVacancies, estimatedRowHeight]);
 
   // Active filter chips — removable pills above vacancy list
+  // True when the active vacancy option exists in the DOM for aria-activedescendant.
+  const selectedIsRendered = useMemo(() => {
+    if (!selected) return false;
+    if (!shouldVirtualize || !virtualRange) return true;
+    return filteredVacancies
+      .slice(virtualRange.start, virtualRange.end)
+      .some((vacancy) => vacancy.id === selected.id);
+  }, [selected, shouldVirtualize, virtualRange, filteredVacancies]);
+
   const activeFilters = useMemo(() => {
     const chips: Array<{ key: string; label: string; onClear: () => void }> = [];
     if (channelFilter !== "ALL") {
@@ -269,13 +414,30 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
     }
   }, [exclusionTarget]);
 
-  // Escape closes drawers; focus trap via overlay click
+  useFocusTrap(closeConfirmOpen, closeDrawerRef);
+  useFocusTrap(Boolean(exclusionTarget), excludeDrawerRef);
+
+  // "/" focuses vacancy search unless the recruiter is already typing or a drawer is open.
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key !== "/" || event.metaKey || event.ctrlKey || event.altKey) return;
+      if (closeConfirmOpen || exclusionTarget) return;
+      const target = event.target as HTMLElement | null;
+      const tag = target?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || target?.isContentEditable) return;
+      event.preventDefault();
+      document.querySelector<HTMLInputElement>(".global-search")?.focus();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [closeConfirmOpen, exclusionTarget]);
+
+  // Escape closes drawers; Tab cycles inside the open drawer.
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         if (exclusionTarget) {
-          setExclusionTarget(null);
-          setExcludeReason("NOT_SUBMITTED");
+          resetExclusionDrawer();
           return;
         }
         if (closeConfirmOpen) {
@@ -294,7 +456,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
   // Keyboard navigation for vacancy list: Arrow keys + Enter
   const handleVacancyKeyDown = (e: React.KeyboardEvent) => {
     if (!filteredVacancies.length) return;
-    const idx = filteredVacancies.findIndex((v) => v.id === selectedId);
+    const idx = filteredVacancies.findIndex((v) => v.id === (selectedVacancyId || selectedId));
     if (e.key === "ArrowDown") {
       e.preventDefault();
       const next = filteredVacancies[Math.min(idx + 1, filteredVacancies.length - 1)];
@@ -324,9 +486,28 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
     }
   };
 
-  async function updateCandidateStatus(candidate: CandidateAssignment, status: CandidateOperationalStatus, reason?: string) {
+  function resetExclusionDrawer() {
+    setExclusionTarget(null);
+    setExcludeReason("");
+  }
+
+  async function updateCandidateStatus(
+    candidate: CandidateAssignment,
+    status: CandidateOperationalStatus,
+    reason?: string
+  ) {
     if (!selected) return;
+
+    // Contract: exclusion carries an explicit, non-blank reason.
+    if (status === "EXCLUDED" && !hasMeaningfulText(reason)) {
+      showToast("A reason is required before a candidate can be excluded.", "error");
+      return;
+    }
+
     const previousStatus = candidate.operationalStatus;
+    const previousReason = candidate.excludedReason ?? null;
+    const nextReason = status === "EXCLUDED" ? (reason as string).trim() : null;
+
     setSaving(`candidate:${candidate.candidateId}`);
     setVacancies((current) =>
       current.map((vacancy) =>
@@ -338,7 +519,10 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
                 item.candidateId === candidate.candidateId
                   ? {
                       ...item,
+                      // Recruiter workflow only: marketBucket, claims, QA and
+                      // evidence gaps are never touched here.
                       operationalStatus: status,
+                      excludedReason: nextReason,
                     }
                   : item
               ),
@@ -355,13 +539,13 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
             vacancyId: selected.id,
             candidateId: candidate.candidateId,
             operationalStatus: status,
-            ...(reason ? { reason } : {}),
+            ...(nextReason ? { reason: nextReason } : {}),
           }),
         });
         if (!res.ok) {
           throw new Error(await res.text());
         }
-      } catch (err) {
+      } catch {
         setVacancies((current) =>
           current.map((vacancy) =>
             vacancy.id !== selected.id
@@ -370,7 +554,11 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
                   ...vacancy,
                   candidates: vacancy.candidates.map((item) =>
                     item.candidateId === candidate.candidateId
-                      ? { ...item, operationalStatus: previousStatus }
+                      ? {
+                          ...item,
+                          operationalStatus: previousStatus,
+                          excludedReason: previousReason,
+                        }
                       : item
                   ),
                 }
@@ -383,22 +571,24 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
     }
     setSaving(null);
     if (status === "EXCLUDED" && exclusionTarget) {
-      setExclusionTarget(null);
-      setExcludeReason("NOT_SUBMITTED");
+      resetExclusionDrawer();
     }
   }
 
   function restoreSavedView(view: typeof savedViews[0]) {
     if (!view) return;
-    const s = view.viewState || {};
-    if (typeof s.globalSearch === "string") setGlobalSearch(s.globalSearch);
-    if (typeof s.channelFilter === "string") setChannelFilter(s.channelFilter);
-    if (typeof s.regionFilter === "string") setRegionFilter(s.regionFilter);
-    if (typeof s.archiveFilter === "string") setArchiveFilter(s.archiveFilter as typeof archiveFilter);
-    if (typeof s.density === "string") setDensity(s.density as Density);
-    if (typeof s.marketFilter === "string") setMarketFilter(s.marketFilter as MarketBucket | "ALL");
-    if (typeof s.jobTab === "string") setJobTab(s.jobTab as JobTab);
-    if (typeof s.candidateSearch === "string") setCandidateSearch(s.candidateSearch);
+    // Restore every facet together, but only after validating it: a corrupted
+    // or hand-edited saved view must never put the UI into an unreachable state.
+    const state = sanitizeViewState(view.viewState);
+    setGlobalSearch(state.globalSearch);
+    setCandidateSearch(state.candidateSearch);
+    setChannelFilter(state.channelFilter);
+    setRegionFilter(state.regionFilter);
+    setArchiveFilter(state.archiveFilter);
+    setDensity(state.density);
+    setMarketFilter(state.marketFilter);
+    setJobTab(state.jobTab);
+    setSelectedCandidateId(null);
     setLoadedViewName(view.name);
   }
 
@@ -407,7 +597,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
     setSavingView(true);
     const payload = {
       name: saveName.trim(),
-      viewState: {
+      viewState: sanitizeViewState({
         globalSearch,
         channelFilter,
         regionFilter,
@@ -416,8 +606,30 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
         marketFilter,
         jobTab,
         candidateSearch,
-      },
+      }),
     };
+    if (initialSnapshot.demoMode) {
+      const saved = {
+        id: `demo-${payload.name.toLowerCase().replace(/\s+/g, "-")}`,
+        name: payload.name,
+        viewState: { ...payload.viewState } as Record<string, unknown>,
+        updatedAt: new Date().toISOString(),
+      };
+      setSavedViews((prev) => {
+        const idx = prev.findIndex((view) => view.name === payload.name);
+        if (idx >= 0) {
+          const copy = [...prev];
+          copy[idx] = { ...copy[idx], ...saved };
+          return copy;
+        }
+        return [...prev, saved];
+      });
+      setLoadedViewName(payload.name);
+      setSaveName("");
+      setSavingView(false);
+      showToast("View saved for this demo session. It is not written to REC.", "info");
+      return;
+    }
     try {
       const res = await fetch("/api/ops/saved-view", {
         method: "POST",
@@ -439,20 +651,33 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
         setLoadedViewName(saveName.trim());
       }
       setSaveName("");
-    } catch (e) {
+    } catch {
       showToast("Failed to save view.", "error");
     } finally {
       setSavingView(false);
     }
   }
 
-  async function confirmCloseVacancy(reason: string) {
+  async function confirmCloseVacancy(reason: string, reasonDetail: string) {
     if (!selected) return;
+
+    // Contract: OTHER must carry a non-blank explanation.
+    if (reason === "OTHER" && !hasMeaningfulText(reasonDetail)) {
+      showToast("An explanation is required when closing a vacancy with reason OTHER.", "error");
+      return;
+    }
+
+    const detail = reason === "OTHER" ? reasonDetail.trim() : null;
+
     setSaving(`vacancy:${selected.id}`);
     const previousStatus = selected.lifecycleStatus;
+    const previousDetail = selected.closeReasonDetail ?? null;
+    const previousReason = selected.closedReason ?? null;
     setVacancies((current) =>
       current.map((vacancy) =>
-        vacancy.id === selected.id ? { ...vacancy, lifecycleStatus: "CLOSED" } : vacancy
+        vacancy.id === selected.id
+          ? { ...vacancy, lifecycleStatus: "CLOSED", closedReason: reason, closeReasonDetail: detail }
+          : vacancy
       )
     );
 
@@ -461,13 +686,25 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
         const res = await fetch("/api/ops/vacancy", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ vacancyId: selected.id, action: "CLOSE", reason }),
+          body: JSON.stringify({
+            vacancyId: selected.id,
+            action: "CLOSE",
+            reason,
+            ...(detail ? { reasonDetail: detail } : {}),
+          }),
         });
         if (!res.ok) throw new Error(await res.text());
-      } catch (err) {
+      } catch {
         setVacancies((current) =>
           current.map((vacancy) =>
-            vacancy.id === selected.id ? { ...vacancy, lifecycleStatus: previousStatus } : vacancy
+            vacancy.id === selected.id
+              ? {
+                  ...vacancy,
+                  lifecycleStatus: previousStatus,
+                  closedReason: previousReason,
+                  closeReasonDetail: previousDetail,
+                }
+              : vacancy
           )
         );
         showToast("Failed to close vacancy. Change was not saved.", "error");
@@ -484,6 +721,8 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
     }
     setSaving(null);
     setCloseConfirmOpen(false);
+    setCloseReason("FILLED");
+    setCloseReasonDetail("");
   }
 
   const exclusionCandidate = exclusionTarget ? selected?.candidates.find((c) => c.candidateId === exclusionTarget.candidateId) ?? null : null;
@@ -674,7 +913,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
 
           {/* Saved view banner — persistent state indicator */}
           {loadedViewName && (
-            <div className="saved-view-banner" role="status" aria-live="polite">
+            <div className="saved-view-banner" role="status" aria-live="polite" aria-label="Loaded saved view">
               <span>Viewing: <strong>{loadedViewName}</strong> — filters and density restored from saved view.</span>
               <button onClick={() => setLoadedViewName("")} aria-label="Clear saved view">Clear</button>
             </div>
@@ -688,7 +927,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
             ] as const).map((item) => (
               <button
                 key={item.id}
-                onClick={() => setDensity(item.id as Density)}
+                onClick={() => setDensity(item.id as WorkspaceDensity)}
                 className={density === item.id ? "active" : ""}
                 aria-pressed={density === item.id}
                 aria-label={`Density ${item.label}`}
@@ -699,13 +938,17 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
             ))}
           </div>
 
+          {/* aria-activedescendant must only reference an option that is
+              actually rendered: a virtualized window may not contain it. */}
           <div
             className="vacancy-list"
             id="vacancy-list"
             ref={vacancyListRef}
             role="listbox"
             aria-label="Vacancy list"
-            aria-activedescendant={selected ? `vacancy-${selected.id}` : undefined}
+            aria-activedescendant={
+              selected && selectedIsRendered ? `vacancy-${selected.id}` : undefined
+            }
             tabIndex={0}
             onKeyDown={handleVacancyKeyDown}
           >
@@ -779,7 +1022,11 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
               </div>
               <button
                 className="close-job-button"
-                onClick={() => setCloseConfirmOpen(true)}
+                onClick={() => {
+                  setCloseReason("FILLED");
+                  setCloseReasonDetail("");
+                  setCloseConfirmOpen(true);
+                }}
                 disabled={saving === `vacancy:${selected.id}`}
                 aria-label="Close vacancy"
                 aria-haspopup="dialog"
@@ -789,11 +1036,23 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
             </div>
 
             <div className="status-line" role="group" aria-label="Vacancy status">
-              <StatusPill text={lifecycleLabel(selected.lifecycleStatus)} />
+              <StatusPill
+                text={
+                  selected.lifecycleStatus === "CLOSED" && selected.closedReason
+                    ? `CLOSED · ${selected.closedReason.replaceAll("_", " ")}`
+                    : lifecycleLabel(selected.lifecycleStatus)
+                }
+              />
               <QaPill status={selected.qaStatus} />
               <StatusPill text={`Employer: ${selected.employerStatus}`} subtle />
               <StatusPill text={`Map: ${selected.candidateMapStatus.replaceAll("_", " ")}`} subtle />
             </div>
+
+            {selected.lifecycleStatus === "CLOSED" && selected.closeReasonDetail && (
+              <div className="drawer-note" role="note">
+                Closed with explanation: {selected.closeReasonDetail}
+              </div>
+            )}
 
             <div className="date-line">
               <span>First seen {formatDate(selected.firstSeen)}</span>
@@ -836,7 +1095,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
               <div className="candidate-header">
                 <div>
                   <div className="eyebrow">Candidate market</div>
-                  <h2>{selected.candidates.length} mapped candidates across the market</h2>
+                  <h2>{selectedMarket.credible} credible candidates in this market</h2>
                   {/* Context label stays visible at top of candidate pane in focus mode */}
                   <div className="candidate-context" aria-live="polite">
                     {candidateFocus ? (
@@ -857,9 +1116,10 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
                   )}
                 </div>
                 <div className="candidate-counts" aria-label="Market counts">
-                  <span>{selected.candidates.length} credible market</span>
-                  <span>{selected.candidates.filter((c) => c.marketBucket === "STRONG_MARKET" || c.marketBucket === "TOP_10").length} strongest market</span>
-                  <span>{selected.candidates.filter((c) => c.marketBucket === "TOP_10").length} Top 10</span>
+                  <span>{selectedMarket.credible} credible market</span>
+                  <span>{selectedMarket.strongest} strongest market</span>
+                  <span>{selectedMarket.top10} research Top 10</span>
+                  <span>{selected.candidates.length} loaded</span>
                 </div>
               </div>
 
@@ -877,7 +1137,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
                   <option value="ALL">All buckets</option>
                   {(Object.keys(marketLabels) as MarketBucket[]).map((bucket) => (
                     <option key={bucket} value={bucket}>
-                      {marketLabels[bucket]}
+                      {marketFilterLabels[bucket]}
                     </option>
                   ))}
                 </select>
@@ -885,7 +1145,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
 
               <div className="market-tabs" role="group" aria-label="Market buckets">
                 <button className={marketFilter === "ALL" ? "active" : ""} onClick={() => setMarketFilter("ALL")} aria-pressed={marketFilter === "ALL"}>
-                  All <span>{selected.candidates.length}</span>
+                  {marketFilterLabels.ALL} <span>{bucketCounts.ALL}</span>
                 </button>
                 {(Object.keys(marketLabels) as MarketBucket[]).map((bucket) => (
                   <button
@@ -893,8 +1153,9 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
                     className={marketFilter === bucket ? "active" : ""}
                     onClick={() => setMarketFilter(bucket)}
                     aria-pressed={marketFilter === bucket}
+                    aria-label={`Filter ${marketFilterLabels[bucket]}`}
                   >
-                    {marketLabels[bucket]} <span>{selected.candidates.filter((c) => c.marketBucket === bucket).length}</span>
+                    {marketFilterLabels[bucket]} <span>{bucketCounts[bucket]}</span>
                   </button>
                 ))}
               </div>
@@ -919,7 +1180,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
                       )
                     }
                     onStatus={(status, reason) => updateCandidateStatus(candidate, status, reason)}
-                    onExcludeStart={(id, name) => { setExclusionTarget({ candidateId: id, name }); setExcludeReason("NOT_SUBMITTED"); }}
+                    onExcludeStart={(id, name) => { setExclusionTarget({ candidateId: id, name }); setExcludeReason(""); }}
                   />
                 ))}
                 {visibleCandidates.length === 0 && (
@@ -963,15 +1224,31 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
               <div className="drawer-field">
                 <label htmlFor="close-reason-drawer">Reason for closing <span aria-hidden="true" style={{ color:"var(--red)"}}>*</span></label>
                 <select id="close-reason-drawer" value={closeReason} onChange={(e) => setCloseReason(e.target.value)}>
-                  <option value="FILLED">FILLED — role filled</option>
-                  <option value="EXPIRED">EXPIRED — advert expired</option>
-                  <option value="CLIENT_NO_LONGER_HIRING">CLIENT_NO_LONGER_HIRING</option>
-                  <option value="NOT_COMMERCIALLY_RELEVANT">NOT_COMMERCIALLY_RELEVANT</option>
-                  <option value="DUPLICATE">DUPLICATE</option>
-                  <option value="CANCELLED">CANCELLED</option>
-                  <option value="OTHER">OTHER</option>
+                  {VACANCY_CLOSE_REASONS.map((reason) => (
+                    <option key={reason} value={reason}>
+                      {closeReasonLabels[reason] ?? reason}
+                    </option>
+                  ))}
                 </select>
               </div>
+              {closeReason === "OTHER" && (
+                <div className="drawer-field">
+                  <label htmlFor="close-reason-detail">
+                    Explanation for OTHER <span aria-hidden="true" style={{ color:"var(--red)"}}>*</span>
+                  </label>
+                  <input
+                    id="close-reason-detail"
+                    value={closeReasonDetail}
+                    maxLength={MAX_REASON_DETAIL_LENGTH}
+                    onChange={(e) => setCloseReasonDetail(e.target.value)}
+                    placeholder="Why is this role being closed?"
+                    aria-describedby="close-reason-detail-hint"
+                  />
+                  <small id="close-reason-detail-hint" style={{ color:"var(--stone-500)", fontSize:10 }}>
+                    Required. Stored as closed_reason_detail with the close event.
+                  </small>
+                </div>
+              )}
               {archiveFilter !== "ARCHIVED" && archiveFilter !== "ALL" && (
                 <div className="drawer-note" role="note">
                   This vacancy will move to archived. Use Archive filter (Archived / All) to retrieve it.
@@ -979,8 +1256,23 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
               )}
             </div>
             <div className="drawer-footer">
-              <button className="btn-cancel" onClick={() => setCloseConfirmOpen(false)} aria-label="Cancel close">Cancel</button>
-              <button ref={closeConfirmRef} className="btn-confirm" onClick={() => confirmCloseVacancy(closeReason)} disabled={saving === `vacancy:${selected.id}`} aria-label="Confirm close vacancy">
+              <button
+                className="btn-cancel"
+                onClick={() => { setCloseConfirmOpen(false); setCloseReasonDetail(""); }}
+                aria-label="Cancel close"
+              >
+                Cancel
+              </button>
+              <button
+                ref={closeConfirmRef}
+                className="btn-confirm"
+                onClick={() => confirmCloseVacancy(closeReason, closeReasonDetail)}
+                disabled={
+                  saving === `vacancy:${selected.id}` ||
+                  (closeReason === "OTHER" && !hasMeaningfulText(closeReasonDetail))
+                }
+                aria-label="Confirm close vacancy"
+              >
                 {saving === `vacancy:${selected.id}` ? "Closing…" : "Confirm close"}
               </button>
             </div>
@@ -995,7 +1287,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
           role="dialog"
           aria-modal="true"
           aria-label="Exclude candidate confirmation"
-          onClick={(e) => { if (e.target === e.currentTarget) { setExclusionTarget(null); setExcludeReason("NOT_SUBMITTED"); } }}
+          onClick={(e) => { if (e.target === e.currentTarget) resetExclusionDrawer(); }}
         >
           <div className="drawer" ref={excludeDrawerRef} role="document">
             <div className="drawer-header">
@@ -1003,7 +1295,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
                 <h3>Exclude candidate</h3>
                 <p>Exclusion is vacancy-specific and does not alter the person&apos;s evidence. A reason is required.</p>
               </div>
-              <button className="drawer-close-x" onClick={() => { setExclusionTarget(null); setExcludeReason("NOT_SUBMITTED"); }} aria-label="Close dialog">×</button>
+              <button className="drawer-close-x" onClick={resetExclusionDrawer} aria-label="Close dialog">×</button>
             </div>
             <div className="drawer-body">
               <div className="drawer-preview" aria-label="Exclusion preview">
@@ -1016,24 +1308,42 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
               </div>
               <div className="drawer-field">
                 <label htmlFor="exclude-reason-drawer">Reason for exclusion <span aria-hidden="true" style={{ color:"var(--red)"}}>*</span></label>
-                <select id="exclude-reason-drawer" value={excludeReason} onChange={(e) => setExcludeReason(e.target.value)}>
-                  <option value="NOT_SUBMITTED">NOT_SUBMITTED</option>
-                  <option value="NO_LONGER_RELEVANT">NO_LONGER_RELEVANT</option>
-                  <option value="COMPETITOR_EXCLUSIVE">COMPETITOR_EXCLUSIVE</option>
-                  <option value="CLIENT_INSTRUCTED">CLIENT_INSTRUCTED</option>
-                  <option value="OTHER">OTHER</option>
+                <select
+                  id="exclude-reason-drawer"
+                  value={excludeReason}
+                  onChange={(e) => setExcludeReason(e.target.value)}
+                  aria-describedby="exclude-reason-hint"
+                >
+                  <option value="">Select a reason…</option>
+                  {EXCLUSION_REASONS.map((reason) => (
+                    <option key={reason} value={reason}>
+                      {reason}
+                    </option>
+                  ))}
                 </select>
+                <small id="exclude-reason-hint" style={{ color:"var(--stone-500)", fontSize:10 }}>
+                  Stored as excluded_reason on the operational record. Research evidence is unchanged.
+                </small>
               </div>
               <div className="drawer-note" role="note">
                 The candidate will move to the Excluded bucket for this vacancy only. Other vacancy assignments are unchanged.
               </div>
             </div>
             <div className="drawer-footer">
-              <button className="btn-cancel" onClick={() => { setExclusionTarget(null); setExcludeReason("NOT_SUBMITTED"); }} aria-label="Cancel exclusion">Cancel</button>
+              <button className="btn-cancel" onClick={resetExclusionDrawer} aria-label="Cancel exclusion">Cancel</button>
               <button
                 ref={excludeConfirmRef}
                 className="btn-confirm danger"
-                onClick={() => { if (exclusionTarget && exclusionCandidate) updateCandidateStatus(exclusionCandidate, "EXCLUDED", excludeReason); else if (exclusionTarget && selected) { const cand = selected.candidates.find(c=>c.candidateId===exclusionTarget.candidateId); if(cand) updateCandidateStatus(cand,"EXCLUDED", excludeReason); } }}
+                onClick={() => {
+                  const candidate =
+                    exclusionCandidate ??
+                    selected?.candidates.find(
+                      (item) => item.candidateId === exclusionTarget?.candidateId
+                    ) ??
+                    null;
+                  if (candidate) updateCandidateStatus(candidate, "EXCLUDED", excludeReason);
+                }}
+                disabled={!hasMeaningfulText(excludeReason)}
                 aria-label="Confirm exclusion"
               >
                 Confirm exclusion
@@ -1051,8 +1361,7 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
           </div>
         ))}
       </div>
-      {/* global live region for screen readers (assertive for errors) */}
-      <div aria-live="assertive" aria-atomic="true" className="sr-only">
+      <div aria-live="assertive" aria-atomic="true" className="sr-only" aria-label="Error notifications">
         {toasts.filter((t) => t.tone === "error").map((t) => t.message).join(" ")}
       </div>
     </main>
@@ -1066,15 +1375,14 @@ function VacancyCard({
   onSelect,
 }: {
   vacancy: Vacancy;
-  density: Density;
+  density: WorkspaceDensity;
   selected: boolean;
   onSelect: () => void;
 }) {
-  const top10 = vacancy.candidates.filter((c) => c.marketBucket === "TOP_10").length;
-  const strongest = vacancy.candidates.filter(
-    (c) => c.marketBucket === "STRONG_MARKET" || c.marketBucket === "TOP_10"
-  ).length;
-  const credible = vacancy.candidates.filter((c) => c.marketBucket !== "EXCLUDED").length;
+  const market = displayMarketCounts(vacancy.candidates, vacancy.candidateMarketSummary);
+  const top10 = market.top10;
+  const strongest = market.strongest;
+  const credible = market.credible;
   return (
     <button
       id={`vacancy-${vacancy.id}`}
@@ -1143,6 +1451,11 @@ function VacancyCard({
 }
 
 function Overview({ vacancy }: { vacancy: Vacancy }) {
+  const market = displayMarketCounts(
+    vacancy.candidates,
+    vacancy.candidateMarketSummary,
+    vacancy.researchQueries.filter((query) => query.executionStatus === "EXECUTED").length
+  );
   return (
     <div className="stack-lg">
       <p className="summary-copy">{vacancy.summary}</p>
@@ -1173,11 +1486,11 @@ function Overview({ vacancy }: { vacancy: Vacancy }) {
         )}
       </div>
       <div className="progress-grid">
-        <MetricCard label="Queries run" value={vacancy.researchQueries.filter((q) => q.executionStatus === "EXECUTED").length} />
-        <MetricCard label="Credible market" value={vacancy.candidates.filter((c) => c.marketBucket !== "EXCLUDED").length} />
-        <MetricCard label="Longlist" value={vacancy.candidates.filter((c) => c.marketBucket === "LONGLIST").length} />
-        <MetricCard label="Strongest market" value={vacancy.candidates.filter((c) => c.marketBucket === "STRONG_MARKET" || c.marketBucket === "TOP_10").length} />
-        <MetricCard label="Top 10" value={vacancy.candidates.filter((c) => c.marketBucket === "TOP_10").length} />
+        <MetricCard label="Queries run" value={market.executedQueries ?? 0} />
+        <MetricCard label="Credible market" value={market.credible} />
+        <MetricCard label="Longlist" value={market.longlist} />
+        <MetricCard label="Strongest market" value={market.strongest} />
+        <MetricCard label="Research Top 10" value={market.top10} />
         <MetricCard label="Hiring team" value={vacancy.stakeholders.length} />
       </div>
     </div>
@@ -1408,8 +1721,13 @@ function CandidateCard({
   onExcludeStart?: (candidateId: string, name: string) => void;
 }) {
   const rankLabel = candidate.rank ? `#${candidate.rank}` : candidate.comparableTier ? `T${candidate.comparableTier}` : "•";
+  const position = workflowPosition(candidate.operationalStatus);
+  const excluded = candidate.operationalStatus === "EXCLUDED";
+  const earmarked = position >= 2;
+  const recruiterTop10 = position >= 3;
+  const approachStarted = position >= 4;
   return (
-    <article className={`candidate-card ${selected ? "open" : ""}`} aria-label={`Candidate ${candidate.name}`}>
+    <article className={`candidate-card ${selected ? "open" : ""} ${excluded ? "is-excluded" : ""}`} aria-label={`Candidate ${candidate.name}`}>
       <button
         className="candidate-main"
         onClick={onOpen}
@@ -1434,27 +1752,85 @@ function CandidateCard({
         </div>
         <div className="candidate-side">
           <span className={`bucket-badge ${candidate.marketBucket.toLowerCase()}`}>{marketLabels[candidate.marketBucket]}</span>
+          <span className={`workflow-badge ${excluded ? "excluded" : "active"}`}>
+            Recruiter · {workflowLabels[candidate.operationalStatus]}
+          </span>
           <QaPill status={candidate.qaStatus} compact />
         </div>
       </button>
 
       <div className="candidate-actions" role="group" aria-label={`Actions for ${candidate.name}`}>
-        <button disabled={saving} onClick={() => onStatus("EARMARKED")} className={candidate.operationalStatus === "EARMARKED" ? "active" : ""} aria-pressed={candidate.operationalStatus === "EARMARKED"} aria-label="Earmark candidate">
-          Earmark
+        <button
+          disabled={saving || excluded || position > 2}
+          onClick={() => onStatus(candidate.operationalStatus === "EARMARKED" ? "RELEVANT" : "EARMARKED")}
+          className={earmarked ? "active" : ""}
+          aria-pressed={earmarked}
+          aria-label={earmarked ? "Unmark earmarked candidate" : "Earmark candidate"}
+          title={
+            excluded
+              ? "Restore this candidate before changing workflow status."
+              : position > 2
+                ? "This candidate has progressed beyond Earmarked; the workflow will not be rolled backward."
+                : undefined
+          }
+        >
+          {earmarked ? "Earmarked" : "Earmark"}
         </button>
-        <button disabled={saving} onClick={() => onStatus("TOP_10")} className={candidate.operationalStatus === "TOP_10" ? "active" : ""} aria-pressed={candidate.operationalStatus === "TOP_10"} aria-label="Add to Top 10">
-          Top 10
+        <button
+          disabled={saving || excluded || position > 3}
+          onClick={() => onStatus(candidate.operationalStatus === "TOP_10" ? "EARMARKED" : "TOP_10")}
+          className={recruiterTop10 ? "active" : ""}
+          aria-pressed={recruiterTop10}
+          aria-label={recruiterTop10 ? "Remove from recruiter Top 10" : "Add to Top 10"}
+          title={
+            excluded
+              ? "Restore this candidate before changing workflow status."
+              : position > 3
+                ? "This candidate has progressed beyond Recruiter Top 10; the workflow will not be rolled backward."
+                : "Recruiter workflow only; does not alter the research-recommended Top 10"
+          }
+        >
+          {recruiterTop10 ? "Recruiter Top 10" : "Top 10"}
         </button>
-        <button disabled={saving} onClick={() => onStatus("APPROACH")} className={candidate.operationalStatus === "APPROACH" ? "active" : ""} aria-pressed={candidate.operationalStatus === "APPROACH"} aria-label="Mark for approach">
-          Approach
+        <button
+          disabled={saving || excluded || approachStarted}
+          onClick={() => onStatus("APPROACH")}
+          className={candidate.operationalStatus === "APPROACH" ? "active" : ""}
+          aria-pressed={candidate.operationalStatus === "APPROACH"}
+          aria-label="Mark for approach"
+        >
+          {approachStarted ? "Approach started" : "Approach"}
         </button>
-        <button disabled={saving} onClick={() => onExcludeStart?.(candidate.candidateId, candidate.name)} className="danger-lite" aria-label="Exclude candidate" aria-haspopup="dialog">
-          Exclude
-        </button>
+        {excluded ? (
+          <button
+            disabled={saving}
+            onClick={() => onStatus("RELEVANT")}
+            className="restore-lite"
+            aria-label="Restore candidate to relevant"
+          >
+            Restore
+          </button>
+        ) : (
+          <button disabled={saving} onClick={() => onExcludeStart?.(candidate.candidateId, candidate.name)} className="danger-lite" aria-label="Exclude candidate" aria-haspopup="dialog">
+            Exclude
+          </button>
+        )}
       </div>
 
       {selected && (
         <div className="candidate-detail">
+          {excluded && (
+            <div className="excluded-note" role="note">
+              <strong>Excluded from this vacancy</strong>
+              <span>
+                {candidate.excludedReason
+                  ? `Reason: ${candidate.excludedReason}`
+                  : "No exclusion reason recorded."}{" "}
+                Evidence, QA and research ranking are unchanged; other vacancy assignments are
+                unaffected.
+              </span>
+            </div>
+          )}
           <p className="why-fit">{candidate.whyFit}</p>
           <div className="claim-grid" role="table" aria-label="Evidence claims">
             {candidate.claims.map((claim) => (
@@ -1514,10 +1890,49 @@ function initials(name: string) {
 }
 
 function formatDate(value: string) {
-  return new Date(value).toLocaleString(undefined, {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "Unknown date";
+  return date.toLocaleString(undefined, {
     day: "2-digit",
     month: "short",
     hour: "2-digit",
     minute: "2-digit",
   });
+}
+
+function useFocusTrap(active: boolean, containerRef: { current: HTMLElement | null }) {
+  useEffect(() => {
+    if (!active) return;
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    const container = containerRef.current;
+    if (!container) return;
+
+    const focusable = () =>
+      Array.from(
+        container.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((element) => !element.hasAttribute("disabled") && element.tabIndex !== -1);
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Tab") return;
+      const nodes = focusable();
+      if (nodes.length === 0) return;
+      const first = nodes[0];
+      const last = nodes[nodes.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      previouslyFocused?.focus?.();
+    };
+  }, [active, containerRef]);
 }
