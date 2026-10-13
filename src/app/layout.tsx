@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import "./shell.css";
 
 export const metadata: Metadata = {
   title: "Talent Tree Recruitment Intelligence",
