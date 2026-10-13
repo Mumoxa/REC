@@ -1773,16 +1773,16 @@ function CandidateCard({
           onClick={() => onStatus(candidate.operationalStatus === "TOP_10" ? "EARMARKED" : "TOP_10")}
           className={recruiterTop10 ? "active" : ""}
           aria-pressed={recruiterTop10}
-          aria-label={recruiterTop10 ? "Remove from recruiter Top 10" : "Add to Top 10"}
+          aria-label={recruiterTop10 ? "Remove from Top 10" : "Add to Top 10"}
           title={
             excluded
               ? "Restore this candidate before changing workflow status."
               : position > 3
-                ? "This candidate has progressed beyond Recruiter Top 10; the workflow will not be rolled backward."
+                ? "This candidate has progressed beyond Top 10; the workflow will not be rolled backward."
                 : "Recruiter workflow only; does not alter the research-recommended Top 10"
           }
         >
-          {recruiterTop10 ? "Recruiter Top 10" : "Top 10"}
+          Top 10
         </button>
         <button
           disabled={saving || excluded || approachStarted}
