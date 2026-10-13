@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type {
   CandidateAssignment,
@@ -22,6 +21,7 @@ import {
   type WorkspaceDensity,
 } from "@/lib/workspace/view-state";
 import { displayMarketCounts, marketFilterCount } from "@/lib/workspace/market-stats";
+import { AppHeader } from "@/components/shell/app-header";
 
 type Toast = { id: number; message: string; tone?: "error" | "info" };
 
@@ -114,11 +114,30 @@ const closeReasonLabels: Record<string, string> = {
   OTHER: "OTHER",
 };
 
-export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: WorkspaceSnapshot }) {
+/**
+ * Optional deep-link state from the URL (`/?q=` and `/?vacancy=`). Used by the
+ * Companies and QA pages so a link opens the matching records instead of the
+ * unfiltered inbox. Unknown ids fall back to the default selection.
+ */
+// Card labels stay short so "Recruiter · …" does not repeat the word "Recruiter" in the status name.
+const cardWorkflowLabels: Record<CandidateOperationalStatus, string> = { ...workflowLabels, TOP_10: "Top 10" };
+
+export function RecruitmentWorkspace({
+  initialSnapshot,
+  initialQuery = "",
+  initialVacancyId,
+}: {
+  initialSnapshot: WorkspaceSnapshot;
+  initialQuery?: string;
+  initialVacancyId?: string;
+}) {
   const initialSavedViews = initialSnapshot.savedViews || [];
+  const deepLinkVacancy = initialVacancyId
+    ? initialSnapshot.vacancies.find((vacancy) => vacancy.id === initialVacancyId)
+    : undefined;
   const [vacancies, setVacancies] = useState(initialSnapshot.vacancies);
-  const [selectedId, setSelectedId] = useState(initialSnapshot.vacancies[0]?.id ?? "");
-  const [globalSearch, setGlobalSearch] = useState("");
+  const [selectedId, setSelectedId] = useState(deepLinkVacancy?.id ?? initialSnapshot.vacancies[0]?.id ?? "");
+  const [globalSearch, setGlobalSearch] = useState(initialQuery);
   const [candidateSearch, setCandidateSearch] = useState("");
   const [channelFilter, setChannelFilter] = useState<string>("ALL");
   const [regionFilter, setRegionFilter] = useState<string>("ALL");
@@ -128,7 +147,10 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
   const [marketFilter, setMarketFilter] = useState<MarketBucket | "ALL">("ALL");
   const [selectedCandidateId, setSelectedCandidateId] = useState<string | null>(null);
   const [saving, setSaving] = useState<string | null>(null);
-  const [archiveFilter, setArchiveFilter] = useState<WorkspaceArchiveFilter>("ACTIVE");
+  // A deep link to a closed vacancy must not land on an empty, filtered-out row.
+  const [archiveFilter, setArchiveFilter] = useState<WorkspaceArchiveFilter>(
+    deepLinkVacancy?.lifecycleStatus === "CLOSED" ? "ALL" : "ACTIVE"
+  );
   const [savedViews, setSavedViews] = useState(initialSavedViews);
   const [loadedViewName, setLoadedViewName] = useState<string>("");
   const [saveName, setSaveName] = useState<string>("");
@@ -730,58 +752,28 @@ export function RecruitmentWorkspace({ initialSnapshot }: { initialSnapshot: Wor
   return (
     <main className="app-shell">
       <a href="#vacancy-list" className="skip-link">Skip to vacancies</a>
-      <header className="topbar" role="banner">
-        <div className="brand-block">
-          <a href="https://talenttree.co.za" className="brand-logo-link" aria-label="Talent Tree home">
-            {/* Official high-res logo from Mumoxa/tt-website — Talent Tree Logo 2026 (1).png (132×108) */}
-            <img
-              src="/talent-tree-logo.png"
-              alt="Talent Tree"
-              className="brand-logo-img"
-              width={132}
-              height={108}
-              loading="eager"
+      <AppHeader
+        current="VACANCIES"
+        demoMode={initialSnapshot.demoMode}
+        generatedAt={initialSnapshot.generatedAt}
+        search={
+          <div className="global-search-wrap">
+            <span className="search-glyph" aria-hidden="true">⌕</span>
+            <input
+              aria-label="Global vacancy search"
+              className="global-search"
+              value={globalSearch}
+              onChange={(event) => setGlobalSearch(event.target.value)}
+              placeholder="Search vacancies, employers, systems, requirements…"
             />
-            <span className="brand-lockup">
-              <span className="brand-name">Talent Tree</span>
-              <span className="brand-subtitle">Recruitment Intelligence</span>
-            </span>
-          </a>
-        </div>
-
-        <div className="global-search-wrap">
-          <span className="search-glyph" aria-hidden="true">⌕</span>
-          <input
-            aria-label="Global vacancy search"
-            className="global-search"
-            value={globalSearch}
-            onChange={(event) => setGlobalSearch(event.target.value)}
-            placeholder="Search vacancies, employers, systems, requirements…"
-          />
-          {globalSearch && (
-            <button className="clear-search" onClick={() => setGlobalSearch("")} aria-label="Clear search">
-              ×
-            </button>
-          )}
-        </div>
-
-        <div className="topbar-meta">
-          <nav className="workspace-nav" aria-label="Workspace sections">
-            <Link href="/">Vacancies</Link>
-            <Link href="/companies">Companies</Link>
-            <Link href="/runs">Runs</Link>
-            <Link href="/qa">QA</Link>
-          </nav>
-          {initialSnapshot.demoMode ? (
-            <span className="mode-badge demo">Demo mode</span>
-          ) : (
-            <span className="mode-badge live">Live</span>
-          )}
-          <span className="timestamp">
-            Updated {new Date(initialSnapshot.generatedAt).toLocaleString()}
-          </span>
-        </div>
-      </header>
+            {globalSearch && (
+              <button className="clear-search" onClick={() => setGlobalSearch("")} aria-label="Clear search">
+                ×
+              </button>
+            )}
+          </div>
+        }
+      />
 
       <section className="summary-strip" aria-label="Workspace summary">
         <SummaryStat label="Active vacancies" value={counts.active} />
@@ -1753,7 +1745,7 @@ function CandidateCard({
         <div className="candidate-side">
           <span className={`bucket-badge ${candidate.marketBucket.toLowerCase()}`}>{marketLabels[candidate.marketBucket]}</span>
           <span className={`workflow-badge ${excluded ? "excluded" : "active"}`}>
-            Recruiter · {workflowLabels[candidate.operationalStatus]}
+            Recruiter · {cardWorkflowLabels[candidate.operationalStatus]}
           </span>
           <QaPill status={candidate.qaStatus} compact />
         </div>
@@ -1781,16 +1773,16 @@ function CandidateCard({
           onClick={() => onStatus(candidate.operationalStatus === "TOP_10" ? "EARMARKED" : "TOP_10")}
           className={recruiterTop10 ? "active" : ""}
           aria-pressed={recruiterTop10}
-          aria-label={recruiterTop10 ? "Remove from recruiter Top 10" : "Add to Top 10"}
+          aria-label={recruiterTop10 ? "Remove from Top 10" : "Add to Top 10"}
           title={
             excluded
               ? "Restore this candidate before changing workflow status."
               : position > 3
-                ? "This candidate has progressed beyond Recruiter Top 10; the workflow will not be rolled backward."
+                ? "This candidate has progressed beyond Top 10; the workflow will not be rolled backward."
                 : "Recruiter workflow only; does not alter the research-recommended Top 10"
           }
         >
-          {recruiterTop10 ? "Recruiter Top 10" : "Top 10"}
+          Top 10
         </button>
         <button
           disabled={saving || excluded || approachStarted}

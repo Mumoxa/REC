@@ -43,6 +43,32 @@
   --header-h-scrolled: 64px;
   --focus-ring: var(--accent);
 
+  /* — Motion tokens (interaction-first; all collapse under prefers-reduced-motion) — */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --dur-instant: 110ms;   /* button press feedback */
+  --dur-hover: 150ms;     /* hover / colour transitions */
+  --dur-select: 200ms;    /* vacancy selection content change */
+  --dur-tab: 180ms;       /* tab transitions */
+  --dur-drawer: 280ms;    /* drawer / dialog entrance */
+  --dur-major: 340ms;     /* major view transitions */
+
+  /* — Type scale (dense operational sizes; avoid ad-hoc font sizes) — */
+  --text-2xs: 10px;       /* uppercase micro-labels, badge text */
+  --text-xs: 11px;        /* metadata, counts */
+  --text-sm: 12px;        /* secondary body */
+  --text-base: 13px;      /* workspace body */
+  --text-md: 14px;        /* vacancy titles */
+  --text-lg: 18px;        /* panel headings (serif) */
+  --text-xl: 22px;        /* page titles (serif) */
+  --text-display: clamp(28px, 3.4vw, 38px); /* login headline only */
+
+  /* — Surface hierarchy — */
+  --surface-0: var(--paper);        /* app canvas */
+  --surface-1: var(--white);        /* panels */
+  --surface-2: var(--paper-soft);   /* sub-sections, inset rows */
+  --surface-3: #eef4f7;             /* selected / hover wash */
+
   /* — Workspace semantic mapping onto official tokens — */
   --slate: var(--ink-deep);
   --slate-800: var(--ink);

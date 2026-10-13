@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased — Application shell, login and secondary routes
+
+- Added a shared `AppHeader` used by the workspace and every secondary route. Navigation shows the current section, the environment is stated as text ("Demo data" or "Live"), and timestamps display in SAST with the basis shown.
+- Redesigned `/login` with a relationship-network visual and a clearer form. The OTP, magic-link, pending-email and demo logic is unchanged.
+- Companies cards link to the matching vacancies (`/?q=<employer>`). QA rows link to their vacancy (`/?vacancy=<id>`). Closed vacancies open with the archive filter set to show all.
+- Research runs page is read-only and says so. It shows status, SAST start time, duration and published result counts. There is no run control, because runs are published only by the ingestion pipeline.
+- Workspace polish: filter selects no longer truncate in the 340px pane, the candidate card reads `Recruiter · Top 10` rather than repeating "Recruiter", and the mobile vacancy list sizes to its content.
+- Motion and type tokens added to `tokens.css`. All motion respects `prefers-reduced-motion`.
+
 ## 2026-10-07 — Operational contract, publication idempotency, and workspace QA
 
 - Candidate exclusion now requires a non-blank reason and persists `excluded_reason`. Recruiter exclusion no longer depends on the research market bucket.

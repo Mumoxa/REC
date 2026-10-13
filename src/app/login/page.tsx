@@ -13,14 +13,17 @@ export default function LoginPage() {
   const [token, setToken] = useState("");
   const [phase, setPhase] = useState<"EMAIL" | "VERIFY">("EMAIL");
   const [message, setMessage] = useState("");
+  const [messageTone, setMessageTone] = useState<"info" | "error">("info");
   const [loading, setLoading] = useState(false);
   const demo = isDemoMode();
 
   useEffect(() => {
     const authError = new URLSearchParams(window.location.search).get("error");
     if (authError === "missing_code") {
+      setMessageTone("error");
       setMessage("The sign-in link was incomplete. Request a new email and use the newest link or code.");
     } else if (authError === "auth_exchange") {
+      setMessageTone("error");
       setMessage("That sign-in link could not be verified. It may have expired. Request a new email.");
     }
 
@@ -32,6 +35,7 @@ export default function LoginPage() {
     if (pendingEmail && pendingAt && Date.now() - pendingAt < PENDING_TTL_MS) {
       setEmail(pendingEmail);
       setPhase("VERIFY");
+      setMessageTone("info");
       setMessage(
         "A Talent Tree sign-in email was already sent. Use the current email or current verification code below. No new code has been sent."
       );
@@ -50,6 +54,16 @@ export default function LoginPage() {
   function clearPending() {
     window.localStorage.removeItem(PENDING_EMAIL_KEY);
     window.localStorage.removeItem(PENDING_AT_KEY);
+  }
+
+  function fail(text: string) {
+    setMessageTone("error");
+    setMessage(text);
+  }
+
+  function info(text: string) {
+    setMessageTone("info");
+    setMessage(text);
   }
 
   async function sendSignIn(event: FormEvent) {
@@ -79,11 +93,11 @@ export default function LoginPage() {
 
       rememberPending(email.trim());
       setPhase("VERIFY");
-      setMessage(
+      info(
         "Check your email. If it contains a Sign in link, click it. If it contains a verification code, enter the code below."
       );
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Unable to start sign-in.");
+      fail(error instanceof Error ? error.message : "Unable to start sign-in.");
     } finally {
       setLoading(false);
     }
@@ -92,14 +106,14 @@ export default function LoginPage() {
   function useExistingCode() {
     const address = email.trim();
     if (!address) {
-      setMessage("Enter your work email first, then choose I already have a code.");
+      fail("Enter your work email first, then choose I already have a code.");
       return;
     }
 
     setEmail(address);
     rememberPending(address);
     setPhase("VERIFY");
-    setMessage("Enter the current verification code from your existing Talent Tree email. No new email has been sent.");
+    info("Enter the current verification code from your existing Talent Tree email. No new email has been sent.");
   }
 
   async function verifyCode(event: FormEvent) {
@@ -107,7 +121,7 @@ export default function LoginPage() {
 
     const cleanToken = token.replace(/\D/g, "").slice(0, 10);
     if (cleanToken.length < 6 || cleanToken.length > 10) {
-      setMessage("Enter the verification code exactly as shown in your Talent Tree email.");
+      fail("Enter the verification code exactly as shown in your Talent Tree email.");
       return;
     }
 
@@ -127,7 +141,7 @@ export default function LoginPage() {
       clearPending();
       window.location.assign("/");
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Unable to verify this code.");
+      fail(error instanceof Error ? error.message : "Unable to verify this code.");
     } finally {
       setLoading(false);
     }
@@ -154,11 +168,9 @@ export default function LoginPage() {
       if (error) throw error;
 
       rememberPending(email.trim());
-      setMessage(
-        "A new sign-in email was sent. This replaces the previous code/link; use only the newest email."
-      );
+      info("A new sign-in email was sent. This replaces the previous code/link; use only the newest email.");
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Unable to resend sign-in email.");
+      fail(error instanceof Error ? error.message : "Unable to resend sign-in email.");
     } finally {
       setLoading(false);
     }
@@ -172,90 +184,263 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="login-shell">
-      <section className="login-card">
-        <div className="brand-mark login-mark">TT</div>
-        <div className="eyebrow">Talent Tree</div>
-        <h1>Recruitment Intelligence</h1>
-        <p>Sign in to access the vacancy intelligence workspace.</p>
+    <main className="login-page">
+      <section className="login-visual" aria-label="Talent Tree Recruitment Intelligence">
+        <IntelligenceNetwork />
 
-        {phase === "EMAIL" ? (
-          <form onSubmit={sendSignIn}>
-            <label htmlFor="email">Work email</label>
-            <input
-              id="email"
-              type="email"
-              autoComplete="email"
-              required
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              placeholder="you@company.co.za"
-            />
-            <button type="submit" disabled={loading}>
-              {demo ? "Open demo workspace" : loading ? "Sending…" : "Email me a sign-in"}
-            </button>
+        <div className="login-brand">
+          <img src="/talent-tree-logo.png" alt="Talent Tree" width={132} height={108} />
+          <span className="login-brand-lockup">
+            <span className="login-brand-name">Talent Tree</span>
+            <span className="login-brand-sub">Recruitment Intelligence</span>
+          </span>
+        </div>
 
-            {!demo && (
-              <button
-                type="button"
-                className="secondary-login-button"
-                disabled={loading}
-                onClick={useExistingCode}
-              >
-                I already have a code
+        <div className="login-value">
+          <h2>
+            Every opportunity. <span>Connected to intelligence.</span>
+          </h2>
+          <p>One workspace for vacancies, hiring stakeholders, candidate markets and the evidence behind each decision.</p>
+        </div>
+
+        <ul className="login-legend" aria-label="What the network represents">
+          <li><span className="key org" aria-hidden="true" />Organisations</li>
+          <li><span className="key vacancy" aria-hidden="true" />Vacancies</li>
+          <li><span className="key network" aria-hidden="true" />Industry networks</li>
+          <li><span className="key stakeholder" aria-hidden="true" />Hiring stakeholders</li>
+          <li><span className="key market" aria-hidden="true" />Candidate markets</li>
+          <li><span className="key evidence" aria-hidden="true" />Verified evidence</li>
+        </ul>
+      </section>
+
+      <section className="login-panel">
+        <div className="login-form-wrap">
+          <div className="eyebrow">Secure access</div>
+          <h1>Sign in to REC</h1>
+          <p className="login-lede">
+            {phase === "EMAIL"
+              ? "Use your Talent Tree work email. We will send a sign-in link or a one-time code."
+              : "Finish signing in with the link or the one-time code from your Talent Tree email."}
+          </p>
+
+          {phase === "EMAIL" ? (
+            <form className="login-form" onSubmit={sendSignIn}>
+              <label htmlFor="email">Work email</label>
+              <input
+                id="email"
+                type="email"
+                autoComplete="email"
+                required
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder="you@company.co.za"
+                aria-describedby="email-help"
+              />
+              <span id="email-help" className="sr-only">
+                Use the email address registered for your Talent Tree workspace access.
+              </span>
+              <button type="submit" disabled={loading}>
+                {demo ? "Open demo workspace" : loading ? "Sending…" : "Email me a sign-in"}
               </button>
-            )}
-          </form>
-        ) : (
-          <form onSubmit={verifyCode}>
-            <div className="otp-email-row">
-              <span>{email}</span>
-              <button type="button" className="link-button" onClick={restart} disabled={loading}>
-                Change
+
+              {!demo && (
+                <button type="button" className="secondary-login-button" disabled={loading} onClick={useExistingCode}>
+                  I already have a code
+                </button>
+              )}
+            </form>
+          ) : (
+            <form className="login-form" onSubmit={verifyCode}>
+              <div className="otp-email-row">
+                <span>{email}</span>
+                <button type="button" className="link-button" onClick={restart} disabled={loading}>
+                  Change
+                </button>
+              </div>
+
+              <div className="login-option-note">
+                If your email contains a <strong>Sign in</strong> link, use that link. It returns here through the secure
+                callback and opens the workspace.
+              </div>
+
+              <div className="login-divider">
+                <span>or enter a code</span>
+              </div>
+
+              <label htmlFor="token">Verification code</label>
+              <input
+                id="token"
+                className="otp-input"
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                pattern="[0-9]{6,10}"
+                maxLength={10}
+                value={token}
+                onChange={(event) => setToken(event.target.value.replace(/\D/g, "").slice(0, 10))}
+                placeholder="Enter code"
+                aria-describedby="token-help"
+              />
+              <span id="token-help" className="sr-only">
+                Enter the 6 to 10 digit code from your most recent Talent Tree sign-in email.
+              </span>
+
+              <button type="submit" disabled={loading || token.length < 6 || token.length > 10}>
+                {loading ? "Verifying…" : "Verify code"}
               </button>
-            </div>
 
-            <div className="login-option-note">
-              If your email contains a <strong>Sign in</strong> link, use that link. It will return here through the secure callback and open the workspace.
-            </div>
+              <div className="login-option-note">
+                Only request another email if you need one. Sending another email replaces the previous code or link.
+              </div>
 
-            <div className="login-divider"><span>or enter a code</span></div>
+              <button type="button" className="secondary-login-button" disabled={loading} onClick={resend}>
+                Send a new sign-in email
+              </button>
+            </form>
+          )}
 
-            <label htmlFor="token">Verification code</label>
-            <input
-              id="token"
-              className="otp-input"
-              inputMode="numeric"
-              autoComplete="one-time-code"
-              pattern="[0-9]{6,10}"
-              maxLength={10}
-              value={token}
-              onChange={(event) => setToken(event.target.value.replace(/\D/g, "").slice(0, 10))}
-              placeholder="Enter code"
-            />
-
-            <button type="submit" disabled={loading || token.length < 6 || token.length > 10}>
-              {loading ? "Verifying…" : "Verify code"}
-            </button>
-
-            <div className="login-option-note">
-              Only request another email if you need one. Sending another email replaces the previous code/link.
-            </div>
-
-            <button type="button" className="secondary-login-button" disabled={loading} onClick={resend}>
-              Send a new sign-in email
-            </button>
-          </form>
-        )}
-
-        {message && <div className="login-message">{message}</div>}
-
-        {demo && (
-          <div className="demo-note">
-            Demo mode is enabled. Live authentication activates automatically when Supabase environment variables are configured.
+          <div
+            className={`login-message ${messageTone === "error" ? "error" : ""}`}
+            role={messageTone === "error" ? "alert" : "status"}
+            aria-live={messageTone === "error" ? "assertive" : "polite"}
+            hidden={!message}
+          >
+            {message}
           </div>
-        )}
+
+          {demo && (
+            <div className="demo-note">
+              Demo mode is enabled. Live authentication activates automatically when Supabase environment variables are
+              configured.
+            </div>
+          )}
+
+        </div>
       </section>
     </main>
+  );
+}
+
+/**
+ * Decorative relationship network. Fixed coordinates keep server and client
+ * markup identical; no randomness, no live data. Shapes carry meaning as well
+ * as colour (see the legend in the markup).
+ */
+function IntelligenceNetwork() {
+  const nodes: Array<{ x: number; y: number; kind: string; cls: string }> = [
+    { x: 360, y: 300, kind: "core", cls: "n1" },
+    { x: 150, y: 150, kind: "org", cls: "n2" },
+    { x: 540, y: 140, kind: "org", cls: "n3" },
+    { x: 110, y: 400, kind: "org", cls: "n2" },
+    { x: 540, y: 420, kind: "org", cls: "n4" },
+    { x: 330, y: 600, kind: "org", cls: "n5" },
+    { x: 250, y: 70, kind: "vacancy", cls: "n3" },
+    { x: 440, y: 60, kind: "vacancy", cls: "n4" },
+    { x: 60, y: 260, kind: "vacancy", cls: "n2" },
+    { x: 610, y: 260, kind: "vacancy", cls: "n5" },
+    { x: 230, y: 530, kind: "vacancy", cls: "n4" },
+    { x: 470, y: 560, kind: "vacancy", cls: "n5" },
+    { x: 300, y: 170, kind: "network", cls: "n3" },
+    { x: 430, y: 470, kind: "network", cls: "n4" },
+    { x: 200, y: 230, kind: "stakeholder", cls: "n2" },
+    { x: 415, y: 215, kind: "stakeholder", cls: "n3" },
+    { x: 255, y: 395, kind: "stakeholder", cls: "n4" },
+    { x: 520, y: 330, kind: "stakeholder", cls: "n5" },
+    { x: 170, y: 480, kind: "stakeholder", cls: "n5" },
+    { x: 380, y: 400, kind: "evidence", cls: "n3" },
+    { x: 270, y: 300, kind: "evidence", cls: "n4" },
+    { x: 470, y: 250, kind: "evidence", cls: "n5" },
+    { x: 80, y: 600, kind: "market", cls: "n4" },
+    { x: 100, y: 650, kind: "market", cls: "n5" },
+    { x: 575, y: 600, kind: "market", cls: "n4" },
+    { x: 600, y: 540, kind: "market", cls: "n5" },
+    { x: 40, y: 90, kind: "market", cls: "n3" },
+  ];
+
+  // [from, to, strong]
+  const edges: Array<[number, number, boolean]> = [
+    [0, 14, true], [0, 15, true], [0, 16, true], [0, 19, true], [0, 20, true], [0, 21, true], [0, 13, false],
+    [1, 6, false], [1, 12, false], [1, 14, false], [1, 8, false], [1, 0, false],
+    [2, 7, false], [2, 15, false], [2, 12, false], [2, 9, false], [2, 17, false],
+    [3, 8, false], [3, 16, false], [3, 18, false], [3, 0, false],
+    [4, 17, false], [4, 13, false], [4, 9, false], [4, 0, false],
+    [5, 10, false], [5, 11, false], [5, 13, false], [5, 18, false],
+    [6, 12, false], [7, 15, false], [10, 16, false], [11, 13, false],
+    [12, 14, false], [13, 17, false], [20, 0, true], [21, 2, true], [19, 4, true],
+    [22, 3, false], [23, 5, false], [24, 4, false], [25, 11, false], [26, 1, false],
+  ];
+
+  const edgeClass = ["e1", "e2", "e3", "e4"];
+
+  return (
+    <svg
+      className="login-visual-network"
+      viewBox="0 0 640 720"
+      preserveAspectRatio="xMidYMid slice"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <g>
+        {edges.map(([from, to, strong], index) => {
+          const a = nodes[from];
+          const b = nodes[to];
+          return (
+            <line
+              key={`${from}-${to}`}
+              x1={a.x}
+              y1={a.y}
+              x2={b.x}
+              y2={b.y}
+              pathLength={1}
+              className={`edge ${edgeClass[index % 4]} ${strong ? "strong" : ""}`}
+            />
+          );
+        })}
+      </g>
+      <g>
+        {nodes.map((node, index) => {
+          const cls = `node ${node.cls}`;
+          switch (node.kind) {
+            case "core":
+              return (
+                <g key={index} className={cls}>
+                  <circle cx={node.x} cy={node.y} r={26} className="node-network" />
+                  <circle cx={node.x} cy={node.y} r={9} className="core" />
+                </g>
+              );
+            case "org":
+              return <circle key={index} cx={node.x} cy={node.y} r={7} className={`${cls} node-org`} />;
+            case "vacancy":
+              return (
+                <rect
+                  key={index}
+                  x={node.x - 6}
+                  y={node.y - 6}
+                  width={12}
+                  height={12}
+                  className={`${cls} node-vacancy`}
+                />
+              );
+            case "network":
+              return <circle key={index} cx={node.x} cy={node.y} r={13} className={`${cls} node-network`} />;
+            case "stakeholder":
+              return <circle key={index} cx={node.x} cy={node.y} r={4.5} className={`${cls} node-stakeholder`} />;
+            case "evidence":
+              return (
+                <rect
+                  key={index}
+                  x={node.x - 5}
+                  y={node.y - 5}
+                  width={10}
+                  height={10}
+                  transform={`rotate(45 ${node.x} ${node.y})`}
+                  className={`${cls} node-evidence`}
+                />
+              );
+            default:
+              return <circle key={index} cx={node.x} cy={node.y} r={2.5} className={`${cls} node-market`} />;
+          }
+        })}
+      </g>
+    </svg>
   );
 }
