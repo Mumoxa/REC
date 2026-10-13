@@ -2,11 +2,11 @@
 **Research:** 13 October 2026 · **Status:** RESEARCHED, still pending independent REC QA Gate A · **Parent run:** REC-20261013-FINANCE-AGENCY_SITES
 
 ## Findings
-Seven original agency vacancies investigated: **1 PROBABLE**, **6 UNKNOWN**, **0 CONFIRMED** actual end-employer identities. This is not a completed hiring-team or candidate-mapping run. Attribution status never proves vacancy currently open or recruiter exclusivity. Claims must not be elevated without primary hiring-company/ATS or agency confirmation.
+Seven original agency vacancies investigated: **2 PROBABLE**, **5 UNKNOWN**, **0 CONFIRMED** actual end-employer identities. This is not a completed hiring-team or candidate-mapping run. Attribution status never proves vacancy currently open or recruiter exclusivity. Claims must not be elevated without primary hiring-company/ATS or agency confirmation.
 
 | REC vacancy | Agency / source reference | End employer status | Leading evidence and blocker |
 |---|---|---|---|
-| Chief Financial Officer — Property, Stellenbosch | CA Select, ExecutivePlacements 1336290 | UNKNOWN | Property finance role with intercompany loans, development funding, bank covenants. Near-verbatim earlier CFO copy at Swift HR CEN001355/LK (July), Overberg Personnel and Datafin CFO ref 702450 (August). Datafin describes an **investment and commercial property management firm**. Earlier Datafin September source expired. Actual legal employer never named. Potential shared long-running mandate, but no verification all firms represent same client. |
+| Chief Financial Officer — Property, Stellenbosch | CA Select, ExecutivePlacements 1336290 | **PROBABLE: TrueProp Developments** | An E2E Staffing PNet Stellenbosch property CFO advertisement explicitly names **TrueProp Developments** and closely matches CA Select job wording; independently supported by TrueProp official Stellenbosch details, True Group structure and Profile Personnel's named TrueProp finance recruiting. CA Select's client relationship and current recruitment status are **not independently confirmed**. |
 | Head of Finance — Cape Town | Communicate, CFA021586/KR | UNKNOWN | Generic CA(SA)/CIMA/ACCA, 8+ years, growing enterprise and board reporting; no distinctive industry, products, systems, site or parent company. |
 | Senior Finance Manager / CFO — Century City | Dante, GSt001775/DM-GS; Donavan Mannikam | UNKNOWN | Crucial contradictory geography: identical reference runs Century City and **Boksburg, Gauteng**. SME technology/sustainability, Xero, grants, funding, startup/investor reporting. Cannot shortlist employers by Cape Town until recruiter confirms location. |
 | Financial Controller — Property, Sandton | Network, NFR011431/Arist; Arista Palin | UNKNOWN | CA(SA), 3–5 PQE, salary up to R1.08m, **MDA essential**, MRI may count, portfolio of properties. Older Network NFR011023/Arist has same location/consultant/pay/profile but is **closed**. Same recruitment campaign plausible, same client unproven. |
@@ -60,4 +60,20 @@ Seven original agency vacancies investigated: **1 PROBABLE**, **6 UNKNOWN**, **0
 5. Contact Communicate ref **CFA021586/KR** for sector, suburb, reporting line and end-employer identity.
 6. Verify original Outside Capital advert liveness and whether Oct is just May syndication. Compare Network NFP013971-SDW-1 *only after direct employer confirmation*.
 
-**REC persistence status:** Original seven vacancy records updated in Supabase with structured `metadata.employer_attribution` and contradictions; Frank marked `PROBABLE`, other six remain `UNKNOWN`. Additional attribution evidence source records attached. Independent Gate A signoff / candidates / stakeholders still pending. Do not mark run COMPLETE.
+**REC persistence status updated:** CA Select CFO points to TrueProp Developments as PROBABLE; Frank Consult trading finance points to BexGroup/Bester as PROBABLE; five other companies remain UNKNOWN. Both company records are in REC as TARGET_PROSPECT, not contracted clients. Potential official leadership contacts have been recorded; actual hiring-team roles are unverified. Independent Gate A signoff / candidate mapping pending. Remain PARTIAL.
+
+## Second-pass investigation update — 13 October 2026
+
+**Core breakthrough:** [E2E Staffing's indexed CFO - Stellenbosch (property) advert names TrueProp Developments](https://www.pnet.co.za/jobs?action=facet_selected%3Bsectors%3B14000&ct=901&fre=23000399&fre=23004000&fu=4000000&se=14000&se=3000). Company corroboration: [TrueProp Developments](https://truepropdevelopments.co.za/), [True Group portfolio](https://www.truegroup.co.za/), [TrueProp official management](https://www.trueprop.co.za/head-office/), and [Profile Personnel's explicitly named TrueProp accountancy hires](https://www.profilepersonnel.co.za/vacancies/). Another recruiter naming TrueProp for a matching role is strong employer evidence; it is **not** proof that CA Select's October placement is the same currently open requisition.
+
+**TrueProp direct company route:** 6 Elektron Road, Techno Park, Stellenbosch; official jobs inbox careers@trueprop.co.za, tel +27 21 565 0000. Published executives: Harry van Heerden (CEO); Gillian Robinson (FD); Adele Muller (FM, Treasury). None has been proven the specific vacancy hiring manager; also assess apparent incumbent FD as a contradiction before inferring a replacement.
+
+**Additional contradictions and quality checks:**
+- Communicate CFA021586/KR contains generic leadership language but no identifiable business/unit; no honest employer identification yet.
+- Dante GSt001775/DM-GS is duplicated in Century City and Boksburg under one job ref; recruiter Donavan Mannikam should resolve the actual geography before company mapping.
+- Network Property NFR011431/Arist overlaps with now-closed NFR011023/Arist in job/salary/consultant; MDA/MRI does not uniquely identify an employer.
+- Network FMCG NFR011424/MoD uses entirely generic commercial-finance, analysis and management reporting duties. Recruiter Monique Du Preez's prior NFR010012/MoD was explicitly labelled a broad Finance Manager Talent Search; this increases the possibility of lead-generation rather than a firm exclusive mandate, but is only a hypothesis.
+- Outside Capital Head Finance appears in May and again with an October 5 syndication timestamp; active mandate is unverified. Network Property NFP013971-SDW-1 resembles the dual-reporting line, but salary/experience differ, so do not merge.
+- BexGroup/Bester remains PROBABLE based on unusual matched subsidiaries/footprint, not named by Frank Consult in FC-V-044.
+
+**Readback intent:** Seven original vacancy keys retained; no duplicate ads promoted to direct employers, no client agreement claimed, no run marked COMPLETE. Target prospect companies TrueProp and BexGroup recorded and six potential leadership stakeholders mapped.
