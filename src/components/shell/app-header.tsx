@@ -9,11 +9,14 @@ import type { ReactNode } from "react";
  * always shown as text ("Demo data" / "Live"), never colour alone.
  */
 
-export type AppSection = "VACANCIES" | "COMPANIES" | "RUNS" | "QA";
+export type AppSection = "INTELLIGENCE" | "VACANCIES" | "COMPANIES" | "CANDIDATES" | "STAKEHOLDERS" | "RUNS" | "QA";
 
 export const APP_SECTIONS: ReadonlyArray<{ id: AppSection; label: string; href: string }> = [
+  { id: "INTELLIGENCE", label: "Intelligence", href: "/intelligence" },
   { id: "VACANCIES", label: "Vacancies", href: "/" },
-  { id: "COMPANIES", label: "Companies", href: "/companies" },
+  { id: "COMPANIES", label: "Organisations", href: "/companies" },
+  { id: "CANDIDATES", label: "Candidate markets", href: "/candidates" },
+  { id: "STAKEHOLDERS", label: "Hiring stakeholders", href: "/stakeholders" },
   { id: "RUNS", label: "Runs", href: "/runs" },
   { id: "QA", label: "QA", href: "/qa" },
 ];
