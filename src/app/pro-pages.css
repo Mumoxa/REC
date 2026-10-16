@@ -1,0 +1,43 @@
+/* REC's full-page intelligence views — Pro reference composition, REC data. */
+.rec-pro-page { background: #f8f7f2; min-height: 100vh; }
+.rec-pro-content { max-width: 1550px; margin: 0 auto; padding: clamp(18px,3vw,42px); display: grid; gap: 22px; }
+.rec-pro-heading { display:flex; gap:24px; align-items:center; justify-content:space-between; }
+.rec-pro-heading h1 { margin: 3px 0 6px; font: 750 clamp(28px,3vw,40px)/1.14 var(--sans); letter-spacing: -.045em; color:#0f1e16; }
+.rec-pro-heading p, .rec-pro-panel p { margin:0; color:#59685c; font-size:13px; }
+.rec-pro-action { background:#0f1e16; color:#c6f042; text-decoration:none; border-radius:12px; padding:12px 16px; font-weight:700; white-space:nowrap; }
+.rec-pro-action:hover { background:#2b704b; color:#fff; }
+.rec-pro-kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; }
+.rec-pro-kpi { display:flex; flex-direction:column; gap:12px; background:#fff; border:1px solid #e3e9de; border-radius:18px; padding:22px; min-height:134px; text-decoration:none; box-shadow:0 12px 30px -25px #14291a55; }
+.rec-pro-kpi span { color:#53665a; font-size:13px; font-weight:650; }
+.rec-pro-kpi strong { color:#0f1e16; font-size:34px; line-height:1; font-weight:800; letter-spacing:-.045em; }
+.rec-pro-kpi small { margin-top:auto; color:#2b704b; font-size:11px; font-weight:700; }
+.rec-pro-kpi:hover:is(a) { border-color:#88b56b; background:#f4f8ec; }
+.rec-pro-two { display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr); gap:16px; }
+.rec-pro-panel { padding:22px; background:#fff; border-radius:18px; border:1px solid #e3e9de; min-width:0; }
+.rec-pro-panel-heading { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:15px; }
+.rec-pro-panel-heading h2 { font:750 20px/1.2 var(--sans); letter-spacing:-.028em; color:#0f1e16; margin:4px 0 0; }
+.rec-pro-panel-heading a, .rec-pro-table a { font-weight:700; color:#256443; text-decoration:none; }
+.rec-pro-panel-heading a:hover, .rec-pro-table a:hover { text-decoration:underline; }
+.rec-pro-funnel { display:grid; gap:18px; margin-top:27px; }
+.rec-pro-funnel-row>div:first-child { display:flex; justify-content:space-between; align-items:center; margin-bottom:7px; font-size:12px; }
+.rec-pro-funnel-row strong { color:#203527; }
+.rec-pro-funnel-row span { font-weight:800; color:#2b704b; }
+.rec-pro-track { background:#edf2e8; border-radius:100px; height:10px; overflow:hidden; }
+.rec-pro-track>div { background:#32764e; height:100%; border-radius:100px; }
+.rec-pro-callout { display:flex; align-items:center; gap:18px; border:1px solid #dce6c9; border-radius:14px; background:#eff5e2; padding:20px; margin-top:18px; }
+.rec-pro-callout strong { color:#1b5536; font-size:38px; line-height:1; }
+.rec-pro-callout b { color:#203527; font-size:13px; }
+.rec-pro-callout p { margin-top:5px; line-height:1.5; }
+.rec-pro-callout.muted { background:#f8f8f5; border-color:#e9e9e3; }
+.rec-pro-table-scroll { overflow-x:auto; }
+.rec-pro-table { border-collapse:collapse; width:100%; min-width:680px; }
+.rec-pro-table th { background:#f5f7f1; text-align:left; color:#546457; font-size:11px; font-weight:750; text-transform:uppercase; letter-spacing:.045em; padding:13px 12px; }
+.rec-pro-table td { border-bottom:1px solid #edf0e8; color:#26392c; padding:15px 12px; vertical-align:middle; font-size:12px; }
+.rec-pro-table td strong { font-size:13px; }
+.rec-pro-table tr:hover td { background:#f8faf4; }
+.rec-pro-table small { color:#697b6d; }
+.rec-pro-empty { padding:30px 12px; }
+.rec-pro-footnote { color:#59685c; font-size:12px; }
+@media(max-width:950px){.rec-pro-two{grid-template-columns:1fr}.rec-pro-heading{align-items:flex-start; flex-direction:column}}
+@media(max-width:650px){.rec-pro-content{padding:15px;gap:14px}.rec-pro-panel{padding:16px}.rec-pro-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.rec-pro-kpi{padding:16px; min-height:115px}.rec-pro-kpi strong{font-size:29px}}
+@media(prefers-reduced-motion:reduce){.rec-pro-page *, .rec-pro-page *::before,.rec-pro-page *::after{scroll-behavior:auto!important;transition:none!important}}
