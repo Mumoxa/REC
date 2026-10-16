@@ -344,3 +344,39 @@
   .login-visual-network .edge, .login-visual-network .node { opacity: 1; stroke-dashoffset: 0; }
   .app-nav-link, .global-search, .employer-card, .employer-card-foot a, .login-form button { transition: none !important; }
 }
+
+
+/* Pro design direction · visual-only adaptation, preserving REC navigation and data. */
+.app-header {
+  background: #0f1e16;
+  min-height: 72px;
+  padding-inline: clamp(16px, 2vw, 32px);
+  border-bottom: 1px solid rgba(198,240,66,.2);
+}
+.app-brand-name { font-family: var(--sans); font-weight: 750; letter-spacing: -.035em; }
+.app-brand-sub { letter-spacing: .13em; }
+.app-nav { gap: 6px; }
+.app-nav-link {
+  border-radius: 12px;
+  padding-inline: 14px;
+  min-height: 40px;
+}
+.app-nav-link[aria-current="page"] {
+  color: #0f1e16;
+  background: #c6f042;
+}
+.app-nav-link[aria-current="page"]::after { display: none; }
+.app-nav-link:hover:not([aria-current="page"]) {
+  color: white;
+  background: rgba(255,255,255,.12);
+}
+.global-search {
+  border-radius: 12px;
+  background: rgba(255,255,255,.09);
+}
+.env-badge { border-radius: 999px; }
+@media (max-width: 760px) {
+  .app-header { padding-block: 8px; gap: 8px 12px; }
+  .app-nav { overflow-x: auto; max-width: 100%; }
+  .app-nav-link { min-height: 42px; }
+}
