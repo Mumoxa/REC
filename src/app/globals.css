@@ -528,3 +528,103 @@ select:focus:not(:focus-visible) { outline: none; }
   border-radius:2px; background:var(--accent); color:#fff; font-weight:700; text-decoration:none; transition:transform var(--fast) ease; font-size:13px; border:1px solid var(--accent);
 }
 .skip-link:focus { transform:translateY(0); }
+
+
+/* Reference-inspired REC workspace skin. Keep structural three-pane/QA behaviour intact. */
+.workspace-grid { gap: 8px; background: var(--paper); padding: 8px; }
+.vacancy-pane, .job-pane, .candidate-pane {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 6px 22px rgba(15,30,22,.035);
+}
+.candidate-pane { background: #f7f8f2; }
+.pane-header, .candidate-header {
+  background: transparent;
+  padding: 16px 18px;
+  min-height: 70px;
+}
+.pane-header h1, .candidate-header h2 {
+  font-family: var(--sans);
+  font-weight: 750;
+  letter-spacing: -.035em;
+}
+.summary-strip {
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+}
+.summary-stat strong {
+  font-family: var(--sans);
+  font-weight: 800;
+  letter-spacing: -.04em;
+}
+.count-pill {
+  border-radius: 999px;
+  background: #0f1e16;
+  color: #c6f042;
+}
+.vacancy-list { padding: 8px; }
+.vacancy-card, .vacancy-card:first-child {
+  border: 1px solid transparent;
+  border-bottom: 1px solid var(--line);
+  border-radius: 12px;
+  margin-bottom: 5px;
+}
+.vacancy-card:hover { background: #f4f7ec; }
+.vacancy-card.selected {
+  background: #eff5e2;
+  border: 1px solid #c9de9d;
+  box-shadow: inset 4px 0 0 #2b704b;
+}
+.vacancy-card.selected .vacancy-title { color: #0f1e16; }
+.filter-row select, .candidate-search-row select,
+.candidate-search-row input, .filter-row input {
+  border-radius: 9px;
+  min-height: 38px;
+}
+.btn-primary, .btn-subtle, .btn-danger-outline,
+.focus-toggle, .density-control button {
+  border-radius: 10px;
+  min-height: 36px;
+}
+.btn-primary {
+  background: #0f1e16;
+  border-color: #0f1e16;
+  color: white;
+}
+.btn-primary:hover {
+  background: #225c3b;
+  border-color: #225c3b;
+  color: white;
+}
+.density-control button.active, .focus-toggle.active {
+  background: #0f1e16;
+  border-color: #0f1e16;
+  color: #c6f042;
+}
+.chip, .chip.clear-all { border-radius: 999px; }
+.candidate-counts span {
+  background: #eaf3d5;
+  color: #225337;
+  border-color: #cfdfa9;
+  border-radius: 999px;
+}
+.saved-view-banner {
+  background: #edf5df;
+  color: #225337;
+  border-color: #cee2af;
+  border-left-color: #2b704b;
+  border-radius: 10px;
+}
+.saved-view-banner strong, .saved-view-banner button { color: #225337; }
+:where(button, a, input, select, textarea):focus-visible {
+  outline: 2px solid #347b50;
+  outline-offset: 3px;
+}
+@media (max-width: 900px) {
+  .workspace-grid { gap: 0; padding: 0; }
+  .vacancy-pane, .job-pane, .candidate-pane {
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
