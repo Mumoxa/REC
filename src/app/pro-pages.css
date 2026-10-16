@@ -41,3 +41,32 @@
 @media(max-width:950px){.rec-pro-two{grid-template-columns:1fr}.rec-pro-heading{align-items:flex-start; flex-direction:column}}
 @media(max-width:650px){.rec-pro-content{padding:15px;gap:14px}.rec-pro-panel{padding:16px}.rec-pro-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.rec-pro-kpi{padding:16px; min-height:115px}.rec-pro-kpi strong{font-size:29px}}
 @media(prefers-reduced-motion:reduce){.rec-pro-page *, .rec-pro-page *::before,.rec-pro-page *::after{scroll-behavior:auto!important;transition:none!important}}
+
+/* Desktop operating shell: adopt the reference's persistent forest sidebar. */
+@media(min-width:1280px){
+ .app-header {
+   position:fixed; inset:0 auto 0 0; height:100dvh; width:244px; z-index:30;
+   flex-direction:column; align-items:stretch; justify-content:flex-start;
+   padding:25px 13px 18px; gap:16px; overflow-y:auto; overflow-x:hidden;
+   border-right:1px solid rgba(255,255,255,.12); border-bottom:0;
+ }
+ .app-brand { padding:7px 9px 21px; }
+ .app-brand-lockup { padding-left:8px; }
+ .app-brand-name { font-size:17px; }
+ .app-brand-sub { font-size:9px; white-space:normal; line-height:1.4; }
+ .app-header-search { flex:none; width:100%; max-width:none; margin:0; order:2; }
+ .global-search { height:40px; font-size:11px; }
+ .app-nav { width:100%; flex:none; margin:8px 0 0; display:flex; flex-direction:column; gap:6px; order:1; }
+ .app-header-search + .app-nav { margin-left:0; }
+ .app-nav-link { width:100%; min-height:44px; justify-content:flex-start; padding:0 14px; border-radius:10px; }
+ .app-header-end { margin-top:auto; display:flex; flex-direction:column; align-items:flex-start; padding:15px 10px 0; border-top:1px solid rgba(255,255,255,.13); order:3; }
+ .app-meta-time { line-height:1.5; }
+ .app-shell, .page-shell { margin-left:244px; min-width:0; }
+ .workspace-grid { grid-template-columns:minmax(235px,27%) minmax(325px,1fr) minmax(325px,35%); height:calc(100dvh - 56px); }
+ .workspace-grid.candidate-focus { grid-template-columns:54px minmax(300px,40%) minmax(325px,1fr); }
+}
+@media(min-width:1280px) and (max-width:1450px){
+ .app-header { width:220px; }
+ .app-shell, .page-shell { margin-left:220px; }
+ .workspace-grid { grid-template-columns:minmax(210px,27%) minmax(290px,1fr) minmax(290px,35%); }
+}
