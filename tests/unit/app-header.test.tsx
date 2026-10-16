@@ -8,16 +8,19 @@ describe("AppHeader", () => {
     const nav = screen.getByRole("navigation", { name: "Primary" });
     const links = within(nav).getAllByRole("link");
 
-    expect(links.map((link) => link.textContent)).toEqual(["Vacancies", "Companies", "Runs", "QA"]);
+    expect(links.map((link) => link.textContent)).toEqual(["Intelligence", "Vacancies", "Organisations", "Candidate markets", "Hiring stakeholders", "Runs", "QA"]);
     const current = links.filter((link) => link.getAttribute("aria-current") === "page");
     expect(current).toHaveLength(1);
     expect(current[0]).toHaveTextContent("Runs");
   });
 
-  it("keeps the Companies label and routes to the existing paths", () => {
+  it("routes the full navigation to working REC pages", () => {
     expect(APP_SECTIONS.map((section) => [section.label, section.href])).toEqual([
+      ["Intelligence", "/intelligence"],
       ["Vacancies", "/"],
-      ["Companies", "/companies"],
+      ["Organisations", "/companies"],
+      ["Candidate markets", "/candidates"],
+      ["Hiring stakeholders", "/stakeholders"],
       ["Runs", "/runs"],
       ["QA", "/qa"],
     ]);
