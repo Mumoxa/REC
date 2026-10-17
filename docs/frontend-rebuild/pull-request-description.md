@@ -1,0 +1,9 @@
+The previous REC redesign added pages and global styling while retaining the legacy workbench. This change replaces the frontend with a coherent Pro-derived application: forest navigation, warm workspace, scoped global search, intelligence dashboard, organisation profiles, rebuilt vacancy workbench, candidate intelligence, stakeholder directory, independent Evidence & QA and research runs.
+
+All pages use REC’s authorised snapshot and existing validated operations. Employer uncertainty, vacancy-specific assignments, claim confidence, full candidate markets and separate Research/Recruiter Top 10 remain visible. The reference’s schema, seed, mock authentication, AI actions and commercial metrics are excluded. Authentication, ingestion, database migrations and API handlers are unchanged. New saved-view facets are backward compatible.
+
+Independent review identified and fixed closure retargeting, pending focus escape, concurrent candidate mutation races, same-route deep links and an unsupported workflow-history claim. Deferred-response regressions preserve the exact confirmed record and rollback behavior.
+
+Validation: `npm run verify` passes typecheck, lint, three contract checks, eight regression checks, 106 tests and the production build. `node tests/full-candidate-market-smoke.mjs` passes. `npm run test:browser` provides reproducible viewport, accessibility and interaction checks against the synthetic demo. Final visual evidence and external preview status are recorded in `docs/frontend-rebuild/visual-qa.md` and `delivery.md`.
+
+The gallery, preservation matrix, data contracts, reference audit and independent review are in `docs/frontend-rebuild/`. Live Supabase permissions/persistence and OTP delivery require separate authorised verification; this PR does not establish a production release recommendation.
