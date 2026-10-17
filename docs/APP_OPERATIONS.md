@@ -2,7 +2,7 @@
 
 ## Local/development mode
 
-The app can run without Supabase:
+For explicit local development only, the app can run without Supabase:
 
 ```bash
 NEXT_PUBLIC_DEMO_MODE=true npm run dev
@@ -22,9 +22,9 @@ Required environment variables:
 
 ## Authentication
 
-Live mode uses Supabase Auth email OTP login with server-side cookie handling. The Auth email template must include `{{ .Token }}` so users receive a visible 6-digit code rather than relying on a one-click magic link.
+Live mode uses invited-member email/password sign-in with server-only session cookies. Production is gated even when a demo flag is set; missing configuration denies access. Authenticated pages and APIs require verified email and explicit workspace membership, with Supabase row-level security on data access.
 
-Authenticated pages are protected by Next.js `proxy.ts` and Supabase JWT claim validation.
+See [Private access](PRIVATE_ACCESS.md) for password setup/recovery, invitation templates, migration 009, required live Auth settings, encryption boundaries and deployment verification.
 
 ## Data flow
 
@@ -76,6 +76,7 @@ Pull requests touching the app run:
 
 1. npm install
 2. TypeScript typecheck
-3. production Next.js build in demo mode
+3. production authentication browser checks against a local synthetic provider
+4. production Next.js build with demo access disabled by the gate
 
 Do not merge an app change until CI passes.
