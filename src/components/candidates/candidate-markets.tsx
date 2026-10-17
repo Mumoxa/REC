@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { lazy, Suspense, useDeferredValue, useMemo, useState } from "react";
 import {
   ArrowRight,
   BriefcaseBusiness,
@@ -19,9 +19,9 @@ import {
   Users,
   X,
 } from "lucide-react";
-import { Badge, EmptyState, PageHeader, StatCard } from "@/components/ui/primitives";
+import { Badge, Dialog, EmptyState, PageHeader, StatCard } from "@/components/ui/primitives";
 import type { CandidateAssignment, WorkspaceSnapshot } from "@/lib/data/types";
-import { CandidateIntelligence } from "./candidate-intelligence";
+
 import {
   candidateDate,
   candidateIdentities,
@@ -34,6 +34,10 @@ import {
   type CandidateIdentity,
   type CandidateMarketLink,
 } from "./market-model";
+
+const CandidateIntelligence = lazy(() =>
+  import("./candidate-intelligence").then((module) => ({ default: module.CandidateIntelligence }))
+);
 
 const PAGE_SIZE = 12;
 const BUCKETS = ["TOP_10", "STRONG_MARKET", "LONGLIST", "UNREVIEWED", "EXCLUDED"];
@@ -77,24 +81,32 @@ export function CandidateMarkets({
     [snapshot.vacancies, operations]
   );
   const people = useMemo(() => candidateIdentities(vacancies), [vacancies]);
-  const allAssignments = vacancies.flatMap((vacancy) => vacancy.candidates);
-  const results = people
-    .map((person) => ({ person, links: matchingAssignments(person, filters) }))
-    .filter(({ links }) => links.length > 0)
-    .sort((a, b) => {
-      if (sort === "links")
-        return (
-          b.person.assignments.length - a.person.assignments.length ||
-          a.person.profile.name.localeCompare(b.person.profile.name)
-        );
-      if (sort === "verified")
-        return (
-          (Date.parse(latestVerified(b.person) ?? "") || 0) -
-            (Date.parse(latestVerified(a.person) ?? "") || 0) ||
-          a.person.profile.name.localeCompare(b.person.profile.name)
-        );
-      return a.person.profile.name.localeCompare(b.person.profile.name);
-    });
+  const allAssignments = useMemo(
+    () => vacancies.flatMap((vacancy) => vacancy.candidates),
+    [vacancies]
+  );
+  const deferredFilters = useDeferredValue(filters);
+  const results = useMemo(
+    () =>
+      people
+        .map((person) => ({ person, links: matchingAssignments(person, deferredFilters) }))
+        .filter(({ links }) => links.length > 0)
+        .sort((a, b) => {
+          if (sort === "links")
+            return (
+              b.person.assignments.length - a.person.assignments.length ||
+              a.person.profile.name.localeCompare(b.person.profile.name)
+            );
+          if (sort === "verified")
+            return (
+              (Date.parse(latestVerified(b.person) ?? "") || 0) -
+                (Date.parse(latestVerified(a.person) ?? "") || 0) ||
+              a.person.profile.name.localeCompare(b.person.profile.name)
+            );
+          return a.person.profile.name.localeCompare(b.person.profile.name);
+        }),
+    [people, deferredFilters, sort]
+  );
   const pageCount = Math.max(1, Math.ceil(results.length / PAGE_SIZE));
   const activePage = Math.min(page, pageCount);
   const paged = results.slice((activePage - 1) * PAGE_SIZE, activePage * PAGE_SIZE);
@@ -132,7 +144,7 @@ export function CandidateMarkets({
         title="Candidate markets"
         description="The full talent market, with evidence behind every decision."
         actions={
-          <Link className="btn btn-primary" href="/">
+          <Link prefetch={false} className="btn btn-primary" href="/">
             Explore vacancies <ArrowRight size={16} />
           </Link>
         }
@@ -473,16 +485,30 @@ export function CandidateMarkets({
         </div>
       )}
       {activePerson && (
-        <CandidateIntelligence
-          key={activePerson.id}
-          person={activePerson}
-          initialVacancyId={selected.vacancyId}
-          demoMode={snapshot.demoMode}
-          onClose={() => setSelected({ candidateId: "", vacancyId: "" })}
-          onSaved={(vacancyId, candidateId, operation) =>
-            setOperations((current) => ({ ...current, [`${vacancyId}:${candidateId}`]: operation }))
+        <Suspense
+          fallback={
+            <Dialog
+              title="Candidate intelligence"
+              onClose={() => setSelected({ candidateId: "", vacancyId: "" })}
+            >
+              <p role="status">Loading candidate intelligence…</p>
+            </Dialog>
           }
-        />
+        >
+          <CandidateIntelligence
+            key={activePerson.id}
+            person={activePerson}
+            initialVacancyId={selected.vacancyId}
+            demoMode={snapshot.demoMode}
+            onClose={() => setSelected({ candidateId: "", vacancyId: "" })}
+            onSaved={(vacancyId, candidateId, operation) =>
+              setOperations((current) => ({
+                ...current,
+                [`${vacancyId}:${candidateId}`]: operation,
+              }))
+            }
+          />
+        </Suspense>
       )}
     </div>
   );

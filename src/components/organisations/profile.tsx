@@ -52,7 +52,7 @@ export function OrganisationProfile({ organisation: org }: { organisation: Organ
   const index = TABS.indexOf(tab);
   return (
     <div className="org-profile">
-      <Link href="/companies" className="org-back-link">
+      <Link prefetch={false} href="/companies" className="org-back-link">
         <ArrowLeft size={16} aria-hidden="true" />
         All organisations
       </Link>
@@ -189,7 +189,7 @@ export function OrganisationProfile({ organisation: org }: { organisation: Organ
               <h3>Vacancy-level employer confidence</h3>
               <div className="org-confidence-list">
                 {org.vacancies.map((vacancy) => (
-                  <Link key={vacancy.id} href={vacancyHref(vacancy.id)}>
+                  <Link prefetch={false} key={vacancy.id} href={vacancyHref(vacancy.id)}>
                     <span>{vacancy.title}</span>
                     <Badge value={vacancy.employerStatus} />
                     <ArrowUpRight size={15} aria-hidden="true" />
@@ -220,7 +220,11 @@ export function OrganisationProfile({ organisation: org }: { organisation: Organ
                     {org.vacancies.map((role) => (
                       <tr key={role.id}>
                         <td>
-                          <Link className="org-record-title" href={vacancyHref(role.id)}>
+                          <Link
+                            prefetch={false}
+                            className="org-record-title"
+                            href={vacancyHref(role.id)}
+                          >
                             {role.title}
                           </Link>
                           <span className="org-cell-meta">
@@ -274,6 +278,7 @@ export function OrganisationProfile({ organisation: org }: { organisation: Organ
                         <tr key={`${vacancy.id}:${person.id}`}>
                           <td>
                             <Link
+                              prefetch={false}
                               className="org-record-title"
                               href={`/stakeholders?stakeholder=${encodeURIComponent(person.id)}&vacancy=${encodeURIComponent(vacancy.id)}`}
                             >
@@ -287,7 +292,9 @@ export function OrganisationProfile({ organisation: org }: { organisation: Organ
                             </span>
                           </td>
                           <td>
-                            <Link href={vacancyHref(vacancy.id)}>{vacancy.title}</Link>
+                            <Link prefetch={false} href={vacancyHref(vacancy.id)}>
+                              {vacancy.title}
+                            </Link>
                           </td>
                           <td>
                             <Badge value={person.evidenceStatus} />
@@ -301,7 +308,9 @@ export function OrganisationProfile({ organisation: org }: { organisation: Organ
               ) : (
                 <EmptyState title="No stakeholder records published">
                   Hiring-team mapping has not supplied contact records for these vacancies.{" "}
-                  <Link href={vacancyHref(org.vacancies[0].id)}>Inspect the vacancy research.</Link>
+                  <Link prefetch={false} href={vacancyHref(org.vacancies[0].id)}>
+                    Inspect the vacancy research.
+                  </Link>
                 </EmptyState>
               )}
             </>
@@ -330,6 +339,7 @@ export function OrganisationProfile({ organisation: org }: { organisation: Organ
                         <tr key={`${vacancy.id}:${person.assignmentId}`}>
                           <td>
                             <Link
+                              prefetch={false}
                               className="org-record-title"
                               href={`/candidates?candidate=${encodeURIComponent(person.candidateId)}&vacancy=${encodeURIComponent(vacancy.id)}`}
                             >
@@ -341,7 +351,9 @@ export function OrganisationProfile({ organisation: org }: { organisation: Organ
                           </td>
                           <td>{person.currentEmployer || "Not recorded"}</td>
                           <td>
-                            <Link href={vacancyHref(vacancy.id)}>{vacancy.title}</Link>
+                            <Link prefetch={false} href={vacancyHref(vacancy.id)}>
+                              {vacancy.title}
+                            </Link>
                           </td>
                           <td>
                             <Badge value={person.marketBucket} />
@@ -360,7 +372,9 @@ export function OrganisationProfile({ organisation: org }: { organisation: Organ
               ) : (
                 <EmptyState title="No candidate assignments published">
                   Candidate mapping records will appear here when available.{" "}
-                  <Link href={vacancyHref(org.vacancies[0].id)}>Open the vacancy market.</Link>
+                  <Link prefetch={false} href={vacancyHref(org.vacancies[0].id)}>
+                    Open the vacancy market.
+                  </Link>
                 </EmptyState>
               )}
             </>
@@ -404,7 +418,9 @@ export function OrganisationProfile({ organisation: org }: { organisation: Organ
                             </span>
                           </td>
                           <td>
-                            <Link href={vacancyHref(vacancy.id)}>{vacancy.title}</Link>
+                            <Link prefetch={false} href={vacancyHref(vacancy.id)}>
+                              {vacancy.title}
+                            </Link>
                           </td>
                           <td>
                             <Badge value={source.evidenceStatus} />
@@ -423,7 +439,9 @@ export function OrganisationProfile({ organisation: org }: { organisation: Organ
               <h3 className="org-domain-heading">Vacancy-level domain research</h3>
               {org.vacancies.map((vacancy) => (
                 <div className="org-domain-record" key={vacancy.id}>
-                  <Link href={vacancyHref(vacancy.id)}>{vacancy.title}</Link>
+                  <Link prefetch={false} href={vacancyHref(vacancy.id)}>
+                    {vacancy.title}
+                  </Link>
                   {vacancy.companyEmailIntelligence ? (
                     <>
                       <div>
@@ -466,7 +484,9 @@ export function OrganisationProfile({ organisation: org }: { organisation: Organ
                     {org.vacancies.map((vacancy) => (
                       <tr key={vacancy.id}>
                         <td>
-                          <Link href={vacancyHref(vacancy.id)}>{vacancy.title}</Link>
+                          <Link prefetch={false} href={vacancyHref(vacancy.id)}>
+                            {vacancy.title}
+                          </Link>
                         </td>
                         <td>{RELATIONSHIP_LABELS[vacancy.clientStatus]}</td>
                         <td>{CHANNEL_LABELS[vacancy.searchChannel]}</td>
@@ -497,7 +517,11 @@ export function OrganisationProfile({ organisation: org }: { organisation: Organ
                     <div key={vacancy.id}>
                       <span className="org-history-dot" />
                       <div>
-                        <Link className="org-record-title" href={vacancyHref(vacancy.id)}>
+                        <Link
+                          prefetch={false}
+                          className="org-record-title"
+                          href={vacancyHref(vacancy.id)}
+                        >
                           {vacancy.title}
                         </Link>
                         <span>

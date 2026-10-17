@@ -50,6 +50,7 @@ function sharedIdentity(demoMode = true): WorkspaceSnapshot {
 async function openAlicia() {
   const user = userEvent.setup();
   await user.click(screen.getByRole("button", { name: "Open intelligence for Alicia Daniels" }));
+  await screen.findByRole("combobox", { name: "Recruiter workflow status" });
   return { user, dialog: screen.getByRole("dialog", { name: "Candidate intelligence" }) };
 }
 

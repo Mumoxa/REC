@@ -32,7 +32,7 @@
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.13em;
-  color: #b2c3b7;
+  color: var(--muted-on-dark);
   margin-top: 4px;
 }
 .login-value {
@@ -52,7 +52,7 @@
 }
 .login-value p {
   max-width: 450px;
-  color: #bac8bf;
+  color: var(--muted-on-dark);
   font-size: 15px;
 }
 .login-principles {
@@ -69,7 +69,7 @@
   gap: 10px;
   align-items: center;
   font-size: 12px;
-  color: #c4d0c8;
+  color: var(--muted-on-dark);
 }
 .login-principles svg {
   color: var(--accent-bright);
@@ -82,12 +82,12 @@
   height: 360px;
   display: grid;
   place-items: center;
-  color: #c6f04230;
+  color: #5ab9e830;
   transform: rotate(-25deg);
 }
 .login-orbit > span {
   position: absolute;
-  border: 1px solid #c6f04218;
+  border: 1px solid #5ab9e818;
   width: 100%;
   height: 100%;
   border-radius: 50%;
@@ -171,7 +171,7 @@
 .login-message {
   margin-top: 20px;
   padding: 12px;
-  background: #e8f2df;
+  background: var(--accent-soft);
   border-radius: 10px;
 }
 .login-message.error {
@@ -206,4 +206,10 @@
   .login-form-wrap h1 {
     font-size: 30px;
   }
+}
+
+.login-orbit .talent-tree-logo {
+  width: 132px;
+  height: 108px;
+  opacity: 0.25;
 }

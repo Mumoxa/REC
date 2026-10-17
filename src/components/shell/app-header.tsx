@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { TalentTreeLogo } from "@/components/ui/talent-tree-logo";
+import { useDeferredValue, useEffect, useMemo, useState, type ReactNode } from "react";
 import {
   Activity,
   ArrowUpRight,
@@ -9,7 +10,6 @@ import {
   Building2,
   Command,
   GitBranch,
-  Leaf,
   Menu,
   Search,
   ShieldCheck,
@@ -84,9 +84,7 @@ export function formatSast(value: string): string {
 }
 
 type SearchResult = { key: string; kind: string; title: string; detail: string; href: string };
-export function searchRecords(snapshot: WorkspaceSnapshot, query: string): SearchResult[] {
-  const terms = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
-  if (!terms.length) return [];
+function indexRecords(snapshot: WorkspaceSnapshot): SearchResult[] {
   const records: SearchResult[] = [];
   const people = new Set<string>();
   const companies = new Set<string>();
@@ -136,9 +134,21 @@ export function searchRecords(snapshot: WorkspaceSnapshot, query: string): Searc
       detail: `${r.channel} · ${r.status}`,
       href: `/runs?q=${encodeURIComponent(r.externalRunId)}`,
     });
-  return records.filter((r) =>
-    terms.every((t) => `${r.title} ${r.detail} ${r.kind}`.toLowerCase().includes(t))
+  return records;
+}
+
+function matchingRecords(records: SearchResult[], query: string): SearchResult[] {
+  const terms = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
+  if (!terms.length) return [];
+  return records.filter((record) =>
+    terms.every((term) =>
+      `${record.title} ${record.detail} ${record.kind}`.toLowerCase().includes(term)
+    )
   );
+}
+
+export function searchRecords(snapshot: WorkspaceSnapshot, query: string): SearchResult[] {
+  return matchingRecords(indexRecords(snapshot), query);
 }
 
 export function AppHeader({
@@ -157,10 +167,12 @@ export function AppHeader({
   const [navigationOpen, setNavigationOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const results = useMemo(
-    () => (snapshot ? searchRecords(snapshot, query) : []),
-    [snapshot, query]
+  const deferredQuery = useDeferredValue(query);
+  const records = useMemo(
+    () => (searchOpen && snapshot ? indexRecords(snapshot) : []),
+    [snapshot, searchOpen]
   );
+  const results = useMemo(() => matchingRecords(records, deferredQuery), [records, deferredQuery]);
   const section = APP_SECTIONS.find((s) => s.id === current);
   useEffect(() => {
     const handle = (event: KeyboardEvent) => {
@@ -188,6 +200,7 @@ export function AppHeader({
         const Icon = icons[item.id];
         return (
           <Link
+            prefetch={false}
             key={item.id}
             href={item.href}
             aria-current={item.id === current ? "page" : undefined}
@@ -215,9 +228,14 @@ export function AppHeader({
     </nav>
   );
   const brand = (
-    <Link href="/intelligence" className="app-brand" aria-label="Talent Tree intelligence">
+    <Link
+      prefetch={false}
+      href="/intelligence"
+      className="app-brand"
+      aria-label="Talent Tree intelligence"
+    >
       <span className="brand-mark">
-        <Leaf size={24} aria-hidden="true" />
+        <TalentTreeLogo decorative />
       </span>
       <span>
         <strong>Talent Tree</strong>
@@ -258,7 +276,12 @@ export function AppHeader({
             <strong>{snapshot?.workspaceName ?? "REC workspace"}</strong>
             <small>{demoMode ? "Synthetic demonstration" : "Authorised workspace"}</small>
           </div>
-          <Link href="/login" aria-label="Account and sign in" className="sidebar-account">
+          <Link
+            prefetch={false}
+            href="/login"
+            aria-label="Account and sign in"
+            className="sidebar-account"
+          >
             <ArrowUpRight size={17} aria-hidden="true" />
           </Link>
         </div>
@@ -272,8 +295,13 @@ export function AppHeader({
         >
           <Menu size={21} />
         </button>
-        <Link href="/intelligence" className="utility-brand" aria-label="Talent Tree intelligence">
-          <Leaf size={20} aria-hidden="true" />
+        <Link
+          prefetch={false}
+          href="/intelligence"
+          className="utility-brand"
+          aria-label="Talent Tree intelligence"
+        >
+          <TalentTreeLogo decorative />
           <span>Talent Tree</span>
         </Link>
         <span className="utility-section">{section?.label}</span>
@@ -345,6 +373,7 @@ export function AppHeader({
                   results.length ? (
                     results.slice(0, 30).map((result) => (
                       <Link
+                        prefetch={false}
                         key={result.key}
                         href={result.href}
                         onClick={() => setSearchOpen(false)}
@@ -373,7 +402,11 @@ export function AppHeader({
               )}
             </>
           ) : (
-            <Link className="btn btn-primary" href={`/?q=${encodeURIComponent(query)}`}>
+            <Link
+              prefetch={false}
+              className="btn btn-primary"
+              href={`/?q=${encodeURIComponent(query)}`}
+            >
               Search vacancies
             </Link>
           )}

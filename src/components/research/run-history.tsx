@@ -66,7 +66,7 @@ export function RunHistory({
         title="Research runs"
         description="A clear record of research activity across four independent channels. Inspect pipeline status, recorded timestamps and reported metrics."
         actions={
-          <Link className="btn btn-secondary" href="/">
+          <Link prefetch={false} className="btn btn-secondary" href="/">
             Explore vacancies <ArrowUpRight size={16} />
           </Link>
         }
@@ -303,7 +303,7 @@ export function RunHistory({
             the run summary.
           </p>
         </div>
-        <Link href="/qa">
+        <Link prefetch={false} href="/qa">
           Review research QA <ArrowUpRight size={15} />
         </Link>
       </div>
@@ -359,13 +359,13 @@ export function RunHistory({
                 model. Review the evidence queue for independently recorded vacancy and candidate
                 QA.
               </p>
-              <Link className="research-detail-link" href="/qa">
+              <Link prefetch={false} className="research-detail-link" href="/qa">
                 Open evidence & QA <ArrowUpRight size={15} />
               </Link>
             </section>
             <div className="research-detail-actions">
               <span>Read-only operational record</span>
-              <Link className="btn btn-primary" href="/">
+              <Link prefetch={false} className="btn btn-primary" href="/">
                 Browse vacancy intelligence <ArrowUpRight size={16} />
               </Link>
             </div>

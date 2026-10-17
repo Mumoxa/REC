@@ -81,7 +81,7 @@ export function EvidenceWorkspace({ vacancies }: { vacancies: Vacancy[] }) {
         title="Evidence & QA"
         description="The confidence behind every opportunity. Review failed gates, unconfirmed claims and evidence gaps in their original research context."
         actions={
-          <Link className="btn btn-secondary" href="/">
+          <Link prefetch={false} className="btn btn-secondary" href="/">
             Open workspace <ArrowUpRight size={16} />
           </Link>
         }
@@ -321,6 +321,7 @@ export function EvidenceWorkspace({ vacancies }: { vacancies: Vacancy[] }) {
                           <td>
                             <strong>{record.candidateName || record.employerName}</strong>
                             <Link
+                              prefetch={false}
                               className="research-table-link"
                               href={`/?vacancy=${encodeURIComponent(record.vacancyId)}`}
                             >
@@ -399,7 +400,7 @@ function EvidenceDetail({ record, onClose }: { record: EvidenceRecord; onClose: 
             <div>
               <dt>Vacancy</dt>
               <dd>
-                <Link href={`/?vacancy=${encodeURIComponent(record.vacancyId)}`}>
+                <Link prefetch={false} href={`/?vacancy=${encodeURIComponent(record.vacancyId)}`}>
                   {record.vacancyTitle} <ArrowUpRight size={13} />
                 </Link>
               </dd>
@@ -412,7 +413,7 @@ function EvidenceDetail({ record, onClose }: { record: EvidenceRecord; onClose: 
               <div>
                 <dt>Candidate</dt>
                 <dd>
-                  <Link href={record.entityHref}>
+                  <Link prefetch={false} href={record.entityHref}>
                     {record.candidateName} <ArrowUpRight size={13} />
                   </Link>
                 </dd>
@@ -470,7 +471,7 @@ function EvidenceDetail({ record, onClose }: { record: EvidenceRecord; onClose: 
                 ? "Review the remaining uncertainty"
                 : "Recorded evidence"}
           </span>
-          <Link className="btn btn-primary" href={record.entityHref}>
+          <Link prefetch={false} className="btn btn-primary" href={record.entityHref}>
             Open {record.candidateId ? "candidate intelligence" : "vacancy intelligence"}
             <ArrowUpRight size={16} />
           </Link>

@@ -23,7 +23,7 @@ export default function ErrorPage({
             <button type="button" className="btn btn-primary" onClick={reset}>
               Try again
             </button>
-            <Link className="btn btn-secondary" href="/login">
+            <Link prefetch={false} className="btn btn-secondary" href="/login">
               Check account access
             </Link>
           </div>

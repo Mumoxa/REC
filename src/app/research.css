@@ -108,8 +108,8 @@
     transform 160ms;
 }
 .stakeholder-card:hover {
-  border-color: #bccdbb;
-  box-shadow: 0 8px 25px #10281608;
+  border-color: var(--muted-on-dark);
+  box-shadow: 0 8px 25px #071f2d08;
   transform: translateY(-2px);
 }
 .stakeholder-card-head {
@@ -122,9 +122,9 @@
 .research-avatar {
   width: 47px;
   height: 47px;
-  background: #edf1e7;
-  border: 1px solid #dce6d4;
-  color: #355434;
+  background: var(--accent-soft);
+  border: 1px solid var(--line);
+  color: var(--ink);
   font-size: 15px;
   font-weight: 600;
   display: grid;
@@ -279,7 +279,7 @@
   border-radius: 16px;
   padding: 20px 22px;
   margin-top: 24px;
-  background: #eff3e9;
+  background: var(--accent-soft);
 }
 .research-principle > svg {
   color: var(--accent);
@@ -500,7 +500,7 @@
 }
 .research-assurance p {
   margin: 0;
-  color: #c3cdc4;
+  color: var(--muted-on-dark);
   font-size: 12px;
   max-width: 540px;
 }
@@ -602,8 +602,8 @@
   justify-content: center;
   align-items: center;
   border-radius: 11px;
-  background: #f0f3ec;
-  color: #536650;
+  background: var(--accent-soft);
+  color: var(--muted);
 }
 .evidence-kind-icon.blocking {
   background: #fff0f0;
@@ -700,17 +700,17 @@
     border-color 150ms;
 }
 .research-channel-card:hover {
-  background: #f5f8ee;
+  background: var(--paper-soft);
 }
 .research-channel-card.selected {
-  border-color: #5f895b;
-  background: #f0f6e7;
-  box-shadow: 0 0 0 1px #5f895b;
+  border-color: var(--muted);
+  background: var(--accent-soft);
+  box-shadow: 0 0 0 1px var(--muted);
 }
 .research-channel-number {
   align-self: flex-start;
   font-size: 10px;
-  color: #6d786c;
+  color: var(--muted);
   letter-spacing: 0.1em;
   border: 1px solid var(--line);
   padding: 3px 4px;

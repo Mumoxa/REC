@@ -42,7 +42,7 @@ describe("organisation intelligence interactions", () => {
     const user = userEvent.setup();
     const key = deriveOrganisations([demoSnapshot.vacancies[0]])[0].key;
     render(<OrganisationDirectory vacancies={[demoSnapshot.vacancies[0]]} selectedKey={key} />);
-    await user.click(screen.getByRole("tab", { name: "Candidate connections" }));
+    await user.click(await screen.findByRole("tab", { name: "Candidate connections" }));
     const panel = screen.getByRole("tabpanel");
     expect(within(panel).getByRole("link", { name: "Alicia Daniels" })).toHaveAttribute(
       "href",

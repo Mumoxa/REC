@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { lazy, Suspense, useDeferredValue, useMemo, useState } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { Badge, EmptyState, PageHeader, StatCard } from "@/components/ui/primitives";
 import type { Vacancy } from "@/lib/data/types";
-import { OrganisationProfile } from "./profile";
+
 import {
   deriveOrganisations,
   filterOrganisations,
@@ -28,6 +28,10 @@ import {
   type Organisation,
   type OrganisationFilters,
 } from "./read-model";
+
+const OrganisationProfile = lazy(() =>
+  import("./profile").then((module) => ({ default: module.OrganisationProfile }))
+);
 
 export function OrganisationDirectory({
   vacancies,
@@ -50,7 +54,11 @@ export function OrganisationDirectory({
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(9);
   const locations = [...new Set(organisations.flatMap((org) => org.locations))].sort();
-  const filtered = filterOrganisations(organisations, filters);
+  const deferredFilters = useDeferredValue(filters);
+  const filtered = useMemo(
+    () => filterOrganisations(organisations, deferredFilters),
+    [organisations, deferredFilters]
+  );
   const paginated = paginateOrganisations(filtered, page, pageSize);
   const update = <K extends keyof OrganisationFilters>(key: K, value: OrganisationFilters[K]) => {
     setFilters((current) => ({ ...current, [key]: value }));
@@ -69,7 +77,9 @@ export function OrganisationDirectory({
   if (selectedKey) {
     const org = organisations.find((row) => row.key === selectedKey);
     return org ? (
-      <OrganisationProfile organisation={org} />
+      <Suspense fallback={<p role="status">Loading organisation intelligence…</p>}>
+        <OrganisationProfile organisation={org} />
+      </Suspense>
     ) : (
       <div className="org-directory">
         <PageHeader
@@ -78,7 +88,7 @@ export function OrganisationDirectory({
           description="This employer label is not present in the current authorised workspace snapshot."
         />
         <EmptyState title="The underlying vacancy grouping may have changed">
-          <Link className="btn btn-primary" href="/companies">
+          <Link prefetch={false} className="btn btn-primary" href="/companies">
             Return to organisations
           </Link>
         </EmptyState>
@@ -92,7 +102,7 @@ export function OrganisationDirectory({
         title="Organisations"
         description="Explore hiring activity, relationships and research across the employers in your workspace."
         actions={
-          <Link href="/" className="btn btn-primary">
+          <Link prefetch={false} href="/" className="btn btn-primary">
             <ArrowUpRight size={16} aria-hidden="true" />
             Open vacancy workspace
           </Link>
@@ -327,7 +337,9 @@ function OrganisationCard({ organisation: org }: { organisation: Organisation })
         </div>
       </div>
       <h3>
-        <Link href={organisationHref(org.key)}>{org.name}</Link>
+        <Link prefetch={false} href={organisationHref(org.key)}>
+          {org.name}
+        </Link>
       </h3>
       {!org.identified ? (
         <p className="org-unresolved-description">Unresolved employer · {org.vacancies[0].title}</p>
@@ -371,7 +383,11 @@ function OrganisationCard({ organisation: org }: { organisation: Organisation })
         <span>
           Last observed<strong>{shortDate(org.latestActivity)}</strong>
         </span>
-        <Link href={organisationHref(org.key)} aria-label={`Open intelligence for ${org.name}`}>
+        <Link
+          prefetch={false}
+          href={organisationHref(org.key)}
+          aria-label={`Open intelligence for ${org.name}`}
+        >
           View intelligence
           <ArrowRight size={15} aria-hidden="true" />
         </Link>
@@ -400,7 +416,11 @@ function OrganisationTable({ organisations }: { organisations: Organisation[] })
           {organisations.map((org) => (
             <tr key={org.key}>
               <td>
-                <Link className="org-record-title" href={organisationHref(org.key)}>
+                <Link
+                  prefetch={false}
+                  className="org-record-title"
+                  href={organisationHref(org.key)}
+                >
                   {org.name}
                 </Link>
                 <span className="org-cell-meta">
@@ -426,6 +446,7 @@ function OrganisationTable({ organisations }: { organisations: Organisation[] })
               <td>{shortDate(org.latestActivity)}</td>
               <td>
                 <Link
+                  prefetch={false}
                   href={organisationHref(org.key)}
                   className="intelligence-icon-link"
                   aria-label={`Open ${org.name}`}

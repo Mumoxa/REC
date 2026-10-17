@@ -1,0 +1,71 @@
+[
+  {
+    "route": "/",
+    "scriptBytes": 170914,
+    "cssBytes": 10292,
+    "loadMs": 286.5,
+    "initialScripts": 11,
+    "detailScripts": 0,
+    "prefetched": [
+      "/intelligence",
+      "/companies",
+      "/candidates",
+      "/stakeholders",
+      "/qa",
+      "/runs",
+      "/intelligence",
+      "/companies",
+      "/",
+      "/candidates",
+      "/stakeholders",
+      "/qa",
+      "/runs"
+    ]
+  },
+  {
+    "route": "/candidates",
+    "scriptBytes": 159919,
+    "cssBytes": 13761,
+    "loadMs": 176.90000000596046,
+    "initialScripts": 10,
+    "detailScripts": 0,
+    "prefetched": [
+      "/intelligence",
+      "/companies",
+      "/",
+      "/stakeholders",
+      "/qa",
+      "/runs",
+      "/companies",
+      "/intelligence",
+      "/",
+      "/candidates",
+      "/stakeholders",
+      "/qa",
+      "/runs"
+    ]
+  },
+  {
+    "route": "/companies",
+    "scriptBytes": 159152,
+    "cssBytes": 14739,
+    "loadMs": 183.1000000089407,
+    "initialScripts": 10,
+    "detailScripts": 0,
+    "prefetched": [
+      "/intelligence",
+      "/",
+      "/candidates",
+      "/stakeholders",
+      "/qa",
+      "/runs",
+      "/intelligence",
+      "/companies",
+      "/",
+      "/candidates",
+      "/stakeholders",
+      "/qa",
+      "/runs"
+    ]
+  }
+]

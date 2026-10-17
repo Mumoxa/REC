@@ -1,9 +1,9 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
-import { Leaf, ShieldCheck, BriefcaseBusiness, Users, Building2 } from "lucide-react";
+import { ShieldCheck, BriefcaseBusiness, Users, Building2 } from "lucide-react";
 import "../login.css";
-import { createClient } from "@/lib/supabase/client";
+import { TalentTreeLogo } from "@/components/ui/talent-tree-logo";
 import { isDemoMode } from "@/lib/supabase/config";
 
 const PENDING_EMAIL_KEY = "talent-tree:pending-auth-email";
@@ -84,6 +84,7 @@ export default function LoginPage() {
     setMessage("");
 
     try {
+      const { createClient } = await import("@/lib/supabase/client");
       const supabase = createClient();
       const callbackUrl = `${window.location.origin}/auth/callback?next=/`;
 
@@ -137,6 +138,7 @@ export default function LoginPage() {
     setMessage("");
 
     try {
+      const { createClient } = await import("@/lib/supabase/client");
       const supabase = createClient();
       const { error } = await supabase.auth.verifyOtp({
         email: email.trim(),
@@ -163,6 +165,7 @@ export default function LoginPage() {
     setToken("");
 
     try {
+      const { createClient } = await import("@/lib/supabase/client");
       const supabase = createClient();
       const callbackUrl = `${window.location.origin}/auth/callback?next=/`;
       const { error } = await supabase.auth.signInWithOtp({
@@ -199,12 +202,12 @@ export default function LoginPage() {
         <div className="login-orbit" aria-hidden="true">
           <span />
           <span />
-          <Leaf size={100} />
+          <TalentTreeLogo decorative />
         </div>
 
         <div className="login-brand">
           <span className="brand-mark">
-            <Leaf size={25} aria-hidden="true" />
+            <TalentTreeLogo />
           </span>
           <span className="login-brand-lockup">
             <span className="login-brand-name">Talent Tree</span>
