@@ -14,7 +14,14 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
 
-const workspace = read("src/components/workspace/recruitment-workspace.tsx");
+// The workbench controller and extracted domain panels together form the
+// rendered vacancy workspace; keep the same semantic checks across both.
+const workspace = [
+  "src/components/workspace/recruitment-workspace.tsx",
+  "src/components/workspace/workspace-panels.tsx",
+]
+  .map(read)
+  .join("\n");
 const candidateRoute = read("src/app/api/ops/candidate/route.ts");
 const vacancyRoute = read("src/app/api/ops/vacancy/route.ts");
 const validation = read("src/lib/ops/validation.ts");
@@ -25,7 +32,11 @@ const migration = read("supabase/migrations/008_operational_reason_contract.sql"
 
 function testResearchVsRecruiterSeparation() {
   assert.match(workspace, /marketBucket/, "Research market bucket must still be rendered.");
-  assert.match(workspace, /Recruiter · /, "Recruiter workflow must be labelled separately from research.");
+  assert.match(
+    workspace,
+    /Recruiter · /,
+    "Recruiter workflow must be labelled separately from research."
+  );
   assert.doesNotMatch(
     candidateRoute,
     /market_bucket/,
