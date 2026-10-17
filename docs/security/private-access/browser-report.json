@@ -1,0 +1,329 @@
+{
+  "checks": [
+    "Production ignores demo=true; anonymous HTML/RSC/API and suffix/prefix probes cannot reach records; cross-origin login denied",
+    "Invalid password and non-member rejected; member signs in via real SSR SDK; session cookies Secure/HttpOnly/SameSite; no token storage or ordinary-session password reset",
+    "Sign-out clears authenticated access and signs out the other open workspace tab",
+    "Recovery establishes a session-bound grant; setup updates password, signs out, and new-password login succeeds"
+  ],
+  "accessibility": [
+    {
+      "name": "password login",
+      "violations": []
+    },
+    {
+      "name": "mobile password login",
+      "violations": []
+    },
+    {
+      "name": "authenticated mobile workspace",
+      "violations": []
+    },
+    {
+      "name": "password setup",
+      "violations": []
+    }
+  ],
+  "pageErrors": [],
+  "providerRequests": [
+    {
+      "method": "POST",
+      "path": "/auth/v1/token"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/token"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/workspace_members"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/logout"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/token"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/workspace_members"
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/workspace_members"
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/workspaces"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/vacancies"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/vacancy_operations"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/vacancy_sources"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/vacancy_requirements"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/stakeholders"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/company_email_intelligence"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/candidate_assignments"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/candidate_operations"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/candidates"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/candidate_claims"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/research_queries"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/runs"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/saved_views"
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/workspace_members"
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/workspace_members"
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/workspace_members"
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/workspaces"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/vacancies"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/vacancy_operations"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/vacancy_sources"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/vacancy_requirements"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/stakeholders"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/company_email_intelligence"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/candidate_assignments"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/candidate_operations"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/candidates"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/candidate_claims"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/research_queries"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/runs"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/saved_views"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/logout"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/recover"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/token"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/workspace_members"
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/workspace_members"
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/workspace_members"
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/workspace_members"
+    },
+    {
+      "method": "PUT",
+      "path": "/auth/v1/user"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/logout"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/token"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/workspace_members"
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/workspace_members"
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/workspaces"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/vacancies"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/vacancy_operations"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/vacancy_sources"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/vacancy_requirements"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/stakeholders"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/company_email_intelligence"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/candidate_assignments"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/candidate_operations"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/candidates"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/candidate_claims"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/research_queries"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/runs"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/saved_views"
+    }
+  ]
+}

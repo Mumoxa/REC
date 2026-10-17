@@ -12,8 +12,8 @@ export async function POST(request: Request) {
   const { vacancyId, candidateId, operationalStatus, excludedReason } = validation.value;
 
   const supabase = await createClient();
-  const { data: authData } = await supabase.auth.getClaims();
-  if (!authData?.claims?.sub) {
+  const { data: authData } = await supabase.auth.getUser();
+  if (!authData?.user?.id || !authData.user.email_confirmed_at) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -62,10 +62,7 @@ export async function POST(request: Request) {
 
   if (error) {
     console.error("candidate operation failed", error.message);
-    return NextResponse.json(
-      { error: "Candidate operation could not be saved." },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Candidate operation could not be saved." }, { status: 400 });
   }
 
   return NextResponse.json({

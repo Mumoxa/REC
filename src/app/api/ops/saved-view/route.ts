@@ -13,8 +13,8 @@ export async function POST(request: Request) {
   const { name, viewState } = validation.value;
 
   const supabase = await createClient();
-  const { data: authData } = await supabase.auth.getClaims();
-  if (!authData?.claims?.sub) {
+  const { data: authData } = await supabase.auth.getUser();
+  if (!authData?.user?.id || !authData.user.email_confirmed_at) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -35,7 +35,7 @@ export async function POST(request: Request) {
     .upsert(
       {
         workspace_id: workspace.id,
-        user_id: authData.claims.sub,
+        user_id: authData.user.id,
         name,
         view_state: safeViewState,
         updated_at: new Date().toISOString(),

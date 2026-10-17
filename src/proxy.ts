@@ -6,7 +6,7 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
-  ],
+  // Public artwork is explicitly allowlisted in the gate. A filename suffix
+  // must never bypass authentication for a workspace or future data route.
+  matcher: ["/((?!_next/static|_next/image).*)"],
 };

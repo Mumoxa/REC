@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { SessionControls } from "./session-controls";
 import { TalentTreeLogo } from "@/components/ui/talent-tree-logo";
 import { useDeferredValue, useEffect, useMemo, useState, type ReactNode } from "react";
 import {
@@ -328,6 +329,7 @@ export function AppHeader({
           <span className="env-dot" />
           {demoMode ? "Demo data" : "Live"}
         </span>
+        {!demoMode && <SessionControls />}
         {generatedAt && (
           <time className="app-meta-time" dateTime={generatedAt}>
             Updated {formatSast(generatedAt)}

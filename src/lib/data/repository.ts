@@ -13,7 +13,7 @@ import type {
   VacancySource,
   WorkspaceSnapshot,
 } from "./types";
-import { isDemoMode } from "@/lib/supabase/config";
+import { hasSupabaseConfig, isDemoMode } from "@/lib/supabase/config";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
@@ -192,10 +192,11 @@ export async function getWorkspaceSnapshot(): Promise<WorkspaceSnapshot> {
     return demoSnapshot;
   }
 
+  if (!hasSupabaseConfig()) redirect("/login?error=unavailable");
   const supabase = await createClient();
 
-  const { data: authData, error: authError } = await supabase.auth.getClaims();
-  if (authError || !authData?.claims?.sub) {
+  const { data: authData, error: authError } = await supabase.auth.getUser();
+  if (authError || !authData?.user?.id || !authData.user.email_confirmed_at) {
     redirect("/login");
   }
 

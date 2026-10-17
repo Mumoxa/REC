@@ -17,7 +17,8 @@
     "rec:publish": "node scripts/rec-publish.mjs",
     "verify": "npm run typecheck && npm run lint && npm run test:contracts && npm run test:regression && npm run test:unit && npm run build",
     "test:browser": "node tests/frontend-browser-smoke.mjs",
-    "test:loading": "node tests/frontend-loading-smoke.mjs"
+    "test:loading": "node tests/frontend-loading-smoke.mjs",
+    "test:auth-browser": "node tests/private-auth-browser-smoke.mjs"
   },
   "engines": {
     "node": ">=22.0.0"
