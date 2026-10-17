@@ -1,3 +1,4 @@
+import "./workspace.css";
 import { RecruitmentWorkspace } from "@/components/workspace/recruitment-workspace";
 import { getWorkspaceSnapshot } from "@/lib/data/repository";
 

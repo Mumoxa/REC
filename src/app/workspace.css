@@ -218,11 +218,11 @@
   display: flex;
   align-items: center;
   gap: 7px;
-  border: 1px solid #d9e4ca;
+  border: 1px solid var(--line);
   border-radius: 999px;
   padding: 5px 9px;
-  background: #f0f5e6;
-  color: #36513c;
+  background: var(--accent-soft);
+  color: var(--ink);
   font-size: 10px;
 }
 .workspace-shell .chip button {
@@ -248,7 +248,7 @@
   gap: 12px;
   border-radius: 10px;
   padding: 9px 12px;
-  background: #edf4e7;
+  background: var(--accent-soft);
   font-size: 11px;
 }
 .workspace-shell .saved-view-banner button {
@@ -359,7 +359,7 @@
 .workspace-shell .density-control button.active {
   color: var(--ink);
   background: #fff;
-  box-shadow: 0 1px 3px #0f1e1610;
+  box-shadow: 0 1px 3px #071f2d10;
 }
 .workspace-shell .vacancy-list {
   position: relative;
@@ -390,11 +390,11 @@
   min-width: 0;
 }
 .workspace-shell .vacancy-card:hover {
-  background: #f8faf5;
+  background: var(--paper-soft);
 }
 .workspace-shell .vacancy-card.selected {
-  background: #f0f4e8;
-  border-color: #cfdbc1;
+  background: var(--accent-soft);
+  border-color: var(--muted-on-dark);
 }
 .workspace-shell .vacancy-card-top {
   display: flex;
@@ -407,7 +407,7 @@
   width: 27px;
   height: 27px;
   border-radius: 8px;
-  background: #f0f2ea;
+  background: var(--paper-soft);
   color: var(--muted);
   flex-shrink: 0;
 }
@@ -476,8 +476,8 @@
   gap: 8px;
   padding: 9px 0;
   margin-top: 2px;
-  border-top: 1px solid #dfe6d6;
-  border-bottom: 1px solid #dfe6d6;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
   font-size: 9px;
   color: var(--muted);
 }
@@ -542,7 +542,7 @@
 .workspace-shell .job-header {
   padding: 25px 26px 0;
   border-bottom: 1px solid var(--line);
-  background: linear-gradient(120deg, #fafbf6, #fff);
+  background: linear-gradient(120deg, var(--paper-soft), #fff);
 }
 .workspace-shell .job-relationship {
   display: flex;
@@ -730,7 +730,7 @@
 }
 .workspace-shell .summary-copy {
   font-size: 13px;
-  color: #526156;
+  color: var(--muted);
   line-height: 1.85;
   margin: 0;
 }
@@ -779,9 +779,9 @@
 }
 .workspace-shell .requirement-card {
   padding: 12px;
-  background: #fafbf7;
+  background: var(--paper-soft);
   border-radius: 10px;
-  border: 1px solid #edf0e8;
+  border: 1px solid var(--accent-soft);
 }
 .workspace-shell .requirement-label {
   font-size: 11px;
@@ -852,7 +852,7 @@
 .workspace-shell .history-dot {
   height: 7px;
   width: 7px;
-  background: #b9cba9;
+  background: var(--muted-on-dark);
   border-radius: 50%;
   flex-shrink: 0;
   margin-top: 5px;
@@ -874,7 +874,7 @@
 }
 .workspace-shell .workbench-context-action {
   border-top: 1px solid var(--line);
-  background: #f7faf0;
+  background: var(--paper-soft);
   padding: 16px 22px;
   display: flex;
   align-items: center;
@@ -1062,12 +1062,12 @@
     box-shadow 160ms;
 }
 .workspace-shell .candidate-card:hover {
-  border-color: #bdcdb6;
-  box-shadow: 0 4px 15px #0f1e1606;
+  border-color: var(--muted-on-dark);
+  box-shadow: 0 4px 15px #071f2d06;
 }
 .workspace-shell .candidate-card.open {
-  border-color: #b5cda8;
-  box-shadow: 0 3px 16px #0f1e160a;
+  border-color: var(--muted-on-dark);
+  box-shadow: 0 3px 16px #071f2d0a;
 }
 .workspace-shell .candidate-main {
   display: flex;
@@ -1085,9 +1085,9 @@
   width: 38px;
   height: 38px;
   border-radius: 12px;
-  background: #e9eddc;
+  background: var(--accent-soft);
   font-size: 12px;
-  color: #47613d;
+  color: var(--ink);
   flex-shrink: 0;
   font-weight: 550;
 }
@@ -1103,7 +1103,7 @@
 }
 .workspace-shell .candidate-role {
   font-size: 11px;
-  color: #526156;
+  color: var(--muted);
   margin-top: 3px;
   line-height: 1.5;
 }
@@ -1148,8 +1148,8 @@
   gap: 3px;
   font-size: 9px;
   border-radius: 5px;
-  background: #f0f5eb;
-  color: #406d45;
+  background: var(--accent-soft);
+  color: var(--ink);
   padding: 4px 5px;
 }
 .workspace-shell .candidate-evidence-strip > span.evidence-open {
@@ -1163,8 +1163,8 @@
   align-items: center;
 }
 .workspace-shell .bucket-badge {
-  background: #e6efd5;
-  color: #416221;
+  background: var(--line);
+  color: var(--ink);
   font-size: 9px;
   padding: 4px 6px;
 }
@@ -1194,7 +1194,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
-  border-top: 1px solid #edf0e8;
+  border-top: 1px solid var(--accent-soft);
   padding: 9px 12px;
 }
 .workspace-shell .candidate-actions button {
@@ -1210,8 +1210,8 @@
 }
 .workspace-shell .candidate-actions button.active {
   color: var(--accent);
-  background: #f3f7eb;
-  border-color: #d6e1c8;
+  background: var(--accent-soft);
+  border-color: var(--line);
 }
 .workspace-shell .candidate-actions button.danger-lite {
   color: var(--red);
@@ -1246,7 +1246,7 @@
 .workspace-shell .candidate-detail {
   padding: 16px;
   border-top: 1px solid var(--line);
-  background: #fbfcf8;
+  background: var(--paper-soft);
   animation: workspace-reveal 180ms ease-out;
 }
 .workspace-shell .candidate-detail-heading {
@@ -1262,7 +1262,7 @@
 }
 .workspace-shell .why-fit {
   font-size: 11px;
-  color: #526156;
+  color: var(--muted);
   line-height: 1.8;
   margin: 11px 0 14px;
 }
@@ -1274,7 +1274,7 @@
   grid-template-columns: minmax(60px, 0.8fr) minmax(80px, 1fr) auto;
   gap: 8px;
   align-items: center;
-  border-top: 1px solid #e9ede4;
+  border-top: 1px solid var(--accent-soft);
   padding: 9px 0;
   font-size: 10px;
 }
@@ -1465,7 +1465,7 @@
 .workspace-shell .email-intel-card {
   display: grid;
   gap: 8px;
-  background: #fafbf7;
+  background: var(--paper-soft);
   border: 1px solid var(--line);
   padding: 13px;
   border-radius: 10px;
@@ -1507,7 +1507,7 @@
   place-items: center;
   width: 35px;
   height: 35px;
-  background: #e9efdf;
+  background: var(--line);
   border-radius: 10px;
   font-size: 12px;
   color: var(--accent);
@@ -1594,7 +1594,7 @@
   line-height: 1.7;
 }
 .workspace-shell .empty-state > svg {
-  color: #8ea47e;
+  color: var(--muted);
 }
 .workspace-shell .empty-state h3 {
   margin: 0;
@@ -1613,7 +1613,7 @@
   position: fixed;
   inset: 0;
   z-index: 150;
-  background: #0f1e1659;
+  background: #071f2d59;
   backdrop-filter: blur(5px);
   display: flex;
   justify-content: flex-end;
@@ -1621,7 +1621,7 @@
 .workspace-shell .drawer {
   width: min(520px, 100%);
   background: #fff;
-  box-shadow: -20px 0 80px #0f1e1626;
+  box-shadow: -20px 0 80px #071f2d26;
   display: flex;
   flex-direction: column;
   max-height: 100dvh;
@@ -1748,7 +1748,7 @@
   color: #fff;
   padding: 15px 18px;
   border-radius: 12px;
-  box-shadow: 0 8px 35px #0f1e1625;
+  box-shadow: 0 8px 35px #071f2d25;
   font-size: 12px;
   line-height: 1.6;
 }
@@ -2002,7 +2002,7 @@
     padding-top: 0;
   }
   .workspace-shell .vacancy-card.selected {
-    border-color: #b9cca8;
+    border-color: var(--muted-on-dark);
   }
   .workspace-shell .vacancy-employer {
     font-size: 13px;

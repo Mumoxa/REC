@@ -86,7 +86,7 @@ export function StakeholderDirectory({
         title="Hiring stakeholders"
         description="Decision-makers, hiring owners and talent contacts, connected to the vacancy evidence behind each mapping."
         actions={
-          <Link className="btn btn-secondary" href="/">
+          <Link prefetch={false} className="btn btn-secondary" href="/">
             Explore vacancies <ArrowUpRight size={16} />
           </Link>
         }
@@ -251,7 +251,7 @@ export function StakeholderDirectory({
                       </div>
                       <div className="stakeholder-vacancy">
                         <span>Associated vacancy</span>
-                        <Link href={`/?vacancy=${encodeURIComponent(vacancy.id)}`}>
+                        <Link prefetch={false} href={`/?vacancy=${encodeURIComponent(vacancy.id)}`}>
                           {vacancy.title}
                           <ArrowUpRight size={13} />
                         </Link>
@@ -352,6 +352,7 @@ function StakeholderDetail({ entry, onClose }: { entry: StakeholderEntry; onClos
           <section className="research-inset">
             <h3>Vacancy association</h3>
             <Link
+              prefetch={false}
               className="research-detail-link"
               href={`/?vacancy=${encodeURIComponent(vacancy.id)}`}
             >
@@ -484,7 +485,11 @@ function StakeholderDetail({ entry, onClose }: { entry: StakeholderEntry; onClos
           <span>
             <CircleCheck size={15} /> Read-only research record
           </span>
-          <Link className="btn btn-primary" href={`/?vacancy=${encodeURIComponent(vacancy.id)}`}>
+          <Link
+            prefetch={false}
+            className="btn btn-primary"
+            href={`/?vacancy=${encodeURIComponent(vacancy.id)}`}
+          >
             Open vacancy intelligence <ArrowUpRight size={16} />
           </Link>
         </div>

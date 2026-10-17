@@ -6,7 +6,7 @@ export default function NotFound() {
         <p className="eyebrow">Talent Tree Intelligence</p>
         <h1>Page not found</h1>
         <p>This address does not match a REC workspace page.</p>
-        <Link className="btn btn-primary" href="/intelligence">
+        <Link prefetch={false} className="btn btn-primary" href="/intelligence">
           Open intelligence
         </Link>
       </div>

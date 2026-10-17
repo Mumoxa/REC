@@ -9,7 +9,7 @@
   padding: 30px;
   border-radius: 24px;
   color: #fff;
-  background: #0f1e16;
+  background: var(--ink);
   margin-bottom: 24px;
 }
 .intelligence-hero::before {
@@ -20,7 +20,7 @@
   height: 430px;
   top: -230px;
   right: -140px;
-  background: radial-gradient(circle, #c6f04230, transparent 65%);
+  background: radial-gradient(circle, #5ab9e830, transparent 65%);
 }
 .intelligence-hero-top {
   position: relative;
@@ -38,12 +38,12 @@
   border: 1px solid #ffffff1a;
   background: #ffffff0b;
   border-radius: 30px;
-  color: #e5ecd9;
+  color: var(--line);
   font-size: 11px;
   margin-bottom: 18px;
 }
 .intelligence-live-label svg {
-  color: #c6f042;
+  color: var(--accent-bright);
 }
 .intelligence-hero h1 {
   color: #fff;
@@ -53,11 +53,11 @@
   margin-bottom: 16px;
 }
 .intelligence-hero h1 span {
-  color: #c6f042;
+  color: var(--accent-bright);
 }
 .intelligence-hero p {
   max-width: 570px;
-  color: #c0cbc2;
+  color: var(--muted-on-dark);
   font-size: 13px;
   line-height: 1.8;
   margin: 0;
@@ -69,20 +69,20 @@
   flex-shrink: 0;
 }
 .intelligence-lime-button {
-  background: #c6f042;
-  color: #0f1e16;
-  border-color: #c6f042;
+  background: var(--accent-bright);
+  color: var(--ink);
+  border-color: var(--accent-bright);
 }
 .intelligence-lime-button:hover {
-  background: #d4ff56;
+  background: #78c7ee;
 }
 .intelligence-white-button {
   background: #fff;
-  color: #0f1e16;
+  color: var(--ink);
   border-color: #fff;
 }
 .intelligence-white-button:hover {
-  background: #e8eddf;
+  background: var(--line);
 }
 .intelligence-hero-stats.stat-grid {
   position: relative;
@@ -91,7 +91,7 @@
   gap: 12px;
 }
 .intelligence-hero-stats .stat-card {
-  color: #0f1e16;
+  color: var(--ink);
   padding: 18px;
   border-radius: 15px;
 }
@@ -99,12 +99,12 @@
   margin-bottom: 14px;
 }
 .intelligence-hero-stats .stat-icon {
-  background: #0f1e16;
+  background: var(--ink);
   color: #fff;
   border-radius: 50%;
 }
 .intelligence-hero-stats .stat-detail {
-  color: #53665a;
+  color: var(--muted);
   font-size: 11px;
   line-height: 1.6;
 }
@@ -139,14 +139,14 @@
   font-size: 10px;
 }
 .intelligence-section-heading > svg {
-  color: #6b7b6e;
+  color: var(--muted);
 }
 .intelligence-section-heading a,
 .intelligence-section-footer a {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: #1a6b4a;
+  color: var(--accent);
   text-decoration: none;
   font-weight: 600;
   font-size: 12px;
@@ -177,38 +177,38 @@
   align-items: end;
   justify-content: center;
   position: relative;
-  background: #f7f8f3;
+  background: var(--paper-soft);
   border-radius: 10px 10px 0 0;
 }
 .intelligence-stage-bar {
   width: 100%;
   border-radius: 10px 10px 0 0;
-  background: #dce1d8;
+  background: var(--line);
 }
 .intelligence-bar-track strong {
   position: absolute;
   bottom: 10px;
   font-size: 16px;
   font-variant-numeric: tabular-nums;
-  color: #0f1e16;
+  color: var(--ink);
   padding: 1px 6px;
   border-radius: 6px;
   background: #ffffffdb;
 }
 .intelligence-stage-1 {
-  background: #bdc9bb;
+  background: var(--muted-on-dark);
 }
 .intelligence-stage-2 {
-  background: #7ca68b;
+  background: var(--muted);
 }
 .intelligence-stage-3 {
-  background: #1a6b4a;
+  background: var(--accent);
 }
 .intelligence-stage-4 {
-  background: #0f1e16;
+  background: var(--ink);
 }
 .intelligence-stage-5 {
-  background: #c6f042;
+  background: var(--accent-bright);
 }
 .intelligence-stage-6 {
   background: #e2bc71;
@@ -219,7 +219,7 @@
   line-height: 1.45;
   font-weight: 600;
   margin-top: 10px;
-  color: #5e6a60;
+  color: var(--muted);
   min-height: 32px;
   overflow-wrap: anywhere;
 }
@@ -240,14 +240,14 @@
   margin-top: 18px;
 }
 .intelligence-channel-grid > div {
-  background: #f8f8f3;
+  background: var(--paper-soft);
   border-radius: 10px;
   padding: 10px;
 }
 .intelligence-channel-grid span {
   display: block;
   font-size: 10px;
-  color: #657366;
+  color: var(--muted);
 }
 .intelligence-channel-grid strong {
   display: block;
@@ -263,7 +263,7 @@
 .intelligence-count {
   padding: 5px 10px;
   border-radius: 30px;
-  background: #f0f2e9;
+  background: var(--accent-soft);
   font-size: 12px;
   font-weight: 700;
 }
@@ -321,7 +321,7 @@
   margin-top: 5px;
 }
 .intelligence-priority-item:hover strong {
-  color: #1a6b4a;
+  color: var(--accent);
   text-decoration: underline;
 }
 .intelligence-priority-dot {
@@ -337,7 +337,7 @@
 }
 .intelligence-priority-item > svg {
   margin-top: 2px;
-  color: #7b887e;
+  color: var(--muted);
 }
 .intelligence-recent {
   overflow: hidden;
@@ -367,7 +367,7 @@
 }
 .intelligence-record-title:hover,
 .org-record-title:hover {
-  color: #1a6b4a;
+  color: var(--accent);
   text-decoration: underline;
 }
 .intelligence-cell-meta,
@@ -399,7 +399,7 @@
   background: #fff;
 }
 .intelligence-icon-link:hover {
-  background: #e9eedf;
+  background: var(--line);
 }
 .intelligence-coverage-stage {
   display: flex;
@@ -407,7 +407,7 @@
   gap: 12px;
   padding: 12px 14px;
   border-radius: 12px;
-  background: #f5f6ef;
+  background: var(--paper-soft);
 }
 .intelligence-coverage-icon {
   width: 36px;
@@ -416,7 +416,7 @@
   place-items: center;
   border-radius: 50%;
   background: #fff;
-  color: #1a6b4a;
+  color: var(--accent);
 }
 .intelligence-coverage-stage strong {
   font-size: 24px;
@@ -425,16 +425,16 @@
   font-variant-numeric: tabular-nums;
 }
 .intelligence-coverage-stage div > span {
-  color: #637062;
+  color: var(--muted);
   font-size: 11px;
 }
 .intelligence-coverage-arrow {
   display: block;
-  color: #a1af9f;
+  color: var(--muted-on-dark);
   margin: 4px 0 4px 28px;
 }
 .intelligence-coverage-stage.highlight {
-  background: #eef5d5;
+  background: var(--accent-soft);
 }
 .intelligence-run-item {
   display: flex;
@@ -453,8 +453,8 @@
   width: 38px;
   height: 38px;
   border-radius: 12px;
-  background: #f1f3ea;
-  color: #52684f;
+  background: var(--paper-soft);
+  color: var(--muted);
 }
 .intelligence-run-item > div {
   min-width: 0;
@@ -470,7 +470,7 @@
   font-size: 11px;
 }
 .intelligence-run-item:hover strong {
-  color: #1a6b4a;
+  color: var(--accent);
   text-decoration: underline;
 }
 .intelligence-commercial-summary {
@@ -509,7 +509,7 @@
   margin-top: 3px;
 }
 .intelligence-commercial-row:hover strong {
-  color: #1a6b4a;
+  color: var(--accent);
   text-decoration: underline;
 }
 .intelligence-commercial-notes {
@@ -523,7 +523,7 @@
   display: flex;
   gap: 8px;
   align-items: center;
-  color: #1a6b4a;
+  color: var(--accent);
   font-weight: 600;
 }
 .org-stats {
@@ -536,8 +536,8 @@
   color: var(--muted);
   margin: 0 0 24px;
   padding: 14px 16px;
-  background: #eff1e8;
-  border: 1px solid #e0e5d6;
+  background: var(--paper-soft);
+  border: 1px solid var(--line);
   border-radius: 12px;
 }
 .org-scope-note svg {
@@ -580,7 +580,7 @@
   align-items: center;
   flex: 1;
   gap: 9px;
-  background: #f7f8f2;
+  background: var(--paper-soft);
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 0 15px;
@@ -591,7 +591,7 @@
   outline-offset: 2px;
 }
 .org-search-field svg {
-  color: #788477;
+  color: var(--muted);
 }
 .org-search-field input {
   width: 100%;
@@ -611,7 +611,7 @@
   padding: 4px;
   border: 1px solid var(--line);
   border-radius: 12px;
-  background: #f7f8f2;
+  background: var(--paper-soft);
 }
 .org-view-toggle button {
   width: 35px;
@@ -621,14 +621,14 @@
   place-items: center;
   border-radius: 8px;
   background: transparent;
-  color: #677264;
+  color: var(--muted);
 }
 .org-view-toggle button[aria-pressed="true"] {
-  background: #0f1e16;
+  background: var(--ink);
   color: #fff;
 }
 .org-view-toggle button:hover:not([aria-pressed="true"]) {
-  background: #e4e9dc;
+  background: var(--line);
 }
 .org-filter-row {
   display: flex;
@@ -644,13 +644,13 @@
 .org-filter-row select {
   width: 100%;
   border-radius: 30px;
-  background: #f8f8f3;
+  background: var(--paper-soft);
   font-weight: 500;
   font-size: 11px;
   padding: 10px 12px;
 }
 .org-filter-icon {
-  color: #6d7a6a;
+  color: var(--muted);
 }
 .org-results-line {
   display: flex;
@@ -663,7 +663,7 @@
 }
 .org-text-button {
   padding: 5px 0;
-  color: #1a6b4a;
+  color: var(--accent);
   font-size: 12px;
   font-weight: 600;
   background: transparent;
@@ -688,8 +688,8 @@
     border-color 150ms;
 }
 .org-card:hover {
-  border-color: #c4d1bb;
-  box-shadow: 0 7px 20px #192d1510;
+  border-color: var(--muted-on-dark);
+  box-shadow: 0 7px 20px #071f2d10;
 }
 .org-card-top {
   display: flex;
@@ -705,8 +705,8 @@
   height: 46px;
   flex-shrink: 0;
   border-radius: 13px;
-  background: #0f1e16;
-  color: #e2f6ae;
+  background: var(--ink);
+  color: var(--muted-on-dark);
 }
 .org-avatar.unresolved {
   background: #f0e8d7;
@@ -736,7 +736,7 @@
   text-decoration: none;
 }
 .org-card h3 a:hover {
-  color: #1a6b4a;
+  color: var(--accent);
   text-decoration: underline;
 }
 .org-location,
@@ -766,8 +766,8 @@
   display: inline-flex;
   padding: 4px 8px;
   border-radius: 30px;
-  background: #f1f3ed;
-  color: #62705f;
+  background: var(--accent-soft);
+  color: var(--muted);
   font-size: 10px;
   font-weight: 600;
 }
@@ -801,7 +801,7 @@
   display: flex;
   align-items: flex-start;
   gap: 6px;
-  color: #61715c;
+  color: var(--muted);
   font-size: 10px;
   margin-bottom: 18px;
 }
@@ -823,13 +823,13 @@
   font-size: 10px;
   font-weight: 500;
   margin-top: 3px;
-  color: #4b5948;
+  color: var(--ink);
 }
 .org-card-footer a {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  color: #1a6b4a;
+  color: var(--accent);
   font-size: 11px;
   font-weight: 600;
   text-decoration: none;
@@ -878,7 +878,7 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  color: #57704f;
+  color: var(--muted);
   font-size: 12px;
   text-decoration: none;
   margin-bottom: 20px;
@@ -928,7 +928,7 @@
   overflow-x: auto;
   scrollbar-width: thin;
   border-bottom: 1px solid var(--line);
-  background: #fcfcf8;
+  background: var(--paper-soft);
 }
 .org-tabs button {
   flex-shrink: 0;
@@ -938,15 +938,15 @@
   border: 0;
   border-bottom: 3px solid transparent;
   background: transparent;
-  color: #687465;
+  color: var(--muted);
 }
 .org-tabs button[aria-selected="true"] {
-  color: #1a6b4a;
-  border-bottom-color: #1a6b4a;
+  color: var(--accent);
+  border-bottom-color: var(--accent);
 }
 .org-tabs button:hover {
-  color: #1a6b4a;
-  background: #f1f4e9;
+  color: var(--accent);
+  background: var(--accent-soft);
 }
 .org-tabs button:focus-visible {
   outline-offset: -4px;
@@ -1004,7 +1004,7 @@
   overflow-wrap: anywhere;
 }
 .org-insight-panel {
-  background: #f4f6ec;
+  background: var(--paper-soft);
   border-radius: 15px;
   padding: 24px;
   align-self: start;
@@ -1043,7 +1043,7 @@
   flex: 1;
 }
 .org-confidence-list > a:hover > span:first-child {
-  color: #1a6b4a;
+  color: var(--accent);
   text-decoration: underline;
 }
 .org-tab-heading {
@@ -1083,8 +1083,8 @@
   overflow-wrap: anywhere;
 }
 .org-unavailable {
-  border: 1px solid #e1e6d7;
-  background: #f5f7ef;
+  border: 1px solid var(--line);
+  background: var(--paper-soft);
   padding: 20px;
   margin-top: 24px;
   border-radius: 12px;
@@ -1111,7 +1111,7 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #1a6b4a;
+  background: var(--accent);
   margin-top: 5px;
   flex-shrink: 0;
 }
@@ -1119,7 +1119,7 @@
   content: "";
   position: absolute;
   width: 1px;
-  background: #dce4d7;
+  background: var(--line);
   left: 4px;
   top: 19px;
   bottom: 5px;
@@ -1414,26 +1414,26 @@
   }
 }
 
-/* The reference's lime action panel gives the next research decisions priority. */
+/* Talent Tree azure highlights the next research decisions. */
 .intelligence-priorities {
-  background: #c6f042;
-  border-color: #c6f042;
+  background: var(--accent-bright);
+  border-color: var(--accent-bright);
 }
 .intelligence-priorities .eyebrow {
-  color: #274a20;
+  color: var(--ink);
 }
 .intelligence-priorities .intelligence-count {
-  background: #0f1e16;
+  background: var(--ink);
   color: #fff;
 }
 .intelligence-priorities .intelligence-priority-summary {
   background: transparent;
   border: 0;
-  color: #0f1e16;
+  color: var(--ink);
   padding: 0 0 10px;
 }
 .intelligence-priorities .intelligence-priority-summary span {
-  color: #3d5326;
+  color: var(--ink);
 }
 .intelligence-priorities .intelligence-priority-list {
   display: grid;
@@ -1446,10 +1446,10 @@
   padding: 14px;
 }
 .intelligence-priorities .intelligence-section-footer {
-  border-color: #78972c;
+  border-color: var(--muted);
 }
 .intelligence-priorities .intelligence-section-footer a {
-  color: #0f1e16;
+  color: var(--ink);
 }
 .org-card-badges > span:last-child:not(.badge),
 .org-card-counts dt,

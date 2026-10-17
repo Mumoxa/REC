@@ -1,10 +1,10 @@
 # REC application design system
 
-The supplied Pro project governs the rebuilt application presentation. The canonical research, evidence, operational and authentication contracts remain REC’s own. The historical buildless interface/prototype is isolated from the production routes; it is not the new frontend foundation.
+The supplied Pro project governs the rebuilt application composition. The user’s 17 October correction restores the official Talent Tree palette and artwork while preserving the rebuilt layouts, typography, spacing and controls. The canonical research, evidence, operational and authentication contracts remain REC’s own. The historical buildless interface/prototype is isolated from the production routes; it is not the new frontend foundation.
 
 ## Tokens and composition
 
-Source: src/app/tokens.css, globals.css and shell.css. Forest #0F1E16 frames warm ivory #F8F7F2 with white operational surfaces, supporting green #1A6B4A and selective lime #C6F042. The sidebar is 272px at desktop widths from 1100px; narrower screens use an accessible drawer. The utility bar keeps global search, branding and explicit demo/live status available. The dashboard uses the reference’s dark hero enclosing four real KPI cards, a multi-column operational body and lime priority panel with white action rows.
+Source: src/app/tokens.css, globals.css and shell.css. Talent Tree ink #0E2A3A and deep navy #071F2D frame warm paper #F4F1EA with white operational surfaces, brand azure #006DA3, bright azure #5AB9E8 and quiet blue #D9EAF3. The palette follows the official values documented in interface/design-system.md. Shared navigation and login use the existing, unmodified public/talent-tree-logo-2026.png artwork rather than a generic leaf. The sidebar is 272px at desktop widths from 1100px; narrower screens use an accessible drawer. The utility bar keeps global search, branding and explicit demo/live status available. The dashboard uses the reference’s dark hero enclosing four real KPI cards, a multi-column operational body and bright azure priority panel with white action rows.
 
 The sans-serif stack uses system Inter when available and native platform fallbacks; no external font request is required. Headings are 28–36px, section headings about 21px and operational body 13–14px. Rounded surfaces use 10/14/20px tokens and pill controls. Counts use tabular numerals. Lucide SVG icons replace decorative Unicode production icons.
 
@@ -25,3 +25,7 @@ Hover changes last about 150ms; dialogs enter over about 180ms. There are no art
 ## Data and capability boundaries
 
 All views consume getWorkspaceSnapshot through existing server pages. New read models derive employers, people, evidence queues and activity from authorised records, preserving uncertainty and vacancy assignments. No reference API, schema, seed, account or business metric is imported. Unsupported execution, outreach, placement and revenue capabilities are absent or explicitly unavailable. Missing full QA history, claim source URLs and target-company data are identified in context rather than fabricated.
+
+## Loading behavior
+
+Protected workspace links disable speculative route prefetch, preventing background requests for other authenticated pages. Candidate and organisation intelligence are split into lazy modules with labelled loading feedback; direct links still render the selected record. Candidate and organisation filtering uses deferred, memoized results so text entry can update before larger result calculations. Global search builds its record index once when opened. The vacancy stylesheet loads from the vacancy route instead of the root layout. No shared cache of private workspace records is introduced.

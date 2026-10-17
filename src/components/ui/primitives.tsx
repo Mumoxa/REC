@@ -76,7 +76,7 @@ export function StatCard({
     </>
   );
   return href ? (
-    <Link className="stat-card surface" href={href}>
+    <Link prefetch={false} className="stat-card surface" href={href}>
       {content}
     </Link>
   ) : (

@@ -1,0 +1,405 @@
+{
+  "viewports": [
+    {
+      "route": "/intelligence",
+      "width": 375,
+      "documentWidth": 375,
+      "http": 200
+    },
+    {
+      "route": "/",
+      "width": 375,
+      "documentWidth": 375,
+      "http": 200
+    },
+    {
+      "route": "/companies",
+      "width": 375,
+      "documentWidth": 375,
+      "http": 200
+    },
+    {
+      "route": "/candidates",
+      "width": 375,
+      "documentWidth": 375,
+      "http": 200
+    },
+    {
+      "route": "/stakeholders",
+      "width": 375,
+      "documentWidth": 375,
+      "http": 200
+    },
+    {
+      "route": "/qa",
+      "width": 375,
+      "documentWidth": 375,
+      "http": 200
+    },
+    {
+      "route": "/runs",
+      "width": 375,
+      "documentWidth": 375,
+      "http": 200
+    },
+    {
+      "route": "/login",
+      "width": 375,
+      "documentWidth": 375,
+      "http": 200
+    },
+    {
+      "route": "/intelligence",
+      "width": 430,
+      "documentWidth": 430,
+      "http": 200
+    },
+    {
+      "route": "/",
+      "width": 430,
+      "documentWidth": 430,
+      "http": 200
+    },
+    {
+      "route": "/companies",
+      "width": 430,
+      "documentWidth": 430,
+      "http": 200
+    },
+    {
+      "route": "/candidates",
+      "width": 430,
+      "documentWidth": 430,
+      "http": 200
+    },
+    {
+      "route": "/stakeholders",
+      "width": 430,
+      "documentWidth": 430,
+      "http": 200
+    },
+    {
+      "route": "/qa",
+      "width": 430,
+      "documentWidth": 430,
+      "http": 200
+    },
+    {
+      "route": "/runs",
+      "width": 430,
+      "documentWidth": 430,
+      "http": 200
+    },
+    {
+      "route": "/login",
+      "width": 430,
+      "documentWidth": 430,
+      "http": 200
+    },
+    {
+      "route": "/intelligence",
+      "width": 768,
+      "documentWidth": 768,
+      "http": 200
+    },
+    {
+      "route": "/",
+      "width": 768,
+      "documentWidth": 768,
+      "http": 200
+    },
+    {
+      "route": "/companies",
+      "width": 768,
+      "documentWidth": 768,
+      "http": 200
+    },
+    {
+      "route": "/candidates",
+      "width": 768,
+      "documentWidth": 768,
+      "http": 200
+    },
+    {
+      "route": "/stakeholders",
+      "width": 768,
+      "documentWidth": 768,
+      "http": 200
+    },
+    {
+      "route": "/qa",
+      "width": 768,
+      "documentWidth": 768,
+      "http": 200
+    },
+    {
+      "route": "/runs",
+      "width": 768,
+      "documentWidth": 768,
+      "http": 200
+    },
+    {
+      "route": "/login",
+      "width": 768,
+      "documentWidth": 768,
+      "http": 200
+    },
+    {
+      "route": "/intelligence",
+      "width": 1024,
+      "documentWidth": 1024,
+      "http": 200
+    },
+    {
+      "route": "/",
+      "width": 1024,
+      "documentWidth": 1024,
+      "http": 200
+    },
+    {
+      "route": "/companies",
+      "width": 1024,
+      "documentWidth": 1024,
+      "http": 200
+    },
+    {
+      "route": "/candidates",
+      "width": 1024,
+      "documentWidth": 1024,
+      "http": 200
+    },
+    {
+      "route": "/stakeholders",
+      "width": 1024,
+      "documentWidth": 1024,
+      "http": 200
+    },
+    {
+      "route": "/qa",
+      "width": 1024,
+      "documentWidth": 1024,
+      "http": 200
+    },
+    {
+      "route": "/runs",
+      "width": 1024,
+      "documentWidth": 1024,
+      "http": 200
+    },
+    {
+      "route": "/login",
+      "width": 1024,
+      "documentWidth": 1024,
+      "http": 200
+    },
+    {
+      "route": "/intelligence",
+      "width": 1280,
+      "documentWidth": 1280,
+      "http": 200
+    },
+    {
+      "route": "/",
+      "width": 1280,
+      "documentWidth": 1280,
+      "http": 200
+    },
+    {
+      "route": "/companies",
+      "width": 1280,
+      "documentWidth": 1280,
+      "http": 200
+    },
+    {
+      "route": "/candidates",
+      "width": 1280,
+      "documentWidth": 1280,
+      "http": 200
+    },
+    {
+      "route": "/stakeholders",
+      "width": 1280,
+      "documentWidth": 1280,
+      "http": 200
+    },
+    {
+      "route": "/qa",
+      "width": 1280,
+      "documentWidth": 1280,
+      "http": 200
+    },
+    {
+      "route": "/runs",
+      "width": 1280,
+      "documentWidth": 1280,
+      "http": 200
+    },
+    {
+      "route": "/login",
+      "width": 1280,
+      "documentWidth": 1280,
+      "http": 200
+    },
+    {
+      "route": "/intelligence",
+      "width": 1440,
+      "documentWidth": 1440,
+      "http": 200
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "documentWidth": 1440,
+      "http": 200
+    },
+    {
+      "route": "/companies",
+      "width": 1440,
+      "documentWidth": 1440,
+      "http": 200
+    },
+    {
+      "route": "/candidates",
+      "width": 1440,
+      "documentWidth": 1440,
+      "http": 200
+    },
+    {
+      "route": "/stakeholders",
+      "width": 1440,
+      "documentWidth": 1440,
+      "http": 200
+    },
+    {
+      "route": "/qa",
+      "width": 1440,
+      "documentWidth": 1440,
+      "http": 200
+    },
+    {
+      "route": "/runs",
+      "width": 1440,
+      "documentWidth": 1440,
+      "http": 200
+    },
+    {
+      "route": "/login",
+      "width": 1440,
+      "documentWidth": 1440,
+      "http": 200
+    },
+    {
+      "route": "/intelligence",
+      "width": 1920,
+      "documentWidth": 1920,
+      "http": 200
+    },
+    {
+      "route": "/",
+      "width": 1920,
+      "documentWidth": 1920,
+      "http": 200
+    },
+    {
+      "route": "/companies",
+      "width": 1920,
+      "documentWidth": 1920,
+      "http": 200
+    },
+    {
+      "route": "/candidates",
+      "width": 1920,
+      "documentWidth": 1920,
+      "http": 200
+    },
+    {
+      "route": "/stakeholders",
+      "width": 1920,
+      "documentWidth": 1920,
+      "http": 200
+    },
+    {
+      "route": "/qa",
+      "width": 1920,
+      "documentWidth": 1920,
+      "http": 200
+    },
+    {
+      "route": "/runs",
+      "width": 1920,
+      "documentWidth": 1920,
+      "http": 200
+    },
+    {
+      "route": "/login",
+      "width": 1920,
+      "documentWidth": 1920,
+      "http": 200
+    }
+  ],
+  "accessibility": [
+    {
+      "name": "intelligence",
+      "violations": []
+    },
+    {
+      "name": "vacancies",
+      "violations": []
+    },
+    {
+      "name": "organisations",
+      "violations": []
+    },
+    {
+      "name": "candidates",
+      "violations": []
+    },
+    {
+      "name": "stakeholders",
+      "violations": []
+    },
+    {
+      "name": "evidence-qa",
+      "violations": []
+    },
+    {
+      "name": "runs",
+      "violations": []
+    },
+    {
+      "name": "login",
+      "violations": []
+    },
+    {
+      "name": "organisation detail",
+      "violations": []
+    },
+    {
+      "name": "candidate detail",
+      "violations": []
+    },
+    {
+      "name": "run detail",
+      "violations": []
+    },
+    {
+      "name": "mobile navigation",
+      "violations": []
+    },
+    {
+      "name": "vacancy closure confirmation",
+      "violations": []
+    }
+  ],
+  "interactions": [
+    "Global search applies exact vacancy targets on same-route client navigation",
+    "Saved views round-trip relationship, research stage and ordering",
+    "Organisation detail exposes seven functional canonical-data tabs",
+    "Candidate demo workflow changes retain independent research Top 10; Escape closes detail",
+    "Run search updates same-route state and opens recorded metrics",
+    "Mobile drawer restores focus; vacancy/pane navigation preserves selection and candidate search",
+    "Vacancy closure requires an explanation for OTHER and supports safe cancellation"
+  ],
+  "pageErrors": [],
+  "blockedWrites": []
+}

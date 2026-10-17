@@ -161,7 +161,7 @@ img {
   border-color: var(--ink);
 }
 .btn-primary:hover {
-  background: #254831;
+  background: var(--accent-deep);
 }
 .btn-secondary {
   background: #fff;
@@ -211,7 +211,7 @@ textarea {
 }
 input::placeholder,
 textarea::placeholder {
-  color: #717b74;
+  color: var(--muted);
 }
 textarea {
   min-height: 96px;
@@ -272,9 +272,9 @@ textarea {
 }
 .badge-neutral,
 .status-tag.quiet {
-  background: #f0f2ed;
-  color: #536158;
-  border-color: #dce1d8;
+  background: var(--accent-soft);
+  color: var(--muted);
+  border-color: var(--line);
 }
 .status-tag.info {
   background: #edf2ff;
@@ -347,8 +347,8 @@ a.stat-card:hover {
   font-size: 13px;
 }
 .data-table th {
-  background: #f6f7f2;
-  color: #5b695e;
+  background: var(--paper-soft);
+  color: var(--muted);
   text-transform: uppercase;
   font-size: 10px;
   letter-spacing: 0.07em;
@@ -361,7 +361,7 @@ a.stat-card:hover {
   vertical-align: top;
 }
 .data-table tbody tr:hover {
-  background: #fafbf7;
+  background: var(--paper-soft);
 }
 .data-table td strong {
   display: block;
@@ -396,7 +396,7 @@ a.stat-card:hover {
   position: fixed;
   z-index: 100;
   inset: 0;
-  background: #07170d77;
+  background: #071f2d77;
   backdrop-filter: blur(4px);
   padding: 32px;
   display: flex;
@@ -412,7 +412,7 @@ a.stat-card:hover {
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 22px;
-  box-shadow: 0 30px 80px #08180e44;
+  box-shadow: 0 30px 80px #071f2d44;
   animation: dialog-in 180ms ease-out;
 }
 .dialog-header {
@@ -467,7 +467,7 @@ a.stat-card:hover {
 .skeleton {
   min-height: 160px;
   border-radius: 16px;
-  background: linear-gradient(110deg, #edf0e8 30%, #fafbf6 50%, #edf0e8 70%);
+  background: linear-gradient(110deg, var(--accent-soft) 30%, var(--paper-soft) 50%, var(--accent-soft) 70%);
   background-size: 200% 100%;
   animation: shimmer 1.4s linear infinite;
 }

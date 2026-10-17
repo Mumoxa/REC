@@ -295,6 +295,7 @@ export function CandidateIntelligence({
                 </div>
               </div>
               <Link
+                prefetch={false}
                 className="candidate-text-link"
                 href={`/?vacancy=${encodeURIComponent(vacancy.id)}&candidate=${encodeURIComponent(candidate.candidateId)}`}
               >

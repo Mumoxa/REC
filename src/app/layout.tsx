@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import "./shell.css";
-import "./workspace.css";
 
 export const metadata: Metadata = {
   title: "Talent Tree Recruitment Intelligence",
@@ -10,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0f1e16",
+  themeColor: "#071f2d",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

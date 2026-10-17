@@ -1,0 +1,29 @@
+[
+  {
+    "route": "/",
+    "scriptBytes": 170951,
+    "cssBytes": 10915,
+    "loadMs": 279.20000000298023,
+    "initialScripts": 11,
+    "detailScripts": 0,
+    "prefetched": []
+  },
+  {
+    "route": "/candidates",
+    "scriptBytes": 156798,
+    "cssBytes": 7611,
+    "loadMs": 240.90000000596046,
+    "initialScripts": 10,
+    "detailScripts": 1,
+    "prefetched": []
+  },
+  {
+    "route": "/companies",
+    "scriptBytes": 156264,
+    "cssBytes": 8581,
+    "loadMs": 355.3999999910593,
+    "initialScripts": 10,
+    "detailScripts": 1,
+    "prefetched": []
+  }
+]

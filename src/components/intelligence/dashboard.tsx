@@ -47,13 +47,14 @@ export function IntelligenceDashboard({ snapshot }: { snapshot: WorkspaceSnapsho
           </div>
           <div className="intelligence-hero-actions">
             <Link
+              prefetch={false}
               href={data.priorities[0] ? vacancyHref(data.priorities[0].role.id) : "/"}
               className="btn intelligence-lime-button"
             >
               <ArrowUpRight size={16} aria-hidden="true" />
               Open research workspace
             </Link>
-            <Link href="/" className="btn intelligence-white-button">
+            <Link prefetch={false} href="/" className="btn intelligence-white-button">
               View vacancies
               <ArrowRight size={16} aria-hidden="true" />
             </Link>
@@ -122,7 +123,7 @@ export function IntelligenceDashboard({ snapshot }: { snapshot: WorkspaceSnapsho
             <span className="muted">
               {snapshot.vacancies.length - data.active.length} closed vacancies excluded
             </span>
-            <Link href="/">
+            <Link prefetch={false} href="/">
               Explore pipeline
               <ArrowRight size={14} aria-hidden="true" />
             </Link>
@@ -161,6 +162,7 @@ export function IntelligenceDashboard({ snapshot }: { snapshot: WorkspaceSnapsho
           <div className="intelligence-priority-list">
             {data.priorities.slice(0, 4).map(({ role, reasons }) => (
               <Link
+                prefetch={false}
                 key={role.id}
                 href={vacancyHref(role.id)}
                 className="intelligence-priority-item"
@@ -186,7 +188,7 @@ export function IntelligenceDashboard({ snapshot }: { snapshot: WorkspaceSnapsho
             </EmptyState>
           ) : null}
           <div className="intelligence-section-footer">
-            <Link href="/qa">
+            <Link prefetch={false} href="/qa">
               Review independent QA
               <ArrowRight size={14} aria-hidden="true" />
             </Link>
@@ -199,7 +201,7 @@ export function IntelligenceDashboard({ snapshot }: { snapshot: WorkspaceSnapsho
               <span className="eyebrow">Latest opportunities</span>
               <h2 id="recent-heading">Recently surfaced vacancies</h2>
             </div>
-            <Link href="/">
+            <Link prefetch={false} href="/">
               View all
               <ArrowRight size={14} aria-hidden="true" />
             </Link>
@@ -221,7 +223,11 @@ export function IntelligenceDashboard({ snapshot }: { snapshot: WorkspaceSnapsho
                 {data.recent.map((role) => (
                   <tr key={role.id}>
                     <td>
-                      <Link className="intelligence-record-title" href={vacancyHref(role.id)}>
+                      <Link
+                        prefetch={false}
+                        className="intelligence-record-title"
+                        href={vacancyHref(role.id)}
+                      >
                         {role.title}
                       </Link>
                       <span className="intelligence-cell-meta">
@@ -229,7 +235,10 @@ export function IntelligenceDashboard({ snapshot }: { snapshot: WorkspaceSnapsho
                       </span>
                     </td>
                     <td>
-                      <Link href={organisationHref(employerKeys.get(role.id) ?? "")}>
+                      <Link
+                        prefetch={false}
+                        href={organisationHref(employerKeys.get(role.id) ?? "")}
+                      >
                         {role.employerName}
                       </Link>
                       <span className="intelligence-cell-meta">
@@ -250,6 +259,7 @@ export function IntelligenceDashboard({ snapshot }: { snapshot: WorkspaceSnapsho
                     </td>
                     <td>
                       <Link
+                        prefetch={false}
                         href={vacancyHref(role.id)}
                         className="intelligence-icon-link"
                         aria-label={`Open ${role.title}`}
@@ -318,7 +328,7 @@ export function IntelligenceDashboard({ snapshot }: { snapshot: WorkspaceSnapsho
             totals are not unique people or a readiness score.
           </p>
           <div className="intelligence-section-footer">
-            <Link href="/candidates">
+            <Link prefetch={false} href="/candidates">
               Explore candidate markets
               <ArrowRight size={14} aria-hidden="true" />
             </Link>
@@ -331,7 +341,7 @@ export function IntelligenceDashboard({ snapshot }: { snapshot: WorkspaceSnapsho
               <span className="eyebrow">Research activity</span>
               <h2 id="activity-heading">Latest recorded runs</h2>
             </div>
-            <Link href="/runs">
+            <Link prefetch={false} href="/runs">
               All runs
               <ArrowRight size={14} aria-hidden="true" />
             </Link>
@@ -339,6 +349,7 @@ export function IntelligenceDashboard({ snapshot }: { snapshot: WorkspaceSnapsho
           <div className="intelligence-run-list">
             {data.runs.map((run) => (
               <Link
+                prefetch={false}
                 className="intelligence-run-item"
                 key={run.id}
                 href={`/runs?run=${encodeURIComponent(run.id)}`}
@@ -380,7 +391,12 @@ export function IntelligenceDashboard({ snapshot }: { snapshot: WorkspaceSnapsho
             <span>active vacancies marked agreed client or agreed group entity</span>
           </div>
           {data.commercial.slice(0, 3).map((role) => (
-            <Link key={role.id} className="intelligence-commercial-row" href={vacancyHref(role.id)}>
+            <Link
+              prefetch={false}
+              key={role.id}
+              className="intelligence-commercial-row"
+              href={vacancyHref(role.id)}
+            >
               <div>
                 <strong>{role.title}</strong>
                 <span>{role.employerName}</span>
