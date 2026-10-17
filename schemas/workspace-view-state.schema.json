@@ -3,11 +3,7 @@
   "$id": "workspace-view-state.schema.json",
   "title": "Talent Tree Recruitment Intelligence Workspace View State",
   "type": "object",
-  "required": [
-    "active_module",
-    "vacancy_view",
-    "layout"
-  ],
+  "required": ["active_module", "vacancy_view", "layout"],
   "properties": {
     "active_module": {
       "enum": [
@@ -34,18 +30,12 @@
       ]
     },
     "selected_vacancy_id": {
-      "type": [
-        "string",
-        "null"
-      ],
+      "type": ["string", "null"],
       "minLength": 1,
       "description": "References final-opportunity.canonical_job_id; see interface/record-binding-contract.md."
     },
     "selected_candidate_id": {
-      "type": [
-        "string",
-        "null"
-      ],
+      "type": ["string", "null"],
       "minLength": 1,
       "description": "References candidate-market-map candidate_id; see interface/record-binding-contract.md."
     },
@@ -67,10 +57,7 @@
       "additionalProperties": true
     },
     "vacancy_sort": {
-      "type": [
-        "string",
-        "null"
-      ],
+      "type": ["string", "null"],
       "enum": [
         null,
         "COMMERCIAL_PRIORITY",
@@ -85,10 +72,7 @@
       ]
     },
     "candidate_sort": {
-      "type": [
-        "string",
-        "null"
-      ],
+      "type": ["string", "null"],
       "enum": [
         null,
         "TOP_10_ORDER",
@@ -127,26 +111,14 @@
           ]
         },
         "preset": {
-          "enum": [
-            "ANY",
-            "TODAY",
-            "LAST_7_DAYS",
-            "LAST_30_DAYS",
-            "CUSTOM"
-          ]
+          "enum": ["ANY", "TODAY", "LAST_7_DAYS", "LAST_30_DAYS", "CUSTOM"]
         },
         "from": {
-          "type": [
-            "string",
-            "null"
-          ],
+          "type": ["string", "null"],
           "format": "date-time"
         },
         "to": {
-          "type": [
-            "string",
-            "null"
-          ],
+          "type": ["string", "null"],
           "format": "date-time"
         }
       },
@@ -203,37 +175,35 @@
       "minimum": 0
     },
     "saved_view_id": {
-      "type": [
-        "string",
-        "null"
-      ]
+      "type": ["string", "null"]
     },
     "layout": {
       "type": "object",
-      "required": [
-        "vacancy_density",
-        "middle_pane_state",
-        "candidate_focus"
-      ],
+      "required": ["vacancy_density", "middle_pane_state", "candidate_focus"],
       "properties": {
         "vacancy_density": {
-          "enum": [
-            "EXPANDED",
-            "COMPACT",
-            "MINIMAL"
-          ]
+          "enum": ["EXPANDED", "COMPACT", "MINIMAL"]
         },
         "middle_pane_state": {
-          "enum": [
-            "OPEN",
-            "MINIMISED"
-          ]
+          "enum": ["OPEN", "MINIMISED"]
         },
         "candidate_focus": {
           "type": "boolean"
         }
       },
       "additionalProperties": false
+    },
+    "relationshipFilter": {
+      "enum": ["ALL", "AGREED", "TARGET_PROSPECT", "PAST_CLIENT", "UNKNOWN"],
+      "description": "Optional saved-view recruiter relationship filter. Defaults to ALL for older saved views."
+    },
+    "researchFilter": {
+      "enum": ["ALL", "NEEDS_RESEARCH", "NOT_STARTED", "IN_PROGRESS", "READY"],
+      "description": "Optional saved-view research-stage filter; it does not alter research evidence."
+    },
+    "sortOrder": {
+      "enum": ["DEFAULT", "RECENT", "VERIFIED", "TITLE", "MARKET"],
+      "description": "Optional saved-view queue ordering. Defaults to canonical queue order."
     }
   },
   "additionalProperties": true

@@ -8,21 +8,29 @@ describe("AppHeader", () => {
     const nav = screen.getByRole("navigation", { name: "Primary" });
     const links = within(nav).getAllByRole("link");
 
-    expect(links.map((link) => link.textContent)).toEqual(["Intelligence", "Vacancies", "Organisations", "Candidate markets", "Hiring stakeholders", "Runs", "QA"]);
+    expect(links.map((link) => link.querySelector(".nav-copy > span")?.textContent)).toEqual([
+      "Intelligence",
+      "Organisations",
+      "Vacancies",
+      "Candidate markets",
+      "Hiring stakeholders",
+      "Evidence & QA",
+      "Research runs",
+    ]);
     const current = links.filter((link) => link.getAttribute("aria-current") === "page");
     expect(current).toHaveLength(1);
-    expect(current[0]).toHaveTextContent("Runs");
+    expect(current[0]).toHaveTextContent("Research runs");
   });
 
   it("routes the full navigation to working REC pages", () => {
     expect(APP_SECTIONS.map((section) => [section.label, section.href])).toEqual([
       ["Intelligence", "/intelligence"],
-      ["Vacancies", "/"],
       ["Organisations", "/companies"],
+      ["Vacancies", "/"],
       ["Candidate markets", "/candidates"],
       ["Hiring stakeholders", "/stakeholders"],
-      ["Runs", "/runs"],
-      ["QA", "/qa"],
+      ["Evidence & QA", "/qa"],
+      ["Research runs", "/runs"],
     ]);
   });
 

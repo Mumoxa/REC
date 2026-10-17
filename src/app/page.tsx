@@ -17,9 +17,15 @@ export default async function HomePage({
   const snapshot = await getWorkspaceSnapshot();
   return (
     <RecruitmentWorkspace
+      key={JSON.stringify([
+        firstParam(params.q),
+        firstParam(params.vacancy),
+        firstParam(params.candidate),
+      ])}
       initialSnapshot={snapshot}
       initialQuery={firstParam(params.q)?.slice(0, 200) ?? ""}
       initialVacancyId={firstParam(params.vacancy)}
+      initialCandidateId={firstParam(params.candidate)}
     />
   );
 }

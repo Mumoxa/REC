@@ -48,6 +48,22 @@ export const WORKSPACE_MARKET_FILTERS: Array<MarketBucket | "ALL"> = [
   "EXCLUDED",
 ];
 
+export const WORKSPACE_RELATIONSHIP_FILTERS = [
+  "ALL",
+  "AGREED",
+  "TARGET_PROSPECT",
+  "PAST_CLIENT",
+  "UNKNOWN",
+] as const;
+export const WORKSPACE_RESEARCH_FILTERS = [
+  "ALL",
+  "NEEDS_RESEARCH",
+  "NOT_STARTED",
+  "IN_PROGRESS",
+  "READY",
+] as const;
+export const WORKSPACE_SORT_ORDERS = ["DEFAULT", "RECENT", "VERIFIED", "TITLE", "MARKET"] as const;
+
 export interface WorkspaceViewState {
   globalSearch: string;
   candidateSearch: string;
@@ -57,6 +73,9 @@ export interface WorkspaceViewState {
   density: WorkspaceDensity;
   marketFilter: MarketBucket | "ALL";
   jobTab: JobTab;
+  relationshipFilter: (typeof WORKSPACE_RELATIONSHIP_FILTERS)[number];
+  researchFilter: (typeof WORKSPACE_RESEARCH_FILTERS)[number];
+  sortOrder: (typeof WORKSPACE_SORT_ORDERS)[number];
 }
 
 export const DEFAULT_VIEW_STATE: WorkspaceViewState = {
@@ -68,6 +87,9 @@ export const DEFAULT_VIEW_STATE: WorkspaceViewState = {
   density: "EXPANDED",
   marketFilter: "ALL",
   jobTab: "OVERVIEW",
+  relationshipFilter: "ALL",
+  researchFilter: "ALL",
+  sortOrder: "DEFAULT",
 };
 
 function boundedText(value: unknown): string | null {
@@ -115,6 +137,12 @@ export function sanitizeViewState(value: unknown): WorkspaceViewState {
     density: density ?? DEFAULT_VIEW_STATE.density,
     marketFilter: marketFilter ?? DEFAULT_VIEW_STATE.marketFilter,
     jobTab: jobTab ?? DEFAULT_VIEW_STATE.jobTab,
+    relationshipFilter:
+      fromList(raw.relationshipFilter, WORKSPACE_RELATIONSHIP_FILTERS) ??
+      DEFAULT_VIEW_STATE.relationshipFilter,
+    researchFilter:
+      fromList(raw.researchFilter, WORKSPACE_RESEARCH_FILTERS) ?? DEFAULT_VIEW_STATE.researchFilter,
+    sortOrder: fromList(raw.sortOrder, WORKSPACE_SORT_ORDERS) ?? DEFAULT_VIEW_STATE.sortOrder,
   };
 }
 

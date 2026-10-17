@@ -1,6 +1,8 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
+import { Leaf, ShieldCheck, BriefcaseBusiness, Users, Building2 } from "lucide-react";
+import "../login.css";
 import { createClient } from "@/lib/supabase/client";
 import { isDemoMode } from "@/lib/supabase/config";
 
@@ -21,10 +23,14 @@ export default function LoginPage() {
     const authError = new URLSearchParams(window.location.search).get("error");
     if (authError === "missing_code") {
       setMessageTone("error");
-      setMessage("The sign-in link was incomplete. Request a new email and use the newest link or code.");
+      setMessage(
+        "The sign-in link was incomplete. Request a new email and use the newest link or code."
+      );
     } else if (authError === "auth_exchange") {
       setMessageTone("error");
-      setMessage("That sign-in link could not be verified. It may have expired. Request a new email.");
+      setMessage(
+        "That sign-in link could not be verified. It may have expired. Request a new email."
+      );
     }
 
     if (demo) return;
@@ -113,7 +119,9 @@ export default function LoginPage() {
     setEmail(address);
     rememberPending(address);
     setPhase("VERIFY");
-    info("Enter the current verification code from your existing Talent Tree email. No new email has been sent.");
+    info(
+      "Enter the current verification code from your existing Talent Tree email. No new email has been sent."
+    );
   }
 
   async function verifyCode(event: FormEvent) {
@@ -168,7 +176,9 @@ export default function LoginPage() {
       if (error) throw error;
 
       rememberPending(email.trim());
-      info("A new sign-in email was sent. This replaces the previous code/link; use only the newest email.");
+      info(
+        "A new sign-in email was sent. This replaces the previous code/link; use only the newest email."
+      );
     } catch (error) {
       fail(error instanceof Error ? error.message : "Unable to resend sign-in email.");
     } finally {
@@ -184,12 +194,18 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="login-page">
+    <main className="login-page" id="main-content">
       <section className="login-visual" aria-label="Talent Tree Recruitment Intelligence">
-        <IntelligenceNetwork />
+        <div className="login-orbit" aria-hidden="true">
+          <span />
+          <span />
+          <Leaf size={100} />
+        </div>
 
         <div className="login-brand">
-          <img src="/talent-tree-logo.png" alt="Talent Tree" width={132} height={108} />
+          <span className="brand-mark">
+            <Leaf size={25} aria-hidden="true" />
+          </span>
           <span className="login-brand-lockup">
             <span className="login-brand-name">Talent Tree</span>
             <span className="login-brand-sub">Recruitment Intelligence</span>
@@ -200,17 +216,30 @@ export default function LoginPage() {
           <h2>
             Every opportunity. <span>Connected to intelligence.</span>
           </h2>
-          <p>One workspace for vacancies, hiring stakeholders, candidate markets and the evidence behind each decision.</p>
+          <p>
+            One workspace for vacancies, hiring stakeholders, candidate markets and the evidence
+            behind each decision.
+          </p>
         </div>
 
-        <ul className="login-legend" aria-label="What the network represents">
-          <li><span className="key org" aria-hidden="true" />Organisations</li>
-          <li><span className="key vacancy" aria-hidden="true" />Vacancies</li>
-          <li><span className="key network" aria-hidden="true" />Industry networks</li>
-          <li><span className="key stakeholder" aria-hidden="true" />Hiring stakeholders</li>
-          <li><span className="key market" aria-hidden="true" />Candidate markets</li>
-          <li><span className="key evidence" aria-hidden="true" />Verified evidence</li>
-        </ul>
+        <div className="login-principles">
+          <span>
+            <Building2 size={18} />
+            Employer intelligence
+          </span>
+          <span>
+            <BriefcaseBusiness size={18} />
+            Connected opportunities
+          </span>
+          <span>
+            <Users size={18} />
+            Evidence-backed markets
+          </span>
+          <span>
+            <ShieldCheck size={18} />
+            Independent research QA
+          </span>
+        </div>
       </section>
 
       <section className="login-panel">
@@ -230,7 +259,7 @@ export default function LoginPage() {
                 id="email"
                 type="email"
                 autoComplete="email"
-                required
+                required={!demo}
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
                 placeholder="you@company.co.za"
@@ -244,7 +273,12 @@ export default function LoginPage() {
               </button>
 
               {!demo && (
-                <button type="button" className="secondary-login-button" disabled={loading} onClick={useExistingCode}>
+                <button
+                  type="button"
+                  className="secondary-login-button"
+                  disabled={loading}
+                  onClick={useExistingCode}
+                >
                   I already have a code
                 </button>
               )}
@@ -259,8 +293,8 @@ export default function LoginPage() {
               </div>
 
               <div className="login-option-note">
-                If your email contains a <strong>Sign in</strong> link, use that link. It returns here through the secure
-                callback and opens the workspace.
+                If your email contains a <strong>Sign in</strong> link, use that link. It returns
+                here through the secure callback and opens the workspace.
               </div>
 
               <div className="login-divider">
@@ -289,10 +323,16 @@ export default function LoginPage() {
               </button>
 
               <div className="login-option-note">
-                Only request another email if you need one. Sending another email replaces the previous code or link.
+                Only request another email if you need one. Sending another email replaces the
+                previous code or link.
               </div>
 
-              <button type="button" className="secondary-login-button" disabled={loading} onClick={resend}>
+              <button
+                type="button"
+                className="secondary-login-button"
+                disabled={loading}
+                onClick={resend}
+              >
                 Send a new sign-in email
               </button>
             </form>
@@ -309,138 +349,12 @@ export default function LoginPage() {
 
           {demo && (
             <div className="demo-note">
-              Demo mode is enabled. Live authentication activates automatically when Supabase environment variables are
-              configured.
+              This demonstration uses synthetic records. Recruiter actions are temporary and do not
+              change live REC data.
             </div>
           )}
-
         </div>
       </section>
     </main>
-  );
-}
-
-/**
- * Decorative relationship network. Fixed coordinates keep server and client
- * markup identical; no randomness, no live data. Shapes carry meaning as well
- * as colour (see the legend in the markup).
- */
-function IntelligenceNetwork() {
-  const nodes: Array<{ x: number; y: number; kind: string; cls: string }> = [
-    { x: 360, y: 300, kind: "core", cls: "n1" },
-    { x: 150, y: 150, kind: "org", cls: "n2" },
-    { x: 540, y: 140, kind: "org", cls: "n3" },
-    { x: 110, y: 400, kind: "org", cls: "n2" },
-    { x: 540, y: 420, kind: "org", cls: "n4" },
-    { x: 330, y: 600, kind: "org", cls: "n5" },
-    { x: 250, y: 70, kind: "vacancy", cls: "n3" },
-    { x: 440, y: 60, kind: "vacancy", cls: "n4" },
-    { x: 60, y: 260, kind: "vacancy", cls: "n2" },
-    { x: 610, y: 260, kind: "vacancy", cls: "n5" },
-    { x: 230, y: 530, kind: "vacancy", cls: "n4" },
-    { x: 470, y: 560, kind: "vacancy", cls: "n5" },
-    { x: 300, y: 170, kind: "network", cls: "n3" },
-    { x: 430, y: 470, kind: "network", cls: "n4" },
-    { x: 200, y: 230, kind: "stakeholder", cls: "n2" },
-    { x: 415, y: 215, kind: "stakeholder", cls: "n3" },
-    { x: 255, y: 395, kind: "stakeholder", cls: "n4" },
-    { x: 520, y: 330, kind: "stakeholder", cls: "n5" },
-    { x: 170, y: 480, kind: "stakeholder", cls: "n5" },
-    { x: 380, y: 400, kind: "evidence", cls: "n3" },
-    { x: 270, y: 300, kind: "evidence", cls: "n4" },
-    { x: 470, y: 250, kind: "evidence", cls: "n5" },
-    { x: 80, y: 600, kind: "market", cls: "n4" },
-    { x: 100, y: 650, kind: "market", cls: "n5" },
-    { x: 575, y: 600, kind: "market", cls: "n4" },
-    { x: 600, y: 540, kind: "market", cls: "n5" },
-    { x: 40, y: 90, kind: "market", cls: "n3" },
-  ];
-
-  // [from, to, strong]
-  const edges: Array<[number, number, boolean]> = [
-    [0, 14, true], [0, 15, true], [0, 16, true], [0, 19, true], [0, 20, true], [0, 21, true], [0, 13, false],
-    [1, 6, false], [1, 12, false], [1, 14, false], [1, 8, false], [1, 0, false],
-    [2, 7, false], [2, 15, false], [2, 12, false], [2, 9, false], [2, 17, false],
-    [3, 8, false], [3, 16, false], [3, 18, false], [3, 0, false],
-    [4, 17, false], [4, 13, false], [4, 9, false], [4, 0, false],
-    [5, 10, false], [5, 11, false], [5, 13, false], [5, 18, false],
-    [6, 12, false], [7, 15, false], [10, 16, false], [11, 13, false],
-    [12, 14, false], [13, 17, false], [20, 0, true], [21, 2, true], [19, 4, true],
-    [22, 3, false], [23, 5, false], [24, 4, false], [25, 11, false], [26, 1, false],
-  ];
-
-  const edgeClass = ["e1", "e2", "e3", "e4"];
-
-  return (
-    <svg
-      className="login-visual-network"
-      viewBox="0 0 640 720"
-      preserveAspectRatio="xMidYMid slice"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <g>
-        {edges.map(([from, to, strong], index) => {
-          const a = nodes[from];
-          const b = nodes[to];
-          return (
-            <line
-              key={`${from}-${to}`}
-              x1={a.x}
-              y1={a.y}
-              x2={b.x}
-              y2={b.y}
-              pathLength={1}
-              className={`edge ${edgeClass[index % 4]} ${strong ? "strong" : ""}`}
-            />
-          );
-        })}
-      </g>
-      <g>
-        {nodes.map((node, index) => {
-          const cls = `node ${node.cls}`;
-          switch (node.kind) {
-            case "core":
-              return (
-                <g key={index} className={cls}>
-                  <circle cx={node.x} cy={node.y} r={26} className="node-network" />
-                  <circle cx={node.x} cy={node.y} r={9} className="core" />
-                </g>
-              );
-            case "org":
-              return <circle key={index} cx={node.x} cy={node.y} r={7} className={`${cls} node-org`} />;
-            case "vacancy":
-              return (
-                <rect
-                  key={index}
-                  x={node.x - 6}
-                  y={node.y - 6}
-                  width={12}
-                  height={12}
-                  className={`${cls} node-vacancy`}
-                />
-              );
-            case "network":
-              return <circle key={index} cx={node.x} cy={node.y} r={13} className={`${cls} node-network`} />;
-            case "stakeholder":
-              return <circle key={index} cx={node.x} cy={node.y} r={4.5} className={`${cls} node-stakeholder`} />;
-            case "evidence":
-              return (
-                <rect
-                  key={index}
-                  x={node.x - 5}
-                  y={node.y - 5}
-                  width={10}
-                  height={10}
-                  transform={`rotate(45 ${node.x} ${node.y})`}
-                  className={`${cls} node-evidence`}
-                />
-              );
-            default:
-              return <circle key={index} cx={node.x} cy={node.y} r={2.5} className={`${cls} node-market`} />;
-          }
-        })}
-      </g>
-    </svg>
   );
 }
